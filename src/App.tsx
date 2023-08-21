@@ -4,13 +4,13 @@ import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
 import awsconfig from './aws-exports';
+import NavBar from './components/NavBar';
 Amplify.configure(awsconfig);
 
-export function App({ signOut, user }: WithAuthenticatorProps) {
+function App({ signOut, user }: WithAuthenticatorProps) {
   return (
     <>
-      <h1>Hello {user?.username}</h1>
-      <button onClick={signOut}>Sign out</button>
+      <NavBar signOut={signOut} user={user} />
     </>
   );
 }
