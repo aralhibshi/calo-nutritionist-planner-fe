@@ -3,7 +3,7 @@ import ColorToggleButton from "../components/SearchToggleButton"
 import SearchBar from "../components/SearchBar"
 
 const Home = () => {
-  const [selectedValue, setSelectedValue] = useState("web");
+  const [selectedValue, setSelectedValue] = useState('ingredient');
 
   const handleAlignmentChange = (newAlignment: string) => {
     setSelectedValue(newAlignment);
