@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -27,16 +27,29 @@ export default function NavBar({ signOut, user }: NavBarProps) {
           >
             <MenuIcon />
           </IconButton>
+          <Link
+            to="/Home"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Typography variant="h6" component="div" sx={{ flexGrow: 0.1, marginRight: '30px'  }}>
+              Home
+            </Typography>
+          </Link>
+          <Link
+            to="/Ingredients"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <Typography variant="h6" component="div" sx={{ flexGrow: 0.1, marginRight: '30px'  }}>
+              Ingredients
+            </Typography>
+          </Link>
           <Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
-            Ingredients
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
-            Components
+            #
           </Typography>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Meals
+            #
           </Typography>
-          
+
           {user ? (
             <>
               <Typography variant="h6" component="div" sx={{ mr: 2 }}>

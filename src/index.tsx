@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Amplify, Auth } from 'aws-amplify';
+import { Amplify} from 'aws-amplify';
 import awsExports from './aws-exports';
+import {USER_POOL_ID, USER_POOL_ClIENT_ID} from './config'
 Amplify.configure(awsExports);
 
 Amplify.configure({
@@ -14,10 +15,10 @@ Amplify.configure({
     region: 'us-east-1',
 
     // OPTIONAL - Amazon Cognito User Pool ID
-    userPoolId: 'us-east-1_8Ftjz9EEF',
+    userPoolId: USER_POOL_ID,
 
     // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-    userPoolWebClientId: '6gda8mjiu3nph79p5f84vb7nnv',
+    userPoolWebClientId: USER_POOL_ClIENT_ID,
 
     // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
     mandatorySignIn: false,

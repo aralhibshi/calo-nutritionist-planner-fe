@@ -8,7 +8,7 @@ interface SearchToggleButtonProps {
   onAlignmentChange: (newAlignment: string) => void;
 }
 
-const ColorToggleButton = ({
+const SearchToggleButton = ({
   selectedValue,
   onAlignmentChange
 }: SearchToggleButtonProps) => {
@@ -44,4 +44,4 @@ const ColorToggleButton = ({
   );
 };
 
-export default ColorToggleButton;
+export default SearchToggleButton;
