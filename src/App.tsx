@@ -3,14 +3,12 @@ import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import awsconfig from './aws-exports';
-import NavBar from './components/NavBar';
+import NavBar from './components/header/NavBar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home'
 import { Container, Box } from '@mui/material';
 import Ingredients from './pages/Ingredients';
 Amplify.configure(awsconfig);
-
-
 
 function App({ signOut, user }: WithAuthenticatorProps) {
   return (
@@ -22,7 +20,6 @@ function App({ signOut, user }: WithAuthenticatorProps) {
         <Container sx={{ flexGrow: 1 }}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/Home" element={<Home/>} />
             <Route path="/Ingredients" element={<Ingredients/>} />
           </Routes>
         </Container>

@@ -28,7 +28,7 @@ export default function NavBar({ signOut, user }: NavBarProps) {
             <MenuIcon />
           </IconButton>
           <Link
-            to="/Home"
+            to="/"
             style={{ textDecoration: "none", color: "inherit" }}
           >
             <Typography variant="h6" component="div" sx={{ flexGrow: 0.1, marginRight: '30px'  }}>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import ColorToggleButton from "../components/SearchToggleButton"
-import SearchBar from "../components/SearchBar"
+import SearchToggleButton from "../components/search/SearchToggleButton"
+import SearchBar from "../components/search/SearchBar"
 
 const Home = () => {
   const [selectedValue, setSelectedValue] = useState('ingredient');
@@ -11,7 +11,7 @@ const Home = () => {
 
   return (
     <div>
-      <ColorToggleButton
+      <SearchToggleButton
         selectedValue={selectedValue}
         onAlignmentChange={handleAlignmentChange}
       />
