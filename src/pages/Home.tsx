@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import ColorToggleButton from "../components/SearchToggleButton"
-import SearchBar from "../components/SearchBar"
+import ColorToggleButton from "../components/search/SearchToggleButton"
+import SearchBar from "../components/search/SearchBar"
 
 const Home = () => {
   const [selectedValue, setSelectedValue] = useState('ingredient');
