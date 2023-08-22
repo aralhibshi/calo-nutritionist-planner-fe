@@ -26,7 +26,7 @@ const SearchToggleButton = ({
         justifyContent: 'center',
         alignItems: 'center',
         height: '2vh',
-        mt:'30vh'
+        mt:'5vh'
       }}
     >
       <ToggleButtonGroup
