@@ -13,14 +13,14 @@ export default function SearchBar({ selectedValue }: SearchBarProps) {
     setSearchTerm(event.target.value);
   };
 
-  let placeholderText = "Search Ingredient";
+  let placeholderText = "Search for an ingredient";
 
   if (selectedValue === "ingredient") {
-    placeholderText = "Search Ingredients";
+    placeholderText = "Search for an ingredient";
   } else if (selectedValue === "component") {
-    placeholderText = "Search Components";
+    placeholderText = "Search for a component";
   } else if (selectedValue === "meal") {
-    placeholderText = "Search Meals";
+    placeholderText = "Search for a meal";
   }
 
   return (
