@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Table from '@mui/joy/Table';
+import * as IngredientsApi from "../network/ingredient_api"
 
 function createData(
   name: string,
