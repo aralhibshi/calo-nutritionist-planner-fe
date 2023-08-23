@@ -8,4 +8,4 @@ export interface IIngredient {
     fats: number;
     carbs: number;
     unit: string;
-  }
+}

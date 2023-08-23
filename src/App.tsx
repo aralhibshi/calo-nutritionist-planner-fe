@@ -7,10 +7,8 @@ import NavBar from './components/header/NavBar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home'
 import { Container, Box } from '@mui/material';
-import IngredientsIndex from './pages/ingredient/IngredientIndex';
+import IngredientIndex from './pages/ingredient/IngredientIndex';
 Amplify.configure(awsconfig);
-
-
 
 function App({ signOut, user }: WithAuthenticatorProps) {
   return (
@@ -22,8 +20,7 @@ function App({ signOut, user }: WithAuthenticatorProps) {
         <Container sx={{ flexGrow: 1 }}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/Home" element={<Home/>} />
-            <Route path="/Ingredients" element={<IngredientsIndex/>} />
+            <Route path="/Ingredients" element={<IngredientIndex/>} />
           </Routes>
         </Container>
         <Box component="footer" sx={{ textAlign: 'center', py: 2 }}>

@@ -1,6 +1,6 @@
 import IngredientTable from '../../components/ingredient/IngredientTable';
 
-const IngredientsIndex = () => {
+const IngredientIndex = () => {
 
   return (
     <div>
@@ -9,4 +9,4 @@ const IngredientsIndex = () => {
   );
 };
 
-export default IngredientsIndex;
+export default IngredientIndex;
