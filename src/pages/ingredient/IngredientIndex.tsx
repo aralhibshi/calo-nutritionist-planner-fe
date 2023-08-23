@@ -1,4 +1,4 @@
-import IngredientTable from '../../components/ingredient/IngredientTable';
+import IngredientTable from './IngredientTable';
 
 const IngredientIndex = () => {
 
