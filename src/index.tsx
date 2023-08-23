@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Amplify} from 'aws-amplify';
 import awsExports from './aws-exports';
-import {USER_POOL_ID, USER_POOL_ClIENT_ID} from './config'
+import {USER_POOL_ID, USER_POOL_ClIENT_ID} from '../src/config'
 Amplify.configure(awsExports);
 
 Amplify.configure({

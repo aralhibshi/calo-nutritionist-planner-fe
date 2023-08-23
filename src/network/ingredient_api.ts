@@ -1,9 +1,10 @@
-import { IIngredient } from "../interfaces/ingredient";
+import { ICreateIngredientInput, IIngredient } from "../interfaces/ingredient";
 import {fetchData} from "./base_api"
+import createError from 'http-errors';
+import { API_BASE_URL } from '../config'
+
 
 // Set the base URL for the backend API
-const API_BASE_URL = 'https://bdy09cap8a.execute-api.us-east-1.amazonaws.com/dev/v1/';
-// const APIs_BASE_URL = 'http://localhost:3000/dev/v1/ingredient/create';
 
 // Function to fetch ingredients from the backend API
 export async function fetchIngredients(): Promise<IIngredient[]> {
@@ -23,41 +24,9 @@ export interface IngredientInput {
     unit: string;
 }
 
-
-// Function to create new ingredient
-// export async function createIngredient(ingredient: IngredientInput): Promise<Ingredient> {
-//     const response = await fetchData(API_BASE_URL + 'ingredient/create', {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(ingredient), // Convert the object to a JSON string
-//     });
-
-//     // Assuming that response.data is a JSON response
-//     const responseData = await response.json();
-//     console.log(responseData);
-
-//     return responseData;
-// }
-
-// export async function createIngredient(ingredient: IngredientInput): Promise<Ingredient> {
-//     const response = await fetchData("http://localhost:3000/dev/v1/ingredient/create", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(ingredient), // Convert the object to a JSON string
-//     });
-
-//     // Assuming that response.data is a JSON response
-//     const responseData = await response.json();
-//     console.log(responseData);
-
-//     return responseData;
-// }
-export async function createIngredient(ingredient: IngredientInput): Promise<IIngredient> {
-    const response = await fetchData("http://localhost:3000/dev/v1/ingredient/create", {
+export async function createIngredient(ingredient: ICreateIngredientInput): Promise<IIngredient> {
+    // const response = await fetchData("http://localhost:3000/dev/v1/ingredient", {
+    const response = await fetchData("http://localhost:3000/dev/v1/ingredient", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -82,6 +51,21 @@ export async function createIngredient(ingredient: IngredientInput): Promise<IIn
     }
 }
 
+export async function searchIngredient(index: string, entity: string): Promise<Array<IIngredient>> {
+    try {
+        const response = await fetchData(API_BASE_URL + 'ingredient/search?name=' + index, {
+        // const response = await fetchData(`http://localhost:3000/dev/v1/${entity}/search?name=${index}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    console.log(response);
 
-
-
+    return response.data;
+    } catch (err) {
+        throw createError(500, 'Internal Server Error', {
+            details: 'An error occurred while fetching matching ingredient:', err
+          });
+    }
+}
