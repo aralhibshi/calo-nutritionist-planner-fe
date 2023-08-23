@@ -5,7 +5,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
-import * as IngredientsApi from '../../network/ingredient_api';
+import * as IngredientsApi from '../../network/ingredientApi';
 import { ICreateIngredientInput } from '../../interfaces/ingredient';
 
 interface AddIngredientDialogProps {

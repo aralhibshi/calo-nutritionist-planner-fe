@@ -1,5 +1,5 @@
 import { ICreateIngredientInput, IIngredient } from "../interfaces/ingredient";
-import {fetchData} from "./base_api"
+import {fetchData} from "./baseApi"
 import createError from 'http-errors';
 import { API_BASE_URL } from '../config'
 
@@ -12,51 +12,7 @@ export async function fetchIngredients(): Promise<IIngredient[]> {
   return response.data;
 }
 
-export interface IngredientInput {
-    name: string;
-    category?: string;
-    description?: string;
-    price: number;
-    protein: number;
-    fats: number;
-    carbs: number;
-    unit: string;
-}
-
-
-// Function to create new ingredient
-// export async function createIngredient(ingredient: IngredientInput): Promise<Ingredient> {
-//     const response = await fetchData(API_BASE_URL + 'ingredient/create', {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(ingredient), // Convert the object to a JSON string
-//     });
-
-//     // Assuming that response.data is a JSON response
-//     const responseData = await response.json();
-//     console.log(responseData);
-
-//     return responseData;
-// }
-
-// export async function createIngredient(ingredient: IngredientInput): Promise<Ingredient> {
-//     const response = await fetchData("http://localhost:3000/dev/v1/ingredient/create", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(ingredient), // Convert the object to a JSON string
-//     });
-
-//     // Assuming that response.data is a JSON response
-//     const responseData = await response.json();
-//     console.log(responseData);
-
-//     return responseData;
-// }
-export async function createIngredient(ingredient: IngredientInput): Promise<IIngredient> {
+export async function createIngredient(ingredient: ICreateIngredientInput): Promise<IIngredient> {
     const response = await fetchData(API_BASE_URL + "ingredient/create", {
         method: "POST",
         headers: {

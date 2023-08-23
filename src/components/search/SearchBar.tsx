@@ -2,8 +2,7 @@ import { Box, Container, InputAdornment, TextField } from "@mui/material";
 import { useState, useEffect, ChangeEvent } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Autocomplete from '@mui/material/Autocomplete';
-import * as IngredientsApi from '../../network/ingredient_api';
-import { IIngredient } from "../../interfaces/ingredient";
+import * as IngredientsApi from '../../network/ingredientApi';
 import createError from 'http-errors';
 
 interface SearchBarProps {

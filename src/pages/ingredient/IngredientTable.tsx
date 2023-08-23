@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Table from '@mui/joy/Table';
 import AddIngredientDialog from './AddIngredientDialog';
-import * as IngredientsApi from '../../network/ingredient_api';
+import * as IngredientsApi from '../../network/ingredientApi';
 import { ICreateIngredientInput } from '../../interfaces/ingredient';
 import IngredientDetailModal from './IngredientDetailModal';
 
