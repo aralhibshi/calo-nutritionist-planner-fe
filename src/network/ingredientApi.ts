@@ -13,6 +13,7 @@ export async function fetchIngredients(): Promise<IIngredient[]> {
 }
 
 export async function createIngredient(ingredient: ICreateIngredientInput): Promise<IIngredient> {
+    try{
     const response = await fetchData(API_BASE_URL + "ingredient/create", {
         method: "POST",
         headers: {
@@ -21,20 +22,12 @@ export async function createIngredient(ingredient: ICreateIngredientInput): Prom
         body: JSON.stringify(ingredient),
     });
 
-    console.log(response);
-    // if (response.statusCode !== 201) {
-    //     // Handle non-successful response status (e.g., 404, 500)
-    //     throw new Error(`HTTP error! Status: ${response.statusCode}`);
-    // }
-
-    try {
-        const responseData = await response;
-        console.log(responseData);
-        return responseData;
-    } catch (error) {
-        // Handle JSON parsing error
-        console.error('Error parsing JSON response:', error);
-        throw new Error('Error parsing JSON response');
+        console.log(response);
+        return response.data;
+    } catch (err) {
+        throw createError(500, 'Internal Server Error', {
+            details: 'An error occurred while fetching matching ingredient:', err
+          });
     }
 }
 
