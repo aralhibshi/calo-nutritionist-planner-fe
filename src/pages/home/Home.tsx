@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import SearchToggleButton from "../../components/search/SearchToggleButton"
 import SearchBar from "../../components/search/SearchBar"
-
 import imageSrc from '../../resources/logo.png';
 
 const Home = () => {
@@ -25,4 +24,4 @@ const Home = () => {
   );
 };
 
-export default Home;  
+export default Home; 
