@@ -1,4 +1,4 @@
-export interface Ingredient {
+export interface IIngredient {
     name: string;
     category?: string;
     description?: string;
@@ -7,4 +7,4 @@ export interface Ingredient {
     fats: number;
     carbs: number;
     unit: string;
-  }
+}

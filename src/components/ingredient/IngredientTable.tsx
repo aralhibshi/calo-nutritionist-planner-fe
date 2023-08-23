@@ -1,35 +1,48 @@
-import React, { useState } from 'react';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Table from '@mui/joy/Table';
+import * as IngredientsApi from  '../../network/ingredient_api';
+import { IIngredient } from '../../interfaces/ingredient';
 import IngredientDetailModal from './IngredientDetailModal';
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
-  price: number,
-) {
-  return { name, calories, fat, carbs, protein, price };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 22.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 10),
-  createData('Eclair', 262, 16.0, 24, 6.0, 2.5),
-  createData('Cupcake', 305, 3.7, 67, 4.3, 3.6),
-  createData('Gingerbread', 356, 16.0, 49, 3.9, 9999),
-];
-
 const IngredientTable: React.FC = () => {
+
+  const [ingredients, setIngredients] = useState<IIngredient[]>([]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    async function loadIngredients() {
+      try {
+        const ingredients = await IngredientsApi.fetchIngredients();
+        setIngredients(ingredients);
+      } catch (error) {
+        console.log(error)
+        alert(error);
+      }
+      
+    }
+    loadIngredients();
+  }, [])
 
   const handleRowClick = (row: any) => {
     setSelectedRow(row);
     setOpen(true);
+
+    setTimeout(() => {
+      resizePieChart();
+    }, 1);
+
     console.log(row);
   };
+
+  const resizePieChart = () => {
+    const svgElement = document.querySelector('.css-18ftw0b-MuiChartsSurface-root');
+
+    if (svgElement) {
+      svgElement.setAttribute('viewBox', '40 45 330 220');
+    }
+  }
 
   const handleCloseModal = () => {
     setOpen(false);
@@ -37,32 +50,39 @@ const IngredientTable: React.FC = () => {
 
   return (
     <>
-      <Table hoverRow sx={{ marginTop: '40px' }}>
+      <Table hoverRow sx={{ marginTop: "40px", userSelect: 'none' }}>
         <thead>
           <tr>
-            <th style={{ width: '40%' }}>Ingredient</th>
-            <th>Calories</th>
-            <th>Fat&nbsp;(g)</th>
-            <th>Carbs&nbsp;(g)</th>
-            <th>Protein&nbsp;(g)</th>
+            <th style={{ width: "40%" }}>Ingredient</th>
+            <th>Calories&nbsp;</th>
+            <th>Protein&nbsp;</th>
+            <th>Carbs&nbsp;</th>
+            <th>Fat&nbsp;</th>
+            <th>Unit&nbsp;</th>
             <th>Price&nbsp;(BHD)</th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => (
-            <tr key={row.name} onClick={() => handleRowClick(row)}>
-              <td>{row.name}</td>
-              <td>{row.calories}</td>
-              <td>{row.fat}</td>
-              <td>{row.carbs}</td>
-              <td>{row.protein}</td>
-              <td>{row.price}</td>
-            </tr>
-          ))}
+          {ingredients.map((ingredient) => {
+            const calories: number =
+              ingredient.fats * 9 + ingredient.carbs * 4 + ingredient.protein * 4;
+            return (
+              <tr key={ingredient.name} onClick={() => handleRowClick(ingredient)} style={{cursor: 'pointer'}}>
+                <td>{ingredient.name}</td>
+                <td>{calories}</td>
+                <td>{ingredient.protein}</td>
+                <td>{ingredient.carbs}</td>
+                <td>{ingredient.fats}</td>
+                <td>{ingredient.unit}</td>
+                <td>{ingredient.price}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </Table>
-      <IngredientDetailModal open={open} handleClose={handleCloseModal} row={selectedRow} />
+      <IngredientDetailModal open={open} handleClose={handleCloseModal} ingredient={selectedRow} />
     </>
   );
 }
+
 export default IngredientTable;

@@ -5,6 +5,7 @@ import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import { PieChart } from '@mui/x-charts';
 import Tooltip from '@mui/material/Tooltip';
+import { IIngredient } from '../../interfaces/ingredient';
 
 // Modal Style
 const modalStyle = {
@@ -26,50 +27,22 @@ const modalStyle = {
 // Function Type
 type MyFunctionType = () => void;
 
-// Row Object Interface
-interface IRowObjectInterface {
-  name: string;
-  calories: number;
-  fat: number;
-  carbs: number;
-  protein: number;
-  price: number;
-}
-
 // Ingredient Detail Modal Props Interface
 interface IIngredientDetailModalProps {
   open: boolean;
   handleClose: MyFunctionType;
-  row: null | IRowObjectInterface;
+  ingredient: null | IIngredient;
 }
-
-const barChartsParams = {
-  xAxis: [
-    {
-      data: ['page A', 'page B', 'page C', 'page D', 'page E'],
-      scaleType: 'band' as const,
-    },
-  ],
-  series: [
-    { data: [2, 5, 3, 4, 1], stack: '1', label: 'series x' },
-    { data: [10, 3, 1, 2, 10], stack: '1', label: 'series y' },
-    { data: [10, 3, 1, 2, 10], stack: '1', label: 'series z' },
-  ],
-  margin: { top: 10, right: 10 },
-  width: 400,
-  height: 200,
-};
 
 const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (props) => {
 
-  // Temporary data for the PieChart
   let pieChartData: any = []
 
-  if (props.row) {
+  if (props.ingredient) {
     pieChartData = [
-      { name: 'Protein', value: props.row.protein, label: 'Protein' },
-      { name: 'Carbs', value: props.row.carbs, label: 'Carbs' },
-      { name: 'Fat', value: props.row.fat, label: 'Fat' },
+      { name: 'Protein', value: Number(props.ingredient.protein), label: 'Protein' },
+      { name: 'Carbs', value: Number(props.ingredient.carbs), label: 'Carbs' },
+      { name: 'Fats', value: Number(props.ingredient.fats), label: 'Fats' },
     ];
   }
 
@@ -91,34 +64,52 @@ const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (props) => 
         <Fade in={props.open}>
           <Box sx={modalStyle}>
             <Typography id="transition-modal-title" variant="h6" component="h2">
-            {props.row ? <>{props.row.name}</> : null}
+            {props.ingredient ? (
+            <>
+              {props.ingredient.name}
+            </>
+            ) : (
+              null
+            )}
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
             </Typography>
 
-            <div>
-            <Tooltip title={props.row ? `Protein: ${props.row.protein}, Carbs: ${props.row.carbs}, Fat: ${props.row.fat}` : ''}>
-                <PieChart
-                  series={[
-                    {
-                      data: pieChartData,
-                      highlightScope: { faded: 'global', highlighted: 'item' },
-                      faded: { innerRadius: 30, additionalRadius: -30 },
-                      innerRadius: 30,
-                      outerRadius: 100,
-                      paddingAngle: 2,
-                      cornerRadius: 5,
-                      startAngle: 0,
-                      endAngle: 360,
-                      cx: 150,
-                      cy: 150,
-                    },
-                  ]}
-                  height={310}
-                  width={400}
-                  tooltip={{ trigger: 'item' }}
-                />
-              </Tooltip>
+            <div style={{display: 'flex', flexDirection: 'row', height: '32vh'}}>
+              <div style={{ width: '180px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+              {/* <img src='https://freepngimg.com/download/apple/8-2-apple-fruit-transparent.png' alt='Apple' style={{scale: '50%'}}/> */}
+
+                {props ? (
+                  <>
+                    <h3>Category</h3> {props.ingredient?.category} <br/>
+                    <h3>Description</h3> {props.ingredient?.description}
+                  </>
+                ) : (
+                  null
+                )}
+              </div>
+
+              <PieChart
+                series={[
+                  {
+                    data: pieChartData,
+                    highlightScope: { faded: 'global', highlighted: 'item' },
+                    faded: { innerRadius: 30, additionalRadius: -30 },
+                    innerRadius: 30,
+                    outerRadius: 100,
+                    paddingAngle: 1,
+                    cornerRadius: 5,
+                    startAngle: 0,
+                    endAngle: 360,
+                    cx: 150,
+                    cy: 150,
+                  },
+                ]}
+                height={260}
+                width={370}
+                margin={{bottom: -80}}
+                tooltip={{ trigger: 'item' }}
+              />
             </div>
           </Box>
         </Fade>
