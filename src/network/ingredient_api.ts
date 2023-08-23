@@ -4,7 +4,6 @@ import createError from 'http-errors';
 import { API_BASE_URL } from '../config'
 
 
-// Set the base URL for the backend API
 
 // Function to fetch ingredients from the backend API
 export async function fetchIngredients(): Promise<IIngredient[]> {
@@ -24,9 +23,41 @@ export interface IngredientInput {
     unit: string;
 }
 
-export async function createIngredient(ingredient: ICreateIngredientInput): Promise<IIngredient> {
-    // const response = await fetchData("http://localhost:3000/dev/v1/ingredient", {
-    const response = await fetchData("http://localhost:3000/dev/v1/ingredient", {
+
+// Function to create new ingredient
+// export async function createIngredient(ingredient: IngredientInput): Promise<Ingredient> {
+//     const response = await fetchData(API_BASE_URL + 'ingredient/create', {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(ingredient), // Convert the object to a JSON string
+//     });
+
+//     // Assuming that response.data is a JSON response
+//     const responseData = await response.json();
+//     console.log(responseData);
+
+//     return responseData;
+// }
+
+// export async function createIngredient(ingredient: IngredientInput): Promise<Ingredient> {
+//     const response = await fetchData("http://localhost:3000/dev/v1/ingredient/create", {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(ingredient), // Convert the object to a JSON string
+//     });
+
+//     // Assuming that response.data is a JSON response
+//     const responseData = await response.json();
+//     console.log(responseData);
+
+//     return responseData;
+// }
+export async function createIngredient(ingredient: IngredientInput): Promise<IIngredient> {
+    const response = await fetchData(API_BASE_URL + "ingredient/create", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -35,10 +66,10 @@ export async function createIngredient(ingredient: ICreateIngredientInput): Prom
     });
 
     console.log(response);
-    if (response.statusCode !== 201) {
-        // Handle non-successful response status (e.g., 404, 500)
-        throw new Error(`HTTP error! Status: ${response.statusCode}`);
-    }
+    // if (response.statusCode !== 201) {
+    //     // Handle non-successful response status (e.g., 404, 500)
+    //     throw new Error(`HTTP error! Status: ${response.statusCode}`);
+    // }
 
     try {
         const responseData = await response;
