@@ -51,6 +51,9 @@ export default function AddIngredientDialog({ onIngredientAdded }: AddIngredient
   
       onIngredientAdded(newIngredient);
       closeFormDialog();
+  
+      // Refresh the page
+      window.location.reload();
     } catch (error) {
       console.log('Error:', error);
       alert(error);

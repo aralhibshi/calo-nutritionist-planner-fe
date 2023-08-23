@@ -1,8 +1,8 @@
 import { IIngredient } from "../interfaces/ingredient";
 import {fetchData} from "./base_api"
+import {API_BASE_URL} from "../config"
 
 // Set the base URL for the backend API
-const API_BASE_URL = 'https://bdy09cap8a.execute-api.us-east-1.amazonaws.com/dev/v1/';
 // const APIs_BASE_URL = 'http://localhost:3000/dev/v1/ingredient/create';
 
 // Function to fetch ingredients from the backend API
@@ -57,7 +57,7 @@ export interface IngredientInput {
 //     return responseData;
 // }
 export async function createIngredient(ingredient: IngredientInput): Promise<IIngredient> {
-    const response = await fetchData("http://localhost:3000/dev/v1/ingredient/create", {
+    const response = await fetchData(API_BASE_URL + "ingredient/create", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -66,10 +66,10 @@ export async function createIngredient(ingredient: IngredientInput): Promise<IIn
     });
 
     console.log(response);
-    if (response.statusCode !== 201) {
-        // Handle non-successful response status (e.g., 404, 500)
-        throw new Error(`HTTP error! Status: ${response.statusCode}`);
-    }
+    // if (response.statusCode !== 201) {
+    //     // Handle non-successful response status (e.g., 404, 500)
+    //     throw new Error(`HTTP error! Status: ${response.statusCode}`);
+    // }
 
     try {
         const responseData = await response;
