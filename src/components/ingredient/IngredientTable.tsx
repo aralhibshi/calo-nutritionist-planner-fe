@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Table from '@mui/joy/Table';
-import * as IngredientsApi from  '../../network/ingredient_api';
+import AddIngredientDialog from './AddIngredientDialog';
+import * as IngredientsApi from '../../network/ingredient_api';
 import { IIngredient } from '../../interfaces/ingredient';
 import IngredientDetailModal from './IngredientDetailModal';
 
@@ -17,13 +18,16 @@ const IngredientTable: React.FC = () => {
         const ingredients = await IngredientsApi.fetchIngredients();
         setIngredients(ingredients);
       } catch (error) {
-        console.log(error)
+        console.log(error);
         alert(error);
       }
-      
     }
     loadIngredients();
-  }, [])
+  }, []);
+
+  const handleIngredientAdded = (newIngredient: IIngredient) => {
+    setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
+  }
 
   const handleRowClick = (row: any) => {
     setSelectedRow(row);
@@ -35,6 +39,7 @@ const IngredientTable: React.FC = () => {
 
     console.log(row);
   };
+
 
   const resizePieChart = () => {
     const svgElement = document.querySelector('.css-18ftw0b-MuiChartsSurface-root');
@@ -67,7 +72,7 @@ const IngredientTable: React.FC = () => {
             const calories: number =
               ingredient.fats * 9 + ingredient.carbs * 4 + ingredient.protein * 4;
             return (
-              <tr key={ingredient.name} onClick={() => handleRowClick(ingredient)} style={{cursor: 'pointer'}}>
+              <tr key={ingredient.id} onClick={() => handleRowClick(ingredient)} style={{cursor: 'pointer'}}>
                 <td>{ingredient.name}</td>
                 <td>{calories}</td>
                 <td>{ingredient.protein}</td>
@@ -81,6 +86,7 @@ const IngredientTable: React.FC = () => {
         </tbody>
       </Table>
       <IngredientDetailModal open={open} handleClose={handleCloseModal} ingredient={selectedRow} />
+      <AddIngredientDialog onIngredientAdded={handleIngredientAdded} />
     </>
   );
 }
