@@ -4,8 +4,7 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import { PieChart } from '@mui/x-charts';
-import Tooltip from '@mui/material/Tooltip';
-import { IIngredient } from '../../interfaces/ingredient';
+import { ICreateIngredientInput } from '../../interfaces/ingredient';
 
 // Modal Style
 const modalStyle = {
@@ -31,7 +30,7 @@ type MyFunctionType = () => void;
 interface IIngredientDetailModalProps {
   open: boolean;
   handleClose: MyFunctionType;
-  ingredient: null | IIngredient;
+  ingredient: null | ICreateIngredientInput;
 }
 
 const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (props) => {

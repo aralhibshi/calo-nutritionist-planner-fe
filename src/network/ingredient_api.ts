@@ -1,9 +1,9 @@
-import { IIngredient } from "../interfaces/ingredient";
+import { ICreateIngredientInput, IIngredient } from "../interfaces/ingredient";
 import {fetchData} from "./base_api"
-import {API_BASE_URL} from "../config"
+import createError from 'http-errors';
+import { API_BASE_URL } from '../config'
 
-// Set the base URL for the backend API
-// const APIs_BASE_URL = 'http://localhost:3000/dev/v1/ingredient/create';
+
 
 // Function to fetch ingredients from the backend API
 export async function fetchIngredients(): Promise<IIngredient[]> {
@@ -82,6 +82,21 @@ export async function createIngredient(ingredient: IngredientInput): Promise<IIn
     }
 }
 
+export async function searchIngredient(index: string, entity: string): Promise<Array<IIngredient>> {
+    try {
+        const response = await fetchData(API_BASE_URL + 'ingredient/search?name=' + index, {
+        // const response = await fetchData(`http://localhost:3000/dev/v1/${entity}/search?name=${index}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    console.log(response);
 
-
-
+    return response.data;
+    } catch (err) {
+        throw createError(500, 'Internal Server Error', {
+            details: 'An error occurred while fetching matching ingredient:', err
+          });
+    }
+}

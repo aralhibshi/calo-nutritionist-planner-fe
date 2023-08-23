@@ -6,16 +6,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import * as IngredientsApi from '../../network/ingredient_api';
-import { IIngredient } from '../../interfaces/ingredient';
+import { ICreateIngredientInput } from '../../interfaces/ingredient';
 
 interface AddIngredientDialogProps {
-  onIngredientAdded: (newIngredient: IIngredient) => void;
+  onIngredientAdded: (newIngredient: ICreateIngredientInput) => void;
 }
 
 export default function AddIngredientDialog({ onIngredientAdded }: AddIngredientDialogProps) {
   const [open, setOpen] = useState(false);
 
-  const [formData, setFormData] = useState<IIngredient>({
+  const [formData, setFormData] = useState<ICreateIngredientInput>({
     name: '',
     category: '',
     description: '',

@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import Table from '@mui/joy/Table';
 import AddIngredientDialog from './AddIngredientDialog';
 import * as IngredientsApi from '../../network/ingredient_api';
-import { IIngredient } from '../../interfaces/ingredient';
+import { ICreateIngredientInput } from '../../interfaces/ingredient';
 import IngredientDetailModal from './IngredientDetailModal';
 
 const IngredientTable: React.FC = () => {
 
-  const [ingredients, setIngredients] = useState<IIngredient[]>([]);
+  const [ingredients, setIngredients] = useState<ICreateIngredientInput[]>([]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -25,7 +25,7 @@ const IngredientTable: React.FC = () => {
     loadIngredients();
   }, []);
 
-  const handleIngredientAdded = (newIngredient: IIngredient) => {
+  const handleIngredientAdded = (newIngredient: ICreateIngredientInput) => {
     setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
   }
 
