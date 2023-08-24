@@ -33,7 +33,7 @@ export async function createIngredient(ingredient: ICreateIngredientInput): Prom
 
 export async function searchIngredient(index: string, entity: string): Promise<Array<IIngredient>> {
     try {
-        const response = await fetchData(API_BASE_URL + 'ingredient/search?name=' + index, {
+        const response = await fetchData(`${API_BASE_URL}ingredient/search?name=${index}`, {
         // const response = await fetchData(`http://localhost:3000/dev/v1/${entity}/search?name=${index}`, {
         method: 'GET',
         headers: {
@@ -49,3 +49,27 @@ export async function searchIngredient(index: string, entity: string): Promise<A
           });
     }
 }
+// API_BASE_URL + 'ingredient/update?' + ingredient.id
+export async function updateIngredient(ingredient:ICreateIngredientInput, formData: ICreateIngredientInput): Promise<IIngredient> {
+    try {
+      const id = ingredient.id
+      delete ingredient.id
+      console.log(formData)
+      const response = await fetchData(`${API_BASE_URL}ingredient/update?id=${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+  
+      console.log(response);
+  
+      return response.data;
+    } catch (err) {
+      throw createError(500, 'Internal Server Error', {
+        details: 'An error occurred while updating the ingredient:',
+        error: err
+      });
+    }
+  }

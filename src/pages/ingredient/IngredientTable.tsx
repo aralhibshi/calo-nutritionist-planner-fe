@@ -5,11 +5,12 @@ import AddIngredientDialog from './AddIngredientDialog';
 import * as IngredientsApi from '../../network/ingredientApi';
 import { ICreateIngredientInput } from '../../interfaces/ingredient';
 import IngredientDetailModal from './IngredientDetailModal';
+import  useSelectedIngredientStore  from './selectedIngredientStore';
 
 const IngredientTable: React.FC = () => {
 
   const [ingredients, setIngredients] = useState<ICreateIngredientInput[]>([]);
-  const [selectedRow, setSelectedRow] = useState(null);
+  const { selectedIngredient, setSelectedIngredient } = useSelectedIngredientStore();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const IngredientTable: React.FC = () => {
   }
 
   const handleRowClick = (row: any) => {
-    setSelectedRow(row);
+    setSelectedIngredient(row);
     setOpen(true);
 
     setTimeout(() => {
@@ -38,6 +39,19 @@ const IngredientTable: React.FC = () => {
     }, 1);
 
     console.log(row);
+  };
+  const handleSaveIngredient = (updatedIngredient: ICreateIngredientInput) => {
+    // Perform the logic to fetch all the ingredients again
+    async function loadIngredients() {
+      try {
+        const ingredients = await IngredientsApi.fetchIngredients();
+        setIngredients(ingredients);
+      } catch (error) {
+        console.log(error);
+        alert(error);
+      }
+    }
+    loadIngredients();
   };
 
 
@@ -85,7 +99,7 @@ const IngredientTable: React.FC = () => {
           })}
         </tbody>
       </Table>
-      <IngredientDetailModal open={open} handleClose={handleCloseModal} ingredient={selectedRow} />
+      <IngredientDetailModal open={open} handleClose={handleCloseModal} onSave={handleSaveIngredient}ingredient={selectedIngredient} />
       <AddIngredientDialog onIngredientAdded={handleIngredientAdded} />
     </>
   );
