@@ -44,17 +44,22 @@ const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (props) => 
 
   let pieChartData: any = []
 
+
   if (props.ingredient) {
+    const protein = Number(props.ingredient.protein)
+    const carbs = Number(props.ingredient.carbs)
+    const fats = Number(props.ingredient.fats)
+    const total = Number(protein + carbs + fats)
+    const percent_protein = Number((protein/total)*100)
+    const percent_carbs = Number((carbs/total)*100)
+    const percent_fats = Number((fats/total)*100)
     pieChartData = [
-      { name: 'Protein', value: Number(props.ingredient.protein), label: 'Protein' },
-      { name: 'Carbs', value: Number(props.ingredient.carbs), label: 'Carbs' },
-      { name: 'Fats', value: Number(props.ingredient.fats), label: 'Fats' },
+      { name: 'Protein', value: Number(percent_protein), label: 'Protein %' },
+      { name: 'Carbs', value: Number(percent_carbs), label: 'Carbs %' },
+      { name: 'Fats', value: Number(percent_fats), label: 'Fats %' },
     ];
   }
 
-  // const handleIngredientUpdated = (updatedIngredient: ICreateIngredientInput) => {
-  //   setIngredients((prevIngredients) => [...prevIngredients, updatedIngredient]);
-  // }
   const handleIngredientUpdated = (updatedIngredient: ICreateIngredientInput) => {
     const ingredientIndex = ingredients.findIndex((ingredient) => ingredient.id === updatedIngredient.id);
   

@@ -7,14 +7,14 @@ import { API_BASE_URL } from '../config'
 
 // Function to fetch ingredients from the backend API
 export async function fetchIngredients(): Promise<IIngredient[]> {
-  const response = await fetchData(API_BASE_URL + 'ingredients', { method: 'GET' });
+  const response = await fetchData(`${API_BASE_URL}ingredients`, { method: 'GET' });
   console.log(response.data)
   return response.data;
 }
 
 export async function createIngredient(ingredient: ICreateIngredientInput): Promise<IIngredient> {
     try{
-    const response = await fetchData(API_BASE_URL + "ingredient/create", {
+    const response = await fetchData(`${API_BASE_URL}ingredient`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
