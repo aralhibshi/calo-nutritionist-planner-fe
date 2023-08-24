@@ -1,3 +1,4 @@
+import React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -5,7 +6,9 @@ import Fade from '@mui/material/Fade';
 import Typography from '@mui/material/Typography';
 import { PieChart } from '@mui/x-charts';
 import { ICreateIngredientInput } from '../../interfaces/ingredient';
-
+import { useState } from 'react';
+import  useSelectedIngredientStore  from './selectedIngredientStore';
+import EditIngredientDialog from './EditIngredientDialog';
 // Modal Style
 const modalStyle = {
   position: 'absolute' as 'absolute',
@@ -34,6 +37,9 @@ interface IIngredientDetailModalProps {
 }
 
 const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (props) => {
+  const [ingredients, setIngredients] = useState<ICreateIngredientInput[]>([]);
+  const { selectedIngredient } = useSelectedIngredientStore();
+  // const [selectedRow, setSelectedRow] = useState(null);
 
   let pieChartData: any = []
 
@@ -45,6 +51,22 @@ const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (props) => 
     ];
   }
 
+  // const handleIngredientUpdated = (updatedIngredient: ICreateIngredientInput) => {
+  //   setIngredients((prevIngredients) => [...prevIngredients, updatedIngredient]);
+  // }
+  const handleIngredientUpdated = (updatedIngredient: ICreateIngredientInput) => {
+    const ingredientIndex = ingredients.findIndex((ingredient) => ingredient.id === updatedIngredient.id);
+  
+    // Create a copy of the existing ingredients array
+    const updatedIngredients = [...ingredients];
+  
+    // Update the existing ingredient with the updated data
+    updatedIngredients[ingredientIndex] = updatedIngredient;
+  
+    // Set the state with the modified list of ingredients
+    setIngredients(updatedIngredients);
+  };
+  
   return (
     <div>
       <Modal
@@ -110,6 +132,7 @@ const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (props) => 
                 tooltip={{ trigger: 'item' }}
               />
             </div>
+            <EditIngredientDialog onIngredientUpdated={handleIngredientUpdated} ingredient={selectedIngredient} />
           </Box>
         </Fade>
       </Modal>
