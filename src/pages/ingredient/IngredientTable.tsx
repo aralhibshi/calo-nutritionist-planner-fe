@@ -40,6 +40,19 @@ const IngredientTable: React.FC = () => {
 
     console.log(row);
   };
+  const handleSaveIngredient = (updatedIngredient: ICreateIngredientInput) => {
+    // Perform the logic to fetch all the ingredients again
+    async function loadIngredients() {
+      try {
+        const ingredients = await IngredientsApi.fetchIngredients();
+        setIngredients(ingredients);
+      } catch (error) {
+        console.log(error);
+        alert(error);
+      }
+    }
+    loadIngredients();
+  };
 
 
   const resizePieChart = () => {
@@ -86,7 +99,7 @@ const IngredientTable: React.FC = () => {
           })}
         </tbody>
       </Table>
-      <IngredientDetailModal open={open} handleClose={handleCloseModal} ingredient={selectedIngredient} />
+      <IngredientDetailModal open={open} handleClose={handleCloseModal} onSave={handleSaveIngredient}ingredient={selectedIngredient} />
       <AddIngredientDialog onIngredientAdded={handleIngredientAdded} />
     </>
   );

@@ -34,6 +34,7 @@ interface IIngredientDetailModalProps {
   open: boolean;
   handleClose: MyFunctionType;
   ingredient: null | ICreateIngredientInput;
+  onSave: (updatedIngredient: ICreateIngredientInput) => void;
 }
 
 const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (props) => {
@@ -65,6 +66,7 @@ const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (props) => 
   
     // Set the state with the modified list of ingredients
     setIngredients(updatedIngredients);
+    props.onSave(updatedIngredient); 
   };
   
   return (
