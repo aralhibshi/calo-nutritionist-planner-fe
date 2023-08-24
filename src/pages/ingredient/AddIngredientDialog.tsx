@@ -51,9 +51,7 @@ export default function AddIngredientDialog({ onIngredientAdded }: AddIngredient
   
       onIngredientAdded(newIngredient);
       closeFormDialog();
-  
-      // Refresh the page
-      window.location.reload();
+
     } catch (error) {
       console.log('Error:', error);
       alert(error);
@@ -62,9 +60,11 @@ export default function AddIngredientDialog({ onIngredientAdded }: AddIngredient
 
   return (
     <>
-      <Button variant="contained" onClick={openFormDialog}>
+    <div  style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
+      <Button variant="contained" color='primary' onClick={openFormDialog}>
         Add Ingredient
       </Button>
+      </div>
       <Dialog open={open} onClose={closeFormDialog}>
         <DialogTitle>Add Ingredient</DialogTitle>
         <DialogContent>
