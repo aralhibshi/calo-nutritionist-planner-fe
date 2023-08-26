@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import * as IngredientsApi from "../../network/ingredientApi";
 import { ICreateIngredientInput } from "../../interfaces/ingredient";
 import { useFormik } from "formik";
-import validationSchema from "../../middleware/formValidation";
+import validationSchema from "../../validation/formValidation";
 
 interface AddIngredientDialogProps {
   onIngredientAdded: (newIngredient: ICreateIngredientInput) => void;

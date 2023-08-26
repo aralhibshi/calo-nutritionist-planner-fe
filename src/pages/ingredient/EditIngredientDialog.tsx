@@ -8,7 +8,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
-import validationSchema from "../../middleware/formValidation";
+import validationSchema from "../../validation/formValidation";
 
 interface EditIngredientDialogProps {
   onIngredientUpdated: (updatedIngredient: ICreateIngredientInput) => void;
@@ -46,17 +46,17 @@ export default function EditIngredientDialog({
     onSubmit: async (values) => {
       try {
         console.log("Form data:", values);
-  
+
         if (ingredient) {
           const updatedIngredient = await IngredientsApi.updateIngredient(
             ingredient,
             values
           );
           console.log("Updated ingredient:", updatedIngredient);
-  
+
           onIngredientUpdated(updatedIngredient);
         }
-  
+
         closeFormDialog();
       } catch (error) {
         console.log("Error:", error);
