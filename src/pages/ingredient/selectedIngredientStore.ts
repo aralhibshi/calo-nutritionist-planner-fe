@@ -1,7 +1,7 @@
 // selectedIngredientStore.js
 
 import {create} from 'zustand';
-import { ICreateIngredientInput, IIngredient } from '../../interfaces/ingredient';
+import { IIngredient } from '../../interfaces/ingredient';
 
 interface ISelectedIngredientStore {
   selectedIngredient: IIngredient | null;
