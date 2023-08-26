@@ -8,6 +8,7 @@ import TextField from '@mui/material/TextField';
 import * as IngredientsApi from '../../network/ingredientApi';
 import { ICreateIngredientInput } from '../../interfaces/ingredient';
 import { useFormik } from 'formik';
+import validationSchema from '../../middleware/formValidation'
 
 interface AddIngredientDialogProps {
   onIngredientAdded: (newIngredient: ICreateIngredientInput) => void;
@@ -19,7 +20,7 @@ export default function AddIngredientDialog({ onIngredientAdded }: AddIngredient
   const closeFormDialog = () => {
     setOpen(false);
   };
-  
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -31,6 +32,7 @@ export default function AddIngredientDialog({ onIngredientAdded }: AddIngredient
       carbs: 0,
       unit: '',
     },
+    validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
         console.log('Form data:', values);
@@ -63,19 +65,25 @@ export default function AddIngredientDialog({ onIngredientAdded }: AddIngredient
         <DialogTitle>Add Ingredient</DialogTitle>
         <DialogContent>
           <form onSubmit={handleFormSubmit}>
-            <TextField
-              label="Name"
-              name="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              fullWidth
-              margin="dense"
-            />
+          <TextField
+  label="Name"
+  name="name"
+  value={formik.values.name}
+  onChange={formik.handleChange}
+  onBlur={formik.handleBlur}
+  error={formik.touched.name && Boolean(formik.errors.name)}
+  helperText={formik.touched.name && formik.errors.name}
+  fullWidth
+  margin="dense"
+/>
             <TextField
               label="Category"
               name="category"
               value={formik.values.category}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.category && Boolean(formik.errors.category)}
+              helperText={formik.touched.category && formik.errors.category}
               fullWidth
               margin="dense"
             />
@@ -84,6 +92,9 @@ export default function AddIngredientDialog({ onIngredientAdded }: AddIngredient
               name="description"
               value={formik.values.description}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.description && Boolean(formik.errors.description)}
+              helperText={formik.touched.description && formik.errors.description}
               fullWidth
               margin="dense"
             />
@@ -93,6 +104,9 @@ export default function AddIngredientDialog({ onIngredientAdded }: AddIngredient
               type="number"
               value={formik.values.price}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.price && Boolean(formik.errors.price)}
+              helperText={formik.touched.price && formik.errors.price}
               fullWidth
               margin="dense"
             />
@@ -102,6 +116,9 @@ export default function AddIngredientDialog({ onIngredientAdded }: AddIngredient
               type="number"
               value={formik.values.protein}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.protein && Boolean(formik.errors.protein)}
+              helperText={formik.touched.protein && formik.errors.protein}
               fullWidth
               margin="dense"
             />
@@ -111,6 +128,9 @@ export default function AddIngredientDialog({ onIngredientAdded }: AddIngredient
               type="number"
               value={formik.values.fats}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.fats && Boolean(formik.errors.fats)}
+              helperText={formik.touched.fats && formik.errors.fats}
               fullWidth
               margin="dense"
             />
@@ -120,6 +140,9 @@ export default function AddIngredientDialog({ onIngredientAdded }: AddIngredient
               type="number"
               value={formik.values.carbs}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.carbs && Boolean(formik.errors.carbs)}
+              helperText={formik.touched.carbs && formik.errors.carbs}
               fullWidth
               margin="dense"
             />
@@ -128,6 +151,9 @@ export default function AddIngredientDialog({ onIngredientAdded }: AddIngredient
               name="unit"
               value={formik.values.unit}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.unit && Boolean(formik.errors.unit)}
+              helperText={formik.touched.unit && formik.errors.unit}
               fullWidth
               margin="dense"
             />

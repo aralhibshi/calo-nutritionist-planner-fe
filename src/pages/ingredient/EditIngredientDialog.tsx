@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
-
+ 
 interface EditIngredientDialogProps {
   onIngredientUpdated: (updatedIngredient: ICreateIngredientInput) => void;
   ingredient: null | ICreateIngredientInput;

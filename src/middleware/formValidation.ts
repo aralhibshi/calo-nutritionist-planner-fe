@@ -1,20 +1,30 @@
-import * as Yup from 'yup';
+import * as yup from 'yup';
 
-export const validationSchema = Yup.object().shape({
-  name: Yup.string().required('Name is required'),
-  price: Yup.number()
+const validationSchema = yup.object({
+  name: yup.string().required('Name is required'),
+  category: yup.string(),
+  description: yup.string(),
+  price: yup
+    .number()
     .required('Price is required')
-    .max(999.99, 'Price must be less than or equal to 999.99'),
-  protein: Yup.number()
+    .positive('Price must be a positive number')
+    .max(999.99, 'Price cannot exceed 999.99'),
+  protein: yup
+    .number()
     .required('Protein is required')
-    .max(0.99, 'Protein must be less than or equal to 0.99'),
-  fats: Yup.number()
+    .positive('Protein must be a positive number')
+    .max(0.99, 'Protein cannot exceed 0.99'),
+  fats: yup
+    .number()
     .required('Fats is required')
-    .max(0.99, 'Fats must be less than or equal to 0.99'),
-  carbs: Yup.number()
+    .positive('Fats must be a positive number')
+    .max(0.99, 'Fats cannot exceed 0.99'),
+  carbs: yup
+    .number()
     .required('Carbs is required')
-    .max(0.99, 'Carbs must be less than or equal to 0.99'),
-  unit: Yup.string()
-    .required('Unit is required')
-    .oneOf(['ml', 'g'], 'Unit must be either "ml" or "g"'),
+    .positive('Carbs must be a positive number')
+    .max(0.99, 'Carbs cannot exceed 0.99'),
+  unit: yup.string().required('Unit is required').matches(/^(ml|g)$/, 'Unit must be "ml" or "g"'),
 });
+
+export default validationSchema;
