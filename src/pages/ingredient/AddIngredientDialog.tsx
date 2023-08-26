@@ -20,6 +20,7 @@ export default function AddIngredientDialog({
   const [open, setOpen] = useState(false);
 
   const closeFormDialog = () => {
+    formik.resetForm();
     setOpen(false);
   };
 
