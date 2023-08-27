@@ -5,9 +5,11 @@ const validationSchema = yup.object({
     .string()
     .required('Name is required'),
   category: yup
-    .string(),
+    .string()
+    .required('Category is required'),
   description: yup
-    .string(),
+    .string()
+    .required('Description is required'),
   price: yup
     .number()
     .required('Price is required')
