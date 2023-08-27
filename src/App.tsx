@@ -23,9 +23,9 @@ function App({ signOut, user }: WithAuthenticatorProps) {
             <Route path="/Ingredients" element={<IngredientIndex/>} />
           </Routes>
         </Container>
-        <Box component="footer" sx={{ textAlign: 'center', py: 2 }}>
+        {/* <Box component="footer" sx={{ textAlign: 'center', py: 2 }}>
           Calo Nutrition Planner
-        </Box>
+        </Box> */}
       </div>
     </Router>
   );

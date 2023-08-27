@@ -48,3 +48,9 @@ export interface IPaginationFooter {
     ingredientsCount: number;
     setSkip: React.Dispatch<React.SetStateAction<number>>;
 }
+
+export interface IAddIngredientDialogProps {
+  addOpen: boolean;
+  setAddOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onIngredientAdded: (newIngredient: IIngredientData) => void;
+}

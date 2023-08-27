@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { Amplify} from 'aws-amplify';
 import awsExports from './aws-exports';
 import {USER_POOL_ID, USER_POOL_ClIENT_ID} from '../src/config'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 Amplify.configure(awsExports);
 
 Amplify.configure({
@@ -69,6 +71,7 @@ Amplify.configure({
   },
 });
 
+library.add(fas);
 
 // You can get the current config object
 // const currentConfig = Auth.configure();

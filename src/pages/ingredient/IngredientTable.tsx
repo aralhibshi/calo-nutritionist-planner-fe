@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Table from "@mui/joy/Table";
 import AddIngredientDialog from "./AddIngredientDialog";
 import * as IngredientsApi from "../../network/ingredientApi";
@@ -8,7 +9,8 @@ import IngredientDetailModal from "./IngredientDetailModal";
 import useSelectedIngredientStore from "./selectedIngredientStore";
 import PaginationFooter from "../../components/footer/PaginationFooter";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import { Backdrop } from "@mui/material";
+import Button from "@mui/material/Button";
 
 const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<any>([]);
@@ -16,6 +18,7 @@ const IngredientTable: React.FC = () => {
   const { selectedIngredient, setSelectedIngredient } =
     useSelectedIngredientStore();
   const [open, setOpen] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
   const [skip, setSkip] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -54,7 +57,6 @@ const IngredientTable: React.FC = () => {
     console.log(row);
   };
   const handleSaveIngredient = (updatedIngredient: IIngredientData) => {
-    // Perform the logic to fetch all the ingredients again
     async function loadIngredients() {
       try {
         const ingredients = await IngredientsApi.fetchIngredients(skip);
@@ -84,58 +86,93 @@ const IngredientTable: React.FC = () => {
   return (
     <>
       {loading ? (
-        <Box
-          sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
+        <Backdrop
+          sx={{
+            color: '#fff',
+            zIndex: (theme) => theme.zIndex.drawer + 1
+          }}
+          open={true}
         >
-          <CircularProgress />
-        </Box>
-      ) : (
-        <Table hoverRow sx={{ marginTop: "40px", userSelect: "none" }}>
-          <thead>
-            <tr>
-              <th style={{ width: "40%" }}>Ingredient</th>
-              <th>Calories&nbsp;</th>
-              <th>Protein&nbsp;</th>
-              <th>Carbs&nbsp;</th>
-              <th>Fat&nbsp;</th>
-              <th>Unit&nbsp;</th>
-              <th>Price&nbsp;(BHD)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ingredients.map((ingredient: any) => {
-              const calories: number =
-                ingredient.fats * 9 +
-                ingredient.carbs * 4 +
-                ingredient.protein * 4;
-              return (
-                <tr
-                  key={ingredient.id}
-                  onClick={() => handleRowClick(ingredient)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <td>{ingredient.name}</td>
-                  <td>{calories}</td>
-                  <td>{ingredient.protein}</td>
-                  <td>{ingredient.carbs}</td>
-                  <td>{ingredient.fats}</td>
-                  <td>{ingredient.unit}</td>
-                  <td>{ingredient.price}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
-      )}
-
+          <CircularProgress
+          color="inherit"
+          />
+        </Backdrop>
+      ) : null}
+      <Table hoverRow sx={{ marginTop: "40px", userSelect: "none" }}>
+        <thead>
+        <tr>
+          <th style={{ width: "40%" }}>
+            Ingredient &nbsp;
+            <Button
+              variant='contained'
+              type="submit"
+              onClick={() => setAddOpen(true)}
+              style={{
+                fontWeight: 'bold',
+                scale: '70%'
+              }}
+            >
+              Add Ingredient &nbsp;
+              <FontAwesomeIcon
+                icon={['fas', 'square-plus']}
+                style={{
+                  scale: '140%',
+                  cursor: 'pointer'
+                }}
+              />
+            </Button>
+          </th>
+          <th>Calories&nbsp;</th>
+          <th>Protein&nbsp;</th>
+          <th>Carbs&nbsp;</th>
+          <th>Fat&nbsp;</th>
+          <th>Unit&nbsp;</th>
+          <th>Price&nbsp;(BHD)</th>
+        </tr>
+        </thead>
+        <tbody>
+          {ingredients.map((ingredient: any) => {
+            const calories: string = (
+              (ingredient.fats * 9 + ingredient.carbs * 4 + ingredient.protein * 4)
+                .toFixed(3)
+                .padEnd(5, '0')
+            );
+            return (
+              <tr
+                key={ingredient.id}
+                onClick={() => handleRowClick(ingredient)}
+                style={{ cursor: "pointer" }}
+              >
+                <td>{ingredient.name}</td>
+                <td>{calories}</td>
+                <td>{ingredient.protein}</td>
+                <td>{ingredient.carbs}</td>
+                <td>{ingredient.fats}</td>
+                <td>{ingredient.unit}</td>
+                <td>{ingredient.price}</td>
+                <td><i className="fa-regular fa-square-plus"></i></td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </Table>
       <IngredientDetailModal
         open={open}
         handleClose={handleCloseModal}
         onSave={handleSaveIngredient}
         ingredient={selectedIngredient}
       />
-      <PaginationFooter ingredientsCount={ingredientsCount} setSkip={setSkip} />
-      <AddIngredientDialog onIngredientAdded={handleIngredientAdded} />
+      <div style={{ position: 'absolute', bottom: '2vh', width: '100%', left: '42vw', textAlign: 'center' }}>
+      <PaginationFooter
+        ingredientsCount={ingredientsCount}
+        setSkip={setSkip}
+      />
+      </div>
+      <AddIngredientDialog
+        addOpen={addOpen}
+        setAddOpen={setAddOpen}
+        onIngredientAdded={handleIngredientAdded}
+      />
     </>
   );
 };
