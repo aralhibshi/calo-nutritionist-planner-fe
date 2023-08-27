@@ -4,8 +4,8 @@ import createError from "http-errors";
 import { API_BASE_URL } from "../config";
 
 // Function to fetch ingredients from the backend API
-export async function fetchIngredients(): Promise<IIngredient[]> {
-  const response = await fetchData(`${API_BASE_URL}ingredients`, {
+export async function fetchIngredients(skip: number): Promise<IIngredient[]> {
+  const response = await fetchData(`${API_BASE_URL}ingredients?skip=${skip}`, {
     method: "GET",
   });
   console.log(response.data);

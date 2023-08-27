@@ -12,11 +12,11 @@ const IngredientTable: React.FC = () => {
   const { selectedIngredient, setSelectedIngredient } =
     useSelectedIngredientStore();
   const [open, setOpen] = useState(false);
-
+  const [skip, setSkip] = useState(0)
   useEffect(() => {
     async function loadIngredients() {
       try {
-        const ingredients = await IngredientsApi.fetchIngredients();
+        const ingredients = await IngredientsApi.fetchIngredients(skip);
         setIngredients(ingredients);
       } catch (error) {
         console.log(error);
@@ -44,7 +44,7 @@ const IngredientTable: React.FC = () => {
     // Perform the logic to fetch all the ingredients again
     async function loadIngredients() {
       try {
-        const ingredients = await IngredientsApi.fetchIngredients();
+        const ingredients = await IngredientsApi.fetchIngredients(skip);
         setIngredients(ingredients);
       } catch (error) {
         console.log(error);
