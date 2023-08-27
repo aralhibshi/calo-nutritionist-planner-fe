@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ICreateIngredientInput } from "../../interfaces/ingredient";
+import { IIngredientData } from "../../interfaces";
 import * as IngredientsApi from "../../network/ingredientApi";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -11,8 +11,8 @@ import { useFormik } from "formik";
 import validationSchema from "../../validation/formValidation";
 
 interface EditIngredientDialogProps {
-  onIngredientUpdated: (updatedIngredient: ICreateIngredientInput) => void;
-  ingredient: null | ICreateIngredientInput;
+  onIngredientUpdated: (updatedIngredient: IIngredientData) => void;
+  ingredient: null | IIngredientData;
 }
 
 export default function EditIngredientDialog({

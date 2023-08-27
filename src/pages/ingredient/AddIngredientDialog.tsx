@@ -6,12 +6,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import * as IngredientsApi from "../../network/ingredientApi";
-import { ICreateIngredientInput } from "../../interfaces/ingredient";
+import { IIngredientData } from "../../interfaces";
 import { useFormik } from "formik";
 import validationSchema from "../../validation/formValidation";
 
 interface AddIngredientDialogProps {
-  onIngredientAdded: (newIngredient: ICreateIngredientInput) => void;
+  onIngredientAdded: (newIngredient: IIngredientData) => void;
 }
 
 export default function AddIngredientDialog({

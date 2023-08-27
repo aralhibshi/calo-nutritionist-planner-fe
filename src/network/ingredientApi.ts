@@ -1,19 +1,20 @@
-import { ICreateIngredientInput, IIngredient } from "../interfaces/ingredient";
+import { IIngredientData, IIngredient } from "../interfaces";
 import { fetchData } from "./baseApi";
 import createError from "http-errors";
 import { API_BASE_URL } from "../config";
 
 // Function to fetch ingredients from the backend API
-export async function fetchIngredients(): Promise<IIngredient[]> {
-  const response = await fetchData(`${API_BASE_URL}ingredients`, {
+// export async function fetchIngredients(skip: number): Promise<IIngredient[]> {
+export async function fetchIngredients(skip: number): Promise<any> {
+  const response = await fetchData(`${API_BASE_URL}ingredients?skip=${skip}`, {
     method: "GET",
   });
-  console.log(response.data);
-  return response.data;
+  console.log(response);
+  return response;
 }
 
 export async function createIngredient(
-  ingredient: ICreateIngredientInput
+  ingredient: IIngredientData
 ): Promise<IIngredient> {
   try {
     const response = await fetchData(`${API_BASE_URL}ingredient`, {
@@ -61,8 +62,8 @@ export async function searchIngredient(
 }
 // API_BASE_URL + 'ingredient/update?' + ingredient.id
 export async function updateIngredient(
-  ingredient: ICreateIngredientInput,
-  formData: ICreateIngredientInput
+  ingredient: IIngredientData,
+  formData: IIngredientData
 ): Promise<IIngredient> {
   try {
     const id = ingredient.id;

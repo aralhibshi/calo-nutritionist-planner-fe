@@ -3,31 +3,34 @@ import { useEffect, useState } from "react";
 import Table from "@mui/joy/Table";
 import AddIngredientDialog from "./AddIngredientDialog";
 import * as IngredientsApi from "../../network/ingredientApi";
-import { ICreateIngredientInput } from "../../interfaces/ingredient";
+import { IIngredientData } from "../../interfaces";
 import IngredientDetailModal from "./IngredientDetailModal";
 import useSelectedIngredientStore from "./selectedIngredientStore";
+import PaginationFooter from "../../components/footer/PaginationFooter";
 
 const IngredientTable: React.FC = () => {
-  const [ingredients, setIngredients] = useState<ICreateIngredientInput[]>([]);
-  const { selectedIngredient, setSelectedIngredient } =
-    useSelectedIngredientStore();
+  const [ingredients, setIngredients] = useState<any>([]);
+  const [ ingredientsCount, setIngredientsCount] = useState(2)
+  const { selectedIngredient, setSelectedIngredient } = useSelectedIngredientStore();
   const [open, setOpen] = useState(false);
+  const [skip, setSkip] = useState(0);
 
   useEffect(() => {
     async function loadIngredients() {
       try {
-        const ingredients = await IngredientsApi.fetchIngredients();
-        setIngredients(ingredients);
+        const response = await IngredientsApi.fetchIngredients(skip);
+        setIngredientsCount(response.count)
+        setIngredients(response.data);
       } catch (error) {
         console.log(error);
         alert(error);
       }
     }
     loadIngredients();
-  }, []);
+  }, [skip]);
 
-  const handleIngredientAdded = (newIngredient: ICreateIngredientInput) => {
-    setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
+  const handleIngredientAdded = (newIngredient: any) => {
+    setIngredients((prevIngredients: any) => [...prevIngredients, newIngredient]);
   };
 
   const handleRowClick = (row: any) => {
@@ -40,11 +43,11 @@ const IngredientTable: React.FC = () => {
 
     console.log(row);
   };
-  const handleSaveIngredient = (updatedIngredient: ICreateIngredientInput) => {
+  const handleSaveIngredient = (updatedIngredient: IIngredientData) => {
     // Perform the logic to fetch all the ingredients again
     async function loadIngredients() {
       try {
-        const ingredients = await IngredientsApi.fetchIngredients();
+        const ingredients = await IngredientsApi.fetchIngredients(skip);
         setIngredients(ingredients);
       } catch (error) {
         console.log(error);
@@ -83,7 +86,7 @@ const IngredientTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {ingredients.map((ingredient) => {
+          {ingredients.map((ingredient: any) => {
             const calories: number =
               ingredient.fats * 9 +
               ingredient.carbs * 4 +
@@ -111,6 +114,10 @@ const IngredientTable: React.FC = () => {
         handleClose={handleCloseModal}
         onSave={handleSaveIngredient}
         ingredient={selectedIngredient}
+      />
+      <PaginationFooter
+        ingredientsCount={ingredientsCount}
+        setSkip={setSkip}
       />
       <AddIngredientDialog onIngredientAdded={handleIngredientAdded} />
     </>

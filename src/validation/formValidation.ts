@@ -1,9 +1,13 @@
 import * as yup from 'yup';
 
 const validationSchema = yup.object({
-  name: yup.string().required('Name is required'),
-  category: yup.string(),
-  description: yup.string(),
+  name: yup
+    .string()
+    .required('Name is required'),
+  category: yup
+    .string(),
+  description: yup
+    .string(),
   price: yup
     .number()
     .required('Price is required')

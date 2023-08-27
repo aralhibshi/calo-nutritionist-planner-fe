@@ -5,10 +5,11 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import { PieChart } from "@mui/x-charts";
-import { ICreateIngredientInput } from "../../interfaces/ingredient";
+import { IIngredientData } from "../../interfaces";
 import { useState } from "react";
 import useSelectedIngredientStore from "./selectedIngredientStore";
 import EditIngredientDialog from "./EditIngredientDialog";
+
 // Modal Style
 const modalStyle = {
   position: "absolute" as "absolute",
@@ -33,16 +34,15 @@ type MyFunctionType = () => void;
 interface IIngredientDetailModalProps {
   open: boolean;
   handleClose: MyFunctionType;
-  ingredient: null | ICreateIngredientInput;
-  onSave: (updatedIngredient: ICreateIngredientInput) => void;
+  ingredient: null | IIngredientData;
+  onSave: (updatedIngredient: IIngredientData) => void;
 }
 
 const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (
   props
 ) => {
-  const [ingredients, setIngredients] = useState<ICreateIngredientInput[]>([]);
+  const [ingredients, setIngredients] = useState<IIngredientData[]>([]);
   const { selectedIngredient } = useSelectedIngredientStore();
-  // const [selectedRow, setSelectedRow] = useState(null);
 
   let pieChartData: any = [];
 
@@ -62,7 +62,7 @@ const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (
   }
 
   const handleIngredientUpdated = (
-    updatedIngredient: ICreateIngredientInput
+    updatedIngredient: IIngredientData
   ) => {
     const ingredientIndex = ingredients.findIndex(
       (ingredient) => ingredient.id === updatedIngredient.id
@@ -116,7 +116,6 @@ const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (
                   alignItems: "center",
                 }}
               >
-                {/* <img src='https://freepngimg.com/download/apple/8-2-apple-fruit-transparent.png' alt='Apple' style={{scale: '50%'}}/> */}
 
                 {props ? (
                   <>
