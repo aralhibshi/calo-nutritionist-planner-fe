@@ -7,37 +7,40 @@ import { IIngredientData } from "../../interfaces";
 import IngredientDetailModal from "./IngredientDetailModal";
 import useSelectedIngredientStore from "./selectedIngredientStore";
 import PaginationFooter from "../../components/footer/PaginationFooter";
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<any>([]);
-  const [ ingredientsCount, setIngredientsCount] = useState(2)
-  const { selectedIngredient, setSelectedIngredient } = useSelectedIngredientStore();
+  const [ingredientsCount, setIngredientsCount] = useState(2);
+  const { selectedIngredient, setSelectedIngredient } =
+    useSelectedIngredientStore();
   const [open, setOpen] = useState(false);
-  const [skip, setSkip] = useState(0)
+  const [skip, setSkip] = useState(0);
   const [loading, setLoading] = useState(false);
 
-
   useEffect(() => {
-  async function loadIngredients() {
-    try {
-      setLoading(true);
-      const response = await IngredientsApi.fetchIngredients(skip);
-      setIngredientsCount(response.count)
-      setIngredients(response.data);
-    } catch (error) {
-      console.log(error);
-      alert(error);
-    } finally {
-      setLoading(false);
+    async function loadIngredients() {
+      try {
+        setLoading(true);
+        const response = await IngredientsApi.fetchIngredients(skip);
+        setIngredientsCount(response.count);
+        setIngredients(response.data);
+      } catch (error) {
+        console.log(error);
+        alert(error);
+      } finally {
+        setLoading(false);
+      }
     }
-  }
     loadIngredients();
   }, [skip]);
 
   const handleIngredientAdded = (newIngredient: any) => {
-    setIngredients((prevIngredients: any) => [...prevIngredients, newIngredient]);
+    setIngredients((prevIngredients: any) => [
+      ...prevIngredients,
+      newIngredient,
+    ]);
   };
 
   const handleRowClick = (row: any) => {
@@ -80,59 +83,58 @@ const IngredientTable: React.FC = () => {
 
   return (
     <>
-        {loading ? (
-  <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-    <CircularProgress />
-  </Box>
-) : (
-<Table hoverRow sx={{ marginTop: "40px", userSelect: "none" }}>
-        <thead>
-          <tr>
-            <th style={{ width: "40%" }}>Ingredient</th>
-            <th>Calories&nbsp;</th>
-            <th>Protein&nbsp;</th>
-            <th>Carbs&nbsp;</th>
-            <th>Fat&nbsp;</th>
-            <th>Unit&nbsp;</th>
-            <th>Price&nbsp;(BHD)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {ingredients.map((ingredient: any) => {
-            const calories: number =
-              ingredient.fats * 9 +
-              ingredient.carbs * 4 +
-              ingredient.protein * 4;
-            return (
-              <tr
-                key={ingredient.id}
-                onClick={() => handleRowClick(ingredient)}
-                style={{ cursor: "pointer" }}
-              >
-                <td>{ingredient.name}</td>
-                <td>{calories}</td>
-                <td>{ingredient.protein}</td>
-                <td>{ingredient.carbs}</td>
-                <td>{ingredient.fats}</td>
-                <td>{ingredient.unit}</td>
-                <td>{ingredient.price}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </Table>
-)}
-      
+      {loading ? (
+        <Box
+          sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Table hoverRow sx={{ marginTop: "40px", userSelect: "none" }}>
+          <thead>
+            <tr>
+              <th style={{ width: "40%" }}>Ingredient</th>
+              <th>Calories&nbsp;</th>
+              <th>Protein&nbsp;</th>
+              <th>Carbs&nbsp;</th>
+              <th>Fat&nbsp;</th>
+              <th>Unit&nbsp;</th>
+              <th>Price&nbsp;(BHD)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {ingredients.map((ingredient: any) => {
+              const calories: number =
+                ingredient.fats * 9 +
+                ingredient.carbs * 4 +
+                ingredient.protein * 4;
+              return (
+                <tr
+                  key={ingredient.id}
+                  onClick={() => handleRowClick(ingredient)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <td>{ingredient.name}</td>
+                  <td>{calories}</td>
+                  <td>{ingredient.protein}</td>
+                  <td>{ingredient.carbs}</td>
+                  <td>{ingredient.fats}</td>
+                  <td>{ingredient.unit}</td>
+                  <td>{ingredient.price}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </Table>
+      )}
+
       <IngredientDetailModal
         open={open}
         handleClose={handleCloseModal}
         onSave={handleSaveIngredient}
         ingredient={selectedIngredient}
       />
-      <PaginationFooter
-        ingredientsCount={ingredientsCount}
-        setSkip={setSkip}
-      />
+      <PaginationFooter ingredientsCount={ingredientsCount} setSkip={setSkip} />
       <AddIngredientDialog onIngredientAdded={handleIngredientAdded} />
     </>
   );
