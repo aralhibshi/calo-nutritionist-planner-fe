@@ -48,7 +48,7 @@ async function loadIngredients() {
 
     console.log(row);
   };
-  const handleSaveIngredient = (updatedIngredient: ICreateIngredientInput) => {
+  const handleSaveIngredient = async (updatedIngredient: ICreateIngredientInput) => {
     // Perform the logic to fetch all the ingredients again
     async function loadIngredients() {
       try {
