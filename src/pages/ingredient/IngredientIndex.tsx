@@ -1,10 +1,9 @@
-import IngredientTable from './IngredientTable';
+import IngredientTable from "./IngredientTable";
 
 const IngredientIndex = () => {
-
   return (
     <div>
-        <IngredientTable/>
+      <IngredientTable />
     </div>
   );
 };

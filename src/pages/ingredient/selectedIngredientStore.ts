@@ -1,7 +1,7 @@
 // selectedIngredientStore.js
 
-import {create} from 'zustand';
-import { ICreateIngredientInput, IIngredient } from '../../interfaces/ingredient';
+import { create } from "zustand";
+import { IIngredient } from "../../interfaces/ingredient";
 
 interface ISelectedIngredientStore {
   selectedIngredient: IIngredient | null;
@@ -10,7 +10,8 @@ interface ISelectedIngredientStore {
 
 const useSelectedIngredientStore = create<ISelectedIngredientStore>((set) => ({
   selectedIngredient: null,
-  setSelectedIngredient: (ingredient) => set({ selectedIngredient: ingredient }),
+  setSelectedIngredient: (ingredient) =>
+    set({ selectedIngredient: ingredient }),
 }));
 
 export default useSelectedIngredientStore;
