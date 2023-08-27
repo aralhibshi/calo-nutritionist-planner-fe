@@ -6,25 +6,22 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import * as IngredientsApi from "../../network/ingredientApi";
-import { IIngredientData } from "../../interfaces";
+import { IAddIngredientDialogProps } from "../../interfaces";
 import { useFormik } from "formik";
 import validationSchema from "../../validation/formValidation";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
-interface AddIngredientDialogProps {
-  onIngredientAdded: (newIngredient: IIngredientData) => void;
-}
-
 export default function AddIngredientDialog({
   onIngredientAdded,
-}: AddIngredientDialogProps) {
-  const [open, setOpen] = useState(false);
+  addOpen,
+  setAddOpen
+}: IAddIngredientDialogProps) {
   const [loading, setLoading] = useState(false);
 
   const closeFormDialog = () => {
     formik.resetForm();
-    setOpen(false);
+    setAddOpen(false);
   };
 
   const formik = useFormik({
@@ -70,26 +67,19 @@ export default function AddIngredientDialog({
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}
       >
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setOpen(true)}
-        >
-          Add Ingredient
-        </Button>
       </div>
       {loading ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "20px",
-              }}
-            >
-              <CircularProgress />
-            </Box>
-          ) : (
-      <Dialog open={open} onClose={closeFormDialog}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+      <Dialog open={addOpen} onClose={closeFormDialog}>
         <DialogTitle>Add Ingredient</DialogTitle>
         <DialogContent>
           <form onSubmit={handleFormSubmit}>
@@ -191,7 +181,7 @@ export default function AddIngredientDialog({
             />
             <DialogActions>
               <Button onClick={closeFormDialog}>Cancel</Button>
-              <Button variant="contained" type="submit">
+              <Button variant="contained" type='submit'>
                 Add
               </Button>
             </DialogActions>
