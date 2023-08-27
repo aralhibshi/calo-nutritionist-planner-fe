@@ -14,19 +14,27 @@ export default function SearchBar({ selectedValue }: SearchBarProps) {
   const [searchEntity, setSearchEntity] = useState('ingredient');
   const [searching, setIsSearching] = useState(false);
   const [searchResult, setSearchResult]: any = useState([]);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
   useEffect(() => {
-    if (searching) {
-      searchItem(searchTerm, searchEntity);
-    }
-  }, [searchTerm])
+    const delayTimer = setTimeout(() => {
+      if (searching) {
+        searchItem(debouncedSearchTerm, searchEntity);
+      }
+    }, 400);
+
+    return () => {
+      clearTimeout(delayTimer);
+    };
+  }, [debouncedSearchTerm, searchEntity, searching]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
+    const newSearchTerm = event.target.value;
+    setSearchTerm(newSearchTerm);
 
-    if (event.target.value) {
-      setSearchTerm(event.target.value);
+    if (newSearchTerm) {
       setIsSearching(true);
+      setDebouncedSearchTerm(newSearchTerm);
     } else {
       setIsSearching(false);
     }
@@ -53,12 +61,6 @@ export default function SearchBar({ selectedValue }: SearchBarProps) {
   } else if (selectedValue === "meal") {
     placeholderText = "Search for a meal";
   }
-
-  const films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 }
-  ]
 
   return (
     <Container maxWidth="md">

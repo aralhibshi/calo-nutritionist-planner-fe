@@ -150,7 +150,6 @@ const IngredientTable: React.FC = () => {
                 <td>{ingredient.fats}</td>
                 <td>{ingredient.unit}</td>
                 <td>{ingredient.price}</td>
-                <td><i className="fa-regular fa-square-plus"></i></td>
               </tr>
             );
           })}
