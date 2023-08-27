@@ -9,6 +9,8 @@ import * as IngredientsApi from "../../network/ingredientApi";
 import { IIngredientData } from "../../interfaces";
 import { useFormik } from "formik";
 import validationSchema from "../../validation/formValidation";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 interface AddIngredientDialogProps {
   onIngredientAdded: (newIngredient: IIngredientData) => void;
@@ -18,6 +20,7 @@ export default function AddIngredientDialog({
   onIngredientAdded,
 }: AddIngredientDialogProps) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const closeFormDialog = () => {
     formik.resetForm();
@@ -38,6 +41,7 @@ export default function AddIngredientDialog({
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
+        setLoading(true)
         console.log("Form data:", values);
 
         const newIngredient = await IngredientsApi.createIngredient(values);
@@ -45,9 +49,13 @@ export default function AddIngredientDialog({
 
         onIngredientAdded(newIngredient);
         closeFormDialog();
-      } catch (error) {
+      } 
+      catch (error) {
         console.log("Error:", error);
         alert(error);
+      }
+      finally {
+        setLoading(false);
       }
     },
   });
@@ -70,6 +78,17 @@ export default function AddIngredientDialog({
           Add Ingredient
         </Button>
       </div>
+      {loading ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "20px",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          ) : (
       <Dialog open={open} onClose={closeFormDialog}>
         <DialogTitle>Add Ingredient</DialogTitle>
         <DialogContent>
@@ -178,7 +197,7 @@ export default function AddIngredientDialog({
             </DialogActions>
           </form>
         </DialogContent>
-      </Dialog>
+      </Dialog>)}
     </>
   );
 }

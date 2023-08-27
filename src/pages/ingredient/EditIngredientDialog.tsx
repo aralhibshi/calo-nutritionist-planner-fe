@@ -9,6 +9,8 @@ import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import validationSchema from "../../validation/formValidation";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 interface EditIngredientDialogProps {
   onIngredientUpdated: (updatedIngredient: IIngredientData) => void;
@@ -20,6 +22,7 @@ export default function EditIngredientDialog({
   ingredient,
 }: EditIngredientDialogProps) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const closeFormDialog = () => {
     setOpen(false);
@@ -45,6 +48,7 @@ export default function EditIngredientDialog({
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
+        setLoading(true)
         console.log("Form data:", values);
 
         if (ingredient) {
@@ -58,9 +62,13 @@ export default function EditIngredientDialog({
         }
 
         closeFormDialog();
-      } catch (error) {
+      } 
+      catch (error) {
         console.log("Error:", error);
         alert(error);
+      }
+      finally {
+        setLoading(false);
       }
     },
   });
@@ -78,6 +86,17 @@ export default function EditIngredientDialog({
           Edit Ingredient
         </Button>
       </div>
+      {loading ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "20px",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          ) : (
       <Dialog open={open} onClose={closeFormDialog}>
         <DialogTitle>Update Ingredient</DialogTitle>
         <DialogContent>
@@ -158,7 +177,7 @@ export default function EditIngredientDialog({
             </DialogActions>
           </form>
         </DialogContent>
-      </Dialog>
+      </Dialog>)}
     </>
   );
 }

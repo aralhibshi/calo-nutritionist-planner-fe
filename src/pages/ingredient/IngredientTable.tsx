@@ -7,25 +7,32 @@ import { IIngredientData } from "../../interfaces";
 import IngredientDetailModal from "./IngredientDetailModal";
 import useSelectedIngredientStore from "./selectedIngredientStore";
 import PaginationFooter from "../../components/footer/PaginationFooter";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<any>([]);
   const [ ingredientsCount, setIngredientsCount] = useState(2)
   const { selectedIngredient, setSelectedIngredient } = useSelectedIngredientStore();
   const [open, setOpen] = useState(false);
-  const [skip, setSkip] = useState(0);
+  const [skip, setSkip] = useState(0)
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
-    async function loadIngredients() {
-      try {
-        const response = await IngredientsApi.fetchIngredients(skip);
-        setIngredientsCount(response.count)
-        setIngredients(response.data);
-      } catch (error) {
-        console.log(error);
-        alert(error);
-      }
+  async function loadIngredients() {
+    try {
+      setLoading(true);
+      const response = await IngredientsApi.fetchIngredients(skip);
+      setIngredientsCount(response.count)
+      setIngredients(response.data);
+    } catch (error) {
+      console.log(error);
+      alert(error);
+    } finally {
+      setLoading(false);
     }
+  }
     loadIngredients();
   }, [skip]);
 
@@ -73,7 +80,12 @@ const IngredientTable: React.FC = () => {
 
   return (
     <>
-      <Table hoverRow sx={{ marginTop: "40px", userSelect: "none" }}>
+        {loading ? (
+  <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+    <CircularProgress />
+  </Box>
+) : (
+<Table hoverRow sx={{ marginTop: "40px", userSelect: "none" }}>
         <thead>
           <tr>
             <th style={{ width: "40%" }}>Ingredient</th>
@@ -109,6 +121,8 @@ const IngredientTable: React.FC = () => {
           })}
         </tbody>
       </Table>
+)}
+      
       <IngredientDetailModal
         open={open}
         handleClose={handleCloseModal}
