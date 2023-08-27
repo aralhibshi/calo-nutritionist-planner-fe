@@ -6,6 +6,8 @@ import * as IngredientsApi from "../../network/ingredientApi";
 import { ICreateIngredientInput } from "../../interfaces/ingredient";
 import IngredientDetailModal from "./IngredientDetailModal";
 import useSelectedIngredientStore from "./selectedIngredientStore";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<ICreateIngredientInput[]>([]);
@@ -13,16 +15,22 @@ const IngredientTable: React.FC = () => {
     useSelectedIngredientStore();
   const [open, setOpen] = useState(false);
   const [skip, setSkip] = useState(0)
+  const [loading, setLoading] = useState(false);
+
+
   useEffect(() => {
-    async function loadIngredients() {
-      try {
-        const ingredients = await IngredientsApi.fetchIngredients(skip);
-        setIngredients(ingredients);
-      } catch (error) {
-        console.log(error);
-        alert(error);
-      }
-    }
+async function loadIngredients() {
+  try {
+    setLoading(true);
+    const ingredients = await IngredientsApi.fetchIngredients(skip);
+    setIngredients(ingredients);
+  } catch (error) {
+    console.log(error);
+    alert(error);
+  } finally {
+    setLoading(false);
+  }
+}
     loadIngredients();
   }, []);
 
@@ -70,7 +78,12 @@ const IngredientTable: React.FC = () => {
 
   return (
     <>
-      <Table hoverRow sx={{ marginTop: "40px", userSelect: "none" }}>
+        {loading ? (
+  <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+    <CircularProgress />
+  </Box>
+) : (
+<Table hoverRow sx={{ marginTop: "40px", userSelect: "none" }}>
         <thead>
           <tr>
             <th style={{ width: "40%" }}>Ingredient</th>
@@ -106,6 +119,8 @@ const IngredientTable: React.FC = () => {
           })}
         </tbody>
       </Table>
+)}
+      
       <IngredientDetailModal
         open={open}
         handleClose={handleCloseModal}
