@@ -78,10 +78,7 @@ export default function AddIngredientDialog({
           Add Ingredient
         </Button>
       </div>
-      <Dialog open={open} onClose={closeFormDialog}>
-        <DialogTitle>Add Ingredient</DialogTitle>
-        <DialogContent>
-        {loading ? (
+      {loading ? (
             <Box
               sx={{
                 display: "flex",
@@ -92,6 +89,9 @@ export default function AddIngredientDialog({
               <CircularProgress />
             </Box>
           ) : (
+      <Dialog open={open} onClose={closeFormDialog}>
+        <DialogTitle>Add Ingredient</DialogTitle>
+        <DialogContent>
           <form onSubmit={handleFormSubmit}>
             <TextField
               label="Name"
@@ -195,9 +195,9 @@ export default function AddIngredientDialog({
                 Add
               </Button>
             </DialogActions>
-          </form>)}
+          </form>
         </DialogContent>
-      </Dialog>
+      </Dialog>)}
     </>
   );
 }
