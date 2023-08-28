@@ -1,47 +1,38 @@
 import React from 'react';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { ISearchTypeDropdownProps } from '../../interfaces';
 
-interface SearchToggleButtonProps {
-  selectedValue: string;
-  onAlignmentChange: (newAlignment: string) => void;
-}
-
-const SearchToggleButton = ({
-  selectedValue,
-  onAlignmentChange
-}: SearchToggleButtonProps) => {
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string,
-  ) => {
-    onAlignmentChange(newAlignment);
+const SearchTypeDropdown: React.FC<ISearchTypeDropdownProps> = (props) => {
+  const handleChange = (event: SelectChangeEvent) => {
+    props.setSelectedValue(event.target.value as string);
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '2vh',
-        mt:'5vh'
-      }}
-    >
-      <ToggleButtonGroup
-        color="primary"
-        value={selectedValue}
-        exclusive
-        onChange={handleChange}
-        aria-label="Platform"
-      >
-        <ToggleButton value="ingredient">Ingredient</ToggleButton>
-        <ToggleButton value="component">Component</ToggleButton>
-        <ToggleButton value="meal">Meal</ToggleButton>
-      </ToggleButtonGroup>
+    <Box sx={{
+      minWidth: 140,
+      display: 'flex',
+      alignItems: 'center'
+      }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Type</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={props.selectedValue}
+          label="Age"
+          onChange={handleChange}
+        >
+          <MenuItem value={'ingredient'}>Ingredients</MenuItem>
+          <MenuItem value={'component'}>Components</MenuItem>
+          <MenuItem value={'meal'}>Meals</MenuItem>
+        </Select>
+      </FormControl>
     </Box>
   );
 };
 
-export default SearchToggleButton;
+export default SearchTypeDropdown;

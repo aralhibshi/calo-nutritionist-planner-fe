@@ -54,3 +54,8 @@ export interface IAddIngredientDialogProps {
   setAddOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onIngredientAdded: (newIngredient: IIngredientData) => void;
 }
+
+export interface ISearchTypeDropdownProps {
+  selectedValue: string;
+  setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+}

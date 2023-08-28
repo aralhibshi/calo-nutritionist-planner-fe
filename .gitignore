@@ -1,5 +1,6 @@
 # Environment variables
 config.ts
+.env
 
 # dependencies
 /node_modules

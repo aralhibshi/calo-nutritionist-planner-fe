@@ -63,43 +63,43 @@ export default function SearchBar({ selectedValue }: SearchBarProps) {
   }
 
   return (
-    <Container maxWidth="md">
-
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
-        <Autocomplete
-          freeSolo
-          id="free-solo-2-demo"
-          disableClearable
-          options={searchResult.length > 0 ? searchResult.map((result: any) => result.name): []}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={searchTerm}
-              value={searchTerm}
-              onChange={handleChange}
-              placeholder={placeholderText}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "20px",
-                },
-                width: 800,
-              }}
-              InputProps={{
-                ...searching ? {
-                  ...params.InputProps,
-                } : {
-                },
-                type: 'search',
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon />
-                  </InputAdornment>
-                )
-              }}
-            />
-          )}
-        />
-      </Box>
-    </Container>
+    <Box sx={{
+      display: "flex",
+      alignItems: "center"
+      }}>
+      <Autocomplete
+        freeSolo
+        id="free-solo-2-demo"
+        disableClearable
+        options={searchResult.length > 0 ? searchResult.map((result: any) => result.name): []}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={searchTerm}
+            value={searchTerm}
+            onChange={handleChange}
+            placeholder={placeholderText}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "8px",
+              },
+              width: '80vw',
+            }}
+            InputProps={{
+              ...searching ? {
+                ...params.InputProps,
+              } : {
+              },
+              type: 'search',
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              )
+            }}
+          />
+        )}
+      />
+    </Box>
   );
 }

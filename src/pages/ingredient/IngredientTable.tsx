@@ -98,12 +98,17 @@ const IngredientTable: React.FC = () => {
           />
         </Backdrop>
       ) : null}
-      <Table hoverRow sx={{ marginTop: "40px", userSelect: "none" }}>
+      <Table
+        hoverRow
+        sx={{
+          marginTop: "40px",
+          userSelect: "none"
+          }}>
         <thead>
         <tr>
           <th style={{ width: "40%" }}>
             Ingredient &nbsp;
-            <Button
+            {/* <Button
               variant='contained'
               type="submit"
               onClick={() => setAddOpen(true)}
@@ -114,13 +119,16 @@ const IngredientTable: React.FC = () => {
             >
               Add Ingredient &nbsp;
               <FontAwesomeIcon
-                icon={['fas', 'square-plus']}
+                icon={[
+                  'fas',
+                  'square-plus'
+                ]}
                 style={{
                   scale: '140%',
                   cursor: 'pointer'
                 }}
               />
-            </Button>
+            </Button> */}
           </th>
           <th>Calories&nbsp;</th>
           <th>Protein&nbsp;</th>
@@ -141,7 +149,9 @@ const IngredientTable: React.FC = () => {
               <tr
                 key={ingredient.id}
                 onClick={() => handleRowClick(ingredient)}
-                style={{ cursor: "pointer" }}
+                style={{
+                  cursor: "pointer"
+                }}
               >
                 <td>{ingredient.name}</td>
                 <td>{calories}</td>

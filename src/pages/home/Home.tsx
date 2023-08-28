@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
-import SearchToggleButton from "../../components/search/SearchToggleButton"
 import SearchBar from "../../components/search/SearchBar"
-import imageSrc from '../../assets/logo.png';
+import IngredientTable from '../ingredient/IngredientTable';
+import SearchTypeDropdown from '../../components/search/SearchToggleButton';
 
 const Home = () => {
   const [selectedValue, setSelectedValue] = useState('ingredient');
 
-  const handleAlignmentChange = (newAlignment: string) => {
-    setSelectedValue(newAlignment);
-  };
-
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '60px' }}>
-        <img src={imageSrc} alt="Logo" style={{ maxWidth: '200px' }} />
+    <div style={{
+      marginLeft: '32px',
+      marginRight: '32px'
+    }}>
+      <div style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', marginTop: '20px',  }}>
+        <SearchTypeDropdown
+        setSelectedValue={setSelectedValue}
+        selectedValue={selectedValue}
+        />
       </div>
-      <SearchToggleButton
-       selectedValue={selectedValue}
-       onAlignmentChange={handleAlignmentChange}
-      />
-    <SearchBar selectedValue={selectedValue} />
+      <SearchBar selectedValue={selectedValue} />
+    <IngredientTable/>
     </div>
   );
 };
 
-export default Home; 
+export default Home;
