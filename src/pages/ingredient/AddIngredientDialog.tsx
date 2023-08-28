@@ -11,13 +11,13 @@ import { useFormik } from "formik";
 import validationSchema from "../../validation/formValidation";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import useIngredientStore from "../../store/ingredientStore";
 
 export default function AddIngredientDialog({
   onIngredientAdded,
-  addOpen,
-  setAddOpen
 }: IAddIngredientDialogProps) {
   const [loading, setLoading] = useState(false);
+  const { addOpen, setAddOpen } = useIngredientStore();
 
   const closeFormDialog = () => {
     formik.resetForm();

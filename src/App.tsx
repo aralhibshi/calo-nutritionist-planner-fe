@@ -7,25 +7,32 @@ import NavBar from './components/header/NavBar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home'
 import { Container, Box } from '@mui/material';
-// import IngredientIndex from './pages/ingredient/IngredientIndex';
 Amplify.configure(awsconfig);
 
 function App({ signOut, user }: WithAuthenticatorProps) {
   return (
     <Router>
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <div>
-          <NavBar signOut={signOut} user={user} />
-        </div>
-        <Container sx={{ flexGrow: 1 }}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        minWidth: '100vw'
+        }}
+      >
+        <NavBar
+          signOut={signOut} 
+          user={user}
+        />
+        <Container sx={{
+          flexGrow: 1
+          }}>
           <Routes>
-            <Route path="/" element={<Home />} />
-            {/* <Route path="/Ingredients" element={<IngredientIndex/>} /> */}
+            <Route
+              path="/"
+              element={<Home/>}
+            />
           </Routes>
         </Container>
-        {/* <Box component="footer" sx={{ textAlign: 'center', py: 2 }}>
-          Calo Nutrition Planner
-        </Box> */}
       </div>
     </Router>
   );

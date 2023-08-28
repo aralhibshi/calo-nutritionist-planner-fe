@@ -1,22 +1,20 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Table from "@mui/joy/Table";
 import AddIngredientDialog from "./AddIngredientDialog";
 import * as IngredientsApi from "../../network/ingredientApi";
 import { IIngredientData } from "../../interfaces";
 import IngredientDetailModal from "./IngredientDetailModal";
-import useSelectedIngredientStore from "./selectedIngredientStore";
+import useIngredientStore from "../../store/ingredientStore";
 import PaginationFooter from "../../components/footer/PaginationFooter";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop } from "@mui/material";
-import Button from "@mui/material/Button";
 
 const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<any>([]);
   const [ingredientsCount, setIngredientsCount] = useState(2);
   const { selectedIngredient, setSelectedIngredient } =
-    useSelectedIngredientStore();
+    useIngredientStore();
   const [open, setOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [skip, setSkip] = useState(0);
@@ -108,27 +106,6 @@ const IngredientTable: React.FC = () => {
         <tr>
           <th style={{ width: "40%" }}>
             Ingredient Name &nbsp;
-            {/* <Button
-              variant='contained'
-              type="submit"
-              onClick={() => setAddOpen(true)}
-              style={{
-                fontWeight: 'bold',
-                scale: '70%'
-              }}
-            >
-              Add Ingredient &nbsp;
-              <FontAwesomeIcon
-                icon={[
-                  'fas',
-                  'square-plus'
-                ]}
-                style={{
-                  scale: '140%',
-                  cursor: 'pointer'
-                }}
-              />
-            </Button> */}
           </th>
           <th>Calories&nbsp;</th>
           <th>Protein&nbsp;</th>
@@ -178,8 +155,6 @@ const IngredientTable: React.FC = () => {
       />
       </div>
       <AddIngredientDialog
-        addOpen={addOpen}
-        setAddOpen={setAddOpen}
         onIngredientAdded={handleIngredientAdded}
       />
     </>

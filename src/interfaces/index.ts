@@ -50,12 +50,18 @@ export interface IPaginationFooter {
 }
 
 export interface IAddIngredientDialogProps {
-  addOpen: boolean;
-  setAddOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onIngredientAdded: (newIngredient: IIngredientData) => void;
 }
 
 export interface ISearchTypeDropdownProps {
   selectedValue: string;
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+}
+
+// Zustand Ingredient Store
+export interface IIngredientStore {
+  addOpen: boolean,
+  setAddOpen: (isOpen: boolean) => void;
+  selectedIngredient: IIngredient | null;
+  setSelectedIngredient: (ingredient: IIngredient | null) => void;
 }

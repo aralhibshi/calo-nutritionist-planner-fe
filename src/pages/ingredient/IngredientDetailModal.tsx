@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import { PieChart } from "@mui/x-charts";
 import { IIngredientData } from "../../interfaces";
 import { useState } from "react";
-import useSelectedIngredientStore from "./selectedIngredientStore";
+import useIngredientStore from "../../store/ingredientStore";
 import EditIngredientDialog from "./EditIngredientDialog";
 
 // Modal Style
@@ -42,7 +42,7 @@ const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (
   props
 ) => {
   const [ingredients, setIngredients] = useState<IIngredientData[]>([]);
-  const { selectedIngredient } = useSelectedIngredientStore();
+  const { selectedIngredient } = useIngredientStore();
 
   let pieChartData: any = [];
 
