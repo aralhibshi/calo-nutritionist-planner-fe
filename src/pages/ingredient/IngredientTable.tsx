@@ -107,7 +107,7 @@ const IngredientTable: React.FC = () => {
         <thead>
         <tr>
           <th style={{ width: "40%" }}>
-            Ingredient &nbsp;
+            Ingredient Name &nbsp;
             {/* <Button
               variant='contained'
               type="submit"

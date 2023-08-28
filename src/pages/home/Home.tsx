@@ -11,13 +11,16 @@ const Home = () => {
       marginLeft: '32px',
       marginRight: '32px'
     }}>
-      <div style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', marginTop: '20px',  }}>
+      <div style={{ display: 'flex', justifyContent: 'left', alignContent: 'center', marginTop: '20px', marginBottom: '10px', marginLeft:'37px'}}>
         <SearchTypeDropdown
         setSelectedValue={setSelectedValue}
         selectedValue={selectedValue}
         />
       </div>
+      <div style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', }}>
       <SearchBar selectedValue={selectedValue} />
+      </div>
+      
     <IngredientTable/>
     </div>
   );

@@ -6,7 +6,7 @@ import { IPaginationFooter } from '../../interfaces';
 const PaginationFooter: React.FC<IPaginationFooter> = (props) => {
   const { setSkip, ingredientsCount } = props;
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const newSkip = (currentPage - 1) * itemsPerPage;
