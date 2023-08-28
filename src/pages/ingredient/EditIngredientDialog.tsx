@@ -13,26 +13,25 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 interface EditIngredientDialogProps {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onIngredientUpdated: (updatedIngredient: IIngredientData) => void;
   ingredient: null | IIngredientData;
 }
 
 export default function EditIngredientDialog({
+  open,
+  setOpen,
   onIngredientUpdated,
   ingredient,
 }: EditIngredientDialogProps) {
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  // Add a log statement to check the initial ingredient data
+  // console.log("Initial ingredient data:", ingredient);
 
+  const [loading, setLoading] = useState(false);
   const closeFormDialog = () => {
     setOpen(false);
   };
-
-  // useEffect(() => {
-  //   // if (ingredient !== null) {
-  //   //   setOpen(true);
-  //   // }
-  // }, [ingredient]);
 
   const formik = useFormik({
     initialValues: {
@@ -48,7 +47,7 @@ export default function EditIngredientDialog({
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        setLoading(true)
+        setLoading(true);
         console.log("Form data:", values);
 
         if (ingredient) {
@@ -78,13 +77,13 @@ export default function EditIngredientDialog({
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}
       >
-        <Button
+        {/* <Button
           variant="contained"
           color="primary"
           onClick={() => setOpen(true)}
         >
           Edit Ingredient
-        </Button>
+        </Button> */}
       </div>
       {loading ? (
             <Box

@@ -65,3 +65,4 @@ export interface IIngredientStore {
   selectedIngredient: IIngredient | null;
   setSelectedIngredient: (ingredient: IIngredient | null) => void;
 }
+
