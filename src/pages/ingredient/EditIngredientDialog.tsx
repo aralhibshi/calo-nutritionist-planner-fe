@@ -11,6 +11,8 @@ import { useFormik } from "formik";
 import validationSchema from "../../validation/formValidation";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 interface EditIngredientDialogProps {
   open: boolean;
@@ -25,9 +27,6 @@ export default function EditIngredientDialog({
   onIngredientUpdated,
   ingredient,
 }: EditIngredientDialogProps) {
-  // Add a log statement to check the initial ingredient data
-  // console.log("Initial ingredient data:", ingredient);
-
   const [loading, setLoading] = useState(false);
   const closeFormDialog = () => {
     setOpen(false);
@@ -77,13 +76,6 @@ export default function EditIngredientDialog({
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}
       >
-        {/* <Button
-          variant="contained"
-          color="primary"
-          onClick={() => setOpen(true)}
-        >
-          Edit Ingredient
-        </Button> */}
       </div>
       {loading ? (
             <Box
@@ -160,14 +152,17 @@ export default function EditIngredientDialog({
               fullWidth
               margin="dense"
             />
-            <TextField
+            <Select
               label="Unit"
               name="unit"
               value={formik.values.unit}
               onChange={formik.handleChange}
               fullWidth
               margin="dense"
-            />
+            >
+              <MenuItem value="ml">ml</MenuItem>
+              <MenuItem value="g">g</MenuItem>
+            </Select>
             <DialogActions>
               <Button onClick={closeFormDialog}>Cancel</Button>
               <Button variant="contained" type="submit">
