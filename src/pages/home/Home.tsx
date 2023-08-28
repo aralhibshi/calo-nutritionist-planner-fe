@@ -11,7 +11,7 @@ const Home = () => {
     <>
       <div style={{
         display: 'flex',
-        justifyContent: 'left',
+        justifyContent: 'space-between',
         alignContent: 'center',
         marginTop: '20px',
         marginBottom: '10px'
