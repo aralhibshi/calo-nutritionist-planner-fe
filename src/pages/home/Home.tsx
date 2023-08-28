@@ -27,14 +27,14 @@ const Home = () => {
         display: 'flex',
         justifyContent: 'center',
         alignContent: 'center',
+        width: 'auto'
         }}
       >
       <SearchBar
         selectedValue={selectedValue}
       />
       </div>
-      
-    <IngredientTable/>
+      <IngredientTable/>
     </>
   );
 };

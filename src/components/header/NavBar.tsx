@@ -14,84 +14,83 @@ interface NavBarProps {
 
 export default function NavBar({ signOut, user }: NavBarProps) {
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <Link
-          to="/"
-          style={{
-            textDecoration: "none",
-            color: "inherit"
+    <AppBar
+      position="static"
+    >
+      <Toolbar
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between'
+        }}
+      >
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center'
           }}
         >
-          <Typography
-          variant="h6"
-          component="div"
-          sx={{
-            flexGrow: 0.1,
-            marginRight: '30px'
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Link
+            to="/"
+            style={{
+              textDecoration: "none",
+              color: "inherit"
             }}
           >
-            Home
-          </Typography>
-        </Link>
-        <Link
-          to="/Ingredients"
-          style={{
-            textDecoration: "none",
-            color: "inherit"
-          }}
-        >
-          <Typography
-          variant="h6"
-          component="div"
-          sx={{
-            flexGrow: 0.1,
-            marginRight: '30px'
-            }}
-          >
-            Ingredients
-          </Typography>
-        </Link>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
-          #
-        </Typography>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          #
-        </Typography>
-
-        {user ? (
-          <>
             <Typography
             variant="h6"
             component="div"
             sx={{
-              mr: 2
+              flexGrow: 0.1,
+              marginRight: '30px'
               }}
             >
-              Hello {user.username}
+              Home
             </Typography>
-            <Button
-              color="inherit"
-              onClick={signOut}
-            >
-              Sign out
-            </Button>
-          </>
-        ) : (
-          <Button
-            color="inherit"
-          >Login
-          </Button>
-        )}
+          </Link>
+        </div>
+
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center'
+          }}
+        >
+          {user ? (
+            <>
+              <Typography
+              variant="h6"
+              component="div"
+              sx={{
+                mr: 2
+                }}
+              >
+                Hello {user.username}
+              </Typography>
+              <Button
+                color="inherit"
+                onClick={signOut}
+              >
+                Sign out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button
+                color="inherit"
+              >Login
+              </Button>
+            </>
+          )}
+        </div>
       </Toolbar>
     </AppBar>
   );

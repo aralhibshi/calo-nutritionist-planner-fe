@@ -63,43 +63,41 @@ export default function SearchBar({ selectedValue }: SearchBarProps) {
   }
 
   return (
-    <Box sx={{
-      display: "flex",
-      alignItems: "center"
-      }}>
-      <Autocomplete
-        freeSolo
-        id="free-solo-2-demo"
-        disableClearable
-        options={searchResult.length > 0 ? searchResult.map((result: any) => result.name): []}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label={searchTerm}
-            value={searchTerm}
-            onChange={handleChange}
-            placeholder={placeholderText}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "8px",
-              },
-              width: '80vw',
-            }}
-            InputProps={{
-              ...searching ? {
-                ...params.InputProps,
-              } : {
-              },
-              type: 'search',
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              )
-            }}
-          />
-        )}
-      />
-    </Box>
+    <Autocomplete
+      style={{
+        width: '100%',
+        display: 'flex'
+      }}
+      freeSolo
+      id="free-solo-2-demo"
+      disableClearable
+      options={searchResult.length > 0 ? searchResult.map((result: any) => result.name): []}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={searchTerm}
+          value={searchTerm}
+          onChange={handleChange}
+          placeholder={placeholderText}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "8px",
+            }
+          }}
+          InputProps={{
+            ...searching ? {
+              ...params.InputProps,
+            } : {
+            },
+            type: 'search',
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchIcon />
+              </InputAdornment>
+            )
+          }}
+        />
+      )}
+    />
   );
 }
