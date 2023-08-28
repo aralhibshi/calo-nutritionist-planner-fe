@@ -8,20 +8,22 @@ const Home = () => {
 
   return (
     <div style={{
-      marginLeft: '32px',
-      marginRight: '32px'
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '90vh',
     }}>
-      <div style={{ display: 'flex', justifyContent: 'left', alignContent: 'center', marginTop: '20px', marginBottom: '10px', marginLeft:'37px'}}>
+      <div style={{ marginBottom: '10px' }}>
         <SearchTypeDropdown
-        setSelectedValue={setSelectedValue}
-        selectedValue={selectedValue}
+          setSelectedValue={setSelectedValue}
+          selectedValue={selectedValue}
         />
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', }}>
-      <SearchBar selectedValue={selectedValue} />
+      <div>
+        <SearchBar selectedValue={selectedValue} />
       </div>
-      
-    <IngredientTable/>
+      <IngredientTable />
     </div>
   );
 };
