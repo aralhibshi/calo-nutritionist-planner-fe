@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import useIngredientStore from '../../store/ingredientStore';
+import useIngredientStore from '../../stores/ingredientStore';
 import {AiOutlinePlus} from 'react-icons/ai'
 const AddIngredientButton = () => {
   const { setAddOpen } = useIngredientStore();

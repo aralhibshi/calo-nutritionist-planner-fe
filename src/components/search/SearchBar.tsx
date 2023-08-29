@@ -5,24 +5,27 @@ import * as IngredientsApi from '../../network/ingredientApi';
 import * as ComponentApi from '../../network/componentApi';
 import * as MealApi from '../../network/mealApi';
 import createError from 'http-errors';
-import useSearchStore from "../../store/searchStore";
-import useEntityStore from "../../store/entityStore";
+import useSearchStore from "../../stores/searchStore";
+import useEntityStore from "../../stores/entityStore";
 
 const SearchBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const {
     setLoading,
-    searchResult,
     setSearchResult
   } = useSearchStore();
-  const { entity } = useEntityStore();
+  const {
+    entity,
+    setEntityCount,
+    skip
+  } = useEntityStore();
 
   const handleChange = (event: any) => {
     const newSearchTerm = event.target.value;
     setSearchTerm(newSearchTerm);
   };
 
-  const searchItem = async (index: string, entity: string) => {
+  const searchItem = async (entity: string, skip: number, index: string) => {
     try {
       setLoading(true);
   
@@ -35,8 +38,9 @@ const SearchBar: React.FC = () => {
       const apiFunction: any = entityToApiFunctionMap[entity];
   
       if (apiFunction) {
-        const response = await apiFunction(index);
-        setSearchResult(response);
+        const response = await apiFunction(index, skip);
+        setSearchResult(response.data);
+        setEntityCount(response.count);
         setLoading(false);
       } else {
         console.error(`No API function found for entity: ${entity}`);
@@ -55,7 +59,7 @@ const SearchBar: React.FC = () => {
   };
   
   const handleSubmit = () => {
-    searchItem(searchTerm, entity);
+    searchItem(entity, skip, searchTerm);
   }
 
 
