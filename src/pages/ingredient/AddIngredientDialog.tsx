@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import * as IngredientsApi from "../../network/ingredientApi";
 import { IAddIngredientDialogProps } from "../../interfaces";
 import { useFormik } from "formik";
-import validationSchema from "../../validation/formValidation";
+import validationSchema from "../../validation/ingredientFormValidation";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import useIngredientStore from "../../stores/ingredientStore";

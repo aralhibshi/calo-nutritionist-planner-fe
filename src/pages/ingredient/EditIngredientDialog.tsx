@@ -8,7 +8,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
-import validationSchema from "../../validation/formValidation";
+import validationSchema from "../../validation/ingredientFormValidation";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Select from "@mui/material/Select";

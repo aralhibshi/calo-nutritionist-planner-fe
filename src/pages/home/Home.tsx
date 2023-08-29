@@ -4,6 +4,7 @@ import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
 import AddIngredientButton from '../ingredient/AddIngredientButton';
 import useEntityStore from '../../stores/entityStore';
 import IngredientTable from "../ingredient/IngredientTable";
+import AddComponentButton from "../component/AddComponentButton";
 
 const Home = () => {
   const { entity } = useEntityStore();
@@ -19,7 +20,7 @@ const Home = () => {
   const addEntityButton = entity === 'ingredient'
   ? <AddIngredientButton/>
   : entity === 'component'
-  ? null
+  ? <AddComponentButton/>
   : entity === 'meal'
   ? null
   : null;

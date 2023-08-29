@@ -11,6 +11,7 @@ import { IComponent, IComponentData, IIngredientData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useComponentStore from "../../stores/componentStore";
 import { number } from "yup";
+import AddComponentDialog from "./AddComponentDialog";
 
 const ComponentTable: React.FC = () => {
   const [components, setComponents] = useState<IComponent[]>([]);
@@ -85,37 +86,42 @@ const ComponentTable: React.FC = () => {
       <Table hoverRow sx={{ marginTop: "20px", userSelect: "none" }}>
         <thead>
           <tr>
-            <th style={{ width: "40%" }}>Compoenent Name&nbsp;</th>
-            <th>Unit&nbsp;</th>
-            <th>Fats&nbsp;</th>
-            <th>Carbs&nbsp;</th>
+            <th style={{ width: "40%" }}>Component Name&nbsp;</th>
+            <th>Calories&nbsp;</th>
             <th>Proteins&nbsp;</th>
+            <th>Carbs&nbsp;</th>
+            <th>Fats&nbsp;</th>
+            <th>Unit&nbsp;</th>
+            <th>Price&nbsp;</th>
+            <th>Edit&nbsp;</th>
           </tr>
         </thead>
         <tbody>
           {components.map((component, index) => {
-            let totalFats = 0; 
+            let totalFats = 0;
             let totalCarbs = 0;
-            let totalProteins = 0;// Initialize totalFats outside the map function
+            let totalProteins = 0;
+            let totalCalories = 0;
+            let totalPrice = 0;
             return (
               <tr key={index}>
                 <td>{component.name}</td>
+                {component.component_ingredient.map((el, ingredientIndex) => {
+                  totalFats += Number(el.ingredient.fats); // Increment totalFats
+                  totalCarbs += Number(el.ingredient.carbs);
+                  totalProteins += Number(el.ingredient.protein);
+                  totalCalories += Number(
+                    totalFats * 9 + totalCarbs * 4 + totalProteins * 4
+                  );
+                  totalPrice += Number(el.ingredient.price)
+                  return null;
+                })}
+                <td>{totalCalories}</td>
+                <td>{totalProteins}</td>
+                <td>{totalCarbs}</td>
+                <td>{totalFats}</td>
                 <td>{component.unit}</td>
-                  {component.component_ingredient.map((el, ingredientIndex) => {
-                    totalFats += Number(el.ingredient.fats); // Increment totalFats
-                    totalCarbs += Number(el.ingredient.carbs)
-                    totalProteins += Number(el.ingredient.protein)
-                    return (null);
-                  })}
-                  <td>
-                  {totalFats}
-                </td>
-                <td>
-                  {totalCarbs}
-                </td>
-                <td>
-                  {totalProteins}
-                </td>
+                <td>{totalPrice}</td>
               </tr>
             );
           })}
@@ -141,7 +147,7 @@ const ComponentTable: React.FC = () => {
           setSkip={setSkip}
         /> */}
       </div>
-      {/* <AddIngredientDialog onIngredientAdded={handleIngredientAdded} /> */}
+      <AddComponentDialog onComponentAdded={handleComponentAdded} />
     </>
   );
 };

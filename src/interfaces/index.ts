@@ -78,6 +78,7 @@ export interface IComponent{
 }
 
 export interface IComponentData {
+  id?: string
   name: string;
   category?: string;
   description?: string;
@@ -112,4 +113,8 @@ export interface IEntityStore {
   setEntityCount: (count: number) => void;
   skip: number;
   setSkip: (amount: number) => void;
+}
+
+export interface IAddComponentDialogProps {
+  onComponentAdded: (newComponent: IComponentData) => void;
 }
