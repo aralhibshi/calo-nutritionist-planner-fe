@@ -5,9 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Amplify} from 'aws-amplify';
 import awsExports from './aws-exports';
-import {USER_POOL_ID, USER_POOL_ClIENT_ID} from '../src/config'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+
 Amplify.configure(awsExports);
 
 Amplify.configure({
@@ -17,10 +17,10 @@ Amplify.configure({
     region: 'us-east-1',
 
     // OPTIONAL - Amazon Cognito User Pool ID
-    userPoolId: USER_POOL_ID,
+    userPoolId: process.env.REACT_APP_USER_POOL_ID,
 
     // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-    userPoolWebClientId: USER_POOL_ClIENT_ID,
+    userPoolWebClientId: process.env.REACT_APP_USER_POOL_ClIENT_ID,
 
     // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
     mandatorySignIn: false,
@@ -65,7 +65,9 @@ Amplify.configure({
         'aws.cognito.signin.user.admin',
       ],
       redirectSignIn: 'http://localhost:3000/',
+      // redirectSignIn: 'https://dev.d7zo4dnz523ct.amplifyapp.com',
       redirectSignOut: 'http://localhost:3000/',
+      // redirectSignOut: 'https://dev.d7zo4dnz523ct.amplifyapp.com',
       responseType: 'code', // or 'token', note that REFRESH token will only be generated when the responseType is code
     },
   },

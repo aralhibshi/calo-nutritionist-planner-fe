@@ -1,9 +1,10 @@
 // import { IIngredientData, IIngredient } from "../interfaces";
 import { fetchData } from "./baseApi";
-import { API_BASE_URL } from "../config";
+
+const baseURL = process.env.REACT_APP_API_BASE_URL
 
 export async function searchMeal(index: string): Promise<any> {
-  const response = await fetchData(`${API_BASE_URL}meal/search?name=${index}`, {
+  const response = await fetchData(`${baseURL}meal/search?name=${index}`, {
     method: "GET",
   });
   console.log(response);
