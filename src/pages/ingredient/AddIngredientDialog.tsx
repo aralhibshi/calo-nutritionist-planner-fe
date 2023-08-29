@@ -11,7 +11,7 @@ import { useFormik } from "formik";
 import validationSchema from "../../validation/formValidation";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import useIngredientStore from "../../store/ingredientStore";
+import useIngredientStore from "../../stores/ingredientStore";
 
 export default function AddIngredientDialog({
   onIngredientAdded,
@@ -180,8 +180,8 @@ export default function AddIngredientDialog({
               margin="dense"
             />
             <DialogActions>
-              <Button onClick={closeFormDialog}>Cancel</Button>
-              <Button variant="contained" type='submit'>
+              <Button id='secondary-button' onClick={closeFormDialog}>Cancel</Button>
+              <Button id='primary-button' variant="contained" type='submit'>
                 Add
               </Button>
             </DialogActions>

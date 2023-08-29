@@ -6,10 +6,10 @@ import { Backdrop, IconButton } from "@mui/material";
 // import AddIngredientDialog from "./AddIngredientDialog";
 import PaginationFooter from "../../components/footer/PaginationFooter";
 import * as componentsApi from "../../network/componentApi";
-import useSearchStore from "../../store/searchStore";
+import useSearchStore from "../../stores/searchStore";
 import { IComponent, IComponentData, IIngredientData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
-import useComponentStore from "../../store/componentStore";
+import useComponentStore from "../../stores/componentStore";
 import { number } from "yup";
 
 const ComponentTable: React.FC = () => {

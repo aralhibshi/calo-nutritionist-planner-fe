@@ -44,19 +44,13 @@ export interface IIngredientResponse {
   };
 }
 
-// Component
-
-
-export interface IPaginationFooter {
-    ingredientsCount: number;
-    setSkip: React.Dispatch<React.SetStateAction<number>>;
-}
-
 export interface IAddIngredientDialogProps {
   onIngredientAdded: (newIngredient: IIngredientData) => void;
 }
 
-// Zustand Ingredient Store
+// Zustand --
+
+// Ingredient Store
 export interface IIngredientStore {
   addOpen: boolean,
   setAddOpen: (isOpen: boolean) => void;
@@ -64,13 +58,11 @@ export interface IIngredientStore {
   setSelectedIngredient: (ingredient: IIngredient | null) => void;
 }
 
-// Zustand Entity Type Store
+// Search Store
 export interface ISearchStore {
-  searchEntity: string;
-  setSearchEntity: (entity: string) => void;
   loading: boolean;
   setLoading: (load: boolean) => void;
-  searchResult: null,
+  searchResult: IIngredient[] | null,
   setSearchResult: (result: any) => void
 }
 
@@ -111,4 +103,13 @@ export interface IComponentStore {
   setAddOpen: (isOpen: boolean) => void;
   selectedComponent: IComponentData | null;
   setSelectedComponent: (component: IComponentData | null) => void;
+}
+// Entity Store
+export interface IEntityStore {
+  entity: string,
+  setEntity: (ent: string) => void;
+  entityCount: number;
+  setEntityCount: (count: number) => void;
+  skip: number;
+  setSkip: (amount: number) => void;
 }

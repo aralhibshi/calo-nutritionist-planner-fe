@@ -1,12 +1,29 @@
-import React, { useState } from 'react';
 import SearchBar from "../../components/search/SearchBar"
 import ComponentTable from '../component/ComponentTable';
 import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
 import AddIngredientButton from '../ingredient/AddIngredientButton';
-import useSearchStore from '../../store/searchStore';
-import IngredientTable from '../ingredient/IngredientTable';
+import useEntityStore from '../../stores/entityStore';
+import IngredientTable from "../ingredient/IngredientTable";
 
 const Home = () => {
+  const { entity } = useEntityStore();
+
+  const entityTable = entity === 'ingredient'
+  ? <IngredientTable/>
+  : entity === 'component'
+  ? <ComponentTable/>
+  : entity === 'meal'
+  ? null
+  : null;
+
+  const addEntityButton = entity === 'ingredient'
+  ? <AddIngredientButton/>
+  : entity === 'component'
+  ? null
+  : entity === 'meal'
+  ? null
+  : null;
+
   return (
     <>
       <div style={{
@@ -18,7 +35,7 @@ const Home = () => {
         }}
       >
         <SearchTypeDropdown/>
-        <AddIngredientButton/>
+        { addEntityButton }
       </div>
       <div style={{
         display: 'flex',
@@ -29,8 +46,7 @@ const Home = () => {
       >
       <SearchBar/>
       </div>
-      {/* <ComponentTable/> */}
-      <IngredientTable/>
+      { entityTable }
     </>
   );
 };

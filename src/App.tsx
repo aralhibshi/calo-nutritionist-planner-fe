@@ -6,7 +6,22 @@ import awsconfig from './aws-exports';
 import NavBar from './components/header/NavBar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home'
-Amplify.configure(awsconfig);
+
+// Fonts
+import './assets/fonts/Roboto/Roboto-Thin.ttf'
+import './assets/fonts/Roboto/Roboto-ThinItalic.ttf'
+import './assets/fonts/Roboto/Roboto-Light.ttf'
+import './assets/fonts/Roboto/Roboto-LightItalic.ttf'
+import './assets/fonts/Roboto/Roboto-Regular.ttf'
+import './assets/fonts/Roboto/Roboto-RegularItalic.ttf'
+import './assets/fonts/Roboto/Roboto-Medium.ttf'
+import './assets/fonts/Roboto/Roboto-MediumItalic.ttf'
+import './assets/fonts/Roboto/Roboto-Bold.ttf'
+import './assets/fonts/Roboto/Roboto-BoldItalic.ttf'
+import './assets/fonts/Roboto/Roboto-Black.ttf'
+import './assets/fonts/Roboto/Roboto-BlackItalic.ttf'
+
+Amplify.configure(awsconfig)
 
 function App({ signOut, user }: WithAuthenticatorProps) {
   return (
@@ -19,7 +34,7 @@ function App({ signOut, user }: WithAuthenticatorProps) {
         }}
       >
         <NavBar
-          signOut={signOut} 
+          signOut={signOut}
           user={user}
         />
         <div style={{
