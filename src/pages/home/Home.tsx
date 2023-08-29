@@ -4,6 +4,7 @@ import ComponentTable from '../component/ComponentTable';
 import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
 import AddIngredientButton from '../ingredient/AddIngredientButton';
 import useSearchStore from '../../store/searchStore';
+import IngredientTable from '../ingredient/IngredientTable';
 
 const Home = () => {
   return (
@@ -28,7 +29,8 @@ const Home = () => {
       >
       <SearchBar/>
       </div>
-      <ComponentTable/>
+      {/* <ComponentTable/> */}
+      <IngredientTable/>
     </>
   );
 };
