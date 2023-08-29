@@ -6,13 +6,14 @@ const AddIngredientButton = () => {
 
   return (
     <Button
+      id='primary-button'
       variant='contained'
       type="submit"
       onClick={() => setAddOpen(true)}
-      style={{
-        fontWeight: 'bold',
-        scale: '80%'
-      }}
+      // style={{
+      //   fontWeight: 'bold',
+      //   scale: '80%'
+      // }}
     >
       Add Ingredient &nbsp;
       <AiOutlinePlus       style={{

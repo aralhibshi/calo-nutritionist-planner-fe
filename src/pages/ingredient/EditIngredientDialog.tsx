@@ -73,10 +73,6 @@ export default function EditIngredientDialog({
 
   return (
     <>
-      {/* <div
-        style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}
-      >
-      </div> */}
       {loading ? (
         <Box
           sx={{
@@ -164,8 +160,8 @@ export default function EditIngredientDialog({
                 <MenuItem value="g">g</MenuItem>
               </Select>
               <DialogActions>
-                <Button onClick={closeFormDialog}>Cancel</Button>
-                <Button variant="contained" type="submit">
+                <Button id='secondary-button' onClick={closeFormDialog}>Cancel</Button>
+                <Button id='primary-button' variant="contained" type="submit">
                   Save
                 </Button>
               </DialogActions>
