@@ -12,6 +12,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import useComponentStore from "../../stores/componentStore";
 import { number } from "yup";
 import AddComponentDialog from "./AddComponentDialog";
+import EditComponentDialog from "./EditComponentDIalog";
 
 const ComponentTable: React.FC = () => {
   const [components, setComponents] = useState<IComponent[]>([]);
@@ -46,29 +47,29 @@ const ComponentTable: React.FC = () => {
     ]);
   };
 
-  // const handleEditClick = (row: any) => {
-  //   setSelectedComponent(row);
-  //   setTimeout(() => {
-  //     setOpen(true);
-  //   }, 0);
-  //   console.log(row);
-  //   console.log("Dialog should open now.");
-  // };
+  const handleEditClick = (row: any) => {
+    setSelectedComponent(row);
+    setTimeout(() => {
+      setOpen(true);
+    }, 0);
+    console.log(row);
+    console.log("Dialog should open now.");
+  };
 
-  // const handleComponentUpdated = (updatedComponent: IComponentData) => {
-  //   const updatedIndex = components.findIndex(
-  //     (component) => component.id === updatedComponent.id
-  //   );
+  const handleComponentUpdated = (updatedComponent: IComponent) => {
+    const updatedIndex = components.findIndex(
+      (component) => component.id === updatedComponent.id
+    );
 
-  //   if (updatedIndex !== -1) {
-  //     const updatedIngredients = [...components];
-  //     updatedIngredients[updatedIndex] = updatedComponent;
-  //     setComponents(updatedIngredients);
-  //   }
+    if (updatedIndex !== -1) {
+      const updatedComponents = [...components];
+      updatedComponents[updatedIndex] = updatedComponent;
+      setComponents(updatedComponents);
+    }
 
-  //   setOpen(false); // Close the edit dialog
-  //   loadComponents(); // Fetch the updated list of ingredients
-  // };
+    setOpen(false); // Close the edit dialog
+    loadComponents(); // Fetch the updated list of ingredients
+  };
 
   return (
     <>
@@ -122,18 +123,23 @@ const ComponentTable: React.FC = () => {
                 <td>{totalFats}</td>
                 <td>{component.unit}</td>
                 <td>{totalPrice}</td>
+                <td>
+                  <IconButton onClick={() => handleEditClick(component)}>
+                    <EditIcon />
+                  </IconButton>
+                </td>
               </tr>
             );
           })}
         </tbody>
       </Table>
-      {/* <EditIngredientDialog
-        key={selectedIngredient?.id}
+      <EditComponentDialog
+        key={selectedComponent?.id}
         open={open}
         setOpen={setOpen}
-        onIngredientUpdated={handleIngredientUpdated}
-        ingredient={selectedIngredient}
-      /> */}
+        onComponentUpdated={handleComponentUpdated}
+        component={selectedComponent}
+      />
       <div
         style={{
           position: "absolute",
