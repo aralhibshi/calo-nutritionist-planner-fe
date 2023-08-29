@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import SearchBar from "../../components/search/SearchBar"
 import IngredientTable from '../ingredient/IngredientTable';
-import SearchTypeDropdown from '../../components/search/SearchToggleButton';
+import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
 import AddIngredientButton from '../ingredient/AddIngredientButton';
+import useSearchStore from '../../store/searchStore';
 
 const Home = () => {
-  const [selectedValue, setSelectedValue] = useState('ingredient');
-
   return (
     <>
       <div style={{
@@ -17,10 +16,7 @@ const Home = () => {
         marginBottom: '10px'
         }}
       >
-        <SearchTypeDropdown
-          setSelectedValue={setSelectedValue}
-          selectedValue={selectedValue}
-        />
+        <SearchTypeDropdown/>
         <AddIngredientButton/>
       </div>
       <div style={{
@@ -30,9 +26,7 @@ const Home = () => {
         width: 'auto'
         }}
       >
-      <SearchBar
-        selectedValue={selectedValue}
-      />
+      <SearchBar/>
       </div>
       <IngredientTable/>
     </>

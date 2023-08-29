@@ -1,103 +1,104 @@
-import { Box, Container, InputAdornment, TextField } from "@mui/material";
-import { useState, useEffect, ChangeEvent } from "react";
+import { InputAdornment, TextField } from "@mui/material";
+import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import Autocomplete from '@mui/material/Autocomplete';
 import * as IngredientsApi from '../../network/ingredientApi';
+import * as ComponentApi from '../../network/componentApi';
+import * as MealApi from '../../network/mealApi';
 import createError from 'http-errors';
+import useSearchStore from "../../store/searchStore";
 
-interface SearchBarProps {
-  selectedValue: string;
-}
-
-export default function SearchBar({ selectedValue }: SearchBarProps) {
+const SearchBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchEntity, setSearchEntity] = useState('ingredient');
-  const [searching, setIsSearching] = useState(false);
-  const [searchResult, setSearchResult]: any = useState([]);
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+  const {
+    searchEntity,
+    setLoading,
+    searchResult,
+    setSearchResult
+  } = useSearchStore();
 
-  useEffect(() => {
-    const delayTimer = setTimeout(() => {
-      if (searching) {
-        searchItem(debouncedSearchTerm, searchEntity);
-      }
-    }, 400);
-
-    return () => {
-      clearTimeout(delayTimer);
-    };
-  }, [debouncedSearchTerm, searchEntity, searching]);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: any) => {
     const newSearchTerm = event.target.value;
     setSearchTerm(newSearchTerm);
-
-    if (newSearchTerm) {
-      setIsSearching(true);
-      setDebouncedSearchTerm(newSearchTerm);
-    } else {
-      setIsSearching(false);
-    }
   };
 
   const searchItem = async (index: string, entity: string) => {
     try {
-      const response = await IngredientsApi.searchIngredient(index, entity);
-      setSearchResult(response);
-      console.log(response);
+      setLoading(true);
+  
+      const entityToApiFunctionMap: any = {
+        ingredient: IngredientsApi.searchIngredient,
+        component: ComponentApi.searchComponent,
+        meal: MealApi.searchMeal,
+      };
+  
+      const apiFunction: any = entityToApiFunctionMap[entity];
+  
+      if (apiFunction) {
+        const response = await apiFunction(index);
+        setSearchResult(response);
+        setLoading(false);
+      } else {
+        console.error(`No API function found for entity: ${entity}`);
+      }
     } catch (err) {
       throw createError(400, 'Bad Request', {
-        details: 'An error occurred while fetching matching ingredient:', err
+        details: `An error occurred while fetching matching ${entity}: ${err}`,
       });
     }
+  };
+  
+  const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = event => {
+    if (event.key === "Enter") {
+      handleSubmit();
+    }
+  };
+  
+  const handleSubmit = () => {
+    searchItem(searchTerm, searchEntity);
   }
+
 
   let placeholderText = "Search for an ingredient";
 
-  if (selectedValue === "ingredient") {
+  if (searchEntity === "ingredient") {
     placeholderText = "Search for an ingredient";
-  } else if (selectedValue === "component") {
+  } else if (searchEntity === "component") {
     placeholderText = "Search for a component";
-  } else if (selectedValue === "meal") {
+  } else if (searchEntity === "meal") {
     placeholderText = "Search for a meal";
   }
 
   return (
-    <Autocomplete
-      style={{
-        width: '100%',
-        display: 'flex'
-      }}
-      freeSolo
-      id="free-solo-2-demo"
-      disableClearable
-      options={searchResult.length > 0 ? searchResult.map((result: any) => result.name): []}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={searchTerm}
-          value={searchTerm}
-          onChange={handleChange}
-          placeholder={placeholderText}
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "8px",
-            }
-          }}
-          InputProps={{
-            ...searching ? {
-              ...params.InputProps,
-            } : {
-            },
-            type: 'search',
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon />
-              </InputAdornment>
-            )
-          }}
-        />
-      )}
-    />
+    <TextField
+    style={{
+      width: "100%",
+      display: "flex",
+    }}
+    label={searchTerm}
+    value={searchTerm}
+    onChange={handleChange}
+    onKeyDown={handleKeyDown}
+    placeholder={placeholderText}
+    sx={{
+      "& .MuiOutlinedInput-root": {
+        borderRadius: "8px",
+      },
+    }}
+    InputProps={{
+      type: "search",
+      endAdornment: (
+        <InputAdornment position="end">
+          <SearchIcon
+            style={{
+              cursor: 'pointer'
+            }}
+            onClick={() => handleSubmit()}
+          />
+        </InputAdornment>
+      ),
+    }}
+      />
   );
 }
+
+export default SearchBar;

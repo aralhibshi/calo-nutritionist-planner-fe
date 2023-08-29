@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import {useState } from "react";
 import { IIngredientData } from "../../interfaces";
 import * as IngredientsApi from "../../network/ingredientApi";
 import Button from "@mui/material/Button";
@@ -73,105 +73,106 @@ export default function EditIngredientDialog({
 
   return (
     <>
-      <div
+      {/* <div
         style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}
       >
-      </div>
+      </div> */}
       {loading ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "20px",
-              }}
-            >
-              <CircularProgress />
-            </Box>
-          ) : (
-      <Dialog open={open} onClose={closeFormDialog}>
-        <DialogTitle>Update Ingredient</DialogTitle>
-        <DialogContent>
-          <form onSubmit={formik.handleSubmit}>
-            <TextField
-              label="Name"
-              name="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Category"
-              name="category"
-              value={formik.values.category}
-              onChange={formik.handleChange}
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Description"
-              name="description"
-              value={formik.values.description}
-              onChange={formik.handleChange}
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Price"
-              name="price"
-              type="number"
-              value={formik.values.price}
-              onChange={formik.handleChange}
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Protein"
-              name="protein"
-              type="number"
-              value={formik.values.protein}
-              onChange={formik.handleChange}
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Fats"
-              name="fats"
-              type="number"
-              value={formik.values.fats}
-              onChange={formik.handleChange}
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Carbs"
-              name="carbs"
-              type="number"
-              value={formik.values.carbs}
-              onChange={formik.handleChange}
-              fullWidth
-              margin="dense"
-            />
-            <Select
-              label="Unit"
-              name="unit"
-              value={formik.values.unit}
-              onChange={formik.handleChange}
-              fullWidth
-              margin="dense"
-            >
-              <MenuItem value="ml">ml</MenuItem>
-              <MenuItem value="g">g</MenuItem>
-            </Select>
-            <DialogActions>
-              <Button onClick={closeFormDialog}>Cancel</Button>
-              <Button variant="contained" type="submit">
-                Save
-              </Button>
-            </DialogActions>
-          </form>
-        </DialogContent>
-      </Dialog>)}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Dialog open={open} onClose={closeFormDialog}>
+          <DialogTitle>Update Ingredient</DialogTitle>
+          <DialogContent>
+            <form onSubmit={formik.handleSubmit}>
+              <TextField
+                label="Name"
+                name="name"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                label="Category"
+                name="category"
+                value={formik.values.category}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                label="Description"
+                name="description"
+                value={formik.values.description}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                label="Price"
+                name="price"
+                type="number"
+                value={formik.values.price}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                label="Protein"
+                name="protein"
+                type="number"
+                value={formik.values.protein}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                label="Fats"
+                name="fats"
+                type="number"
+                value={formik.values.fats}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                label="Carbs"
+                name="carbs"
+                type="number"
+                value={formik.values.carbs}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="dense"
+              />
+              <Select
+                label="Unit"
+                name="unit"
+                value={formik.values.unit}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="dense"
+              >
+                <MenuItem value="ml">ml</MenuItem>
+                <MenuItem value="g">g</MenuItem>
+              </Select>
+              <DialogActions>
+                <Button onClick={closeFormDialog}>Cancel</Button>
+                <Button variant="contained" type="submit">
+                  Save
+                </Button>
+              </DialogActions>
+            </form>
+          </DialogContent>
+        </Dialog>
+      )}
     </>
   );
 }

@@ -7,6 +7,7 @@ import AddIngredientDialog from "./AddIngredientDialog";
 import PaginationFooter from "../../components/footer/PaginationFooter";
 import * as IngredientsApi from "../../network/ingredientApi";
 import useIngredientStore from "../../store/ingredientStore";
+import useSearchStore from "../../store/searchStore";
 import { IIngredientData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -17,7 +18,7 @@ const IngredientTable: React.FC = () => {
   const { selectedIngredient, setSelectedIngredient } = useIngredientStore();
   const [open, setOpen] = useState(false);
   const [skip, setSkip] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useSearchStore();
 
   async function loadIngredients() {
     try {
@@ -110,46 +111,45 @@ const IngredientTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-  {ingredients.map((ingredient, index) => {
-    const calories: string = (
-      ingredient.fats * 9 +
-      ingredient.carbs * 4 +
-      ingredient.protein * 4
-    )
-      .toFixed(3)
-      .padEnd(5, "0");
-    return (
-      <tr key={index}>
-        <td>{ingredient.name}</td>
-        <td>{calories}</td>
-        <td>{ingredient.protein}</td>
-        <td>{ingredient.carbs}</td>
-        <td>{ingredient.fats}</td>
-        <td>{ingredient.unit}</td>
-        <td>{ingredient.price}</td>
-        <td>
-          <IconButton onClick={() => handleEditClick(ingredient)}>
-            <EditIcon />
-          </IconButton>
-        </td>
-      </tr>
-    );
-  })}
-</tbody>
+          {ingredients.map((ingredient, index) => {
+            const calories: string = (
+              ingredient.fats * 9 +
+              ingredient.carbs * 4 +
+              ingredient.protein * 4
+            )
+              .toFixed(3)
+              .padEnd(5, "0");
+            return (
+              <tr key={index}>
+                <td>{ingredient.name}</td>
+                <td>{calories}</td>
+                <td>{ingredient.protein}</td>
+                <td>{ingredient.carbs}</td>
+                <td>{ingredient.fats}</td>
+                <td>{ingredient.unit}</td>
+                <td>{ingredient.price}</td>
+                <td>
+                  <IconButton onClick={() => handleEditClick(ingredient)}>
+                    <EditIcon />
+                  </IconButton>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
       </Table>
       <EditIngredientDialog
-  key={selectedIngredient?.id}
-  open={open}
-  setOpen={setOpen}
-  onIngredientUpdated={handleIngredientUpdated}
-  ingredient={selectedIngredient}
-/>
+        key={selectedIngredient?.id}
+        open={open}
+        setOpen={setOpen}
+        onIngredientUpdated={handleIngredientUpdated}
+        ingredient={selectedIngredient}
+      />
       <div
         style={{
           position: "absolute",
-          bottom: "2vh",
+          bottom: "0vh",
           width: "100%",
-          left: "42vw",
           textAlign: "center",
         }}
       >

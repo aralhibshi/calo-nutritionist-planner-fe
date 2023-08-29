@@ -37,7 +37,6 @@ export async function createIngredient(
 
 export async function searchIngredient(
   index: string,
-  entity: string
 ): Promise<Array<IIngredient>> {
   try {
     const response = await fetchData(
