@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -8,16 +7,29 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 
-interface NavBarProps {
+interface INavBarProps {
   signOut: WithAuthenticatorProps['signOut'];
   user: WithAuthenticatorProps['user'];
 }
 
-export default function NavBar({ signOut, user }: NavBarProps) {
+export default function NavBar({ signOut, user }: INavBarProps) {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
+    <AppBar
+      position="static"
+    >
+      <Toolbar
+        id='nav-bar'
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between'
+        }}
+      >
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center'
+          }}
+        >
           <IconButton
             size="large"
             edge="start"
@@ -29,41 +41,58 @@ export default function NavBar({ signOut, user }: NavBarProps) {
           </IconButton>
           <Link
             to="/"
-            style={{ textDecoration: "none", color: "inherit" }}
+            style={{
+              textDecoration: "none",
+              color: "inherit"
+            }}
           >
-            <Typography variant="h6" component="div" sx={{ flexGrow: 0.1, marginRight: '30px'  }}>
-              Home
+            <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              flexGrow: 0.1,
+              marginRight: '30px'
+              }}
+            >
+              CALO
             </Typography>
           </Link>
-          <Link
-            to="/Ingredients"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Typography variant="h6" component="div" sx={{ flexGrow: 0.1, marginRight: '30px'  }}>
-              Ingredients
-            </Typography>
-          </Link>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
-            #
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            #
-          </Typography>
+        </div>
 
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center'
+          }}
+        >
           {user ? (
             <>
-              <Typography variant="h6" component="div" sx={{ mr: 2 }}>
+              <Typography
+              variant="h6"
+              component="div"
+              sx={{
+                mr: 2
+                }}
+              >
                 Hello {user.username}
               </Typography>
-              <Button color="inherit" onClick={signOut}>
+              <Button
+                color="inherit"
+                onClick={signOut}
+              >
                 Sign out
               </Button>
             </>
           ) : (
-            <Button color="inherit">Login</Button>
+            <>
+              <Button
+                color="inherit"
+              >Login
+              </Button>
+            </>
           )}
-        </Toolbar>
-      </AppBar>
-    </Box>
+        </div>
+      </Toolbar>
+    </AppBar>
   );
 }

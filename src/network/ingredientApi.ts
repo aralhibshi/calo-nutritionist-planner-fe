@@ -4,7 +4,6 @@ import createError from "http-errors";
 import { API_BASE_URL } from "../config";
 
 // Function to fetch ingredients from the backend API
-// export async function fetchIngredients(skip: number): Promise<IIngredient[]> {
 export async function fetchIngredients(skip: number): Promise<any> {
   const response = await fetchData(`${API_BASE_URL}ingredients?skip=${skip}`, {
     method: "GET",
@@ -37,22 +36,19 @@ export async function createIngredient(
 
 export async function searchIngredient(
   index: string,
-  entity: string
+  skip: number
 ): Promise<Array<IIngredient>> {
   try {
     const response = await fetchData(
-      `${API_BASE_URL}ingredient/search?name=${index}`,
+      `${API_BASE_URL}ingredient/search?name=${index}&skip=${skip}`,
       {
-        // const response = await fetchData(`http://localhost:3000/dev/v1/${entity}/search?name=${index}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
-    console.log(response);
-
-    return response.data;
+    return response;
   } catch (err) {
     throw createError(500, "Internal Server Error", {
       details: "An error occurred while fetching matching ingredient:",
@@ -60,7 +56,7 @@ export async function searchIngredient(
     });
   }
 }
-// API_BASE_URL + 'ingredient/update?' + ingredient.id
+
 export async function updateIngredient(
   ingredient: IIngredientData,
   formData: IIngredientData

@@ -1,27 +1,53 @@
-import React, { useState } from 'react';
-import SearchToggleButton from "../../components/search/SearchToggleButton"
 import SearchBar from "../../components/search/SearchBar"
-import imageSrc from '../../assets/logo.png';
+import IngredientTable from '../ingredient/IngredientTable';
+import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
+import AddIngredientButton from '../ingredient/AddIngredientButton';
+import useEntityStore from '../../stores/entityStore';
 
 const Home = () => {
-  const [selectedValue, setSelectedValue] = useState('ingredient');
+  const { entity } = useEntityStore();
 
-  const handleAlignmentChange = (newAlignment: string) => {
-    setSelectedValue(newAlignment);
-  };
+  const entityTable = entity === 'ingredient'
+  ? <IngredientTable/>
+  : entity === 'component'
+  ? null
+  : entity === 'meal'
+  ? null
+  : null;
+
+  const addEntityButton = entity === 'ingredient'
+  ? <AddIngredientButton/>
+  : entity === 'component'
+  ? null
+  : entity === 'meal'
+  ? null
+  : null;
 
   return (
-    <div>
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '60px' }}>
-        <img src={imageSrc} alt="Logo" style={{ maxWidth: '200px' }} />
+    <>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignContent: 'center',
+        marginTop: '20px',
+        marginBottom: '10px'
+        }}
+      >
+        <SearchTypeDropdown/>
+        { addEntityButton }
       </div>
-      <SearchToggleButton
-       selectedValue={selectedValue}
-       onAlignmentChange={handleAlignmentChange}
-      />
-    <SearchBar selectedValue={selectedValue} />
-    </div>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        width: 'auto'
+        }}
+      >
+      <SearchBar/>
+      </div>
+      { entityTable }
+    </>
   );
 };
 
-export default Home; 
+export default Home;

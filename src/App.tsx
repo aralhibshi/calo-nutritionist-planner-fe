@@ -6,26 +6,49 @@ import awsconfig from './aws-exports';
 import NavBar from './components/header/NavBar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home'
-import { Container, Box } from '@mui/material';
-import IngredientIndex from './pages/ingredient/IngredientIndex';
-Amplify.configure(awsconfig);
+
+// Fonts
+import './assets/fonts/Roboto/Roboto-Thin.ttf'
+import './assets/fonts/Roboto/Roboto-ThinItalic.ttf'
+import './assets/fonts/Roboto/Roboto-Light.ttf'
+import './assets/fonts/Roboto/Roboto-LightItalic.ttf'
+import './assets/fonts/Roboto/Roboto-Regular.ttf'
+import './assets/fonts/Roboto/Roboto-RegularItalic.ttf'
+import './assets/fonts/Roboto/Roboto-Medium.ttf'
+import './assets/fonts/Roboto/Roboto-MediumItalic.ttf'
+import './assets/fonts/Roboto/Roboto-Bold.ttf'
+import './assets/fonts/Roboto/Roboto-BoldItalic.ttf'
+import './assets/fonts/Roboto/Roboto-Black.ttf'
+import './assets/fonts/Roboto/Roboto-BlackItalic.ttf'
+
+Amplify.configure(awsconfig)
 
 function App({ signOut, user }: WithAuthenticatorProps) {
   return (
     <Router>
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <div>
-          <NavBar signOut={signOut} user={user} />
-        </div>
-        <Container sx={{ flexGrow: 1 }}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        minWidth: '100vw'
+        }}
+      >
+        <NavBar
+          signOut={signOut}
+          user={user}
+        />
+        <div style={{
+          marginLeft: '32px',
+          marginRight: '32px'
+        }}
+        >
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/Ingredients" element={<IngredientIndex/>} />
-          </Routes>
-        </Container>
-        {/* <Box component="footer" sx={{ textAlign: 'center', py: 2 }}>
-          Calo Nutrition Planner
-        </Box> */}
+              <Route
+                path="/"
+                element={<Home/>}
+              />
+            </Routes>
+        </div>
       </div>
     </Router>
   );
