@@ -1,6 +1,6 @@
-import {useState } from "react";
-import { IIngredientData } from "../../interfaces";
-import * as IngredientsApi from "../../network/ingredientApi";
+import { useState } from "react";
+import { IComponent, IComponentData, IIngredientData } from "../../interfaces";
+import * as componentsApi from "../../network/componentApi";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -9,24 +9,24 @@ import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import validationSchema from "../../validation/ingredientFormValidation";
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-interface EditIngredientDialogProps {
+interface EditComponentDialogProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  onIngredientUpdated: (updatedIngredient: IIngredientData) => void;
-  ingredient: null | IIngredientData;
+  onComponentUpdated: (updatedComponent: IComponent) => void;
+  component: null | IComponentData;
 }
 
-export default function EditIngredientDialog({
+export default function EditComponentDialog({
   open,
   setOpen,
-  onIngredientUpdated,
-  ingredient,
-}: EditIngredientDialogProps) {
+  onComponentUpdated,
+  component,
+}: EditComponentDialogProps) {
   const [loading, setLoading] = useState(false);
   const closeFormDialog = () => {
     setOpen(false);
@@ -34,38 +34,35 @@ export default function EditIngredientDialog({
 
   const formik = useFormik({
     initialValues: {
-      name: ingredient?.name ?? "",
-      category: ingredient?.category ?? "",
-      description: ingredient?.description ?? "",
-      price: ingredient?.price ?? 0,
-      protein: ingredient?.protein ?? 0,
-      fats: ingredient?.fats ?? 0,
-      carbs: ingredient?.carbs ?? 0,
-      unit: ingredient?.unit ?? "",
+      name: component?.name ?? "",
+      category: component?.category ?? "",
+      description: component?.description ?? "",
+      ingredients: component?.ingredients ?? [],
+      unit: component?.unit ?? "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
+        console.log('stuck')
         setLoading(true);
         console.log("Form data:", values);
 
-        if (ingredient) {
-          const updatedIngredient = await IngredientsApi.updateIngredient(
-            ingredient,
+        if (component) {
+            console.log('hello there')
+          const updatedComponent = await componentsApi.updateComponent(
+            component,
             values
           );
-          console.log("Updated ingredient:", updatedIngredient);
+          console.log("Updated component:", updatedComponent);
 
-          onIngredientUpdated(updatedIngredient);
+          onComponentUpdated(updatedComponent);
         }
 
         closeFormDialog();
-      } 
-      catch (error) {
+      } catch (error) {
         console.log("Error:", error);
         alert(error);
-      }
-      finally {
+      } finally {
         setLoading(false);
       }
     },
@@ -112,38 +109,10 @@ export default function EditIngredientDialog({
                 fullWidth
                 margin="dense"
               />
-              <TextField
-                label="Price"
-                name="price"
-                type="number"
-                value={formik.values.price}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              />
-              <TextField
-                label="Protein"
-                name="protein"
-                type="number"
-                value={formik.values.protein}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              />
-              <TextField
-                label="Fats"
-                name="fats"
-                type="number"
-                value={formik.values.fats}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              />
-              <TextField
-                label="Carbs"
-                name="carbs"
-                type="number"
-                value={formik.values.carbs}
+                            <TextField
+                label="Ingredients"
+                name="Ingredients"
+                value={formik.values.ingredients}
                 onChange={formik.handleChange}
                 fullWidth
                 margin="dense"
@@ -160,8 +129,10 @@ export default function EditIngredientDialog({
                 <MenuItem value="g">g</MenuItem>
               </Select>
               <DialogActions>
-                <Button id='secondary-button' onClick={closeFormDialog}>Cancel</Button>
-                <Button id='primary-button' variant="contained" type="submit">
+                <Button id="secondary-button" onClick={closeFormDialog}>
+                  Cancel
+                </Button>
+                <Button id="primary-button" variant="contained" type="submit">
                   Save
                 </Button>
               </DialogActions>

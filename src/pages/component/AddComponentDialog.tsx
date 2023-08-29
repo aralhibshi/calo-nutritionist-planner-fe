@@ -5,34 +5,39 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
-import * as IngredientsApi from "../../network/ingredientApi";
-import { IAddIngredientDialogProps } from "../../interfaces";
+import * as componentsApi from "../../network/componentApi";
+import { IAddComponentDialogProps, IAddIngredientDialogProps } from "../../interfaces";
 import { useFormik } from "formik";
-import validationSchema from "../../validation/ingredientFormValidation";
+import validationSchema from "../../validation/componentFormValidation";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import useIngredientStore from "../../stores/ingredientStore";
+import useComponentStore from "../../stores/componentStore";
 
-export default function AddIngredientDialog({
-  onIngredientAdded,
-}: IAddIngredientDialogProps) {
+export default function AddComponentDialog({
+  onComponentAdded,
+}: IAddComponentDialogProps) {
   const [loading, setLoading] = useState(false);
-  const { addOpen, setAddOpen } = useIngredientStore();
+  const { addOpen, setAddOpen } = useComponentStore();
 
   const closeFormDialog = () => {
     formik.resetForm();
     setAddOpen(false);
   };
 
+  // id?: string
+  // name: string;
+  // category?: string;
+  // description?: string;
+  // ingredients?: Array<IComponentIngredientDataArray>
+  // unit: string;
+
   const formik = useFormik({
     initialValues: {
       name: "",
       category: "",
       description: "",
-      price: 0,
-      protein: 0,
-      fats: 0,
-      carbs: 0,
+      ingredients: [],
       unit: "",
     },
     validationSchema: validationSchema,
@@ -41,10 +46,10 @@ export default function AddIngredientDialog({
         setLoading(true)
         console.log("Form data:", values);
 
-        const newIngredient = await IngredientsApi.createIngredient(values);
-        console.log("New ingredient:", newIngredient);
+        const newComponent = await componentsApi.createComponent(values);
+        console.log("New component:", newComponent);
 
-        onIngredientAdded(newIngredient);
+        onComponentAdded(newComponent);
         closeFormDialog();
       } 
       catch (error) {
@@ -124,47 +129,11 @@ export default function AddIngredientDialog({
               label="Price"
               name="price"
               type="number"
-              value={formik.values.price}
+              value={formik.values.ingredients}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              error={formik.touched.price && Boolean(formik.errors.price)}
-              helperText={formik.touched.price && formik.errors.price}
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Protein"
-              name="protein"
-              type="number"
-              value={formik.values.protein}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.protein && Boolean(formik.errors.protein)}
-              helperText={formik.touched.protein && formik.errors.protein}
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Fats"
-              name="fats"
-              type="number"
-              value={formik.values.fats}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.fats && Boolean(formik.errors.fats)}
-              helperText={formik.touched.fats && formik.errors.fats}
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Carbs"
-              name="carbs"
-              type="number"
-              value={formik.values.carbs}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.carbs && Boolean(formik.errors.carbs)}
-              helperText={formik.touched.carbs && formik.errors.carbs}
+              error={formik.touched.ingredients && Boolean(formik.errors.ingredients)}
+              helperText={formik.touched.ingredients && formik.errors.ingredients}
               fullWidth
               margin="dense"
             />
@@ -180,8 +149,8 @@ export default function AddIngredientDialog({
               margin="dense"
             />
             <DialogActions>
-              <Button id='secondary-button' onClick={closeFormDialog}>Cancel</Button>
-              <Button id='primary-button' variant="contained" type='submit'>
+              <Button onClick={closeFormDialog}>Cancel</Button>
+              <Button variant="contained" type='submit'>
                 Add
               </Button>
             </DialogActions>

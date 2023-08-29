@@ -66,6 +66,45 @@ export interface ISearchStore {
   setSearchResult: (result: any) => void
 }
 
+export interface IComponent{
+  id: string,
+  name: string;
+  category?: string;
+  description?: string;
+  component_ingredient: Array<IComponentIngredient>
+  unit: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface IComponentData {
+  id?: string
+  name: string;
+  category?: string;
+  description?: string;
+  ingredients?: Array<IComponentIngredientDataArray>
+  unit: string;
+}
+export interface IComponentIngredient{
+  id: string,
+  component_id: string,
+  ingredient_id:string,
+  ingredient_quantity:number,
+  created_at: Date;
+  updated_at: Date;
+  ingredient: IIngredient
+}
+// ComponentIngredient Create (Ingredient Array) - Data
+export interface IComponentIngredientDataArray {
+  ingredientId: string,
+  ingredient_quantity: number
+}
+export interface IComponentStore {
+  addOpen: boolean,
+  setAddOpen: (isOpen: boolean) => void;
+  selectedComponent: IComponentData | null;
+  setSelectedComponent: (component: IComponentData | null) => void;
+}
 // Entity Store
 export interface IEntityStore {
   entity: string,
@@ -74,4 +113,8 @@ export interface IEntityStore {
   setEntityCount: (count: number) => void;
   skip: number;
   setSkip: (amount: number) => void;
+}
+
+export interface IAddComponentDialogProps {
+  onComponentAdded: (newComponent: IComponentData) => void;
 }
