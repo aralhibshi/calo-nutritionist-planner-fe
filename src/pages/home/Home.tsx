@@ -2,7 +2,7 @@ import SearchBar from "../../components/search/SearchBar"
 import IngredientTable from '../ingredient/IngredientTable';
 import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
 import AddIngredientButton from '../ingredient/AddIngredientButton';
-import useEntityStore from '../../store/entityStore';
+import useEntityStore from '../../stores/entityStore';
 
 const Home = () => {
   const { entity } = useEntityStore();

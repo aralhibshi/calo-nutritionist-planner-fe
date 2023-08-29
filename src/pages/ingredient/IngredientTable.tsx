@@ -6,26 +6,40 @@ import EditIngredientDialog from "./EditIngredientDialog";
 import AddIngredientDialog from "./AddIngredientDialog";
 import PaginationFooter from "../../components/footer/PaginationFooter";
 import * as IngredientsApi from "../../network/ingredientApi";
-import useIngredientStore from "../../store/ingredientStore";
-import useSearchStore from "../../store/searchStore";
+import useIngredientStore from "../../stores/ingredientStore";
+import useSearchStore from "../../stores/searchStore";
 import { IIngredientData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
+import useEntityStore from "../../stores/entityStore";
 
 
 const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<IIngredientData[]>([]);
-  const [ingredientsCount, setIngredientsCount] = useState(2);
-  const { selectedIngredient, setSelectedIngredient } = useIngredientStore();
   const [open, setOpen] = useState(false);
-  const [skip, setSkip] = useState(0);
-  const { loading, setLoading } = useSearchStore();
+  const {
+    loading,
+    setLoading,
+    searchResult,
+    setSearchResult
+  } = useSearchStore();
+  const {
+    setEntityCount,
+    skip
+  } = useEntityStore();
+  const {
+    selectedIngredient,
+    setSelectedIngredient
+  } = useIngredientStore();
 
   async function loadIngredients() {
     try {
       setLoading(true);
       const response = await IngredientsApi.fetchIngredients(skip);
-      setIngredientsCount(response.count);
-      setIngredients(response.data);
+      setEntityCount(response.count);
+      setSearchResult(response.data)
+      if (searchResult) {
+        setIngredients(searchResult);
+      }
     } catch (error) {
       console.log(error);
       alert(error);
@@ -35,7 +49,7 @@ const IngredientTable: React.FC = () => {
   }
 
   useEffect(() => {
-    loadIngredients(); // Call the function here to fetch initial data
+    loadIngredients();
   }, [skip]);
 
   const handleIngredientAdded = (newIngredient: any) => {
@@ -65,8 +79,8 @@ const IngredientTable: React.FC = () => {
       setIngredients(updatedIngredients);
     }
   
-    setOpen(false); // Close the edit dialog
-    loadIngredients(); // Fetch the updated list of ingredients
+    setOpen(false);
+    loadIngredients();
   };
 
 
@@ -108,7 +122,8 @@ const IngredientTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {ingredients.map((ingredient, index) => {
+        {searchResult !== null && searchResult.length > 0 ? (
+          searchResult.map((ingredient, index) => {
             const calories: string = (
               ingredient.fats * 9 +
               ingredient.carbs * 4 +
@@ -135,7 +150,12 @@ const IngredientTable: React.FC = () => {
                 </td>
               </tr>
             );
-          })}
+          })
+          ) : (
+            <tr>
+              <td colSpan={8}>No search results found.</td>
+            </tr>
+          )}
         </tbody>
       </Table>
       <EditIngredientDialog
@@ -153,10 +173,7 @@ const IngredientTable: React.FC = () => {
           textAlign: "center",
         }}
       >
-        <PaginationFooter
-          ingredientsCount={ingredientsCount}
-          setSkip={setSkip}
-        />
+        <PaginationFooter/>
       </div>
       <AddIngredientDialog
         onIngredientAdded={handleIngredientAdded}

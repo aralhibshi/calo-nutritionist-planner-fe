@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Pagination from '@mui/material/Pagination';
-import { IPaginationFooter } from '../../interfaces';
+import useEntityStore from '../../stores/entityStore';
 
-const PaginationFooter: React.FC<IPaginationFooter> = (props) => {
-  const { setSkip, ingredientsCount } = props;
+const PaginationFooter: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const {
+    entityCount,
+    setSkip
+  } = useEntityStore();
+
   const itemsPerPage = 9;
 
   useEffect(() => {
@@ -13,7 +17,7 @@ const PaginationFooter: React.FC<IPaginationFooter> = (props) => {
     setSkip(newSkip);
   }, [currentPage, setSkip]);
 
-  const totalPages = Math.ceil((ingredientsCount / itemsPerPage));
+  const totalPages = Math.ceil((entityCount / itemsPerPage));
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setCurrentPage(page);
