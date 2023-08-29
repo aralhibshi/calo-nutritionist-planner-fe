@@ -4,13 +4,13 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import useSearchStore from '../../store/searchStore';
+import useEntityStore from '../../store/entityStore';
 
-const SearchTypeDropdown: React.FC = (props) => {
-  const { searchEntity, setSearchEntity } = useSearchStore();
+const SearchTypeDropdown: React.FC = () => {
+  const { entity, setEntity } = useEntityStore();
 
   const handleChange = (event: SelectChangeEvent) => {
-    setSearchEntity(event.target.value);
+    setEntity(event.target.value);
     console.log(event.target.value);
   };
 
@@ -25,7 +25,7 @@ const SearchTypeDropdown: React.FC = (props) => {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={searchEntity}
+          value={entity}
           label="Age"
           onChange={handleChange}
         >
