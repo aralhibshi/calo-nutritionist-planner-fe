@@ -7,17 +7,18 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 
-interface NavBarProps {
+interface INavBarProps {
   signOut: WithAuthenticatorProps['signOut'];
   user: WithAuthenticatorProps['user'];
 }
 
-export default function NavBar({ signOut, user }: NavBarProps) {
+export default function NavBar({ signOut, user }: INavBarProps) {
   return (
     <AppBar
       position="static"
     >
       <Toolbar
+        id='nav-bar'
         style={{
           display: 'flex',
           justifyContent: 'space-between'
@@ -53,7 +54,7 @@ export default function NavBar({ signOut, user }: NavBarProps) {
               marginRight: '30px'
               }}
             >
-              Home
+              CALO
             </Typography>
           </Link>
         </div>

@@ -6,15 +6,16 @@ import * as ComponentApi from '../../network/componentApi';
 import * as MealApi from '../../network/mealApi';
 import createError from 'http-errors';
 import useSearchStore from "../../store/searchStore";
+import useEntityStore from "../../store/entityStore";
 
 const SearchBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const {
-    searchEntity,
     setLoading,
     searchResult,
     setSearchResult
   } = useSearchStore();
+  const { entity } = useEntityStore();
 
   const handleChange = (event: any) => {
     const newSearchTerm = event.target.value;
@@ -54,17 +55,17 @@ const SearchBar: React.FC = () => {
   };
   
   const handleSubmit = () => {
-    searchItem(searchTerm, searchEntity);
+    searchItem(searchTerm, entity);
   }
 
 
   let placeholderText = "Search for an ingredient";
 
-  if (searchEntity === "ingredient") {
+  if (entity === "ingredient") {
     placeholderText = "Search for an ingredient";
-  } else if (searchEntity === "component") {
+  } else if (entity === "component") {
     placeholderText = "Search for a component";
-  } else if (searchEntity === "meal") {
+  } else if (entity === "meal") {
     placeholderText = "Search for a meal";
   }
 

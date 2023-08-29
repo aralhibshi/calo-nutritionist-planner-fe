@@ -180,8 +180,8 @@ export default function AddIngredientDialog({
               margin="dense"
             />
             <DialogActions>
-              <Button onClick={closeFormDialog}>Cancel</Button>
-              <Button variant="contained" type='submit'>
+              <Button id='secondary-button' onClick={closeFormDialog}>Cancel</Button>
+              <Button id='primary-button' variant="contained" type='submit'>
                 Add
               </Button>
             </DialogActions>

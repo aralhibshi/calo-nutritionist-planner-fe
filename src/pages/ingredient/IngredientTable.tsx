@@ -54,20 +54,6 @@ const IngredientTable: React.FC = () => {
     console.log("Dialog should open now.");
   };
 
-  // const handleIngredientUpdated = (updatedIngredient: IIngredientData) => {
-  //   const ingredientIndex = ingredients.findIndex(
-  //     (ingredient) => ingredient.id === updatedIngredient.id
-  //   );
-
-  //   // Create a copy of the existing ingredients array
-  //   const updatedIngredients = [...ingredients];
-
-  //   // Update the existing ingredient with the updated data
-  //   updatedIngredients[ingredientIndex] = updatedIngredient;
-
-  //   // Set the state with the modified list of ingredients
-  //   setIngredients(updatedIngredients);
-  // };
   const handleIngredientUpdated = (updatedIngredient: IIngredientData) => {
     const updatedIndex = ingredients.findIndex(
       (ingredient) => ingredient.id === updatedIngredient.id
@@ -94,12 +80,23 @@ const IngredientTable: React.FC = () => {
           }}
           open={true}
         >
-          <CircularProgress color="inherit" />
+          <CircularProgress
+            color="inherit"
+          />
         </Backdrop>
       )}
-      <Table hoverRow sx={{ marginTop: "20px", userSelect: "none" }}>
+      <Table
+        hoverRow
+        sx={{
+          marginTop: "20px",
+          userSelect: "none",
+          fontFamily: 'Roboto'
+        }}
+        id='table'
+      >
         <thead>
-          <tr>
+          <tr
+          >
             <th style={{ width: "40%" }}>Ingredient Name&nbsp;</th>
             <th>Calories&nbsp;</th>
             <th>Protein&nbsp;</th>
@@ -120,7 +117,10 @@ const IngredientTable: React.FC = () => {
               .toFixed(3)
               .padEnd(5, "0");
             return (
-              <tr key={index}>
+              <tr
+                id='table'
+                key={index}
+              >
                 <td>{ingredient.name}</td>
                 <td>{calories}</td>
                 <td>{ingredient.protein}</td>
@@ -148,7 +148,7 @@ const IngredientTable: React.FC = () => {
       <div
         style={{
           position: "absolute",
-          bottom: "0vh",
+          bottom: "2vh",
           width: "100%",
           textAlign: "center",
         }}
@@ -158,7 +158,9 @@ const IngredientTable: React.FC = () => {
           setSkip={setSkip}
         />
       </div>
-      <AddIngredientDialog onIngredientAdded={handleIngredientAdded} />
+      <AddIngredientDialog
+        onIngredientAdded={handleIngredientAdded}
+      />
     </>
   );
 };
