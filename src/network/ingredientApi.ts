@@ -41,7 +41,7 @@ export async function searchIngredient(
 ): Promise<Array<IIngredient>> {
   try {
     const response = await fetchData(
-      `${API_BASE_URL}ingredient/search?name=${index}&skip=${skip}`,
+      `${baseURL}ingredient/search?name=${index}&skip=${skip}`,
       {
         method: "GET",
         headers: {
