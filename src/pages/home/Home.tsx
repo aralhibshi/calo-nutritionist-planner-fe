@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SearchBar from "../../components/search/SearchBar"
-import IngredientTable from '../ingredient/IngredientTable';
+import ComponentTable from '../component/ComponentTable';
 import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
 import AddIngredientButton from '../ingredient/AddIngredientButton';
 import useSearchStore from '../../store/searchStore';
@@ -28,7 +28,7 @@ const Home = () => {
       >
       <SearchBar/>
       </div>
-      <IngredientTable/>
+      <ComponentTable/>
     </>
   );
 };
