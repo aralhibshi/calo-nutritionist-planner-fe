@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
 import { IPaginationFooter } from '../../interfaces';
 
 const PaginationFooter: React.FC<IPaginationFooter> = (props) => {
   const { setSkip, ingredientsCount } = props;
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 9;
 
   useEffect(() => {
     const newSkip = (currentPage - 1) * itemsPerPage;
@@ -21,14 +20,16 @@ const PaginationFooter: React.FC<IPaginationFooter> = (props) => {
   };
 
   return (
-    <Stack spacing={2}>
-      <Pagination
-        count={totalPages}
-        shape="rounded"
-        page={currentPage}
-        onChange={handlePageChange}
-      />
-    </Stack>
+    <Pagination
+      style={{
+        display: 'flex',
+        justifyContent: 'center'
+      }}
+      count={totalPages}
+      shape="rounded"
+      page={currentPage}
+      onChange={handlePageChange}
+    />
   );
 };
 

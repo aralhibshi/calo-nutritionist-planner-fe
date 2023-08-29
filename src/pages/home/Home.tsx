@@ -1,25 +1,35 @@
 import React, { useState } from 'react';
 import SearchBar from "../../components/search/SearchBar"
 import IngredientTable from '../ingredient/IngredientTable';
-import SearchTypeDropdown from '../../components/search/SearchToggleButton';
+import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
+import AddIngredientButton from '../ingredient/AddIngredientButton';
+import useSearchStore from '../../store/searchStore';
 
 const Home = () => {
-  const [selectedValue, setSelectedValue] = useState('ingredient');
-
   return (
-    <div style={{
-      marginLeft: '32px',
-      marginRight: '32px'
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'center', alignContent: 'center', marginTop: '20px',  }}>
-        <SearchTypeDropdown
-        setSelectedValue={setSelectedValue}
-        selectedValue={selectedValue}
-        />
+    <>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignContent: 'center',
+        marginTop: '20px',
+        marginBottom: '10px'
+        }}
+      >
+        <SearchTypeDropdown/>
+        <AddIngredientButton/>
       </div>
-      <SearchBar selectedValue={selectedValue} />
-    <IngredientTable/>
-    </div>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignContent: 'center',
+        width: 'auto'
+        }}
+      >
+      <SearchBar/>
+      </div>
+      <IngredientTable/>
+    </>
   );
 };
 

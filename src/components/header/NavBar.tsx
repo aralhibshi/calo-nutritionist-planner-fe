@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -15,9 +14,21 @@ interface NavBarProps {
 
 export default function NavBar({ signOut, user }: NavBarProps) {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
+    <AppBar
+      position="static"
+    >
+      <Toolbar
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between'
+        }}
+      >
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center'
+          }}
+        >
           <IconButton
             size="large"
             edge="start"
@@ -29,41 +40,58 @@ export default function NavBar({ signOut, user }: NavBarProps) {
           </IconButton>
           <Link
             to="/"
-            style={{ textDecoration: "none", color: "inherit" }}
+            style={{
+              textDecoration: "none",
+              color: "inherit"
+            }}
           >
-            <Typography variant="h6" component="div" sx={{ flexGrow: 0.1, marginRight: '30px'  }}>
+            <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              flexGrow: 0.1,
+              marginRight: '30px'
+              }}
+            >
               Home
             </Typography>
           </Link>
-          <Link
-            to="/Ingredients"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Typography variant="h6" component="div" sx={{ flexGrow: 0.1, marginRight: '30px'  }}>
-              Ingredients
-            </Typography>
-          </Link>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 0.1 }}>
-            #
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            #
-          </Typography>
+        </div>
 
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center'
+          }}
+        >
           {user ? (
             <>
-              <Typography variant="h6" component="div" sx={{ mr: 2 }}>
+              <Typography
+              variant="h6"
+              component="div"
+              sx={{
+                mr: 2
+                }}
+              >
                 Hello {user.username}
               </Typography>
-              <Button color="inherit" onClick={signOut}>
+              <Button
+                color="inherit"
+                onClick={signOut}
+              >
                 Sign out
               </Button>
             </>
           ) : (
-            <Button color="inherit">Login</Button>
+            <>
+              <Button
+                color="inherit"
+              >Login
+              </Button>
+            </>
           )}
-        </Toolbar>
-      </AppBar>
-    </Box>
+        </div>
+      </Toolbar>
+    </AppBar>
   );
 }

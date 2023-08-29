@@ -44,18 +44,32 @@ export interface IIngredientResponse {
   };
 }
 
+// Component
+
+
 export interface IPaginationFooter {
     ingredientsCount: number;
     setSkip: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface IAddIngredientDialogProps {
-  addOpen: boolean;
-  setAddOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onIngredientAdded: (newIngredient: IIngredientData) => void;
 }
 
-export interface ISearchTypeDropdownProps {
-  selectedValue: string;
-  setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
+// Zustand Ingredient Store
+export interface IIngredientStore {
+  addOpen: boolean,
+  setAddOpen: (isOpen: boolean) => void;
+  selectedIngredient: IIngredient | null;
+  setSelectedIngredient: (ingredient: IIngredient | null) => void;
+}
+
+// Zustand Entity Type Store
+export interface ISearchStore {
+  searchEntity: string;
+  setSearchEntity: (entity: string) => void;
+  loading: boolean;
+  setLoading: (load: boolean) => void;
+  searchResult: null,
+  setSearchResult: (result: any) => void
 }

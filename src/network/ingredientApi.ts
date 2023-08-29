@@ -1,12 +1,13 @@
 import { IIngredientData, IIngredient } from "../interfaces";
 import { fetchData } from "./baseApi";
 import createError from "http-errors";
-import { API_BASE_URL } from "../config";
+
+const baseURL = process.env.REACT_APP_API_BASE_URL;
 
 // Function to fetch ingredients from the backend API
 // export async function fetchIngredients(skip: number): Promise<IIngredient[]> {
 export async function fetchIngredients(skip: number): Promise<any> {
-  const response = await fetchData(`${API_BASE_URL}ingredients?skip=${skip}`, {
+  const response = await fetchData(`${baseURL}ingredients?skip=${skip}`, {
     method: "GET",
   });
   console.log(response);
@@ -17,7 +18,7 @@ export async function createIngredient(
   ingredient: IIngredientData
 ): Promise<IIngredient> {
   try {
-    const response = await fetchData(`${API_BASE_URL}ingredient`, {
+    const response = await fetchData(`${baseURL}ingredient`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,11 +38,10 @@ export async function createIngredient(
 
 export async function searchIngredient(
   index: string,
-  entity: string
 ): Promise<Array<IIngredient>> {
   try {
     const response = await fetchData(
-      `${API_BASE_URL}ingredient/search?name=${index}`,
+      `${baseURL}ingredient/search?name=${index}`,
       {
         // const response = await fetchData(`http://localhost:3000/dev/v1/${entity}/search?name=${index}`, {
         method: "GET",
@@ -70,7 +70,7 @@ export async function updateIngredient(
     delete ingredient.id;
     console.log(formData);
     const response = await fetchData(
-      `${API_BASE_URL}ingredient/update?id=${id}`,
+      `${baseURL}ingredient/update?id=${id}`,
       {
         method: "PUT",
         headers: {
