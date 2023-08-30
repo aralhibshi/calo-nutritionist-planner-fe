@@ -4,14 +4,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop, IconButton } from "@mui/material";
 import EditIngredientDialog from "./EditIngredientDialog";
 import AddIngredientDialog from "./AddIngredientDialog";
-import PaginationFooter from "../../components/footer/PaginationFooter";
 import * as IngredientsApi from "../../network/ingredientApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useSearchStore from "../../stores/searchStore";
-import { IIngredientData } from "../../interfaces";
+import { IIngredient, IIngredientData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useEntityStore from "../../stores/entityStore";
-
 
 const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<IIngredientData[]>([]);
@@ -83,6 +81,14 @@ const IngredientTable: React.FC = () => {
     loadIngredients();
   };
 
+  function isIngredient(obj: any): obj is IIngredient {
+    return (
+      typeof obj === 'object' &&
+      'fats' in obj &&
+      'carbs' in obj &&
+      'protein' in obj
+    );
+  }
 
   return (
     <>
@@ -122,8 +128,8 @@ const IngredientTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-        {searchResult !== null && searchResult.length > 0 ? (
-          searchResult.map((ingredient, index) => {
+        {searchResult && Array.isArray(searchResult) ? (
+          searchResult.map((ingredient: IIngredient, index: number) => {
             const calories: string = (
               ingredient.fats * 9 +
               ingredient.carbs * 4 +
@@ -165,16 +171,6 @@ const IngredientTable: React.FC = () => {
         onIngredientUpdated={handleIngredientUpdated}
         ingredient={selectedIngredient}
       />
-      <div
-        style={{
-          position: "absolute",
-          bottom: "2vh",
-          width: "100%",
-          textAlign: "center",
-        }}
-      >
-        <PaginationFooter/>
-      </div>
       <AddIngredientDialog
         onIngredientAdded={handleIngredientAdded}
       />
