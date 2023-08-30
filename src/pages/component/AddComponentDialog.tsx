@@ -162,7 +162,15 @@ export default function AddComponentDialog({
                 </div>
 
                 {/* Right side */}
-                <div style={{ flex: 1 }}>
+                <div
+                  style={{
+                    flex: 1,
+                    marginLeft: "20px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <Tag />
                 </div>
               </div>
