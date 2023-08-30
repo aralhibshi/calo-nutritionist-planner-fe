@@ -177,7 +177,7 @@ export default function CustomizedHook() {
   return (
     <Root>
       <div {...getRootProps()}>
-        <Label {...getInputLabelProps()}>Ingredient</Label>
+        <Label {...getInputLabelProps()}>Ingredients</Label>
         <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
           {value.map((option: FilmOptionType, index: number) => (
             <StyledTag label={option.title} {...getTagProps({ index })} />

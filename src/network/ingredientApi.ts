@@ -5,8 +5,8 @@ import createError from "http-errors";
 const baseURL = process.env.REACT_APP_API_BASE_URL;
 
 // Function to fetch ingredients from the backend API
-export async function fetchIngredients(skip: number): Promise<any> {
-  const response = await fetchData(`${baseURL}ingredients?skip=${skip}`, {
+export async function fetchIngredients(skip: number, take:number): Promise<any> {
+  const response = await fetchData(`${baseURL}ingredients?skip=${skip}&take=${take}`, {
     method: "GET",
   });
   console.log(response);

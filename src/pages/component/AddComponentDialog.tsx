@@ -165,7 +165,7 @@ export default function AddComponentDialog({
                 <div
                   style={{
                     flex: 1,
-                    marginLeft: "20px",
+                    marginBottom:'90px',
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
