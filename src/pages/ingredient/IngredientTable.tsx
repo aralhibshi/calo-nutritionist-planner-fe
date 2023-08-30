@@ -23,7 +23,6 @@ const IngredientTable: React.FC = () => {
   const {
     setEntityCount,
     skip,
-    setSkip
   } = useEntityStore();
   const {
     selectedIngredient,
@@ -33,7 +32,6 @@ const IngredientTable: React.FC = () => {
   async function loadIngredients() {
     try {
       setLoading(true);
-      setSkip(0)
       const take = 9;
       const response = await IngredientsApi.fetchIngredients(skip,take);
       setEntityCount(response.count);
