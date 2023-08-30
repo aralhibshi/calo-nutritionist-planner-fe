@@ -129,7 +129,7 @@ const IngredientTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-        {searchResult && Array.isArray(searchResult) ? (
+        {searchResult && Array.isArray(searchResult) && searchResult.length > 0 ? (
           searchResult.map((ingredient: IIngredient, index: number) => {
             const calories: string = (
               ingredient.fats * 9 +
