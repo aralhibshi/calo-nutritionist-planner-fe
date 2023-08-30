@@ -17,7 +17,9 @@ const ComponentTable: React.FC = () => {
   const [open, setOpen] = useState(false);
   const { loading, setLoading } = useSearchStore();
   const {
-    setEntityCount
+    setEntityCount,
+    skip,
+    setSkip
   } = useEntityStore();
   const {
     setSearchResult,
@@ -27,7 +29,8 @@ const ComponentTable: React.FC = () => {
   async function loadComponents() {
     try {
       setLoading(true);
-      const response = await componentsApi.fetchComponents();
+      setSkip(0)
+      const response = await componentsApi.fetchComponents(skip);
       setEntityCount(response.count);
       setSearchResult(response.data)
       if (searchResult) {
