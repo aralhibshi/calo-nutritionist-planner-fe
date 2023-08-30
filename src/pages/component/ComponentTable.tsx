@@ -29,7 +29,6 @@ const ComponentTable: React.FC = () => {
   async function loadComponents() {
     try {
       setLoading(true);
-      setSkip(0)
       const response = await componentsApi.fetchComponents(skip);
       setEntityCount(response.count);
       setSearchResult(response.data)
@@ -46,7 +45,7 @@ const ComponentTable: React.FC = () => {
 
   useEffect(() => {
     loadComponents();
-  }, []);
+  }, [skip]);
 
   const handleComponentAdded = (newIngredient: any) => {
     setComponents((prevIngredients: any) => [
