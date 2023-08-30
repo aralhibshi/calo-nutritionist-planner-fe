@@ -5,8 +5,9 @@ import AddIngredientButton from '../ingredient/AddIngredientButton';
 import useEntityStore from '../../stores/entityStore';
 import IngredientTable from "../ingredient/IngredientTable";
 import AddComponentButton from "../component/AddComponentButton";
+import PaginationFooter from "../../components/footer/PaginationFooter";
 
-const Home = () => {
+const Home: React.FC = () => {
   const { entity } = useEntityStore();
 
   const entityTable = entity === 'ingredient'
@@ -48,6 +49,16 @@ const Home = () => {
       <SearchBar/>
       </div>
       { entityTable }
+      <div
+        style={{
+          position: "absolute",
+          bottom: "2vh",
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        <PaginationFooter/>
+      </div>
     </>
   );
 };

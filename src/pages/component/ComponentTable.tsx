@@ -2,30 +2,37 @@ import React, { useEffect, useState } from "react";
 import Table from "@mui/joy/Table";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop, IconButton } from "@mui/material";
-import PaginationFooter from "../../components/footer/PaginationFooter";
 import * as componentsApi from "../../network/componentApi";
 import useSearchStore from "../../stores/searchStore";
-import { IComponent, IComponentData, IIngredientData } from "../../interfaces";
+import { IComponent } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useComponentStore from "../../stores/componentStore";
-import { number } from "yup";
 import AddComponentDialog from "./AddComponentDialog";
+import useEntityStore from "../../stores/entityStore";
 // import EditComponentDialog from "./EditComponentDIalog";
 
 const ComponentTable: React.FC = () => {
   const [components, setComponents] = useState<IComponent[]>([]);
-  const [componentsCount, setcomponentsCount] = useState(2);
   const { selectedComponent, setSelectedComponent } = useComponentStore();
   const [open, setOpen] = useState(false);
-  // const [skip, setSkip] = useState(0);
   const { loading, setLoading } = useSearchStore();
+  const {
+    setEntityCount
+  } = useEntityStore();
+  const {
+    setSearchResult,
+    searchResult
+  } = useSearchStore();
 
   async function loadComponents() {
     try {
       setLoading(true);
       const response = await componentsApi.fetchComponents();
-      setcomponentsCount(response.count);
-      setComponents(response.data);
+      setEntityCount(response.count);
+      setSearchResult(response.data)
+      if (searchResult) {
+        setComponents(response.data);
+      }
     } catch (error) {
       console.log(error);
       alert(error);
@@ -35,7 +42,7 @@ const ComponentTable: React.FC = () => {
   }
 
   useEffect(() => {
-    loadComponents(); // Call the function here to fetch initial data
+    loadComponents();
   }, []);
 
   const handleComponentAdded = (newIngredient: any) => {
@@ -65,8 +72,8 @@ const ComponentTable: React.FC = () => {
       setComponents(updatedComponents);
     }
 
-    setOpen(false); // Close the edit dialog
-    loadComponents(); // Fetch the updated list of ingredients
+    setOpen(false);
+    loadComponents();
   };
 
   return (
@@ -96,40 +103,54 @@ const ComponentTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {components.map((component, index) => {
-            let totalFats = 0;
-            let totalCarbs = 0;
-            let totalProteins = 0;
-            let totalCalories = 0;
-            let totalPrice = 0;
-            return (
-              <tr key={index}>
-                <td>{component.name}</td>
-                {component.component_ingredient.map((el, ingredientIndex) => {
-                  totalFats += Number(el.ingredient.fats); // Increment totalFats
+          {searchResult && Array.isArray(searchResult) ? (
+            searchResult.map((component: IComponent, index: number) => {
+              let totalFats = 0;
+              let totalCarbs = 0;
+              let totalProteins = 0;
+              let totalCalories = 0;
+              let totalPrice = 0;
+
+              if (component.component_ingredient && Array.isArray(component.component_ingredient)) {
+                component.component_ingredient.forEach((el) => {
+                  totalFats += Number(el.ingredient.fats);
                   totalCarbs += Number(el.ingredient.carbs);
                   totalProteins += Number(el.ingredient.protein);
-                  totalCalories += Number(
-                    totalFats * 9 + totalCarbs * 4 + totalProteins * 4
-                  );
-                  totalPrice += Number(el.ingredient.price)
-                  return null;
-                })}
-                <td>{totalCalories.toFixed(3)}</td>
-                <td>{totalProteins}</td>
-                <td>{totalCarbs}</td>
-                <td>{totalFats}</td>
-                <td>{component.unit}</td>
-                <td>{totalPrice}</td>
-                {/* <td>
-                  <IconButton onClick={() => handleEditClick(component)}>
-                    <EditIcon />
-                  </IconButton>
-                </td> */}
-              </tr>
-            );
-          })}
+                  totalCalories += totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
+                  totalPrice += Number(el.ingredient.price);
+                });
+
+                totalFats = Number(totalFats.toFixed(3));
+                totalCarbs = Number(totalCarbs.toFixed(3));
+                totalProteins = Number(totalProteins.toFixed(3));
+                totalCalories = Number(totalCalories.toFixed(3));
+                totalPrice = Number(totalPrice.toFixed(3));
+              }
+
+              return (
+                <tr key={index}>
+                  <td>{component.name}</td>
+                  <td>{totalCalories}</td>
+                  <td>{totalProteins}</td>
+                  <td>{totalCarbs}</td>
+                  <td>{totalFats}</td>
+                  <td>{component.unit}</td>
+                  <td>{totalPrice}</td>
+                  <td>
+                    <IconButton onClick={() => handleEditClick(component)}>
+                      <EditIcon />
+                    </IconButton>
+                  </td>
+                </tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td colSpan={8}>No search results found.</td>
+            </tr>
+          )}
         </tbody>
+
       </Table>
       {/* <EditComponentDialog
         key={selectedComponent?.id}

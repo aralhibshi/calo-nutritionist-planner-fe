@@ -1,4 +1,4 @@
-// Ingredient Create - Data
+// Ingredient Create/Update - Data
 export interface IIngredientData {
   id?: string;
   name: string;
@@ -44,28 +44,7 @@ export interface IIngredientResponse {
   };
 }
 
-export interface IAddIngredientDialogProps {
-  onIngredientAdded: (newIngredient: IIngredientData) => void;
-}
-
-// Zustand --
-
-// Ingredient Store
-export interface IIngredientStore {
-  addOpen: boolean,
-  setAddOpen: (isOpen: boolean) => void;
-  selectedIngredient: IIngredient | null;
-  setSelectedIngredient: (ingredient: IIngredient | null) => void;
-}
-
-// Search Store
-export interface ISearchStore {
-  loading: boolean;
-  setLoading: (load: boolean) => void;
-  searchResult: IIngredient[] | null,
-  setSearchResult: (result: any) => void
-}
-
+// Component
 export interface IComponent{
   id: string,
   name: string;
@@ -77,6 +56,7 @@ export interface IComponent{
   updated_at: Date;
 }
 
+// Component Create/Update - Data
 export interface IComponentData {
   id?: string
   name: string;
@@ -85,6 +65,8 @@ export interface IComponentData {
   ingredients?: Array<IComponentIngredientDataArray>
   unit: string;
 }
+
+// Component Ingredient
 export interface IComponentIngredient{
   id: string,
   component_id: string,
@@ -94,17 +76,27 @@ export interface IComponentIngredient{
   updated_at: Date;
   ingredient: IIngredient
 }
-// ComponentIngredient Create (Ingredient Array) - Data
+
+// ComponentIngredient Create/Update (Ingredient Array) - Data
 export interface IComponentIngredientDataArray {
   ingredientId: string,
   ingredient_quantity: number
 }
-export interface IComponentStore {
-  addOpen: boolean,
-  setAddOpen: (isOpen: boolean) => void;
-  selectedComponent: IComponentData | null;
-  setSelectedComponent: (component: IComponentData | null) => void;
+
+// Props --
+
+// Add Ingredient Dialog/Modal
+export interface IAddIngredientDialogProps {
+  onIngredientAdded: (newIngredient: IIngredientData) => void;
 }
+
+// Add Ingredient Dialog/Modal
+export interface IAddComponentDialogProps {
+  onComponentAdded: (newComponent: IComponentData) => void;
+}
+
+// Zustand --
+
 // Entity Store
 export interface IEntityStore {
   entity: string,
@@ -115,6 +107,26 @@ export interface IEntityStore {
   setSkip: (amount: number) => void;
 }
 
-export interface IAddComponentDialogProps {
-  onComponentAdded: (newComponent: IComponentData) => void;
+// Search Store
+export interface ISearchStore {
+  loading: boolean;
+  setLoading: (load: boolean) => void;
+  searchResult: any,
+  setSearchResult: (result: any) => void
+}
+
+// Ingredient Store
+export interface IIngredientStore {
+  addOpen: boolean,
+  setAddOpen: (isOpen: boolean) => void;
+  selectedIngredient: IIngredient | null;
+  setSelectedIngredient: (ingredient: IIngredient | null) => void;
+}
+
+// Component Store
+export interface IComponentStore {
+  addOpen: boolean,
+  setAddOpen: (isOpen: boolean) => void;
+  selectedComponent: IComponentData | null;
+  setSelectedComponent: (component: IComponentData | null) => void;
 }
