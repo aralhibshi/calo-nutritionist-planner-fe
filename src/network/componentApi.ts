@@ -5,16 +5,16 @@ import createError from "http-errors";
 const baseURL = process.env.REACT_APP_API_BASE_URL
 
 
-export async function fetchComponents(): Promise<any> {
-  const response = await fetchData(`${baseURL}components`, {
+export async function fetchComponents(skip: number): Promise<any> {
+  const response = await fetchData(`${baseURL}components?skip=${skip}`, {
     method: "GET",
   });
   console.log(response);
   return response;
 }
 
-export async function searchComponent(index: string): Promise<any> {
-  const response = await fetchData(`${baseURL}component/search?name=${index}`, {
+export async function searchComponent(index: string, skip: number): Promise<any> {
+  const response = await fetchData(`${baseURL}component/search?name=${index}&skip=${skip}`, {
     method: "GET",
   });
   console.log(response);
