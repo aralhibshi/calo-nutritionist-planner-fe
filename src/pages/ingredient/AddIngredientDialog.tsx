@@ -9,10 +9,10 @@ import * as IngredientsApi from "../../network/ingredientApi";
 import { IAddIngredientDialogProps } from "../../interfaces";
 import { useFormik } from "formik";
 import validationSchema from "../../validation/ingredientFormValidation";
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import useIngredientStore from "../../stores/ingredientStore";
-import { MenuItem, Select } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 export default function AddIngredientDialog({
   onIngredientAdded,
@@ -39,7 +39,7 @@ export default function AddIngredientDialog({
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        setLoading(true)
+        setLoading(true);
         console.log("Form data:", values);
 
         const newIngredient = await IngredientsApi.createIngredient(values);
@@ -47,12 +47,10 @@ export default function AddIngredientDialog({
 
         onIngredientAdded(newIngredient);
         closeFormDialog();
-      } 
-      catch (error) {
+      } catch (error) {
         console.log("Error:", error);
         alert(error);
-      }
-      finally {
+      } finally {
         setLoading(false);
       }
     },
@@ -67,8 +65,7 @@ export default function AddIngredientDialog({
     <>
       <div
         style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}
-      >
-      </div>
+      ></div>
       {loading ? (
         <Box
           sx={{
@@ -80,115 +77,124 @@ export default function AddIngredientDialog({
           <CircularProgress />
         </Box>
       ) : (
-      <Dialog open={addOpen} onClose={closeFormDialog}>
-        <DialogTitle>Add Ingredient</DialogTitle>
-        <DialogContent>
-          <form onSubmit={handleFormSubmit}>
-            <TextField
-              label="Name"
-              name="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Category"
-              name="category"
-              value={formik.values.category}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.category && Boolean(formik.errors.category)}
-              helperText={formik.touched.category && formik.errors.category}
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Description"
-              name="description"
-              value={formik.values.description}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={
-                formik.touched.description && Boolean(formik.errors.description)
-              }
-              helperText={
-                formik.touched.description && formik.errors.description
-              }
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Price"
-              name="price"
-              type="number"
-              value={formik.values.price}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.price && Boolean(formik.errors.price)}
-              helperText={formik.touched.price && formik.errors.price}
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Protein"
-              name="protein"
-              type="number"
-              value={formik.values.protein}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.protein && Boolean(formik.errors.protein)}
-              helperText={formik.touched.protein && formik.errors.protein}
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Fats"
-              name="fats"
-              type="number"
-              value={formik.values.fats}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.fats && Boolean(formik.errors.fats)}
-              helperText={formik.touched.fats && formik.errors.fats}
-              fullWidth
-              margin="dense"
-            />
-            <TextField
-              label="Carbs"
-              name="carbs"
-              type="number"
-              value={formik.values.carbs}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.carbs && Boolean(formik.errors.carbs)}
-              helperText={formik.touched.carbs && formik.errors.carbs}
-              fullWidth
-              margin="dense"
-            />
-              <Select
-                label="Unit"
-                name="unit"
-                value={formik.values.unit}
+        <Dialog open={addOpen} onClose={closeFormDialog}>
+          <DialogTitle>Add Ingredient</DialogTitle>
+          <DialogContent>
+            <form onSubmit={handleFormSubmit}>
+              <TextField
+                label="Name"
+                name="name"
+                value={formik.values.name}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
                 fullWidth
                 margin="dense"
-              >
-                <MenuItem value="ml">Milliliters (ml)</MenuItem>
-                <MenuItem value="g">Grams (g)</MenuItem>
-              </Select>
-            <DialogActions>
-              <Button id='secondary-button' onClick={closeFormDialog}>Cancel</Button>
-              <Button id='primary-button' variant="contained" type='submit'>
-                Add
-              </Button>
-            </DialogActions>
-          </form>
-        </DialogContent>
-      </Dialog>)}
+              />
+              <TextField
+                label="Category"
+                name="category"
+                value={formik.values.category}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.category && Boolean(formik.errors.category)
+                }
+                helperText={formik.touched.category && formik.errors.category}
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                label="Description"
+                name="description"
+                value={formik.values.description}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.description &&
+                  Boolean(formik.errors.description)
+                }
+                helperText={
+                  formik.touched.description && formik.errors.description
+                }
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                label="Price"
+                name="price"
+                type="number"
+                value={formik.values.price}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.price && Boolean(formik.errors.price)}
+                helperText={formik.touched.price && formik.errors.price}
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                label="Protein"
+                name="protein"
+                type="number"
+                value={formik.values.protein}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.protein && Boolean(formik.errors.protein)}
+                helperText={formik.touched.protein && formik.errors.protein}
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                label="Fats"
+                name="fats"
+                type="number"
+                value={formik.values.fats}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.fats && Boolean(formik.errors.fats)}
+                helperText={formik.touched.fats && formik.errors.fats}
+                fullWidth
+                margin="dense"
+              />
+              <TextField
+                label="Carbs"
+                name="carbs"
+                type="number"
+                value={formik.values.carbs}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.carbs && Boolean(formik.errors.carbs)}
+                helperText={formik.touched.carbs && formik.errors.carbs}
+                fullWidth
+                margin="dense"
+              />
+              <FormControl fullWidth>
+                <InputLabel id="unit">Unit</InputLabel>
+                <Select
+                  labelId="unit"
+                  id="unit"
+                  value={formik.values.unit}
+                  label="Unit"
+                  onChange={formik.handleChange}
+                  style={{ marginTop: "10px" }}
+                >
+                  <MenuItem value={"ml"}>Milliliters</MenuItem>
+                  <MenuItem value={"g"}>Grams</MenuItem>
+                </Select>
+              </FormControl>
+              <DialogActions>
+                <Button id="secondary-button" onClick={closeFormDialog}>
+                  Cancel
+                </Button>
+                <Button id="primary-button" variant="contained" type="submit">
+                  Add
+                </Button>
+              </DialogActions>
+            </form>
+          </DialogContent>
+        </Dialog>
+      )}
     </>
   );
 }
