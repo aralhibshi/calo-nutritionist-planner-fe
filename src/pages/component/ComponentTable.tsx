@@ -8,8 +8,8 @@ import { IComponent } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useComponentStore from "../../stores/componentStore";
 import AddComponentDialog from "./AddComponentDialog";
-import EditComponentDialog from "./EditComponentDIalog";
 import useEntityStore from "../../stores/entityStore";
+// import EditComponentDialog from "./EditComponentDIalog";
 
 const ComponentTable: React.FC = () => {
   const [components, setComponents] = useState<IComponent[]>([]);
@@ -99,7 +99,7 @@ const ComponentTable: React.FC = () => {
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            <th>Edit&nbsp;</th>
+            {/* <th>Edit&nbsp;</th> */}
           </tr>
         </thead>
         <tbody>
@@ -152,13 +152,13 @@ const ComponentTable: React.FC = () => {
         </tbody>
 
       </Table>
-      <EditComponentDialog
+      {/* <EditComponentDialog
         key={selectedComponent?.id}
         open={open}
         setOpen={setOpen}
         onComponentUpdated={handleComponentUpdated}
         component={selectedComponent}
-      />
+      /> */}
       <div
         style={{
           position: "absolute",
