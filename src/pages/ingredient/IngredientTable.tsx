@@ -33,7 +33,9 @@ const IngredientTable: React.FC = () => {
   async function loadIngredients() {
     try {
       setLoading(true);
-      const response = await IngredientsApi.fetchIngredients(skip);
+      setSkip(0)
+      const take = 9;
+      const response = await IngredientsApi.fetchIngredients(skip,take);
       setEntityCount(response.count);
       setSearchResult(response.data)
       if (searchResult) {

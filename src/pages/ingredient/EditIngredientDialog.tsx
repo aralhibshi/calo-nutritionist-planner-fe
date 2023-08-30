@@ -1,4 +1,4 @@
-import {useState } from "react";
+import { useState } from "react";
 import { IIngredientData } from "../../interfaces";
 import * as IngredientsApi from "../../network/ingredientApi";
 import Button from "@mui/material/Button";
@@ -9,10 +9,11 @@ import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import validationSchema from "../../validation/ingredientFormValidation";
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { FormControl, InputLabel } from "@mui/material";
 
 interface EditIngredientDialogProps {
   open: boolean;
@@ -60,12 +61,10 @@ export default function EditIngredientDialog({
         }
 
         closeFormDialog();
-      } 
-      catch (error) {
+      } catch (error) {
         console.log("Error:", error);
         alert(error);
-      }
-      finally {
+      } finally {
         setLoading(false);
       }
     },
@@ -148,20 +147,25 @@ export default function EditIngredientDialog({
                 fullWidth
                 margin="dense"
               />
-              <Select
-                label="Unit"
-                name="unit"
-                value={formik.values.unit}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              >
-                <MenuItem value="ml">ml</MenuItem>
-                <MenuItem value="g">g</MenuItem>
-              </Select>
+              <FormControl fullWidth>
+                <InputLabel id="unit">Unit</InputLabel>
+                <Select
+                  labelId="unit"
+                  id="unit"
+                  value={formik.values.unit}
+                  label="Unit"
+                  onChange={formik.handleChange}
+                  style={{ marginTop: "10px" }}
+                >
+                  <MenuItem value={"ml"}>Milliliters</MenuItem>
+                  <MenuItem value={"g"}>Grams</MenuItem>
+                </Select>
+              </FormControl>
               <DialogActions>
-                <Button id='secondary-button' onClick={closeFormDialog}>Cancel</Button>
-                <Button id='primary-button' variant="contained" type="submit">
+                <Button id="secondary-button" onClick={closeFormDialog}>
+                  Cancel
+                </Button>
+                <Button id="primary-button" variant="contained" type="submit">
                   Save
                 </Button>
               </DialogActions>

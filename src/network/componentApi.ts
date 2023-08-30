@@ -22,22 +22,22 @@ export async function searchComponent(index: string, skip: number): Promise<any>
 }
 
 export async function createComponent(
-  ingredient: IComponentData
+  component: IComponentData
 ): Promise<IComponent> {
   try {
-    const response = await fetchData(`${baseURL} `, {
+    const response = await fetchData(`${baseURL}component`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(ingredient),
+      body: JSON.stringify(component),
     });
 
     console.log(response);
     return response.data;
   } catch (err) {
     throw createError(500, "Internal Server Error", {
-      details: "An error occurred while fetching matching ingredient:",
+      details: "An error occurred while fetching matching component:",
       err,
     });
   }
