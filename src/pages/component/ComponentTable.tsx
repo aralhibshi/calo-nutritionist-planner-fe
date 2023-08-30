@@ -101,11 +101,11 @@ const ComponentTable: React.FC = () => {
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            {/* <th>Edit&nbsp;</th> */}
+            <th>Edit&nbsp;</th>
           </tr>
         </thead>
         <tbody>
-          {searchResult && Array.isArray(searchResult) ? (
+          {searchResult && Array.isArray(searchResult) && searchResult.length > 0 ? (
             searchResult.map((component: IComponent, index: number) => {
               let totalFats = 0;
               let totalCarbs = 0;
