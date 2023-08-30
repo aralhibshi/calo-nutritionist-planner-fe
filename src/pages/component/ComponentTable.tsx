@@ -92,7 +92,7 @@ const ComponentTable: React.FC = () => {
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            <th>Edit&nbsp;</th>
+            {/* <th>Edit&nbsp;</th> */}
           </tr>
         </thead>
         <tbody>
@@ -115,17 +115,17 @@ const ComponentTable: React.FC = () => {
                   totalPrice += Number(el.ingredient.price)
                   return null;
                 })}
-                <td>{totalCalories}</td>
+                <td>{totalCalories.toFixed(3)}</td>
                 <td>{totalProteins}</td>
                 <td>{totalCarbs}</td>
                 <td>{totalFats}</td>
                 <td>{component.unit}</td>
                 <td>{totalPrice}</td>
-                <td>
+                {/* <td>
                   <IconButton onClick={() => handleEditClick(component)}>
                     <EditIcon />
                   </IconButton>
-                </td>
+                </td> */}
               </tr>
             );
           })}
