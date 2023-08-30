@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import Table from "@mui/joy/Table";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop, IconButton } from "@mui/material";
-// import EditIngredientDialog from "./EditIngredientDialog";
-// import AddIngredientDialog from "./AddIngredientDialog";
 import PaginationFooter from "../../components/footer/PaginationFooter";
 import * as componentsApi from "../../network/componentApi";
 import useSearchStore from "../../stores/searchStore";
@@ -12,7 +10,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import useComponentStore from "../../stores/componentStore";
 import { number } from "yup";
 import AddComponentDialog from "./AddComponentDialog";
-import EditComponentDialog from "./EditComponentDIalog";
+// import EditComponentDialog from "./EditComponentDIalog";
 
 const ComponentTable: React.FC = () => {
   const [components, setComponents] = useState<IComponent[]>([]);
@@ -94,7 +92,7 @@ const ComponentTable: React.FC = () => {
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            <th>Edit&nbsp;</th>
+            {/* <th>Edit&nbsp;</th> */}
           </tr>
         </thead>
         <tbody>
@@ -117,29 +115,29 @@ const ComponentTable: React.FC = () => {
                   totalPrice += Number(el.ingredient.price)
                   return null;
                 })}
-                <td>{totalCalories}</td>
+                <td>{totalCalories.toFixed(3)}</td>
                 <td>{totalProteins}</td>
                 <td>{totalCarbs}</td>
                 <td>{totalFats}</td>
                 <td>{component.unit}</td>
                 <td>{totalPrice}</td>
-                <td>
+                {/* <td>
                   <IconButton onClick={() => handleEditClick(component)}>
                     <EditIcon />
                   </IconButton>
-                </td>
+                </td> */}
               </tr>
             );
           })}
         </tbody>
       </Table>
-      <EditComponentDialog
+      {/* <EditComponentDialog
         key={selectedComponent?.id}
         open={open}
         setOpen={setOpen}
         onComponentUpdated={handleComponentUpdated}
         component={selectedComponent}
-      />
+      /> */}
       <div
         style={{
           position: "absolute",
@@ -148,10 +146,6 @@ const ComponentTable: React.FC = () => {
           textAlign: "center",
         }}
       >
-        {/* <PaginationFooter
-          ingredientsCount={ingredientsCount}
-          setSkip={setSkip}
-        /> */}
       </div>
       <AddComponentDialog onComponentAdded={handleComponentAdded} />
     </>

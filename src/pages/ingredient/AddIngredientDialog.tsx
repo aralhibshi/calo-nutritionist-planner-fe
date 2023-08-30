@@ -12,6 +12,7 @@ import validationSchema from "../../validation/ingredientFormValidation";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import useIngredientStore from "../../stores/ingredientStore";
+import { MenuItem, Select } from "@mui/material";
 
 export default function AddIngredientDialog({
   onIngredientAdded,
@@ -168,17 +169,17 @@ export default function AddIngredientDialog({
               fullWidth
               margin="dense"
             />
-            <TextField
-              label="Unit"
-              name="unit"
-              value={formik.values.unit}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.unit && Boolean(formik.errors.unit)}
-              helperText={formik.touched.unit && formik.errors.unit}
-              fullWidth
-              margin="dense"
-            />
+              <Select
+                label="Unit"
+                name="unit"
+                value={formik.values.unit}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="dense"
+              >
+                <MenuItem value="ml">Milliliters (ml)</MenuItem>
+                <MenuItem value="g">Grams (g)</MenuItem>
+              </Select>
             <DialogActions>
               <Button id='secondary-button' onClick={closeFormDialog}>Cancel</Button>
               <Button id='primary-button' variant="contained" type='submit'>
