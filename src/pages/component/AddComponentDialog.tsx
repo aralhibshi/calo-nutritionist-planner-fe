@@ -13,6 +13,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import useIngredientStore from "../../stores/ingredientStore";
 import useComponentStore from "../../stores/componentStore";
+import { MenuItem, Select } from "@mui/material";
 
 export default function AddComponentDialog({
   onComponentAdded,
@@ -85,7 +86,7 @@ export default function AddComponentDialog({
         </Box>
       ) : (
       <Dialog open={addOpen} onClose={closeFormDialog}>
-        <DialogTitle>Add Ingredient</DialogTitle>
+        <DialogTitle>Add Component</DialogTitle>
         <DialogContent>
           <form onSubmit={handleFormSubmit}>
             <TextField
@@ -126,8 +127,8 @@ export default function AddComponentDialog({
               margin="dense"
             />
             <TextField
-              label="Price"
-              name="price"
+              label="Ingredients"
+              name="Ingredients"
               type="number"
               value={formik.values.ingredients}
               onChange={formik.handleChange}
@@ -137,17 +138,17 @@ export default function AddComponentDialog({
               fullWidth
               margin="dense"
             />
-            <TextField
-              label="Unit"
-              name="unit"
-              value={formik.values.unit}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={formik.touched.unit && Boolean(formik.errors.unit)}
-              helperText={formik.touched.unit && formik.errors.unit}
-              fullWidth
-              margin="dense"
-            />
+              <Select
+                label="Unit"
+                name="unit"
+                value={formik.values.unit}
+                onChange={formik.handleChange}
+                fullWidth
+                margin="dense"
+              >
+                <MenuItem value="ml">Milliliters (ml)</MenuItem>
+                <MenuItem value="g">Grams (g)</MenuItem>
+              </Select>
             <DialogActions>
               <Button onClick={closeFormDialog}>Cancel</Button>
               <Button variant="contained" type='submit'>
