@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import * as IngredientsApi from "../../network/ingredientApi";
 import { IAddIngredientDialogProps } from "../../interfaces";
 import { useFormik } from "formik";
-import validationSchema from "../../validation/ingredientFormValidation";
+import ingredientValidationSchema from "../../validation/ingredientFormValidation";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import useIngredientStore from "../../stores/ingredientStore";
@@ -36,7 +36,7 @@ export default function AddIngredientDialog({
       carbs: 0,
       unit: "",
     },
-    validationSchema: validationSchema,
+    validationSchema: ingredientValidationSchema,
     onSubmit: async (values) => {
       try {
         setLoading(true);

@@ -1,25 +1,29 @@
 import { Button } from '@mui/material';
-import useComponentStore from '../../stores/componentStore';
+import Box from '@mui/material/Box';
 import {AiOutlinePlus} from 'react-icons/ai'
-const AddComponentButton = () => {
+import useComponentStore from '../../stores/componentStore';
+
+const AddComponentButton: React.FC = () => {
   const { setAddOpen } = useComponentStore();
 
   return (
-    <Button
+      <Button
       id='primary-button'
       variant='contained'
       type="submit"
       onClick={() => setAddOpen(true)}
-      // style={{
-      //   fontWeight: 'bold',
-      //   scale: '80%'
-      // }}
-    >
-      Add Component &nbsp;
-      <AiOutlinePlus       style={{
-        scale: '150%'
-      }}/>
-    </Button>
+      style={{
+        width: '131px',
+        height: '56px'
+      }}
+      >
+        Create &nbsp;
+        <AiOutlinePlus
+          style={{
+          scale: '150%'
+          }}
+        />
+      </Button>
   )
 }
 

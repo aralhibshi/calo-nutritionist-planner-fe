@@ -7,20 +7,6 @@ import NavBar from './components/header/NavBar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home'
 
-// Fonts
-import '../src/assets/fonts/Roboto/Roboto-Thin.ttf'
-import '../src/assets/fonts/Roboto/Roboto-ThinItalic.ttf'
-import '../src/assets/fonts/Roboto/Roboto-Light.ttf'
-import '../src/assets/fonts/Roboto/Roboto-LightItalic.ttf'
-import '../src/assets/fonts/Roboto/Roboto-Regular.ttf'
-import '../src/assets/fonts/Roboto/Roboto-RegularItalic.ttf'
-import '../src/assets/fonts/Roboto/Roboto-Medium.ttf'
-import '../src/assets/fonts/Roboto/Roboto-MediumItalic.ttf'
-import '../src/assets/fonts/Roboto/Roboto-Bold.ttf'
-import '../src/assets/fonts/Roboto/Roboto-BoldItalic.ttf'
-import '../src/assets/fonts/Roboto/Roboto-Black.ttf'
-import '../src/assets/fonts/Roboto/Roboto-BlackItalic.ttf'
-
 Amplify.configure(awsconfig)
 
 function App({ signOut, user }: WithAuthenticatorProps) {
@@ -37,10 +23,11 @@ function App({ signOut, user }: WithAuthenticatorProps) {
           signOut={signOut}
           user={user}
         />
-        <div style={{
-          marginLeft: '32px',
-          marginRight: '32px'
-        }}
+        <div
+          style={{
+            marginLeft: '32px',
+            marginRight: '32px'
+          }}
         >
           <Routes>
               <Route

@@ -27,7 +27,7 @@ export interface IIngredient {
 }
 
 // Ingredient Response
-export interface IIngredientResponse {
+export interface IFetchIngredientsResponse {
   count: number;
   data: {
     id: string;
@@ -46,7 +46,7 @@ export interface IIngredientResponse {
 
 // Component
 export interface IComponent{
-  id: string,
+  id: string;
   name: string;
   category?: string;
   description?: string;
@@ -68,10 +68,10 @@ export interface IComponentData {
 
 // Component Ingredient
 export interface IComponentIngredient{
-  id: string,
-  component_id: string,
-  ingredient_id:string,
-  ingredient_quantity:number,
+  id: string;
+  component_id: string;
+  ingredient_id:string;
+  ingredient_quantity:number;
   created_at: Date;
   updated_at: Date;
   ingredient: IIngredient
@@ -79,7 +79,7 @@ export interface IComponentIngredient{
 
 // ComponentIngredient Create/Update (Ingredient Array) - Data
 export interface IComponentIngredientDataArray {
-  ingredientId: string,
+  ingredientId: string;
   ingredient_quantity: number
 }
 
@@ -95,6 +95,26 @@ export interface IMeal {
   meals_components: Array<IMealComponent>
 }
 
+// Fetch Meals Response
+export interface IFetchMealsResponse {
+  count: number;
+  data: {
+    id: string;
+    name: string;
+    description: string;
+    size: string;
+    unit: string;
+    created_at: Date
+    updated_at: Date
+    meals_components: Array<IMealComponent> 
+  }
+}
+
+// Meal Create/Update - Data
+export interface IMealData {
+
+}
+
 // Meal Component
 export interface IMealComponent {
   id: string;
@@ -106,6 +126,12 @@ export interface IMealComponent {
   component: IComponent 
 }
 
+// MealComponent Create/Update (Component Array) - Data
+export interface IMealComponentDataArray {
+  componentId: string;
+  component_quantity: number
+}
+
 // Props --
 
 // Add Ingredient Dialog/Modal
@@ -113,16 +139,21 @@ export interface IAddIngredientDialogProps {
   onIngredientAdded: (newIngredient: IIngredientData) => void;
 }
 
-// Add Ingredient Dialog/Modal
+// Add Component Dialog/Modal
 export interface IAddComponentDialogProps {
   onComponentAdded: (newComponent: IComponentData) => void;
+}
+
+// Add Meal Dialog/Modal
+export interface IAddMealDialogProps {
+  onMealAdded: (newMeal: IMealData) => void;
 }
 
 // Zustand --
 
 // Entity Store
 export interface IEntityStore {
-  entity: string,
+  entity: string;
   setEntity: (ent: string) => void;
   entityCount: number;
   setEntityCount: (count: number) => void;
@@ -134,13 +165,13 @@ export interface IEntityStore {
 export interface ISearchStore {
   loading: boolean;
   setLoading: (load: boolean) => void;
-  searchResult: any,
+  searchResult: any;
   setSearchResult: (result: any) => void
 }
 
 // Ingredient Store
 export interface IIngredientStore {
-  addOpen: boolean,
+  addOpen: boolean;
   setAddOpen: (isOpen: boolean) => void;
   selectedIngredient: IIngredient | null;
   setSelectedIngredient: (ingredient: IIngredient | null) => void;
@@ -148,8 +179,16 @@ export interface IIngredientStore {
 
 // Component Store
 export interface IComponentStore {
-  addOpen: boolean,
+  addOpen: boolean;
   setAddOpen: (isOpen: boolean) => void;
   selectedComponent: IComponentData | null;
   setSelectedComponent: (component: IComponentData | null) => void;
+}
+
+// Meal Store
+export interface IMealStore {
+  addOpen: boolean;
+  setAddOpen: (isOpen: boolean) => void;
+  selectedMeal: IMealData | null;
+  setSelectedMeal: (meal: IMealData | null) => void;
 }

@@ -54,10 +54,16 @@ const MealTable: React.FC = () => {
           <CircularProgress color="inherit" />
         </Backdrop>
       )}
-      <Table hoverRow sx={{ marginTop: "20px", userSelect: "none" }}>
+      <Table hoverRow
+          sx={{ 
+            marginTop: "15px",
+            userSelect: "none",
+          }}
+          id='table'
+        >
         <thead>
           <tr>
-            <th style={{ width: "40%" }}>Meal Name&nbsp;</th>
+            <th style={{ width: "40%", backgroundColor: '' }}>Meal Name&nbsp;</th>
             <th>Calories&nbsp;</th>
             <th>Proteins&nbsp;</th>
             <th>Carbs&nbsp;</th>

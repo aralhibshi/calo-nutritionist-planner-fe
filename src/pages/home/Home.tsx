@@ -1,12 +1,22 @@
-import SearchBar from "../../components/search/SearchBar"
+// Material UI
+import { Typography } from '@mui/material';
+
+// Components
 import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
+import SearchBar from "../../components/search/SearchBar"
+import PaginationFooter from "../../components/footer/PaginationFooter";
+
+// Pages
 import AddIngredientButton from '../ingredient/AddIngredientButton';
-import useEntityStore from '../../stores/entityStore';
+import AddComponentButton from "../component/AddComponentButton";
+import AddMealButton from "../meal/AddMealButton";
 import IngredientTable from "../ingredient/IngredientTable";
 import ComponentTable from '../component/ComponentTable';
 import MealTable from "../meal/MealTable";
-import AddComponentButton from "../component/AddComponentButton";
-import PaginationFooter from "../../components/footer/PaginationFooter";
+
+// Stores
+import useEntityStore from '../../stores/entityStore';
+
 
 const Home: React.FC = () => {
   const { entity } = useEntityStore();
@@ -24,8 +34,12 @@ const Home: React.FC = () => {
   : entity === 'component'
   ? <AddComponentButton/>
   : entity === 'meal'
-  ? null
+  ? <AddMealButton/>
   : null;
+
+  function entityString(entity: string) {
+    return entity.charAt(0).toUpperCase() + entity.slice(1) + 's'
+  }
 
   return (
     <>
@@ -33,11 +47,18 @@ const Home: React.FC = () => {
         display: 'flex',
         justifyContent: 'space-between',
         alignContent: 'center',
-        marginTop: '20px',
-        marginBottom: '10px'
+        alignItems: 'center',
+        marginTop: '15px',
+        marginBottom: '15px'
         }}
       >
         <SearchTypeDropdown/>
+        <Typography
+          variant="h4"
+          component="h2"
+          >
+          { entityString(entity) }
+        </Typography>
         { addEntityButton }
       </div>
       <div style={{
