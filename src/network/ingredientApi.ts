@@ -40,7 +40,7 @@ export async function fetchIngredients(
 export async function searchIngredient(
   index: string,
   skip: number
-): Promise<Array<IIngredient>> {
+): Promise<Array<any>> {
   try {
     const response = await fetchData(
       `${baseURL}ingredient/search?name=${index}&skip=${skip}`,

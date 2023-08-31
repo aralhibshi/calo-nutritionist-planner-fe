@@ -17,6 +17,9 @@ import Box from "@mui/material/Box";
 import Tag from "./Tag";
 import useComponentStore from "../../stores/componentStore";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import useEntityStore from "../../stores/entityStore";
+import ComponentSearchBar from "./ComponentSearchBar";
+import ComponentIngredientTable from "./ComponentIngredientTable";
 
 export default function AddComponentDialog({
   onComponentAdded,
@@ -167,11 +170,14 @@ export default function AddComponentDialog({
                     flex: 1,
                     marginBottom:'90px',
                     display: "flex",
-                    justifyContent: "center",
+                    justifyContent: "column",
                     alignItems: "center",
+                    flexDirection: "column",
+                    marginLeft: "20px"
                   }}
                 >
-                  <Tag />
+                  <ComponentSearchBar/>
+                  <ComponentIngredientTable/>
                 </div>
               </div>
 

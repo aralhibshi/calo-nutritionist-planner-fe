@@ -167,6 +167,11 @@ export interface ISearchStore {
   setLoading: (load: boolean) => void;
   searchResult: any;
   setSearchResult: (result: any) => void
+
+  componentLoading: boolean;
+  setComponentLoading: (load: boolean) => void;
+  componentSearchResult: any;
+  setComponentSearchResult: (result: any) => void
 }
 
 // Ingredient Store
