@@ -82,15 +82,6 @@ const IngredientTable: React.FC = () => {
     loadIngredients();
   };
 
-  function isIngredient(obj: any): obj is IIngredient {
-    return (
-      typeof obj === 'object' &&
-      'fats' in obj &&
-      'carbs' in obj &&
-      'protein' in obj
-    );
-  }
-
   return (
     <>
       {loading && (
@@ -109,9 +100,8 @@ const IngredientTable: React.FC = () => {
       <Table
         hoverRow
         sx={{
-          marginTop: "20px",
+          marginTop: "15px",
           userSelect: "none",
-          fontFamily: 'Roboto'
         }}
         id='table'
       >

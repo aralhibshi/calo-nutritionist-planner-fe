@@ -1,9 +1,9 @@
 import { Button } from '@mui/material';
 import {AiOutlinePlus} from 'react-icons/ai'
-import useIngredientStore from '../../stores/ingredientStore';
+import useMealStore from '../../stores/mealStore';
 
-const AddIngredientButton: React.FC = () => {
-  const { setAddOpen } = useIngredientStore();
+const AddMealButton: React.FC = () => {
+  const { setAddOpen } = useMealStore();
 
   return (
     <Button
@@ -26,4 +26,4 @@ const AddIngredientButton: React.FC = () => {
   )
 }
 
-export default AddIngredientButton;
+export default AddMealButton;

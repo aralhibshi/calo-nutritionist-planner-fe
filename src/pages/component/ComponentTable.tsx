@@ -92,17 +92,35 @@ const ComponentTable: React.FC = () => {
           <CircularProgress color="inherit" />
         </Backdrop>
       )}
-      <Table hoverRow sx={{ marginTop: "20px", userSelect: "none" }}>
+      <Table
+        hoverRow
+        sx={{
+          marginTop: "15px",
+          userSelect: "none",
+        }}
+        id='table'
+          >
         <thead>
           <tr>
-            <th style={{ width: "40%" }}>Component Name&nbsp;</th>
+            <th
+              style={{
+                width: "40%",
+                borderTopLeftRadius: '8px'
+              }}
+            >
+              Component Name&nbsp;
+            </th>
             <th>Calories&nbsp;</th>
             <th>Proteins&nbsp;</th>
             <th>Carbs&nbsp;</th>
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            <th>Edit&nbsp;</th>
+            <th
+              style={{
+                borderTopRightRadius: '8px'
+              }}
+            >Edit&nbsp;</th>
           </tr>
         </thead>
         <tbody>

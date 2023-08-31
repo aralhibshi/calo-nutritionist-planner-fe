@@ -5,7 +5,9 @@ import createError from "http-errors";
 const baseURL = process.env.REACT_APP_API_BASE_URL
 
 
-export async function fetchComponents(skip: number): Promise<any> {
+export async function fetchComponents(
+  skip: number
+): Promise<any> {
   const response = await fetchData(`${baseURL}components?skip=${skip}`, {
     method: "GET",
   });

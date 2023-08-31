@@ -11,7 +11,7 @@ import {
   IComponentIngredientDataArray,
 } from "../../interfaces";
 import { useFormik } from "formik";
-import validationSchema from "../../validation/componentFormValidation";
+import componentValidationSchema from "../../validation/componentFormValidation";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import Tag from "./Tag";
@@ -49,7 +49,7 @@ export default function AddComponentDialog({
       ingredients: [],
       unit: "",
     },
-    validationSchema: validationSchema,
+    validationSchema: componentValidationSchema,
     onSubmit: async (values) => {
       try {
         setLoading(true);

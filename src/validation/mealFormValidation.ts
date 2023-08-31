@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-const componentValidationSchema = yup.object({
+const mealValidationSchema = yup.object({
   name: yup
     .string()
     .required('Name is required'),
@@ -8,14 +8,14 @@ const componentValidationSchema = yup.object({
     .string(),
   description: yup
     .string(),
-  ingredients: yup
+  components: yup
     .array()
     .min(1)
-    .required('Ingredients are required'),
+    .required('Components are required'),
   unit: yup
     .string()
     .matches(/^(ml|g)$/, 'Unit must be "ml" or "g"')
     .required('Unit is required')
 });
 
-export default componentValidationSchema;
+export default mealValidationSchema;

@@ -15,11 +15,13 @@ const SearchTypeDropdown: React.FC = () => {
   };
 
   return (
-    <Box sx={{
-      minWidth: 140,
-      display: 'flex',
-      alignItems: 'center'
-      }}>
+    <Box
+      sx={{
+        minWidth: 140,
+        display: 'flex',
+        alignItems: 'center'
+      }}
+    >
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Type</InputLabel>
         <Select

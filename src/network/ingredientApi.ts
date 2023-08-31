@@ -1,17 +1,8 @@
-import { IIngredientData, IIngredient } from "../interfaces";
+import { IFetchIngredientsResponse, IIngredientData, IIngredient } from "../interfaces";
 import { fetchData } from "./baseApi";
 import createError from "http-errors";
 
 const baseURL = process.env.REACT_APP_API_BASE_URL;
-
-// Function to fetch ingredients from the backend API
-export async function fetchIngredients(skip: number, take:number): Promise<any> {
-  const response = await fetchData(`${baseURL}ingredients?skip=${skip}&take=${take}`, {
-    method: "GET",
-  });
-  console.log(response);
-  return response;
-}
 
 export async function createIngredient(
   ingredient: IIngredientData
@@ -33,6 +24,17 @@ export async function createIngredient(
       err,
     });
   }
+}
+
+export async function fetchIngredients(
+  skip: number,
+  take:number
+): Promise<IFetchIngredientsResponse> {
+  const response = await fetchData(`${baseURL}ingredients?skip=${skip}&take=${take}`, {
+    method: "GET",
+  });
+  console.log(response);
+  return response;
 }
 
 export async function searchIngredient(
