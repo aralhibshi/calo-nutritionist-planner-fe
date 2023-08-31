@@ -29,7 +29,7 @@ export async function createIngredient(
 export async function fetchIngredients(
   skip: number,
   take:number
-): Promise<IFetchIngredientsResponse> {
+): Promise<any> {
   const response = await fetchData(`${baseURL}ingredients?skip=${skip}&take=${take}`, {
     method: "GET",
   });
