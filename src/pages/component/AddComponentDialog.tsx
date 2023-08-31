@@ -37,13 +37,6 @@ export default function AddComponentDialog({
     setAddOpen(false);
   };
 
-  // id?: string
-  // name: string;
-  // category?: string;
-  // description?: string;
-  // ingredients?: Array<IComponentIngredientDataArray>
-  // unit: string;
-
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -155,7 +148,7 @@ export default function AddComponentDialog({
                       id="unit"
                       value={formik.values.unit}
                       label="Unit"
-                      onChange={formik.handleChange}
+onChange={formik.handleChange}
                       style={{ marginTop: "10px" }}
                     >
                       <MenuItem value={"ml"}>Milliliters</MenuItem>
@@ -168,7 +161,7 @@ export default function AddComponentDialog({
                 <div
                   style={{
                     flex: 1,
-                    marginBottom:'90px',
+                    marginBottom:'20px',
                     display: "flex",
                     justifyContent: "column",
                     alignItems: "center",
