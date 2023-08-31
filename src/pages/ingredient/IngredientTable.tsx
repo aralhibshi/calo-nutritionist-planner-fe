@@ -106,16 +106,28 @@ const IngredientTable: React.FC = () => {
         id='table'
       >
         <thead>
-          <tr
-          >
-            <th style={{ width: "40%" }}>Ingredient Name&nbsp;</th>
+          <tr>
+            <th
+              style={{
+                width: "40%",
+                borderTopLeftRadius: '8px'
+              }}
+            >
+              Ingredient Name&nbsp;
+            </th>
             <th>Calories&nbsp;</th>
             <th>Protein&nbsp;</th>
             <th>Carbs&nbsp;</th>
             <th>Fat&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;(BHD)</th>
-            <th>Edit</th>
+            <th
+              style={{
+                borderTopRightRadius: '8px'
+              }}
+            >
+              Edit&nbsp;
+            </th>
           </tr>
         </thead>
         <tbody>

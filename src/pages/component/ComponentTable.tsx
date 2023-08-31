@@ -120,7 +120,9 @@ const ComponentTable: React.FC = () => {
               style={{
                 borderTopRightRadius: '8px'
               }}
-            >Edit&nbsp;</th>
+            >
+              Edit&nbsp;
+            </th>
           </tr>
         </thead>
         <tbody>

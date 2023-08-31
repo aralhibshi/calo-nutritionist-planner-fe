@@ -32,12 +32,17 @@ code {
 
 #table > thead > tr > th {
   font-weight: 500;
-  background-color: #1bc36f12;
+  background-color: #14c16b31;
 }
 
 #table > tbody > tr {
-  font-weight: 400
-} 
+  font-weight: 400; 
+  background-color: #84848405;
+}
+
+#table >tbody > tr:hover {
+  background-color: #0000001f;
+}
 
 /* Buttons */
 #primary-button {
