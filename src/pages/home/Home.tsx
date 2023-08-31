@@ -1,9 +1,10 @@
 import SearchBar from "../../components/search/SearchBar"
-import ComponentTable from '../component/ComponentTable';
 import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
 import AddIngredientButton from '../ingredient/AddIngredientButton';
 import useEntityStore from '../../stores/entityStore';
 import IngredientTable from "../ingredient/IngredientTable";
+import ComponentTable from '../component/ComponentTable';
+import MealTable from "../meal/MealTable";
 import AddComponentButton from "../component/AddComponentButton";
 import PaginationFooter from "../../components/footer/PaginationFooter";
 
@@ -15,7 +16,7 @@ const Home: React.FC = () => {
   : entity === 'component'
   ? <ComponentTable/>
   : entity === 'meal'
-  ? null
+  ? <MealTable/>
   : null;
 
   const addEntityButton = entity === 'ingredient'
@@ -48,7 +49,9 @@ const Home: React.FC = () => {
       >
       <SearchBar/>
       </div>
+
       { entityTable }
+      
       <div
         style={{
           position: "absolute",

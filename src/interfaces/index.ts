@@ -50,7 +50,7 @@ export interface IComponent{
   name: string;
   category?: string;
   description?: string;
-  component_ingredient: Array<IComponentIngredient>
+  components_ingredients: Array<IComponentIngredient>
   unit: string;
   created_at: Date;
   updated_at: Date;
@@ -81,6 +81,29 @@ export interface IComponentIngredient{
 export interface IComponentIngredientDataArray {
   ingredientId: string,
   ingredient_quantity: number
+}
+
+// Meal
+export interface IMeal {
+  id: string;
+  name: string;
+  description: string;
+  size: string;
+  unit: string;
+  created_at: Date
+  updated_at: Date
+  meals_components: Array<IMealComponent>
+}
+
+// Meal Component
+export interface IMealComponent {
+  id: string;
+  meal_id: string;
+  component_id: string;
+  component_quantity: string;
+  created_at: Date;
+  updated_at: Date;
+  component: IComponent 
 }
 
 // Props --

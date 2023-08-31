@@ -23,7 +23,6 @@ const IngredientTable: React.FC = () => {
   const {
     setEntityCount,
     skip,
-    setSkip
   } = useEntityStore();
   const {
     selectedIngredient,
@@ -33,7 +32,6 @@ const IngredientTable: React.FC = () => {
   async function loadIngredients() {
     try {
       setLoading(true);
-      setSkip(0)
       const take = 9;
       const response = await IngredientsApi.fetchIngredients(skip,take);
       setEntityCount(response.count);
@@ -131,7 +129,7 @@ const IngredientTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-        {searchResult && Array.isArray(searchResult) ? (
+        {searchResult && Array.isArray(searchResult) && searchResult.length > 0 ? (
           searchResult.map((ingredient: IIngredient, index: number) => {
             const calories: string = (
               ingredient.fats * 9 +

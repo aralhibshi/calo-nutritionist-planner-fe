@@ -8,18 +8,18 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home'
 
 // Fonts
-import './assets/fonts/Roboto/Roboto-Thin.ttf'
-import './assets/fonts/Roboto/Roboto-ThinItalic.ttf'
-import './assets/fonts/Roboto/Roboto-Light.ttf'
-import './assets/fonts/Roboto/Roboto-LightItalic.ttf'
-import './assets/fonts/Roboto/Roboto-Regular.ttf'
-import './assets/fonts/Roboto/Roboto-RegularItalic.ttf'
-import './assets/fonts/Roboto/Roboto-Medium.ttf'
-import './assets/fonts/Roboto/Roboto-MediumItalic.ttf'
-import './assets/fonts/Roboto/Roboto-Bold.ttf'
-import './assets/fonts/Roboto/Roboto-BoldItalic.ttf'
-import './assets/fonts/Roboto/Roboto-Black.ttf'
-import './assets/fonts/Roboto/Roboto-BlackItalic.ttf'
+import '../src/assets/fonts/Roboto/Roboto-Thin.ttf'
+import '../src/assets/fonts/Roboto/Roboto-ThinItalic.ttf'
+import '../src/assets/fonts/Roboto/Roboto-Light.ttf'
+import '../src/assets/fonts/Roboto/Roboto-LightItalic.ttf'
+import '../src/assets/fonts/Roboto/Roboto-Regular.ttf'
+import '../src/assets/fonts/Roboto/Roboto-RegularItalic.ttf'
+import '../src/assets/fonts/Roboto/Roboto-Medium.ttf'
+import '../src/assets/fonts/Roboto/Roboto-MediumItalic.ttf'
+import '../src/assets/fonts/Roboto/Roboto-Bold.ttf'
+import '../src/assets/fonts/Roboto/Roboto-BoldItalic.ttf'
+import '../src/assets/fonts/Roboto/Roboto-Black.ttf'
+import '../src/assets/fonts/Roboto/Roboto-BlackItalic.ttf'
 
 Amplify.configure(awsconfig)
 

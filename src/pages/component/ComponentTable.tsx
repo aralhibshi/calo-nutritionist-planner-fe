@@ -15,13 +15,14 @@ const ComponentTable: React.FC = () => {
   const [components, setComponents] = useState<IComponent[]>([]);
   const { selectedComponent, setSelectedComponent } = useComponentStore();
   const [open, setOpen] = useState(false);
-  const { loading, setLoading } = useSearchStore();
+
   const {
     setEntityCount,
     skip,
-    setSkip
   } = useEntityStore();
   const {
+    loading,
+    setLoading,
     setSearchResult,
     searchResult
   } = useSearchStore();
@@ -101,11 +102,11 @@ const ComponentTable: React.FC = () => {
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            {/* <th>Edit&nbsp;</th> */}
+            <th>Edit&nbsp;</th>
           </tr>
         </thead>
         <tbody>
-          {searchResult && Array.isArray(searchResult) ? (
+          {searchResult && Array.isArray(searchResult) && searchResult.length > 0 ? (
             searchResult.map((component: IComponent, index: number) => {
               let totalFats = 0;
               let totalCarbs = 0;
@@ -113,8 +114,8 @@ const ComponentTable: React.FC = () => {
               let totalCalories = 0;
               let totalPrice = 0;
 
-              if (component.component_ingredient && Array.isArray(component.component_ingredient)) {
-                component.component_ingredient.forEach((el) => {
+              if (component.components_ingredients && Array.isArray(component.components_ingredients)) {
+                component.components_ingredients.forEach((el) => {
                   totalFats += Number(el.ingredient.fats);
                   totalCarbs += Number(el.ingredient.carbs);
                   totalProteins += Number(el.ingredient.protein);
@@ -161,15 +162,6 @@ const ComponentTable: React.FC = () => {
         onComponentUpdated={handleComponentUpdated}
         component={selectedComponent}
       /> */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "0vh",
-          width: "100%",
-          textAlign: "center",
-        }}
-      >
-      </div>
       <AddComponentDialog onComponentAdded={handleComponentAdded} />
     </>
   );
