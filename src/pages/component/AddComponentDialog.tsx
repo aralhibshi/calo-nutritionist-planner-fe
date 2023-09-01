@@ -20,6 +20,7 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import useEntityStore from "../../stores/entityStore";
 import ComponentSearchBar from "./ComponentSearchBar";
 import ComponentIngredientTable from "./ComponentIngredientTable";
+import useIngredientStore from "../../stores/ingredientStore";
 
 export default function AddComponentDialog({
   onComponentAdded,
@@ -27,10 +28,7 @@ export default function AddComponentDialog({
   const [loading, setLoading] = useState(false);
   const { addOpen, setAddOpen } = useComponentStore();
 
-  //new state to hold the selected ingredients
-  const [selectedIngredients, setSelectedIngredients] = useState<
-    Array<IComponentIngredientDataArray>
-  >([]);
+  const { selectedIngredients } = useIngredientStore();
 
   const closeFormDialog = () => {
     formik.resetForm();

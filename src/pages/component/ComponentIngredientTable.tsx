@@ -5,12 +5,19 @@ import { Backdrop } from "@mui/material";
 import * as IngredientsApi from "../../network/ingredientApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useSearchStore from "../../stores/searchStore";
-import { IIngredient, IIngredientData } from "../../interfaces";
+import {
+  IComponentIngredient,
+  IIngredient,
+  IComponentIngredientDataArray,
+} from "../../interfaces";
 import useEntityStore from "../../stores/entityStore";
 
-const IngredientTable: React.FC = () => {
-  const [ingredients, setIngredients] = useState<IIngredientData[]>([]);
-  const [open, setOpen] = useState(false);
+interface ComponentIngredientTableProps {}
+
+const ComponentIngredientTable: React.FC<
+  ComponentIngredientTableProps
+> = () => {
+  const [ingredients, setIngredients] = useState<IComponentIngredient[]>([]);
   const {
     componentLoading,
     setComponentLoading,
@@ -41,20 +48,43 @@ const IngredientTable: React.FC = () => {
   useEffect(() => {
     loadIngredients();
   }, [skip]);
-  const handleSelectClick = (row: IIngredient) => {
-    const updatedSelectedIngredients = [...selectedIngredients]; // Create a copy of the selectedIngredients array
-    const ingredientIndex = updatedSelectedIngredients.findIndex((ingredient) => ingredient.id === row.id); // Check if the ingredient is already selected
-  
+
+  // const handleQuantityChange = (
+  //   ingredient: IComponentIngredient,
+  //   quantity: number
+  // ) => {
+  //   const updatedIngredient: IComponentIngredient = {
+  //     ...ingredient,
+  //     ingredient_quantity: quantity,
+  //   };
+
+  //   const updatedIngredients = [...selectedIngredients];
+  //   const existingIndex = updatedIngredients.findIndex(
+  //     (item) => item.id === updatedIngredient.id
+  //   );
+  //   if (existingIndex !== -1) {
+  //     updatedIngredients[existingIndex] = updatedIngredient;
+  //   } else {
+  //     updatedIngredients.push(updatedIngredient);
+  //   }
+
+  //   setSelectedIngredients(updatedIngredients);
+  // };
+
+  const handleSelectClick = (row: IComponentIngredient) => {
+    const updatedSelectedIngredients = [...selectedIngredients];
+    const ingredientIndex = updatedSelectedIngredients.findIndex(
+      (ingredient) => ingredient.id === row.id
+    );
+
     if (ingredientIndex !== -1) {
-      // If the ingredient is already selected, remove it from the array
       updatedSelectedIngredients.splice(ingredientIndex, 1);
     } else {
-      // If the ingredient is not already selected, add it to the array
       updatedSelectedIngredients.push(row);
     }
-  
+
     setSelectedIngredients(updatedSelectedIngredients);
-    console.log("selected ingredients",updatedSelectedIngredients) // Update the selectedIngredients state with the updated array
+    console.log("selected ingredients", updatedSelectedIngredients);
   };
 
   return (
@@ -82,13 +112,8 @@ const IngredientTable: React.FC = () => {
           <thead>
             <tr>
               <th style={{ width: "40%" }}>Ingredient Name&nbsp;</th>
-              {/* <th>Calories&nbsp;</th>
-              <th>Protein&nbsp;</th>
-              <th>Carbs&nbsp;</th>
-              <th>Fat&nbsp;</th>
-              <th>Unit&nbsp;</th> */}
-              <th>Price&nbsp;(BHD)</th>
-              <th>Select&nbsp;</th>
+              {/* <th>&nbsp;&nbsp;&nbsp;&nbsp;quantity</th> */}
+              <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select</th>
             </tr>
           </thead>
           <tbody>
@@ -96,23 +121,28 @@ const IngredientTable: React.FC = () => {
             Array.isArray(componentSearchResult) &&
             componentSearchResult.length > 0 ? (
               componentSearchResult.map(
-                (ingredient: IIngredient, index: number) => {
-                  const calories: string = (
-                    ingredient.fats * 9 +
-                    ingredient.carbs * 4 +
-                    ingredient.protein * 4
-                  )
-                    .toFixed(3)
-                    .padEnd(5, "0");
+                (ingredient: IComponentIngredient, index: number) => {
                   return (
                     <tr key={index}>
                       <td>{ingredient.name}</td>
-                      {/* <td>{calories}</td>
-                      <td>{ingredient.protein}</td>
-                      <td>{ingredient.carbs}</td>
-                      <td>{ingredient.fats}</td>
-                      <td>{ingredient.unit}</td> */}
-                      <td>{ingredient.price}</td>
+                      {/* <td>
+                        <input
+                          type="number"
+                          min="0"
+                          value={
+                            selectedIngredients.find(
+                              (item) => item.id === ingredient.id
+                            )?.ingredient_quantity || ""
+                          }
+                          onChange={(e) =>
+                            handleQuantityChange(
+                              ingredient,
+                              parseInt(e.target.value, 10)
+                            )
+                          }
+                          style={{ width: "50px" }} // Adjust the width here
+                        />
+                      </td> */}
                       <td>
                         <input
                           type="checkbox"
@@ -135,4 +165,4 @@ const IngredientTable: React.FC = () => {
   );
 };
 
-export default IngredientTable;
+export default ComponentIngredientTable;

@@ -69,6 +69,7 @@ export interface IComponentData {
 // Component Ingredient
 export interface IComponentIngredient{
   id: string;
+  name: string //idk if this should be added tbh
   component_id: string;
   ingredient_id:string;
   ingredient_quantity:number;
@@ -180,8 +181,8 @@ export interface IIngredientStore {
   setAddOpen: (isOpen: boolean) => void;
   selectedIngredient: IIngredient | null;
   setSelectedIngredient: (ingredient: IIngredient | null) => void;
-  selectedIngredients: IIngredient[];
-  setSelectedIngredients: (ingredients: IIngredient[]) => void;
+  selectedIngredients: IComponentIngredient[];
+  setSelectedIngredients: (ingredients: IComponentIngredient[]) => void;
 }
 
 // Component Store
