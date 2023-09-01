@@ -180,6 +180,8 @@ export interface IIngredientStore {
   setAddOpen: (isOpen: boolean) => void;
   selectedIngredient: IIngredient | null;
   setSelectedIngredient: (ingredient: IIngredient | null) => void;
+  selectedIngredients: IIngredient[];
+  setSelectedIngredients: (ingredients: IIngredient[]) => void;
 }
 
 // Component Store

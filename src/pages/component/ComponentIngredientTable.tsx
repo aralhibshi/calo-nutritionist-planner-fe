@@ -18,7 +18,7 @@ const IngredientTable: React.FC = () => {
     setComponentSearchResult,
   } = useSearchStore();
   const { setEntityCount, skip } = useEntityStore();
-  const { selectedIngredient, setSelectedIngredient } = useIngredientStore();
+  const { selectedIngredients, setSelectedIngredients } = useIngredientStore();
 
   async function loadIngredients() {
     try {
@@ -41,14 +41,20 @@ const IngredientTable: React.FC = () => {
   useEffect(() => {
     loadIngredients();
   }, [skip]);
-
-  const handleSelectClick = (row: any) => {
-    setSelectedIngredient(row);
-    setTimeout(() => {
-      setOpen(true);
-    }, 0);
-    console.log(row);
-    console.log("Dialog should open now.");
+  const handleSelectClick = (row: IIngredient) => {
+    const updatedSelectedIngredients = [...selectedIngredients]; // Create a copy of the selectedIngredients array
+    const ingredientIndex = updatedSelectedIngredients.findIndex((ingredient) => ingredient.id === row.id); // Check if the ingredient is already selected
+  
+    if (ingredientIndex !== -1) {
+      // If the ingredient is already selected, remove it from the array
+      updatedSelectedIngredients.splice(ingredientIndex, 1);
+    } else {
+      // If the ingredient is not already selected, add it to the array
+      updatedSelectedIngredients.push(row);
+    }
+  
+    setSelectedIngredients(updatedSelectedIngredients);
+    console.log("selected ingredients",updatedSelectedIngredients) // Update the selectedIngredients state with the updated array
   };
 
   return (
