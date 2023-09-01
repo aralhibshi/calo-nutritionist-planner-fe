@@ -6,7 +6,6 @@ import * as IngredientsApi from "../../network/ingredientApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useSearchStore from "../../stores/searchStore";
 import { IIngredient, IIngredientData } from "../../interfaces";
-import EditIcon from "@mui/icons-material/Edit";
 import useEntityStore from "../../stores/entityStore";
 
 const IngredientTable: React.FC = () => {
@@ -16,16 +15,10 @@ const IngredientTable: React.FC = () => {
     componentLoading,
     setComponentLoading,
     componentSearchResult,
-    setComponentSearchResult
+    setComponentSearchResult,
   } = useSearchStore();
-  const {
-    setEntityCount,
-    skip,
-  } = useEntityStore();
-  const {
-    selectedIngredient,
-    setSelectedIngredient
-  } = useIngredientStore();
+  const { setEntityCount, skip } = useEntityStore();
+  const { selectedIngredient, setSelectedIngredient } = useIngredientStore();
 
   async function loadIngredients() {
     try {
@@ -33,7 +26,7 @@ const IngredientTable: React.FC = () => {
       const take = 9;
       const response = await IngredientsApi.fetchIngredients(0, 100);
       setEntityCount(response.count);
-      setComponentSearchResult(response.data)
+      setComponentSearchResult(response.data);
       if (componentSearchResult) {
         setIngredients(componentSearchResult);
       }
@@ -48,6 +41,15 @@ const IngredientTable: React.FC = () => {
   useEffect(() => {
     loadIngredients();
   }, [skip]);
+
+  const handleSelectClick = (row: any) => {
+    setSelectedIngredient(row);
+    setTimeout(() => {
+      setOpen(true);
+    }, 0);
+    console.log(row);
+    console.log("Dialog should open now.");
+  };
 
   return (
     <>
@@ -80,6 +82,7 @@ const IngredientTable: React.FC = () => {
               <th>Fat&nbsp;</th>
               <th>Unit&nbsp;</th> */}
               <th>Price&nbsp;(BHD)</th>
+              <th>Select&nbsp;</th>
             </tr>
           </thead>
           <tbody>
@@ -104,6 +107,12 @@ const IngredientTable: React.FC = () => {
                       <td>{ingredient.fats}</td>
                       <td>{ingredient.unit}</td> */}
                       <td>{ingredient.price}</td>
+                      <td>
+                        <input
+                          type="checkbox"
+                          onChange={() => handleSelectClick(ingredient)}
+                        />
+                      </td>
                     </tr>
                   );
                 }
