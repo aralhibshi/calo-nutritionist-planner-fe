@@ -63,9 +63,6 @@ export default function AddIngredientDialog({
 
   return (
     <>
-      <div
-        style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}
-      ></div>
       {loading ? (
         <Box
           sx={{

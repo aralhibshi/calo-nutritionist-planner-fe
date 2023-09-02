@@ -11,33 +11,33 @@ Amplify.configure(awsconfig)
 
 function App({ signOut, user }: WithAuthenticatorProps) {
   return (
-    <Router>
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh',
-        minWidth: '100vw'
-        }}
-      >
-        <NavBar
-          signOut={signOut}
-          user={user}
-        />
-        <div
-          style={{
-            marginLeft: '32px',
-            marginRight: '32px'
+      <Router>
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
+          minWidth: '100vw'
           }}
         >
-          <Routes>
-              <Route
-                path="/"
-                element={<Home/>}
-              />
-            </Routes>
+          <NavBar
+            signOut={signOut}
+            user={user}
+          />
+          <div
+            style={{
+              marginLeft: '32px',
+              marginRight: '32px'
+            }}
+          >
+            <Routes>
+                <Route
+                  path="/"
+                  element={<Home/>}
+                />
+              </Routes>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
   );
 }
 

@@ -98,6 +98,7 @@ const ComponentTable: React.FC = () => {
         hoverRow
         sx={{
           marginTop: "15px",
+          marginBottom: '15px',
           userSelect: "none",
         }}
         id='table'
@@ -122,7 +123,9 @@ const ComponentTable: React.FC = () => {
               style={{
                 borderTopRightRadius: '8px'
               }}
-            >Edit&nbsp;</th>
+            >
+              Edit&nbsp;
+            </th>
           </tr>
         </thead>
         <tbody>

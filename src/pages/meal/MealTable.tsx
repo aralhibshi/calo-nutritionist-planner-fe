@@ -57,20 +57,34 @@ const MealTable: React.FC = () => {
       <Table hoverRow
           sx={{ 
             marginTop: "15px",
+            marginBottom: '15px',
             userSelect: "none",
           }}
           id='table'
         >
         <thead>
           <tr>
-            <th style={{ width: "40%", backgroundColor: '' }}>Meal Name&nbsp;</th>
+            <th
+              style={{
+                width: "40%",
+                borderTopLeftRadius: '8px'
+              }}
+            >
+              Meal Name&nbsp;
+            </th>
             <th>Calories&nbsp;</th>
             <th>Proteins&nbsp;</th>
             <th>Carbs&nbsp;</th>
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            <th>Edit&nbsp;</th>
+            <th
+              style={{
+                borderTopRightRadius: '8px'
+              }}
+            >
+              Edit&nbsp;
+            </th>
           </tr>
         </thead>
         <tbody>

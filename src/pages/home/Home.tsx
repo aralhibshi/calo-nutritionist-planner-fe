@@ -1,5 +1,6 @@
 // Material UI
 import { Typography } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 // Components
 import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
@@ -16,6 +17,7 @@ import MealTable from "../meal/MealTable";
 
 // Stores
 import useEntityStore from '../../stores/entityStore';
+import { Fragment } from 'react';
 
 
 const Home: React.FC = () => {
@@ -41,48 +43,48 @@ const Home: React.FC = () => {
     return entity.charAt(0).toUpperCase() + entity.slice(1) + 's'
   }
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#1BC36F',
+        contrastText: '#FFFFFF'
+      }
+    },
+  });
+
   return (
     <>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignContent: 'center',
-        alignItems: 'center',
-        marginTop: '15px',
-        marginBottom: '15px'
-        }}
-      >
-        <SearchTypeDropdown/>
-        <Typography
-          variant="h4"
-          component="h2"
-          >
-          { entityString(entity) }
-        </Typography>
-        { addEntityButton }
-      </div>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignContent: 'center',
-        width: 'auto'
-        }}
-      >
-      <SearchBar/>
-      </div>
-
+      <ThemeProvider theme={theme}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignContent: 'center',
+          alignItems: 'center',
+          marginTop: '79px',
+          marginBottom: '15px'
+          }}
+        >
+          <SearchTypeDropdown/>
+          <Typography
+            variant="h4"
+            component="h2"
+            >
+            { entityString(entity) }
+          </Typography>
+          { addEntityButton }
+        </div>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignContent: 'center',
+          width: 'auto'
+          }}
+        >
+        <SearchBar/>
+        </div>
+      </ThemeProvider>
       { entityTable }
-      
-      <div
-        style={{
-          position: "absolute",
-          bottom: "2vh",
-          width: "100%",
-          textAlign: "center",
-        }}
-      >
-        <PaginationFooter/>
-      </div>
+      <PaginationFooter/>
     </>
   );
 };

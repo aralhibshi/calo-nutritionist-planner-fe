@@ -15,7 +15,7 @@ interface INavBarProps {
 export default function NavBar({ signOut, user }: INavBarProps) {
   return (
     <AppBar
-      position="static"
+      position="fixed"
     >
       <Toolbar
         id='nav-bar'
