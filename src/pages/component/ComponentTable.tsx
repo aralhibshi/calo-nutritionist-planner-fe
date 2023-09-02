@@ -32,10 +32,10 @@ const ComponentTable: React.FC = () => {
     try {
       setLoading(true);
       const response = await componentsApi.fetchComponents(skip);
-      setEntityCount(response.count);
-      setSearchResult(response.data)
+      setEntityCount(response.data.count);
+      setSearchResult(response.data.components)
       if (searchResult) {
-        setComponents(response.data);
+        setComponents(searchResult);
       }
     } catch (error) {
       console.log(error);

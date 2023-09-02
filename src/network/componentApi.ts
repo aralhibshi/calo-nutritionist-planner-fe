@@ -4,6 +4,27 @@ import { fetchData } from "./baseApi";
 import createError from "http-errors";
 const baseURL = process.env.REACT_APP_API_BASE_URL
 
+export async function createComponent(
+  component: IComponentData
+): Promise<IComponent> {
+  try {
+    const response = await fetchData(`${baseURL}component`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(component),
+    });
+
+    console.log(response);
+    return response;
+  } catch (err) {
+    throw createError(500, "Internal Server Error", {
+      details: "An error occurred while fetching matching component:",
+      err,
+    });
+  }
+}
 
 export async function fetchComponents(
   skip: number
@@ -21,28 +42,6 @@ export async function searchComponent(index: string, skip: number): Promise<any>
   });
   console.log(response);
   return response;
-}
-
-export async function createComponent(
-  component: IComponentData
-): Promise<IComponent> {
-  try {
-    const response = await fetchData(`${baseURL}component`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(component),
-    });
-
-    console.log(response);
-    return response.data;
-  } catch (err) {
-    throw createError(500, "Internal Server Error", {
-      details: "An error occurred while fetching matching component:",
-      err,
-    });
-  }
 }
 
 // export async function updateComponent(
