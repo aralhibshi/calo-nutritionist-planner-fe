@@ -27,7 +27,10 @@ const PaginationFooter: React.FC = () => {
     <Pagination
       style={{
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        margin: '0 auto',
+        position: 'static',
+        bottom: '5vh'
       }}
       count={totalPages}
       shape="rounded"

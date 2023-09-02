@@ -57,6 +57,7 @@ const MealTable: React.FC = () => {
       <Table hoverRow
           sx={{ 
             marginTop: "15px",
+            marginBottom: '15px',
             userSelect: "none",
           }}
           id='table'

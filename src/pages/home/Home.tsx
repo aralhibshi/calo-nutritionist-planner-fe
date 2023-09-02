@@ -17,6 +17,7 @@ import MealTable from "../meal/MealTable";
 
 // Stores
 import useEntityStore from '../../stores/entityStore';
+import { Fragment } from 'react';
 
 
 const Home: React.FC = () => {
@@ -59,7 +60,7 @@ const Home: React.FC = () => {
           justifyContent: 'space-between',
           alignContent: 'center',
           alignItems: 'center',
-          marginTop: '15px',
+          marginTop: '79px',
           marginBottom: '15px'
           }}
         >
@@ -82,19 +83,8 @@ const Home: React.FC = () => {
         <SearchBar/>
         </div>
       </ThemeProvider>
-
       { entityTable }
-      
-      <div
-        style={{
-          position: "absolute",
-          bottom: "2vh",
-          width: "100%",
-          textAlign: "center",
-        }}
-      >
-        <PaginationFooter/>
-      </div>
+      <PaginationFooter/>
     </>
   );
 };
