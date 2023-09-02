@@ -1,6 +1,6 @@
 // Material UI
 import { Typography } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+// import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 // Components
 import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
@@ -17,7 +17,6 @@ import MealTable from "../meal/MealTable";
 
 // Stores
 import useEntityStore from '../../stores/entityStore';
-import { Fragment } from 'react';
 
 
 const Home: React.FC = () => {
@@ -43,18 +42,17 @@ const Home: React.FC = () => {
     return entity.charAt(0).toUpperCase() + entity.slice(1) + 's'
   }
 
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#1BC36F',
-        contrastText: '#FFFFFF'
-      }
-    },
-  });
+  // const theme = createTheme({
+  //   palette: {
+  //     primary: {
+  //       main: '#1BC36F',
+  //       contrastText: '#FFFFFF'
+  //     }
+  //   },
+  // });
 
   return (
     <>
-      <ThemeProvider theme={theme}>
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -82,7 +80,6 @@ const Home: React.FC = () => {
         >
         <SearchBar/>
         </div>
-      </ThemeProvider>
       { entityTable }
       <PaginationFooter/>
     </>

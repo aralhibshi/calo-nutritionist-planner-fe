@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Table from "@mui/joy/Table";
+import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop, IconButton } from "@mui/material";
 import * as componentsApi from "../../network/componentApi";
@@ -95,7 +95,6 @@ const ComponentTable: React.FC = () => {
         </Backdrop>
       )}
       <Table
-        hoverRow
         sx={{
           marginTop: "15px",
           marginBottom: '15px',
@@ -105,12 +104,7 @@ const ComponentTable: React.FC = () => {
           >
         <thead>
           <tr>
-            <th
-              style={{
-                width: "40%",
-                borderTopLeftRadius: '8px'
-              }}
-            >
+            <th>
               Component Name&nbsp;
             </th>
             <th>Calories&nbsp;</th>
@@ -119,13 +113,7 @@ const ComponentTable: React.FC = () => {
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            <th
-              style={{
-                borderTopRightRadius: '8px'
-              }}
-            >
-              Edit&nbsp;
-            </th>
+            <th>Edit&nbsp;</th>
           </tr>
         </thead>
         <tbody>

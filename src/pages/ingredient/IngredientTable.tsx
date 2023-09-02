@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Table from "@mui/joy/Table";
+import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop, IconButton } from "@mui/material";
 import EditIngredientDialog from "./EditIngredientDialog";
@@ -98,7 +98,6 @@ const IngredientTable: React.FC = () => {
         </Backdrop>
       )}
       <Table
-        hoverRow
         sx={{
           marginTop: "15px",
           marginBottom: '15px',
@@ -108,12 +107,7 @@ const IngredientTable: React.FC = () => {
       >
         <thead>
           <tr>
-            <th
-              style={{
-                width: "40%",
-                borderTopLeftRadius: '8px'
-              }}
-            >
+            <th>
               Ingredient Name&nbsp;
             </th>
             <th>Calories&nbsp;</th>
@@ -121,14 +115,8 @@ const IngredientTable: React.FC = () => {
             <th>Carbs&nbsp;</th>
             <th>Fat&nbsp;</th>
             <th>Unit&nbsp;</th>
-            <th>Price&nbsp;(BHD)</th>
-            <th
-              style={{
-                borderTopRightRadius: '8px'
-              }}
-            >
-              Edit&nbsp;
-            </th>
+            <th>Price&nbsp;</th>
+            <th>Edit&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -146,7 +134,11 @@ const IngredientTable: React.FC = () => {
                 id='table'
                 key={index}
               >
-                <td>{ingredient.name}</td>
+                <td
+                  style={{
+                    width: '40%'
+                  }}
+                >{ingredient.name}</td>
                 <td>{calories}</td>
                 <td>{ingredient.protein}</td>
                 <td>{ingredient.carbs}</td>
