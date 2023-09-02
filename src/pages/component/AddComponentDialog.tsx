@@ -93,7 +93,11 @@ export default function AddComponentDialog({
             <form onSubmit={handleFormSubmit}>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 {/* Left side */}
-                <div style={{ flex: 1 }}>
+                <div
+                  style={{
+                    flex: 0.5
+                  }}
+                >
                   <TextField
                     label="Name"
                     name="name"
@@ -143,7 +147,7 @@ export default function AddComponentDialog({
                       id="unit"
                       value={formik.values.unit}
                       label="Unit"
-onChange={formik.handleChange}
+                      onChange={formik.handleChange}
                       style={{ marginTop: "10px" }}
                     >
                       <MenuItem value={"ml"}>Milliliters</MenuItem>

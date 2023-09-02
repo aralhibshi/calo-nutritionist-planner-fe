@@ -80,7 +80,7 @@ export interface IComponentIngredient{
 
 // ComponentIngredient Create/Update (Ingredient Array) - Data
 export interface IComponentIngredientDataArray {
-  ingredientId: string;
+  ingredient_id: string;
   ingredient_quantity: number
 }
 

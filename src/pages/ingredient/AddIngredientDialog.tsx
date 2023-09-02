@@ -181,10 +181,10 @@ export default function AddIngredientDialog({
                 </Select>
               </FormControl>
               <DialogActions>
-                <Button id="secondary-button" onClick={closeFormDialog}>
+                <Button onClick={closeFormDialog}>
                   Cancel
                 </Button>
-                <Button id="primary-button" variant="contained" type="submit">
+                <Button variant="contained" type="submit">
                   Add
                 </Button>
               </DialogActions>
