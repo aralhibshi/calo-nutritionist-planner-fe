@@ -95,7 +95,7 @@ export default function AddComponentDialog({
                 {/* Left side */}
                 <div
                   style={{
-                    flex: 0.5
+                    flex: 0.5,
                   }}
                 >
                   <TextField
@@ -143,8 +143,8 @@ export default function AddComponentDialog({
                   <FormControl fullWidth>
                     <InputLabel id="unit">Unit</InputLabel>
                     <Select
+                      name="unit" // Add the id attribute
                       labelId="unit"
-                      id="unit"
                       value={formik.values.unit}
                       label="Unit"
                       onChange={formik.handleChange}
@@ -160,16 +160,16 @@ export default function AddComponentDialog({
                 <div
                   style={{
                     flex: 1,
-                    marginBottom:'20px',
+                    marginBottom: "20px",
                     display: "flex",
                     justifyContent: "column",
                     alignItems: "center",
                     flexDirection: "column",
-                    marginLeft: "20px"
+                    marginLeft: "20px",
                   }}
                 >
-                  <ComponentSearchBar/>
-                  <ComponentIngredientTable/>
+                  <ComponentSearchBar />
+                  <ComponentIngredientTable />
                 </div>
               </div>
 
