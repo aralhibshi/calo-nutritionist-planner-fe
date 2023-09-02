@@ -6,6 +6,8 @@ const useIngredientStore = create<IIngredientStore>((set) => ({
   setAddOpen: (isOpen) => set({ addOpen: isOpen }),
   selectedIngredient: null,
   setSelectedIngredient: (ingredient) => set({ selectedIngredient: ingredient }),
+  selectedIngredients: [],
+  setSelectedIngredients: (ingredients) => set({ selectedIngredients: ingredients }),
 }));
 
 export default useIngredientStore;

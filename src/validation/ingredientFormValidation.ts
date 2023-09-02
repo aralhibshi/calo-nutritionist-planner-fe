@@ -30,10 +30,10 @@ const ingredientValidationSchema = yup.object({
     .positive('Carbs must be a positive number')
     .max(0.999, 'Carbs cannot exceed 0.99')
     .required('Carbs is required'),
-  unit: yup
-    .string()
-    .matches(/^(ml|g)$/, 'Unit must be "ml" or "g"')
-    .required('Unit is required')
+  // unit: yup
+  //   .string()
+  //   .matches(/^(ml|g)$/, 'Unit must be "ml" or "g"')
+  //   .required('Unit is required')
 });
 
 export default ingredientValidationSchema;

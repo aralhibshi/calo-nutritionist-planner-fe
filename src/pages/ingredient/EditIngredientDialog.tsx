@@ -42,7 +42,7 @@ export default function EditIngredientDialog({
       protein: ingredient?.protein ?? 0,
       fats: ingredient?.fats ?? 0,
       carbs: ingredient?.carbs ?? 0,
-      unit: ingredient?.unit ?? "",
+      unit: ingredient?.unit ?? "ml",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -157,8 +157,8 @@ export default function EditIngredientDialog({
                   onChange={formik.handleChange}
                   style={{ marginTop: "10px" }}
                 >
-                  <MenuItem value={"ml"}>Milliliters</MenuItem>
-                  <MenuItem value={"g"}>Grams</MenuItem>
+                  <MenuItem value={'ml'}>Milliliters</MenuItem>
+                  <MenuItem value={'g'}>Grams</MenuItem>
                 </Select>
               </FormControl>
               <DialogActions>

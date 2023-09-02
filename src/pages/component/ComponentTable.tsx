@@ -15,6 +15,7 @@ const ComponentTable: React.FC = () => {
   const [components, setComponents] = useState<IComponent[]>([]);
   const { selectedComponent, setSelectedComponent } = useComponentStore();
   const [open, setOpen] = useState(false);
+  const {setEntity} = useEntityStore()
 
   const {
     setEntityCount,
@@ -53,6 +54,7 @@ const ComponentTable: React.FC = () => {
       ...prevIngredients,
       newIngredient,
     ]);
+    // setEntity('component')
   };
 
   const handleEditClick = (row: any) => {
