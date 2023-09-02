@@ -17,6 +17,10 @@ import Box from "@mui/material/Box";
 import Tag from "./Tag";
 import useComponentStore from "../../stores/componentStore";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import useEntityStore from "../../stores/entityStore";
+import ComponentSearchBar from "./ComponentSearchBar";
+import ComponentIngredientTable from "./ComponentIngredientTable";
+import useIngredientStore from "../../stores/ingredientStore";
 
 export default function AddComponentDialog({
   onComponentAdded,
@@ -24,22 +28,12 @@ export default function AddComponentDialog({
   const [loading, setLoading] = useState(false);
   const { addOpen, setAddOpen } = useComponentStore();
 
-  //new state to hold the selected ingredients
-  const [selectedIngredients, setSelectedIngredients] = useState<
-    Array<IComponentIngredientDataArray>
-  >([]);
+  const { selectedIngredients } = useIngredientStore();
 
   const closeFormDialog = () => {
     formik.resetForm();
     setAddOpen(false);
   };
-
-  // id?: string
-  // name: string;
-  // category?: string;
-  // description?: string;
-  // ingredients?: Array<IComponentIngredientDataArray>
-  // unit: string;
 
   const formik = useFormik({
     initialValues: {
@@ -149,7 +143,7 @@ export default function AddComponentDialog({
                       id="unit"
                       value={formik.values.unit}
                       label="Unit"
-                      onChange={formik.handleChange}
+onChange={formik.handleChange}
                       style={{ marginTop: "10px" }}
                     >
                       <MenuItem value={"ml"}>Milliliters</MenuItem>
@@ -162,13 +156,16 @@ export default function AddComponentDialog({
                 <div
                   style={{
                     flex: 1,
-                    marginBottom:'90px',
+                    marginBottom:'20px',
                     display: "flex",
-                    justifyContent: "center",
+                    justifyContent: "column",
                     alignItems: "center",
+                    flexDirection: "column",
+                    marginLeft: "20px"
                   }}
                 >
-                  <Tag />
+                  <ComponentSearchBar/>
+                  <ComponentIngredientTable/>
                 </div>
               </div>
 

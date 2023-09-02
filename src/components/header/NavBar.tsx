@@ -74,7 +74,8 @@ export default function NavBar({ signOut, user }: INavBarProps) {
                 mr: 2
                 }}
               >
-                Hello {user.username}
+                Hello&nbsp;
+                 {user.attributes?.email}
               </Typography>
               <Button
                 color="inherit"
