@@ -69,7 +69,6 @@ export interface IComponentData {
 // Component Ingredient
 export interface IComponentIngredient{
   id: string;
-  name: string //idk if this should be added tbh
   component_id: string;
   ingredient_id:string;
   ingredient_quantity:number;

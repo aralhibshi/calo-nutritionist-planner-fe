@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -7,7 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import * as componentsApi from "../../network/componentApi";
 import {
-  IAddComponentDialogProps,
+  IAddComponentDialogProps
 } from "../../interfaces";
 import { useFormik } from "formik";
 import componentValidationSchema from "../../validation/componentFormValidation";
@@ -17,14 +17,17 @@ import useComponentStore from "../../stores/componentStore";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import ComponentSearchBar from "./ComponentSearchBar";
 import ComponentIngredientTable from "./ComponentIngredientTable";
+import useIngredientStore from "../../stores/ingredientStore";
 
 export default function CreateComponentDialog({
   onComponentAdded,
 }: IAddComponentDialogProps) {
   const [loading, setLoading] = useState(false);
   const { addOpen, setAddOpen } = useComponentStore();
+  const { selectedIngredients, setSelectedIngredients } = useIngredientStore();
 
   const closeFormDialog = () => {
+    setSelectedIngredients([])
     formik.resetForm();
     setAddOpen(false);
   };
@@ -43,10 +46,10 @@ export default function CreateComponentDialog({
         setLoading(true);
         console.log("Form data:", values);
 
-        const newComponent = await componentsApi.createComponent(values);
-        console.log("New component:", newComponent);
-
-        onComponentAdded(newComponent);
+        const response = await componentsApi.createComponent(values);
+        setSelectedIngredients([])
+        console.log("New component:", response);
+        onComponentAdded(response);
         closeFormDialog();
       } catch (error) {
         console.log("Error:", error);
@@ -61,6 +64,10 @@ export default function CreateComponentDialog({
     e.preventDefault();
     formik.handleSubmit(e);
   };
+
+  useEffect(() => {
+    formik.setFieldValue("ingredients", selectedIngredients);
+  }, [selectedIngredients]);
 
   return (
     <>
@@ -178,7 +185,7 @@ export default function CreateComponentDialog({
               <DialogActions>
                 <Button onClick={closeFormDialog}>Cancel</Button>
                 <Button variant="contained" type="submit">
-                  Create
+                Create
                 </Button>
               </DialogActions>
             </form>
