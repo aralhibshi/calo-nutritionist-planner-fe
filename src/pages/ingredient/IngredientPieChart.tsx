@@ -1,30 +1,28 @@
 import React from "react";
 import { PieChart } from "@mui/x-charts";
-import { IIngredientData } from "../../interfaces";
+import useIngredientStore from "../../stores/ingredientStore";
 
-// Ingredient Detail Modal Props Interface
-interface IIngredientDetailModalProps {
-  ingredient: null | IIngredientData;
-}
+const IngredientPieChart: React.FC = (props) => {
 
-const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (
-  props
-) => {
+  const {
+    selectedIngredient,
+    decimalData
+  } = useIngredientStore();
 
   let pieChartData: any = [];
 
-  if (props.ingredient) {
-    const protein = Number(props.ingredient.protein);
-    const carbs = Number(props.ingredient.carbs);
-    const fats = Number(props.ingredient.fats);
+  if (selectedIngredient) {
+    const protein = Number(decimalData.protein);
+    const carbs = Number(decimalData.carbs);
+    const fats = Number(decimalData.fats);
     const total = Number(protein + carbs + fats);
     const percent_protein = Number((protein / total) * 100);
     const percent_carbs = Number((carbs / total) * 100);
     const percent_fats = Number((fats / total) * 100);
     pieChartData = [
-      { name: "Protein", value: Number(percent_protein), label: "Protein %" },
-      { name: "Carbs", value: Number(percent_carbs), label: "Carbs %" },
-      { name: "Fats", value: Number(percent_fats), label: "Fats %" },
+      { name: "Protein", value: Number(percent_protein), label: "Protein %", color: '#2CB37A' },
+      { name: "Carbs", value: Number(percent_carbs), label: "Carbs %", color: '#FBA700' },
+      { name: "Fats", value: Number(percent_fats), label: "Fats %", color: '#DC0502' },
     ];
   }
 
@@ -33,14 +31,14 @@ const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (
       style={{
         display: "flex",
         flexDirection: "row",
-        scale: '80%'
+        scale: '65%'
       }}
     >
       <PieChart
         series={[
           {
             data: pieChartData,
-            highlightScope: { faded: "global", highlighted: "item" },
+            highlightScope: { faded: "series", highlighted: "item" },
             faded: { innerRadius: 30, additionalRadius: -30 },
             innerRadius: 30,
             outerRadius: 100,
@@ -61,4 +59,4 @@ const IngredientDetailModal: React.FC<IIngredientDetailModalProps> = (
   );
 };
 
-export default IngredientDetailModal;
+export default IngredientPieChart;

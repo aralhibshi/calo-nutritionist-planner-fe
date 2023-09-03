@@ -42,15 +42,6 @@ const Home: React.FC = () => {
     return entity.charAt(0).toUpperCase() + entity.slice(1) + 's'
   }
 
-  // const theme = createTheme({
-  //   palette: {
-  //     primary: {
-  //       main: '#1BC36F',
-  //       contrastText: '#FFFFFF'
-  //     }
-  //   },
-  // });
-
   return (
     <>
         <div style={{

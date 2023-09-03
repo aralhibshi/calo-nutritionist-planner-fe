@@ -19,7 +19,6 @@ code {
 /* Navbar */
 #nav-bar {
   font-family: 'Roboto' !important;
-  background-color: #1bc36f;
   display: 'flex';
   justify-content: 'space-between';
 }
@@ -35,7 +34,7 @@ code {
   font-size: 14px;
   padding-top: 10px;
   padding-bottom: 10px;
-  background-color: #14c16b31;
+  background-color: #36b77429;
   border-bottom: 2px solid #636b744d;
 }
 
