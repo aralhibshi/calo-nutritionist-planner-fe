@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -28,7 +28,7 @@ export default function AddComponentDialog({
   const [loading, setLoading] = useState(false);
   const { addOpen, setAddOpen } = useComponentStore();
 
-  const { selectedIngredients } = useIngredientStore();
+  const { selectedIngredients, setSelectedIngredients } = useIngredientStore();
 
   const closeFormDialog = () => {
     formik.resetForm();
@@ -67,6 +67,10 @@ export default function AddComponentDialog({
     e.preventDefault();
     formik.handleSubmit(e);
   };
+
+  useEffect(() => {
+    formik.setFieldValue("ingredients", selectedIngredients);
+  }, [selectedIngredients]);
 
   return (
     <>
