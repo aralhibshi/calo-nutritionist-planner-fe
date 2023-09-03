@@ -169,16 +169,16 @@ export default function AddIngredientDialog({
               <FormControl fullWidth>
                 <InputLabel id="unit">Unit</InputLabel>
                 <Select
-                  labelId="unit"
-                  id="unit"
-                  value={formik.values.unit}
-                  label="Unit"
-                  onChange={formik.handleChange}
-                  style={{ marginTop: "10px" }}
-                >
-                  <MenuItem value={"ml"}>Milliliters</MenuItem>
-                  <MenuItem value={"g"}>Grams</MenuItem>
-                </Select>
+                      name="unit" // Add the id attribute
+                      labelId="unit"
+                      value={formik.values.unit}
+                      label="Unit"
+                      onChange={formik.handleChange}
+                      style={{ marginTop: "10px" }}
+                    >
+                      <MenuItem value={"ml"}>Milliliters</MenuItem>
+                      <MenuItem value={"g"}>Grams</MenuItem>
+                    </Select>
               </FormControl>
               <DialogActions>
                 <Button onClick={closeFormDialog}>
