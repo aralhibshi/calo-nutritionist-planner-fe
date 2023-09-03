@@ -162,7 +162,7 @@ const ComponentIngredientTable: React.FC<
                                   )
                                 ),
                             }}
-                            sx={{ width: "60px" }}
+                            sx={{ width: "30px" }}
                           />
                         </td>
                         <td>

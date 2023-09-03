@@ -127,11 +127,11 @@ const ComponentTable: React.FC = () => {
 
               if (component.components_ingredients && Array.isArray(component.components_ingredients)) {
                 component.components_ingredients.forEach((el) => {
-                  totalFats += Number(el.ingredient.fats);
-                  totalCarbs += Number(el.ingredient.carbs);
-                  totalProteins += Number(el.ingredient.protein);
+                  totalFats += Number(el.ingredient.fats*el.ingredient_quantity);
+                  totalCarbs += Number(el.ingredient.carbs*el.ingredient_quantity);
+                  totalProteins += Number(el.ingredient.protein*el.ingredient_quantity);
                   totalCalories += totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
-                  totalPrice += Number(el.ingredient.price);
+                  totalPrice += Number(el.ingredient.price* el.ingredient_quantity);
                 });
 
                 totalFats = Number(totalFats.toFixed(3));
