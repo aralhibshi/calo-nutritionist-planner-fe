@@ -3,32 +3,30 @@ import Table from "@mui/material/Table";
 import { Backdrop, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import CircularProgress from "@mui/material/CircularProgress";
-import * as mealApi from '../../network/mealApi';
+import * as mealApi from "../../network/mealApi";
 import useSearchStore from "../../stores/searchStore";
 import useEntityStore from "../../stores/entityStore";
 import { IComponentIngredient, IMeal, IMealComponent } from "../../interfaces";
+import useMealStore from "../../stores/mealStore";
 
 const MealTable: React.FC = () => {
+  const [meals, setMeals] = useState<IMeal[]>([]);
+  const { selectedMeal, setSelectedMeal } = useMealStore();
+  const [open, setOpen] = useState(false);
 
-  const {
-    setEntityCount,
-    skip,
-  } = useEntityStore();
-  const {
-    loading,
-    setLoading,
-    setSearchResult,
-    searchResult
-  } = useSearchStore();
-
+  const { setEntityCount, skip } = useEntityStore();
+  const { loading, setLoading, setSearchResult, searchResult } =
+    useSearchStore();
 
   async function loadMeals() {
     try {
-      setLoading(true)
-      const take = 9
-      const response = await mealApi.fetchMeals(skip)
+      setLoading(true);
+      const response = await mealApi.fetchMeals(skip);
       setEntityCount(response.data.count);
       setSearchResult(response.data.meals);
+      if (searchResult) {
+        setMeals(searchResult);
+      }
     } catch (err) {
       console.log(err);
       alert(err);
@@ -40,6 +38,14 @@ const MealTable: React.FC = () => {
   useEffect(() => {
     loadMeals();
   }, [skip]);
+
+  const handleMealAdded = (newComponent: any) => {
+    setMeals((prevComponents: any) => [
+      ...prevComponents,
+      newComponent,
+    ]);
+  };
+  
 
   return (
     <>
@@ -55,19 +61,19 @@ const MealTable: React.FC = () => {
         </Backdrop>
       )}
       <Table
-          sx={{ 
-            marginTop: "15px",
-            marginBottom: '15px',
-            userSelect: "none",
-          }}
-          id='table'
-        >
+        sx={{
+          marginTop: "15px",
+          marginBottom: "15px",
+          userSelect: "none",
+        }}
+        id="table"
+      >
         <thead>
           <tr>
             <th
               style={{
                 width: "40%",
-                borderTopLeftRadius: '8px'
+                borderTopLeftRadius: "8px",
               }}
             >
               Meal Name&nbsp;
@@ -82,7 +88,7 @@ const MealTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {searchResult && Array.isArray(searchResult) && searchResult.length > 0 ? (
+        {searchResult && Array.isArray(searchResult) && searchResult.length > 0 ? (
             searchResult.map((meal: IMeal, index: number) => {
               let totalFats = 0;
               let totalCarbs = 0;
@@ -90,15 +96,21 @@ const MealTable: React.FC = () => {
               let totalCalories = 0;
               let totalPrice = 0;
 
-              if (meal.meals_components && Array.isArray(meal.meals_components)) {
-                meal.meals_components.map((el: IMealComponent) => {
-                  el.component.components_ingredients.map((el: IComponentIngredient) => {
-                    totalFats += Number(el.ingredient.fats)
-                    totalCarbs += Number(el.ingredient.carbs);
-                    totalProteins += Number(el.ingredient.protein);
-                    totalCalories += totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
-                    totalPrice += Number(el.ingredient.price);
-                  })
+              if (
+                meal.meals_components &&
+                Array.isArray(meal.meals_components)
+              ) {
+                meal.meals_components?.map((el: IMealComponent) => {
+                  el.component.components_ingredients?.map(
+                    (el: IComponentIngredient) => {
+                      totalFats += Number(el.ingredient.fats);
+                      totalCarbs += Number(el.ingredient.carbs);
+                      totalProteins += Number(el.ingredient.protein);
+                      totalCalories +=
+                        totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
+                      totalPrice += Number(el.ingredient.price);
+                    }
+                  );
                 });
 
                 totalFats = Number(totalFats.toFixed(3));
@@ -119,7 +131,7 @@ const MealTable: React.FC = () => {
                   <td>{totalPrice}</td>
                   <td>
                     <IconButton
-                      // onClick={() => handleEditClick(component)}
+                    // onClick={() => handleEditClick(component)}
                     >
                       <EditIcon />
                     </IconButton>
@@ -135,7 +147,7 @@ const MealTable: React.FC = () => {
         </tbody>
       </Table>
     </>
-  )
-}
+  );
+};
 
 export default MealTable;
