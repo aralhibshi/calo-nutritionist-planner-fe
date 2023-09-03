@@ -34,8 +34,8 @@
         setComponentLoading(true);
         const take = 100;
         const response = await IngredientsApi.fetchIngredients(0, take);
-        setEntityCount(response.count);
-        setComponentSearchResult(response.data);
+        setEntityCount(response.data.count);
+        setComponentSearchResult(response.data.ingredients);
         if (componentSearchResult) {
           setIngredients(componentSearchResult);
         }
