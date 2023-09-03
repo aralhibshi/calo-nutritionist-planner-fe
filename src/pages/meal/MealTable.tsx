@@ -109,9 +109,10 @@ const MealTable: React.FC = () => {
                       totalFats += Number(el.ingredient.fats*quantity);
                       totalCarbs += Number(el.ingredient.carbs*quantity);
                       totalProteins += Number(el.ingredient.protein*quantity);
+                      totalPrice += Number(el.ingredient.price*quantity);
                       totalCalories +=
                         totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
-                      totalPrice += Number(el.ingredient.price);
+                      
                     }
                   );
                 });
