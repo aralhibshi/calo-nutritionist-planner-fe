@@ -17,7 +17,9 @@ const ComponentIngredientTable: React.FC<
   ComponentIngredientTableProps
 > = () => {
   const [ingredients, setIngredients] = useState<IIngredient[]>([]);
-  const [quantity, setQuantity] = useState(1);
+  const [quantities, setQuantities] = useState<{
+    [ingredientId: string]: number;
+  }>({});
   const {
     componentLoading,
     setComponentLoading,
@@ -50,36 +52,19 @@ const ComponentIngredientTable: React.FC<
   }, [skip]);
 
   const handleQuantityChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
     ingredientId: string
   ) => {
-    const updatedSelectedIngredients: any = [...selectedIngredients];
-    const ingredientIndex = updatedSelectedIngredients.findIndex(
-      (ingredient: any) => ingredient.ingredient_id === ingredientId
-    );
+    const newQuantity = parseInt(e.currentTarget.value, 10);
 
-    const newQuantity = parseInt(e.target.value, 10); // Get the new quantity from the input
+    const quantity = isNaN(newQuantity) || newQuantity < 1 ? 1 : newQuantity;
 
-    if (ingredientIndex !== -1) {
-      if (newQuantity > 0) {
-        // Update the ingredient quantity if it exists in the selectedIngredients array
-        updatedSelectedIngredients[ingredientIndex].ingredient_quantity =
-          newQuantity;
-      } else {
-        // Remove the ingredient if the quantity is set to 0 or less
-        updatedSelectedIngredients.splice(ingredientIndex, 1);
-      }
-    } else if (newQuantity > 0) {
-      // Add the ingredient to selectedIngredients if it doesn't exist and the quantity is greater than 0
-      updatedSelectedIngredients.push({
-        ingredient_id: ingredientId,
-        ingredient_quantity: newQuantity,
-      });
-    }
-
-    setSelectedIngredients(updatedSelectedIngredients);
-    console.log("selected ingredients", updatedSelectedIngredients);
+    setQuantities({
+      ...quantities,
+      [ingredientId]: quantity,
+    });
   };
+
   const handleSelectClick = (row: any) => {
     const updatedSelectedIngredients: any = [...selectedIngredients];
     const ingredientIndex = updatedSelectedIngredients.findIndex(
@@ -90,10 +75,10 @@ const ComponentIngredientTable: React.FC<
       updatedSelectedIngredients.splice(ingredientIndex, 1);
     } else {
       // Check if the quantity is greater than 0 before adding the ingredient
-      if (quantity > 0) {
+      if (quantities[row.id] > 0) {
         updatedSelectedIngredients.push({
           ingredient_id: row.id,
-          ingredient_quantity: quantity,
+          ingredient_quantity: quantities[row.id],
         });
       }
     }
@@ -135,7 +120,7 @@ const ComponentIngredientTable: React.FC<
             <thead>
               <tr>
                 <th>Ingredient Name&nbsp;</th>
-                <th>Quantity</th>
+                <th>Quantity&nbsp;(in grams)</th>
                 <th>Select</th>
               </tr>
             </thead>
@@ -153,16 +138,11 @@ const ComponentIngredientTable: React.FC<
                             type="number"
                             inputProps={{
                               min: 1,
-                              value: quantity,
+                              value: quantities[ingredient.id] || 1, // Set the default value to 1
                               onChange: (e) =>
-                                setQuantity(
-                                  parseInt(
-                                    (e.target as HTMLInputElement).value,
-                                    10
-                                  )
-                                ),
+                                handleQuantityChange(e, ingredient.id),
                             }}
-                            sx={{ width: "30px" }}
+                            sx={{ width: "50px" }}
                           />
                         </td>
                         <td>
