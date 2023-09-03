@@ -16,6 +16,9 @@ export default function NavBar({ signOut, user }: INavBarProps) {
   return (
     <AppBar
       position="fixed"
+      style={{
+        zIndex:'1'
+      }}
     >
       <Toolbar
         id='nav-bar'

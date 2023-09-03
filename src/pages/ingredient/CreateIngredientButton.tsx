@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import {AiOutlinePlus} from 'react-icons/ai'
 import useIngredientStore from '../../stores/ingredientStore';
 
-const AddIngredientButton: React.FC = () => {
+const CreateIngredientButton: React.FC = () => {
   const { setAddOpen } = useIngredientStore();
 
   return (
@@ -26,4 +26,4 @@ const AddIngredientButton: React.FC = () => {
   )
 }
 
-export default AddIngredientButton;
+export default CreateIngredientButton;

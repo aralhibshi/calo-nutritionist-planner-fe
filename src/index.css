@@ -82,4 +82,6 @@ code {
   border-bottom-right-radius: 8px;
 }
 
-/* ComponentIngredient */
+.MuiPopper-root, .MuiPopper-root * {
+  z-index: 1500
+}

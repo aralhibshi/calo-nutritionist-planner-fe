@@ -14,7 +14,7 @@ import Box from "@mui/material/Box";
 import useIngredientStore from "../../stores/ingredientStore";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-export default function AddIngredientDialog({
+export default function CreateIngredientDialog({
   onIngredientAdded,
 }: IAddIngredientDialogProps) {
   const [loading, setLoading] = useState(false);
@@ -75,7 +75,7 @@ export default function AddIngredientDialog({
         </Box>
       ) : (
         <Dialog open={addOpen} onClose={closeFormDialog}>
-          <DialogTitle>Add Ingredient</DialogTitle>
+          <DialogTitle>Create Ingredient</DialogTitle>
           <DialogContent>
             <form onSubmit={handleFormSubmit}>
               <TextField
@@ -185,7 +185,7 @@ export default function AddIngredientDialog({
                   Cancel
                 </Button>
                 <Button variant="contained" type="submit">
-                  Add
+                  Create
                 </Button>
               </DialogActions>
             </form>
