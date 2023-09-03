@@ -6,7 +6,7 @@ const baseURL = process.env.REACT_APP_API_BASE_URL
 export async function fetchMeals(
   skip: number,
   take: number
-): Promise<IFetchMealsResponse> {
+): Promise<any> {
   const response = await fetchData(`${baseURL}meals?skip=${skip}&take=${take}`, {
     method: "GET",
   });
