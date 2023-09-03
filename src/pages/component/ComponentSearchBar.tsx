@@ -37,7 +37,7 @@ const ComponentSearchBar: React.FC = () => {
       const apiFunction: any = entityToApiFunctionMap[entity];
   
         const response = await apiFunction(index, skip);
-        setComponentSearchResult(response.data);
+        setComponentSearchResult(response.data.ingredients);
         setEntityCount(response.count);
         console.log('entity', entity)
         setComponentLoading(false);
