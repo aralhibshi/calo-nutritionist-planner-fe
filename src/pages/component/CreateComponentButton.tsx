@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import {AiOutlinePlus} from 'react-icons/ai'
 import useComponentStore from '../../stores/componentStore';
 
-const AddComponentButton: React.FC = () => {
+const CreateComponentButton: React.FC = () => {
   const { setAddOpen } = useComponentStore();
 
   return (
@@ -27,4 +27,4 @@ const AddComponentButton: React.FC = () => {
   )
 }
 
-export default AddComponentButton;
+export default CreateComponentButton;

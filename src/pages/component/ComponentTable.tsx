@@ -7,8 +7,8 @@ import useSearchStore from "../../stores/searchStore";
 import { IComponent } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useComponentStore from "../../stores/componentStore";
-import AddComponentDialog from "./AddComponentDialog";
 import useEntityStore from "../../stores/entityStore";
+import CreateComponentDialog from "./CreateComponentDialog";
 // import EditComponentDialog from "./EditComponentDIalog";
 
 const ComponentTable: React.FC = () => {
@@ -173,7 +173,7 @@ const ComponentTable: React.FC = () => {
         onComponentUpdated={handleComponentUpdated}
         component={selectedComponent}
       /> */}
-      <AddComponentDialog onComponentAdded={handleComponentAdded} />
+      <CreateComponentDialog onComponentAdded={handleComponentAdded} />
     </>
   );
 };

@@ -3,7 +3,7 @@ import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop, IconButton } from "@mui/material";
 import EditIngredientDialog from "./EditIngredientDialog";
-import AddIngredientDialog from "./AddIngredientDialog";
+import CreateIngredientDialog from "./CreateIngredientDialog";
 import * as IngredientsApi from "../../network/ingredientApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useSearchStore from "../../stores/searchStore";
@@ -63,8 +63,6 @@ const IngredientTable: React.FC = () => {
     setTimeout(() => {
       setOpen(true);
     }, 0);
-    console.log(row);
-    console.log("Dialog should open now.");
   };
 
   const handleIngredientUpdated = (updatedIngredient: IIngredientData) => {
@@ -167,7 +165,7 @@ const IngredientTable: React.FC = () => {
         onIngredientUpdated={handleIngredientUpdated}
         ingredient={selectedIngredient}
       />
-      <AddIngredientDialog
+      <CreateIngredientDialog
         onIngredientAdded={handleIngredientAdded}
       />
     </>

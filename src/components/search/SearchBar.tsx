@@ -39,8 +39,16 @@ const SearchBar: React.FC = () => {
   
       if (apiFunction) {
         const response = await apiFunction(index, skip);
-        setSearchResult(response.data);
-        setEntityCount(response.count);
+        if (entity === 'ingredient') {
+        setSearchResult(response.data.ingredients);
+        }
+        if (entity === 'component') {
+          setSearchResult(response.data.components);
+        }
+        if (entity === 'meal') {
+          setSearchResult(response.data.meals);
+        }
+        setEntityCount(response.data.count);
         setLoading(false);
       } else {
         console.error(`No API function found for entity: ${entity}`);
