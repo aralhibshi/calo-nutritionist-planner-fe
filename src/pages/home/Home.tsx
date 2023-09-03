@@ -8,9 +8,9 @@ import SearchBar from "../../components/search/SearchBar"
 import PaginationFooter from "../../components/footer/PaginationFooter";
 
 // Pages
-import AddIngredientButton from '../ingredient/CreateIngredientButton';
-import AddComponentButton from "../component/CreateComponentButton";
-import AddMealButton from "../meal/AddMealButton";
+import CreateIngredientButton from '../ingredient/CreateIngredientButton';
+import CreateComponentButton from '../component/CreateComponentButton';
+import CreateMealButton from "../meal/CreateMealButton";
 import IngredientTable from "../ingredient/IngredientTable";
 import ComponentTable from '../component/ComponentTable';
 import MealTable from "../meal/MealTable";
@@ -31,11 +31,11 @@ const Home: React.FC = () => {
   : null;
 
   const addEntityButton = entity === 'ingredient'
-  ? <AddIngredientButton/>
+  ? <CreateIngredientButton/>
   : entity === 'component'
-  ? <AddComponentButton/>
+  ? <CreateComponentButton/>
   : entity === 'meal'
-  ? <AddMealButton/>
+  ? <CreateMealButton/>
   : null;
 
   function entityString(entity: string) {

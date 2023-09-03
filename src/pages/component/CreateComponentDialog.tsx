@@ -19,7 +19,7 @@ import ComponentSearchBar from "./ComponentSearchBar";
 import ComponentIngredientTable from "./ComponentIngredientTable";
 import useIngredientStore from "../../stores/ingredientStore";
 
-export default function AddComponentDialog({
+export default function CreateComponentDialog({
   onComponentAdded,
 }: IAddComponentDialogProps) {
   const [loading, setLoading] = useState(false);
@@ -92,7 +92,12 @@ export default function AddComponentDialog({
           <DialogTitle>Create Component</DialogTitle>
           <DialogContent>
             <form onSubmit={handleFormSubmit}>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between"
+                }}
+              >
                 {/* Left side */}
                 <div
                   style={{
@@ -149,7 +154,10 @@ export default function AddComponentDialog({
                       value={formik.values.unit}
                       label="Unit"
                       onChange={formik.handleChange}
-                      style={{ marginTop: "10px" }}
+                      style={{
+                        marginTop: "10px",
+                        textAlign: 'left'
+                      }}
                     >
                       <MenuItem value={"ml"}>Milliliters</MenuItem>
                       <MenuItem value={"g"}>Grams</MenuItem>

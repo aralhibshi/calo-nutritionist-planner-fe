@@ -14,6 +14,7 @@ import Box from "@mui/material/Box";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { FormControl, InputLabel } from "@mui/material";
+import IngredientDetailModal from "./IngredientDetailModal";
 
 interface EditIngredientDialogProps {
   open: boolean;
@@ -83,84 +84,137 @@ export default function EditIngredientDialog({
           <CircularProgress />
         </Box>
       ) : (
-        <Dialog open={open} onClose={closeFormDialog}>
+        <Dialog
+          open={open}
+          onClose={closeFormDialog}
+          fullWidth
+          maxWidth="lg"
+          style={{
+            textAlign: "center",
+            zIndex: '2'
+          }}
+        >
           <DialogTitle>Update Ingredient</DialogTitle>
           <DialogContent>
             <form onSubmit={formik.handleSubmit}>
-              <TextField
-                label="Name"
-                name="name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              />
-              <TextField
-                label="Category"
-                name="category"
-                value={formik.values.category}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              />
-              <TextField
-                label="Description"
-                name="description"
-                value={formik.values.description}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              />
-              <TextField
-                label="Price"
-                name="price"
-                type="number"
-                value={formik.values.price}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              />
-              <TextField
-                label="Protein"
-                name="protein"
-                type="number"
-                value={formik.values.protein}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              />
-              <TextField
-                label="Fats"
-                name="fats"
-                type="number"
-                value={formik.values.fats}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              />
-              <TextField
-                label="Carbs"
-                name="carbs"
-                type="number"
-                value={formik.values.carbs}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              />
-              <FormControl fullWidth>
-                <InputLabel id="unit">Unit</InputLabel>
-                <Select
-                      name="unit" // Add the id attribute
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between"
+                }}
+              >
+                {/* Left */}
+                <div
+                  style={{
+                    flex: 0.5
+                  }}
+                >
+                  <TextField
+                    label="Name"
+                    name="name"
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    margin="dense"
+                  />
+                  <TextField
+                    label="Category"
+                    name="category"
+                    value={formik.values.category}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    margin="dense"
+                  />
+                  <TextField
+                    label="Description"
+                    name="description"
+                    value={formik.values.description}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    margin="dense"
+                  />
+                  <TextField
+                    label="Price"
+                    name="price"
+                    type="number"
+                    value={formik.values.price}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    margin="dense"
+                  />
+                  <TextField
+                    label="Protein"
+                    name="protein"
+                    type="number"
+                    value={formik.values.protein}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    margin="dense"
+                  />
+                  <TextField
+                    label="Fats"
+                    name="fats"
+                    type="number"
+                    value={formik.values.fats}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    margin="dense"
+                  />
+                  <TextField
+                    label="Carbs"
+                    name="carbs"
+                    type="number"
+                    value={formik.values.carbs}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    margin="dense"
+                  />
+                  <FormControl fullWidth>
+                    <InputLabel id="unit">Unit</InputLabel>
+                    <Select
+                      name="unit"
                       labelId="unit"
                       value={formik.values.unit}
                       label="Unit"
                       onChange={formik.handleChange}
-                      style={{ marginTop: "10px" }}
+                      style={{
+                        marginTop: "10px",
+                        textAlign: 'left'
+                      }}
                     >
                       <MenuItem value={"ml"}>Milliliters</MenuItem>
                       <MenuItem value={"g"}>Grams</MenuItem>
                     </Select>
-              </FormControl>
+                  </FormControl>
+                </div>
+
+                {/* Right */}
+                <div
+                  style={{
+                    flex: 1,
+                    flexDirection: 'column'
+                  }}
+                >
+                  <div
+                    style={{
+                      flex: 1,
+                      marginBottom: "20px",
+                      display: "flex",
+                      justifyContent: "space-evenly",
+                      alignItems: "center",
+                      flexDirection: "row"
+                    }}
+                  >
+                    <IngredientDetailModal
+                      ingredient={ingredient}
+                    />
+
+                    <div>BAR CHART</div>
+                  </div>
+                    <div>COMPONENT TABLE</div>
+                    <div>MEAL TABLE</div>
+                </div>
+              </div>
               <DialogActions>
                 <Button id="secondary-button" onClick={closeFormDialog}>
                   Cancel
