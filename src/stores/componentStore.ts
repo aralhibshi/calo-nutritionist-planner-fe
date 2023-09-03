@@ -6,6 +6,8 @@ const useComponentStore = create<IComponentStore>((set) => ({
   setAddOpen: (isOpen) => set({ addOpen: isOpen }),
   selectedComponent: null,
   setSelectedComponent: (component) => set({ selectedComponent: component }),
+  selectedComponents: [],
+  setSelectedComponents: (components) => set({ selectedComponents: components }),
 }));
 
 export default useComponentStore;

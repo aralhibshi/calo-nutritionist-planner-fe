@@ -10,7 +10,12 @@ const useSearchStore = create<ISearchStore>((set) => ({
   componentLoading: false,
   setComponentLoading: (componentLoad) => set({ componentLoading: componentLoad }),
   componentSearchResult: null,
-  setComponentSearchResult: (componentResult) => set({ componentSearchResult: componentResult })
+  setComponentSearchResult: (componentResult) => set({ componentSearchResult: componentResult }),
+
+  mealLoading: false,
+  setMealLoading: (mealLoad) => set({ mealLoading: mealLoad }),
+  mealSearchResult: null,
+  setMealSearchResult: (mealResult) => set({ mealSearchResult: mealResult })
 }));
 
 export default useSearchStore;

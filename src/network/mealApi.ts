@@ -22,7 +22,7 @@ export async function searchMeal(index: string, skip: number): Promise<any> {
   return response;
 }
 
-export async function createComponent(
+export async function createMeal(
   component: IMealData
 ): Promise<IMeal> {
   try {

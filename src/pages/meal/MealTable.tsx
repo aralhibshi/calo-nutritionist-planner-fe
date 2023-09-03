@@ -8,6 +8,7 @@ import useSearchStore from "../../stores/searchStore";
 import useEntityStore from "../../stores/entityStore";
 import { IComponentIngredient, IMeal, IMealComponent } from "../../interfaces";
 import useMealStore from "../../stores/mealStore";
+import CreateMealDialog from "./CreateMealDialog";
 
 const MealTable: React.FC = () => {
   const [meals, setMeals] = useState<IMeal[]>([]);
@@ -146,6 +147,7 @@ const MealTable: React.FC = () => {
           )}
         </tbody>
       </Table>
+      <CreateMealDialog onMealAdded={handleMealAdded}/>
     </>
   );
 };
