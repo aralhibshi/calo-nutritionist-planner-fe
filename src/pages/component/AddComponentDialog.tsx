@@ -27,8 +27,7 @@ export default function AddComponentDialog({
 }: IAddComponentDialogProps) {
   const [loading, setLoading] = useState(false);
   const { addOpen, setAddOpen } = useComponentStore();
-
-  const { selectedIngredients, setSelectedIngredients } = useIngredientStore();
+  const { selectedIngredients } = useIngredientStore();
 
   const closeFormDialog = () => {
     formik.resetForm();
@@ -49,10 +48,9 @@ export default function AddComponentDialog({
         setLoading(true);
         console.log("Form data:", values);
 
-        const newComponent = await componentsApi.createComponent(values);
-        console.log("New component:", newComponent);
-
-        onComponentAdded(newComponent);
+        const response = await componentsApi.createComponent(values);
+        console.log("New component:", response);
+        onComponentAdded(response);
         closeFormDialog();
       } catch (error) {
         console.log("Error:", error);
