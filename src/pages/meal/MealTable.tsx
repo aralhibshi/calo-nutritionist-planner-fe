@@ -26,7 +26,7 @@ const MealTable: React.FC = () => {
     try {
       setLoading(true)
       const take = 9
-      const response = await mealApi.fetchMeals(skip, take)
+      const response = await mealApi.fetchMeals(skip)
       setEntityCount(response.data.count);
       setSearchResult(response.data.meals);
     } catch (err) {
