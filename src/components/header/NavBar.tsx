@@ -33,7 +33,7 @@ export default function NavBar({ signOut, user }: INavBarProps) {
           alignItems: 'center'
           }}
         >
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -41,7 +41,7 @@ export default function NavBar({ signOut, user }: INavBarProps) {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Link
             to="/"
             style={{
