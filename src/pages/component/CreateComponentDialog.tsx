@@ -7,17 +7,14 @@ import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import * as componentsApi from "../../network/componentApi";
 import {
-  IAddComponentDialogProps,
-  IComponentIngredientDataArray,
+  IAddComponentDialogProps
 } from "../../interfaces";
 import { useFormik } from "formik";
 import componentValidationSchema from "../../validation/componentFormValidation";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
-import Tag from "./Tag";
 import useComponentStore from "../../stores/componentStore";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import useEntityStore from "../../stores/entityStore";
 import ComponentSearchBar from "./ComponentSearchBar";
 import ComponentIngredientTable from "./ComponentIngredientTable";
 import useIngredientStore from "../../stores/ingredientStore";
@@ -27,9 +24,10 @@ export default function AddComponentDialog({
 }: IAddComponentDialogProps) {
   const [loading, setLoading] = useState(false);
   const { addOpen, setAddOpen } = useComponentStore();
-  const { selectedIngredients } = useIngredientStore();
+  const { selectedIngredients, setSelectedIngredients } = useIngredientStore();
 
   const closeFormDialog = () => {
+    setSelectedIngredients([])
     formik.resetForm();
     setAddOpen(false);
   };
@@ -49,6 +47,7 @@ export default function AddComponentDialog({
         console.log("Form data:", values);
 
         const response = await componentsApi.createComponent(values);
+        setSelectedIngredients([])
         console.log("New component:", response);
         onComponentAdded(response);
         closeFormDialog();
@@ -90,7 +89,7 @@ export default function AddComponentDialog({
           maxWidth="lg" // Set maxWidth to "md" for more width
           style={{ textAlign: "center" }}
         >
-          <DialogTitle>Add Component</DialogTitle>
+          <DialogTitle>Create Component</DialogTitle>
           <DialogContent>
             <form onSubmit={handleFormSubmit}>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -178,7 +177,7 @@ export default function AddComponentDialog({
               <DialogActions>
                 <Button onClick={closeFormDialog}>Cancel</Button>
                 <Button variant="contained" type="submit">
-                  Add
+                Create
                 </Button>
               </DialogActions>
             </form>

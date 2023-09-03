@@ -7,7 +7,7 @@ import useSearchStore from "../../stores/searchStore";
 import { IComponent } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useComponentStore from "../../stores/componentStore";
-import AddComponentDialog from "./AddComponentDialog";
+import AddComponentDialog from "./CreateComponentDialog";
 import useEntityStore from "../../stores/entityStore";
 // import EditComponentDialog from "./EditComponentDIalog";
 

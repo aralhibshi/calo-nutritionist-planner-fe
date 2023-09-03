@@ -6,8 +6,10 @@ import { Backdrop } from "@mui/material";
 import * as IngredientsApi from "../../network/ingredientApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useSearchStore from "../../stores/searchStore";
-import { IComponentIngredient, IIngredient } from "../../interfaces";
+import { IIngredient } from "../../interfaces";
 import useEntityStore from "../../stores/entityStore";
+import { Input } from "@mui/material";
+import { Checkbox } from "@mui/material";
 
 interface ComponentIngredientTableProps {}
 
@@ -117,7 +119,7 @@ const ComponentIngredientTable: React.FC<
         style={{
           marginTop: "12px",
           overflowY: "auto",
-          maxHeight: "400px",
+          maxHeight: "300px",
           width: "100%",
         }}
       >
@@ -147,18 +149,24 @@ const ComponentIngredientTable: React.FC<
                       <tr key={index}>
                         <td>{ingredient.name}</td>
                         <td>
-                          <input
+                          <Input
                             type="number"
-                            min="0"
-                            value={quantity}
-                            onChange={(e) =>
-                              setQuantity(parseInt(e.target.value, 10))
-                            }
-                            style={{ width: "50px" }} // Adjust the width here
+                            inputProps={{
+                              min: 1,
+                              value: quantity,
+                              onChange: (e) =>
+                                setQuantity(
+                                  parseInt(
+                                    (e.target as HTMLInputElement).value,
+                                    10
+                                  )
+                                ),
+                            }}
+                            sx={{ width: "60px" }}
                           />
                         </td>
                         <td>
-                          <input
+                          <Input
                             type="checkbox"
                             onChange={() => handleSelectClick(ingredient)}
                           />

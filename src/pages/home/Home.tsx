@@ -8,8 +8,8 @@ import SearchBar from "../../components/search/SearchBar"
 import PaginationFooter from "../../components/footer/PaginationFooter";
 
 // Pages
-import AddIngredientButton from '../ingredient/AddIngredientButton';
-import AddComponentButton from "../component/AddComponentButton";
+import AddIngredientButton from '../ingredient/CreateIngredientButton';
+import AddComponentButton from "../component/CreateComponentButton";
 import AddMealButton from "../meal/AddMealButton";
 import IngredientTable from "../ingredient/IngredientTable";
 import ComponentTable from '../component/ComponentTable';

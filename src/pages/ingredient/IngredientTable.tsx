@@ -3,7 +3,7 @@ import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop, IconButton } from "@mui/material";
 import EditIngredientDialog from "./EditIngredientDialog";
-import AddIngredientDialog from "./AddIngredientDialog";
+import AddIngredientDialog from "./CreateIngredientDialog";
 import * as IngredientsApi from "../../network/ingredientApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useSearchStore from "../../stores/searchStore";
