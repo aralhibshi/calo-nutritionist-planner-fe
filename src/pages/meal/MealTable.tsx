@@ -45,6 +45,7 @@ const MealTable: React.FC = () => {
       ...prevComponents,
       newComponent,
     ]);
+    loadMeals()
   };
   
 
@@ -102,11 +103,12 @@ const MealTable: React.FC = () => {
                 Array.isArray(meal.meals_components)
               ) {
                 meal.meals_components?.map((el: IMealComponent) => {
+                  const quantity = Number(el.component_quantity)
                   el.component.components_ingredients?.map(
                     (el: IComponentIngredient) => {
-                      totalFats += Number(el.ingredient.fats);
-                      totalCarbs += Number(el.ingredient.carbs);
-                      totalProteins += Number(el.ingredient.protein);
+                      totalFats += Number(el.ingredient.fats*quantity);
+                      totalCarbs += Number(el.ingredient.carbs*quantity);
+                      totalProteins += Number(el.ingredient.protein*quantity);
                       totalCalories +=
                         totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
                       totalPrice += Number(el.ingredient.price);
