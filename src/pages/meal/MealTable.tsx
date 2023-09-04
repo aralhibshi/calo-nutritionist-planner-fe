@@ -94,8 +94,8 @@ const MealTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-        {memoizedSearchResult && Array.isArray(memoizedSearchResult) && memoizedSearchResult.length > 0 ? (
-            memoizedSearchResult.map((meal: IMeal, index: number) => {
+        {memoizedSearchResult && Array.isArray(memoizedSearchResult) && memoizedSearchResult?.length > 0 ? (
+            memoizedSearchResult?.map((meal: IMeal, index: number) => {
               let totalFats = 0;
               let totalCarbs = 0;
               let totalProteins = 0;
