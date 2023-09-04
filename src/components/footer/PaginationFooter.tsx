@@ -17,7 +17,7 @@ const PaginationFooter: React.FC = () => {
     setSkip(newSkip);
   }, [currentPage, setSkip]);
 
-  const totalPages = Math.ceil((entityCount / itemsPerPage));
+  const totalPages = entityCount? Math.ceil((Number(entityCount) / itemsPerPage)) : 0;
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setCurrentPage(page);

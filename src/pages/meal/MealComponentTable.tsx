@@ -118,8 +118,8 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
             <tbody>
               {mealSearchResult &&
               Array.isArray(mealSearchResult) &&
-              mealSearchResult.length > 0 ? (
-                mealSearchResult.map(
+              mealSearchResult?.length > 0 ? (
+                mealSearchResult?.map(
                   (ingredient: IIngredient, index: number) => {
                     return (
                       <tr key={index}>
