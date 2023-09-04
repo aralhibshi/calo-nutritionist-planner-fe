@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Backdrop, Chip, Stack } from "@mui/material";
+import { Avatar, Backdrop, Chip, Stack } from "@mui/material";
 import * as ComponentsApi from "../../network/componentApi";
 import useSearchStore from "../../stores/searchStore";
 import { IComponent, IIngredient } from "../../interfaces";
@@ -129,6 +129,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
               label={component.name}
               color="primary"
               style={{ marginBottom: "10px" }}
+              avatar={<Avatar>{quantities[component.id] || 1}</Avatar>}
             />
           ))}
         </Stack>

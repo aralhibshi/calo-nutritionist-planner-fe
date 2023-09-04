@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Backdrop, Checkbox, Chip, Stack } from "@mui/material";
+import { Avatar, Backdrop, Checkbox, Chip, Stack } from "@mui/material";
 import * as IngredientsApi from "../../network/ingredientApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useSearchStore from "../../stores/searchStore";
@@ -102,7 +102,7 @@ const ComponentIngredientTable: React.FC<
           searchIngredient.id === ingredient.ingredient_id
       )
     );
-    
+
   return (
     <>
       {componentLoading && (
@@ -136,6 +136,7 @@ const ComponentIngredientTable: React.FC<
               label={ingredient.name}
               color="primary"
               style={{ marginBottom: "10px" }}
+              avatar={<Avatar>{quantities[ingredient.id] || 1}</Avatar>}
             />
           ))}
         </Stack>
