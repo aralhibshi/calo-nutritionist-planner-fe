@@ -3,12 +3,13 @@ import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop } from "@mui/material";
-import * as ComponentsApi from "../../network/componentApi"
+import * as ComponentsApi from "../../network/componentApi";
 import useSearchStore from "../../stores/searchStore";
 import { IComponent, IIngredient } from "../../interfaces";
 import useEntityStore from "../../stores/entityStore";
 import { Input } from "@mui/material";
 import useComponentStore from "../../stores/componentStore";
+import Checkbox from "@mui/material/Checkbox";
 
 interface MealComponentTableProps {}
 
@@ -34,7 +35,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
       console.log(error);
       alert(error);
     } finally {
-        setMealLoading(false);
+      setMealLoading(false);
     }
   }
 
@@ -60,9 +61,9 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
     const isSelected = selectedComponents.some(
       (component) => component.component_id === row.id
     );
-  
+
     let updatedSelectedComponents: any[];
-  
+
     if (isSelected) {
       updatedSelectedComponents = selectedComponents.filter(
         (component) => component.component_id !== row.id
@@ -76,7 +77,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
         },
       ];
     }
-  
+
     setSelectedComponents(updatedSelectedComponents);
     console.log("selected components", updatedSelectedComponents);
   };
@@ -140,8 +141,8 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
                           />
                         </td>
                         <td>
-                          <Input
-                            type="checkbox"
+                          <Checkbox
+                            color="success"
                             onChange={() => handleSelectClick(component)}
                           />
                         </td>

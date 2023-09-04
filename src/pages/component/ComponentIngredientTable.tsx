@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Backdrop } from "@mui/material";
+import { Backdrop, Checkbox } from "@mui/material";
 import * as IngredientsApi from "../../network/ingredientApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useSearchStore from "../../stores/searchStore";
@@ -68,9 +68,9 @@ const ComponentIngredientTable: React.FC<
     const isSelected = selectedIngredients.some(
       (ingredient) => ingredient.ingredient_id === row.id
     );
-  
+
     let updatedSelectedIngredients: any[];
-  
+
     if (isSelected) {
       updatedSelectedIngredients = selectedIngredients.filter(
         (ingredient) => ingredient.ingredient_id !== row.id
@@ -84,7 +84,7 @@ const ComponentIngredientTable: React.FC<
         },
       ];
     }
-  
+
     setSelectedIngredients(updatedSelectedIngredients);
     console.log("selected Ingredients", updatedSelectedIngredients);
   };
@@ -148,8 +148,8 @@ const ComponentIngredientTable: React.FC<
                           />
                         </td>
                         <td>
-                          <Input
-                            type="checkbox"
+                          <Checkbox
+                            color="success"
                             onChange={() => handleSelectClick(ingredient)}
                           />
                         </td>
