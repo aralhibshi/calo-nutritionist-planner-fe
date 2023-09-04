@@ -185,6 +185,14 @@ export interface ISearchStore {
   setMealSearchResult: (result: any) => void
 }
 
+// Nutriton
+interface IDecimalData {
+  price: number;
+  protein: number;
+  carbs: number;
+  fats: number
+}
+
 // Ingredient Store
 export interface IIngredientStore {
   addOpen: boolean;
@@ -193,6 +201,8 @@ export interface IIngredientStore {
   setSelectedIngredient: (ingredient: IIngredient | null) => void;
   selectedIngredients: IComponentIngredient[];
   setSelectedIngredients: (ingredients: IComponentIngredient[]) => void;
+  decimalData: IDecimalData
+  setDecimalData: (data: any) => void;
 }
 
 // Component Store
