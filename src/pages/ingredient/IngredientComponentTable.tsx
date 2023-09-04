@@ -31,7 +31,6 @@ const IngredientComponentTable: React.FC = () => {
       setLoading(true);
       if (selectedIngredient) {
         const response = await ComponentsApi.fetchComponentsWithIngredient(selectedIngredient.id, skip);
-        setEntityCount(response.data.count);
         setIngredientComponents(response.data.components)
       }
     } catch (error) {

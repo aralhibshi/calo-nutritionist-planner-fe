@@ -314,6 +314,7 @@ export default function EditIngredientDialog({
                   style={{
                     flex: 0.5,
                     flexDirection: 'column',
+                    height: 'auto'
                   }}
                 >
                   <DialogTitle
@@ -348,7 +349,8 @@ export default function EditIngredientDialog({
 
                   <div
                     style={{
-                      textAlign: 'center'
+                      textAlign: 'center',
+                      height: 'auto'
                     }}
                   >
                     <IngredientComponentTable/>
