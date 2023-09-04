@@ -57,23 +57,26 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
   };
 
   const handleSelectClick = (row: any) => {
-    const updatedSelectedComponents: any = [...selectedComponents];
-    const ingredientIndex = updatedSelectedComponents.findIndex(
-      (component: any) => component.ingredient_id === row.id
+    const isSelected = selectedComponents.some(
+      (component) => component.component_id === row.id
     );
-
-    if (ingredientIndex !== -1) {
-        updatedSelectedComponents.splice(ingredientIndex, 1);
+  
+    let updatedSelectedComponents: any[];
+  
+    if (isSelected) {
+      updatedSelectedComponents = selectedComponents.filter(
+        (component) => component.component_id !== row.id
+      );
     } else {
-      // Check if the quantity is greater than 0 before adding the ingredient
-      if (quantities[row.id] > 0) {
-        updatedSelectedComponents.push({
+      updatedSelectedComponents = [
+        ...selectedComponents,
+        {
           component_id: row.id,
-          component_quantity: quantities[row.id],
-        });
-      }
+          component_quantity: quantities[row.id] || 1,
+        },
+      ];
     }
-
+  
     setSelectedComponents(updatedSelectedComponents);
     console.log("selected components", updatedSelectedComponents);
   };
@@ -120,18 +123,18 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
               Array.isArray(mealSearchResult) &&
               mealSearchResult?.length > 0 ? (
                 mealSearchResult?.map(
-                  (ingredient: IIngredient, index: number) => {
+                  (component: IComponent, index: number) => {
                     return (
                       <tr key={index}>
-                        <td>{ingredient.name}</td>
+                        <td>{component.name}</td>
                         <td>
                           <Input
                             type="number"
                             inputProps={{
                               min: 1,
-                              value: quantities[ingredient.id] || 1, // Set the default value to 1
+                              value: quantities[component.id] || 1, // Set the default value to 1
                               onChange: (e) =>
-                                handleQuantityChange(e, ingredient.id),
+                                handleQuantityChange(e, component.id),
                             }}
                             sx={{ width: "50px" }}
                           />
@@ -139,7 +142,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
                         <td>
                           <Input
                             type="checkbox"
-                            onChange={() => handleSelectClick(ingredient)}
+                            onChange={() => handleSelectClick(component)}
                           />
                         </td>
                       </tr>
