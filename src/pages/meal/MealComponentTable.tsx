@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Backdrop } from "@mui/material";
+import { Backdrop, Chip, Stack } from "@mui/material";
 import * as ComponentsApi from "../../network/componentApi";
 import useSearchStore from "../../stores/searchStore";
 import { IComponent, IIngredient } from "../../interfaces";
@@ -82,6 +82,20 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
     console.log("selected components", updatedSelectedComponents);
   };
 
+  const checkedComponents = selectedComponents
+    .filter((component) =>
+      mealSearchResult.some(
+        (searchComponent: { id: string }) =>
+          searchComponent.id === component.component_id
+      )
+    )
+    .map((component) =>
+      mealSearchResult.find(
+        (searchComponent: { id: string }) =>
+          searchComponent.id === component.component_id
+      )
+    );
+
   return (
     <>
       {mealLoading && (
@@ -103,7 +117,24 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
           width: "100%",
         }}
       >
-        <TableContainer>
+        <Stack
+          direction="row"
+          spacing={1}
+          flexWrap="wrap"
+          style={{ marginBottom: "10px" }}
+        >
+          {checkedComponents.map((component, index) => (
+            <Chip
+              key={index}
+              label={component.name}
+              color="primary"
+              style={{ marginBottom: "10px" }}
+            />
+          ))}
+        </Stack>
+        <TableContainer
+          style={{ maxHeight: "300px", position: "sticky", top: "40px" }}
+        >
           <Table
             stickyHeader
             sx={{

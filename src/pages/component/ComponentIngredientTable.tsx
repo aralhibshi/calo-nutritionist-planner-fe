@@ -102,7 +102,7 @@ const ComponentIngredientTable: React.FC<
           searchIngredient.id === ingredient.ingredient_id
       )
     );
-
+    
   return (
     <>
       {componentLoading && (
@@ -124,12 +124,24 @@ const ComponentIngredientTable: React.FC<
           width: "100%",
         }}
       >
-<Stack direction="row" spacing={1} flexWrap="wrap" style={{ marginBottom: "10px" }}>
-  {checkedIngredients.map((ingredient, index) => (
-    <Chip key={index} label={ingredient.name} color="primary" />
-  ))}
-</Stack>
-        <TableContainer>
+        <Stack
+          direction="row"
+          spacing={1}
+          flexWrap="wrap"
+          style={{ marginBottom: "10px" }}
+        >
+          {checkedIngredients.map((ingredient, index) => (
+            <Chip
+              key={index}
+              label={ingredient.name}
+              color="primary"
+              style={{ marginBottom: "10px" }}
+            />
+          ))}
+        </Stack>
+        <TableContainer
+          style={{ maxHeight: "300px", position: "sticky", top: "40px" }}
+        >
           <Table
             stickyHeader
             sx={{
