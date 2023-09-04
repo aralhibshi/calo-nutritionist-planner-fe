@@ -144,7 +144,7 @@ const ComponentTable: React.FC = () => {
               }
 
               return (
-                <tr key={index}>
+                <tr key={index} style={{height:"52px"}}>
                   <td>{component.name}</td>
                   <td>{totalCalories}</td>
                   <td>{totalProteins}</td>
