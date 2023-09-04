@@ -21,6 +21,7 @@ import Slider from '@mui/material/Slider';
 import Divider from "@mui/material/Divider";
 import IngredientComponentTable from "./IngredientComponentTable";
 import IngredientMealTable from "./IngredientMealTable";
+import LinearProgress from '@mui/material/LinearProgress';
 
 interface EditIngredientDialogProps {
   open: boolean;
@@ -34,24 +35,34 @@ export default function EditIngredientDialog({
   onIngredientUpdated,
 }: EditIngredientDialogProps) {
   const [loading, setLoading] = useState(false);
+  const [calories, setCalories] = useState()
   const closeFormDialog = () => {
     setOpen(false);
   };
 
   const {
     selectedIngredient,
-    decimalData,
-    setDecimalData
+    editData,
+    setEditData
   } = useIngredientStore()
 
   useEffect(() => {
-    setDecimalData({
-      price: Number(selectedIngredient?.price),
-      protein: Number(selectedIngredient?.protein),
-      carbs: Number(selectedIngredient?.carbs),
-      fats: Number(selectedIngredient?.fats)
-    })
-  }, [open])
+    if (selectedIngredient) {
+      const calculatedCalories =
+        Number(selectedIngredient.protein) * 4 +
+        Number(selectedIngredient.carbs) * 4 +
+        Number(selectedIngredient.fats) * 9;
+  
+      setEditData({
+        price: Number(selectedIngredient.price),
+        protein: Number(selectedIngredient.protein),
+        carbs: Number(selectedIngredient.carbs),
+        fats: Number(selectedIngredient.fats),
+        calories: parseFloat(calculatedCalories.toFixed(3)),
+        rating: 'Normal'
+      });
+    }
+  }, [open]);
 
   const formik = useFormik({
     initialValues: {
@@ -91,13 +102,38 @@ export default function EditIngredientDialog({
   });
 
   const decimalHandleChange = (e: any) => {
-    formik.handleChange(e)
-
-    const data: any = {...decimalData};
-
+    formik.handleChange(e);
+  
+    const data: any = { ...editData };
     data[e.target.name] = e.target.value;
+  
+    const calculatedCalories =
+      Number(data.protein) * 4 +
+      Number(data.carbs) * 4 +
+      Number(data.fats) * 9;
+  
+    data.calories = parseFloat(calculatedCalories.toFixed(3));
+  
+    if (data.calories > 2.250) {
+      data.rating = 'High';
+    }
+    if (data.calories > 1.000 && data.calories < 2.250) {
+      data.rating = 'Normal'
+    }
+    if (data.calories < 1.000) {
+      data.rating = 'Low';
+    }
 
-    setDecimalData(data);
+    console.log(data);
+    setEditData(data);
+  };
+
+  function formattedCalories() {
+    if (editData.calories <= 10.000) {
+      return editData.calories * 10
+    } else {
+      return 100.000
+    }
   }
 
   return (
@@ -196,7 +232,7 @@ export default function EditIngredientDialog({
                       label="Price"
                       name="price"
                       type="number"
-                      value={Number(decimalData?.price)}
+                      value={Number(editData?.price)}
                       margin="dense"
                       style={{
                         width: '35%',
@@ -225,7 +261,7 @@ export default function EditIngredientDialog({
                       label="Protein"
                       name="protein"
                       type="number"
-                      value={Number(decimalData?.protein)}
+                      value={Number(editData?.protein)}
                       margin="dense"
                       style={{
                         width: '35%',
@@ -254,7 +290,7 @@ export default function EditIngredientDialog({
                       label="Carbs"
                       name="carbs"
                       type="number"
-                      value={Number(decimalData?.carbs)}
+                      value={Number(editData?.carbs)}
                       margin="dense"
                       style={{
                         width: '35%',
@@ -283,7 +319,7 @@ export default function EditIngredientDialog({
                       label="Fats"
                       name="fats"
                       type="number"
-                      value={Number(decimalData?.fats)}
+                      value={Number(editData?.fats)}
                       margin="dense"
                       style={{
                         width: '35%',
@@ -300,6 +336,49 @@ export default function EditIngredientDialog({
                       max={0.999}
                       step={0.001}
                       onChange={decimalHandleChange}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <TextField
+                      disabled
+                      label="Calories"
+                      name="calories"
+                      type="number"
+                      value={Number(editData?.calories)}
+                      margin="dense"
+                      style={{
+                        width: '30%',
+                        marginRight: '30px'
+                      }}
+                    />
+
+                    {/* <TextField
+                      disabled
+                      label="Calorie Rating"
+                      name="rating"
+                      type="string"
+                      value={editData.rating}
+                      margin="dense"
+                      style={{
+                        width: '65%',
+                        marginRight: '30px'
+                      }}
+                    /> */}
+
+                    <LinearProgress
+                      aria-label="Calorie"
+                      sx={{
+                        width: '55%',
+                        color: 'blue'
+                      }}
+                      variant="determinate"
+                      // value={editData.calories}
+                      value={formattedCalories()}
                     />
                   </div>
                 </div>

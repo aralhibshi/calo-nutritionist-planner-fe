@@ -186,11 +186,13 @@ export interface ISearchStore {
 }
 
 // Nutriton
-interface IDecimalData {
+interface IEditData {
   price: number;
   protein: number;
   carbs: number;
-  fats: number
+  fats: number;
+  calories: number;
+  rating: string;
 }
 
 // Ingredient Store
@@ -201,8 +203,8 @@ export interface IIngredientStore {
   setSelectedIngredient: (ingredient: IIngredient | null) => void;
   selectedIngredients: IComponentIngredient[];
   setSelectedIngredients: (ingredients: IComponentIngredient[]) => void;
-  decimalData: IDecimalData
-  setDecimalData: (data: any) => void;
+  editData: IEditData
+  setEditData: (data: any) => void;
 }
 
 // Component Store

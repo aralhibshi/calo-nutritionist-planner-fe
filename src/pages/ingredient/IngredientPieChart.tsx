@@ -6,15 +6,15 @@ const IngredientPieChart: React.FC = (props) => {
 
   const {
     selectedIngredient,
-    decimalData
+    editData
   } = useIngredientStore();
 
   let pieChartData: any = [];
 
   if (selectedIngredient) {
-    const protein = Number(decimalData.protein);
-    const carbs = Number(decimalData.carbs);
-    const fats = Number(decimalData.fats);
+    const protein = Number(editData.protein);
+    const carbs = Number(editData.carbs);
+    const fats = Number(editData.fats);
     const total = Number(protein + carbs + fats);
     const percent_protein = Number((protein / total) * 100).toFixed(3);
     const percent_carbs = Number((carbs / total) * 100).toFixed(3);

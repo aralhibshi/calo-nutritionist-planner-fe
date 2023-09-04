@@ -8,13 +8,15 @@ const useIngredientStore = create<IIngredientStore>((set) => ({
   setSelectedIngredient: (ingredient) => set({ selectedIngredient: ingredient }),
   selectedIngredients: [],
   setSelectedIngredients: (ingredients) => set({ selectedIngredients: ingredients }),
-  decimalData: {
+  editData: {
     price: 0,
     protein: 0,
     carbs: 0,
-    fats: 0
+    fats: 0,
+    calories: 0,
+    rating: 'Normal'
   },
-  setDecimalData: (data) => set({ decimalData: data })
+  setEditData: (data) => set({ editData: data })
 }));
 
 export default useIngredientStore;

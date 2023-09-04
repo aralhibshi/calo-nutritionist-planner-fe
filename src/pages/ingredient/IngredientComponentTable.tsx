@@ -15,10 +15,6 @@ const IngredientComponentTable: React.FC = () => {
     setLoading,
   } = useSearchStore();
   const {
-    setEntityCount,
-    skip,
-  } = useEntityStore();
-  const {
     selectedIngredient,
   } = useIngredientStore();
   const {
@@ -30,6 +26,7 @@ const IngredientComponentTable: React.FC = () => {
     try {
       setLoading(true);
       if (selectedIngredient) {
+        const skip = 0
         const response = await ComponentsApi.fetchComponentsWithIngredient(selectedIngredient.id, skip);
         setIngredientComponents(response.data.components)
       }
@@ -119,7 +116,7 @@ const IngredientComponentTable: React.FC = () => {
             })
           ) : (
             <tr>
-              <td colSpan={8}>No search results found.</td>
+              <td colSpan={8}>No components found.</td>
             </tr>
           )}
         </tbody>

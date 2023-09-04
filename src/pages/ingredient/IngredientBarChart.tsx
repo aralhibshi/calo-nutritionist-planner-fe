@@ -1,13 +1,12 @@
 import React from 'react'
 import { BarChart } from '@mui/x-charts/BarChart';
 import useIngredientStore from '../../stores/ingredientStore';
-import { useState } from 'react';
 
 const IngredientBarChart: React.FC = () => {
 
   const {
     selectedIngredient,
-    decimalData
+    editData
   } = useIngredientStore()
 
   return (
@@ -19,12 +18,6 @@ const IngredientBarChart: React.FC = () => {
       }}
     >
       <BarChart
-      // viewBox={{
-      //   x: 0,
-      //   y: 0,
-      //   height: 450,
-      //   width: 270
-      // }}
         colors={[
           '#33FF57', '#2CB37A'
         ]}
@@ -53,10 +46,10 @@ const IngredientBarChart: React.FC = () => {
           },
           {
             data: [
-              Number(decimalData.price),
-              Number(decimalData.protein),
-              Number(decimalData.carbs),
-              Number(decimalData.fats)
+              Number(editData.price),
+              Number(editData.protein),
+              Number(editData.carbs),
+              Number(editData.fats)
             ],
             highlightScope: {
               faded: "global",
