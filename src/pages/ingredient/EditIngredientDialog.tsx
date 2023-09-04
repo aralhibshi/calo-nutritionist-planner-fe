@@ -19,6 +19,8 @@ import IngredientBarChart from "./IngredientBarChart";
 import useIngredientStore from "../../stores/ingredientStore";
 import Slider from '@mui/material/Slider';
 import Divider from "@mui/material/Divider";
+import IngredientComponentTable from "./IngredientComponentTable";
+import IngredientMealTable from "./IngredientMealTable";
 
 interface EditIngredientDialogProps {
   open: boolean;
@@ -117,7 +119,8 @@ export default function EditIngredientDialog({
           fullWidth
           maxWidth="lg"
           style={{
-            zIndex: '2'
+            zIndex: '2',
+            width: 'auto'
           }}
         >
           <DialogContent>
@@ -348,8 +351,8 @@ export default function EditIngredientDialog({
                       textAlign: 'center'
                     }}
                   >
-                    <div>COMPONENT TABLE</div>
-                    <div>MEAL TABLE</div>
+                    <IngredientComponentTable/>
+                    <IngredientMealTable/>
                   </div>
                 </div>
               </div>
