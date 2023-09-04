@@ -90,7 +90,7 @@ const MealTable: React.FC = () => {
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            <th>Edit&nbsp;</th>
+            {/* <th>Edit&nbsp;</th> */}
           </tr>
         </thead>
         <tbody>
@@ -137,13 +137,13 @@ const MealTable: React.FC = () => {
                   <td>{totalFats}</td>
                   <td>{meal.unit}</td>
                   <td>{totalPrice}</td>
-                  <td>
+                  {/* <td>
                     <IconButton
                     // onClick={() => handleEditClick(component)}
                     >
                       <EditIcon />
                     </IconButton>
-                  </td>
+                  </td> */}
                 </tr>
               );
             })

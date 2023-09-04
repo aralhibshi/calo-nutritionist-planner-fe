@@ -115,7 +115,7 @@ const ComponentTable: React.FC = () => {
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            <th>Edit&nbsp;</th>
+            {/* <th>Edit&nbsp;</th> */}
           </tr>
         </thead>
         <tbody>
@@ -152,11 +152,11 @@ const ComponentTable: React.FC = () => {
                   <td>{totalFats}</td>
                   <td>{component.unit}</td>
                   <td>{totalPrice}</td>
-                  <td>
+                  {/* <td>
                     <IconButton onClick={() => handleEditClick(component)}>
                       <EditIcon />
                     </IconButton>
-                  </td>
+                  </td> */}
                 </tr>
               );
             })
