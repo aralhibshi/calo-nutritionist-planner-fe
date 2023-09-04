@@ -163,7 +163,6 @@ const IngredientTable: React.FC = () => {
         open={open}
         setOpen={setOpen}
         onIngredientUpdated={handleIngredientUpdated}
-        ingredient={selectedIngredient}
       />
       <CreateIngredientDialog
         onIngredientAdded={handleIngredientAdded}
