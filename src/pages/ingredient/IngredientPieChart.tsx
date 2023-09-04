@@ -16,9 +16,9 @@ const IngredientPieChart: React.FC = (props) => {
     const carbs = Number(decimalData.carbs);
     const fats = Number(decimalData.fats);
     const total = Number(protein + carbs + fats);
-    const percent_protein = Number((protein / total) * 100);
-    const percent_carbs = Number((carbs / total) * 100);
-    const percent_fats = Number((fats / total) * 100);
+    const percent_protein = Number((protein / total) * 100).toFixed(3);
+    const percent_carbs = Number((carbs / total) * 100).toFixed(3);
+    const percent_fats = Number((fats / total) * 100).toFixed(3);
     pieChartData = [
       { name: "Protein", value: Number(percent_protein), label: "Protein %", color: '#2CB37A' },
       { name: "Carbs", value: Number(percent_carbs), label: "Carbs %", color: '#FBA700' },
@@ -37,9 +37,10 @@ const IngredientPieChart: React.FC = (props) => {
       <PieChart
         series={[
           {
+            arcLabel: (item) => item.value > 9 ? `${item.value.toFixed(0)}%`: '',
             data: pieChartData,
             highlightScope: { faded: "series", highlighted: "item" },
-            faded: { innerRadius: 30, additionalRadius: -30 },
+            // faded: { innerRadius: 30, additionalRadius: -30 },
             innerRadius: 30,
             outerRadius: 100,
             paddingAngle: 1,
