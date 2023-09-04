@@ -19,10 +19,12 @@ const IngredientBarChart: React.FC = () => {
       }}
     >
       <BarChart
-      viewBox={{
-        x: 0,
-        y: 0
-      }}
+      // viewBox={{
+      //   x: 0,
+      //   y: 0,
+      //   height: 450,
+      //   width: 270
+      // }}
         colors={[
           '#33FF57', '#2CB37A'
         ]}
@@ -63,8 +65,8 @@ const IngredientBarChart: React.FC = () => {
             label: 'Edit'
           }
         ]}
-        width={450}
-        height={300}
+        width={400}
+        height={280}
         tooltip={{
           trigger: "item"
         }}
