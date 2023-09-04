@@ -38,7 +38,7 @@ const ComponentSearchBar: React.FC = () => {
         const apiFunction: any = entityToApiFunctionMap[entity];
     
           const response = await apiFunction(index, skip);
-          setMealSearchResult(response.data.ingredients);
+          setMealSearchResult(response.data.components);
           setEntityCount(response.count);
           console.log('entity', entity)
           setMealLoading(false);
