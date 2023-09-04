@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Backdrop, Checkbox, Chip, Stack } from "@mui/material";
+import { Avatar, Backdrop, Checkbox, Chip, Stack } from "@mui/material";
 import * as IngredientsApi from "../../network/ingredientApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useSearchStore from "../../stores/searchStore";
@@ -124,12 +124,25 @@ const ComponentIngredientTable: React.FC<
           width: "100%",
         }}
       >
-<Stack direction="row" spacing={1} flexWrap="wrap" style={{ marginBottom: "10px" }}>
-  {checkedIngredients.map((ingredient, index) => (
-    <Chip key={index} label={ingredient.name} color="primary" />
-  ))}
-</Stack>
-        <TableContainer>
+        <Stack
+          direction="row"
+          spacing={1}
+          flexWrap="wrap"
+          style={{ marginBottom: "10px" }}
+        >
+          {checkedIngredients.map((ingredient, index) => (
+            <Chip
+              key={index}
+              label={ingredient.name}
+              color="primary"
+              style={{ marginBottom: "10px" }}
+              avatar={<Avatar>{quantities[ingredient.id] || 1}</Avatar>}
+            />
+          ))}
+        </Stack>
+        <TableContainer
+          style={{ maxHeight: "300px", position: "sticky", top: "40px" }}
+        >
           <Table
             stickyHeader
             sx={{
