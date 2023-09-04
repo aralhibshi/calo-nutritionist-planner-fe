@@ -213,6 +213,8 @@ export interface IComponentStore {
   setSelectedComponent: (component: IComponentData | null) => void;
   selectedComponents: IMealComponent[];
   setSelectedComponents: (components: IMealComponent[]) => void;
+  ingredientComponents: any,
+  setIngredientComponents: (components: IComponent[]) => void;
 }
 
 // Meal Store
