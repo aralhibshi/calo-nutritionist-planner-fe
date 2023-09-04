@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Table from "@mui/material/Table";
 import { Backdrop, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
@@ -18,6 +18,10 @@ const MealTable: React.FC = () => {
   const { setEntityCount, skip } = useEntityStore();
   const { loading, setLoading, setSearchResult, searchResult } =
     useSearchStore();
+
+
+  const memoizedSearchResult = useMemo(() => searchResult, [searchResult]);
+
 
   async function loadMeals() {
     try {
@@ -90,8 +94,8 @@ const MealTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-        {searchResult && Array.isArray(searchResult) && searchResult.length > 0 ? (
-            searchResult.map((meal: IMeal, index: number) => {
+        {memoizedSearchResult && Array.isArray(memoizedSearchResult) && memoizedSearchResult?.length > 0 ? (
+            memoizedSearchResult?.map((meal: IMeal, index: number) => {
               let totalFats = 0;
               let totalCarbs = 0;
               let totalProteins = 0;

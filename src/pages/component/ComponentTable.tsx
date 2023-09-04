@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop, IconButton } from "@mui/material";
@@ -28,6 +28,8 @@ const ComponentTable: React.FC = () => {
     searchResult
   } = useSearchStore();
 
+  const memoizedSearchResult = useMemo(() => searchResult, [searchResult]);
+  
   async function loadComponents() {
     try {
       setLoading(true);
@@ -117,8 +119,8 @@ const ComponentTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {searchResult && Array.isArray(searchResult) && searchResult.length > 0 ? (
-            searchResult.map((component: IComponent, index: number) => {
+        {memoizedSearchResult && Array.isArray(memoizedSearchResult) && memoizedSearchResult.length > 0 ? (
+            memoizedSearchResult.map((component: IComponent, index: number) => {
               let totalFats = 0;
               let totalCarbs = 0;
               let totalProteins = 0;
