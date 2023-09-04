@@ -52,15 +52,26 @@ export default function EditIngredientDialog({
         Number(selectedIngredient.protein) * 4 +
         Number(selectedIngredient.carbs) * 4 +
         Number(selectedIngredient.fats) * 9;
-  
-      setEditData({
+
+      const data: any = {
         price: Number(selectedIngredient.price),
         protein: Number(selectedIngredient.protein),
         carbs: Number(selectedIngredient.carbs),
         fats: Number(selectedIngredient.fats),
         calories: parseFloat(calculatedCalories.toFixed(3)),
-        rating: 'Normal'
-      });
+      }
+
+      if (data.calories > 6.999) {
+        data.rating = 'High';
+      }
+      if (data.calories > 2.500 && data.calories < 6.999) {
+        data.rating = 'Normal'
+      }
+      if (data.calories < 2.500) {
+        data.rating = 'Low';
+      }
+
+      setEditData(data);
     }
   }, [open]);
 
@@ -114,17 +125,16 @@ export default function EditIngredientDialog({
   
     data.calories = parseFloat(calculatedCalories.toFixed(3));
   
-    if (data.calories > 2.250) {
+    if (data.calories > 6.999) {
       data.rating = 'High';
     }
-    if (data.calories > 1.000 && data.calories < 2.250) {
+    if (data.calories > 2.500 && data.calories < 6.999) {
       data.rating = 'Normal'
     }
-    if (data.calories < 1.000) {
+    if (data.calories < 2.500) {
       data.rating = 'Low';
     }
 
-    console.log(data);
     setEditData(data);
   };
 
@@ -132,7 +142,27 @@ export default function EditIngredientDialog({
     if (editData.calories <= 10.000) {
       return editData.calories * 10
     } else {
-      return 100.000
+      return 100
+    }
+  }
+
+  function progressColor() {
+    if (editData.rating === 'High') {
+      return 'error'
+    }
+    if (editData.rating === 'Normal') {
+      return 'primary'
+    }
+    if (editData.rating === 'Low') {
+      return 'warning'
+    }
+  }
+
+  function sliderColor() {
+    if ((editData.protein + editData.carbs + editData.fats) <= 1.000) {
+      return 'primary'
+    } else {
+      return '#D3302F'
     }
   }
 
@@ -146,7 +176,7 @@ export default function EditIngredientDialog({
             marginTop: "20px",
           }}
         >
-          <CircularProgress />
+          <CircularProgress/>
         </Box>
       ) : (
         <Dialog
@@ -242,7 +272,7 @@ export default function EditIngredientDialog({
                     <Slider
                       sx={{
                         width: '65%',
-                        marginRight: '22px'
+                        marginRight: '22px',
                       }}
                       name='price'
                       defaultValue={Number(selectedIngredient?.price)}
@@ -271,7 +301,8 @@ export default function EditIngredientDialog({
                     <Slider
                       sx={{
                         width: '65%',
-                        marginRight: '22px'
+                        marginRight: '22px',
+                        color: sliderColor()
                       }}
                       name='protein'
                       defaultValue={Number(selectedIngredient?.protein)}
@@ -300,7 +331,8 @@ export default function EditIngredientDialog({
                     <Slider
                       sx={{
                         width: '65%',
-                        marginRight: '22px'
+                        marginRight: '22px',
+                        color: sliderColor()
                       }}
                       name='carbs'
                       defaultValue={Number(selectedIngredient?.carbs)}
@@ -329,7 +361,8 @@ export default function EditIngredientDialog({
                     <Slider
                       sx={{
                         width: '65%',
-                        marginRight: '22px'
+                        marginRight: '22px',
+                        color: sliderColor()
                       }}
                       name='fats'
                       defaultValue={Number(selectedIngredient?.fats)}
@@ -356,30 +389,24 @@ export default function EditIngredientDialog({
                         marginRight: '30px'
                       }}
                     />
-
-                    {/* <TextField
-                      disabled
-                      label="Calorie Rating"
-                      name="rating"
-                      type="string"
-                      value={editData.rating}
-                      margin="dense"
+                    <div
                       style={{
-                        width: '65%',
-                        marginRight: '30px'
+                        display: 'flex',
+                        flexDirection: 'row',
+                        width: '55%'
                       }}
-                    /> */}
-
-                    <LinearProgress
-                      aria-label="Calorie"
-                      sx={{
-                        width: '55%',
-                        color: 'blue'
-                      }}
-                      variant="determinate"
-                      // value={editData.calories}
-                      value={formattedCalories()}
-                    />
+                    >
+                      <LinearProgress
+                        color={progressColor()}
+                        aria-label="Calorie"
+                        sx={{
+                          width: '100%',
+                          color: 'blue'
+                        }}
+                        variant="determinate"
+                        value={formattedCalories()}
+                      />
+                    </div>
                   </div>
                 </div>
 
