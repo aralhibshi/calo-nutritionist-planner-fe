@@ -18,6 +18,7 @@ import IngredientPieChart from "./IngredientPieChart";
 import IngredientBarChart from "./IngredientBarChart";
 import useIngredientStore from "../../stores/ingredientStore";
 import Slider from '@mui/material/Slider';
+import Divider from "@mui/material/Divider";
 
 interface EditIngredientDialogProps {
   open: boolean;
@@ -29,7 +30,6 @@ export default function EditIngredientDialog({
   open,
   setOpen,
   onIngredientUpdated,
-  // ingredient,
 }: EditIngredientDialogProps) {
   const [loading, setLoading] = useState(false);
   const closeFormDialog = () => {
@@ -98,10 +98,6 @@ export default function EditIngredientDialog({
     setDecimalData(data);
   }
 
-  function valuetext(value: number) {
-    return `${value}°C`;
-  }
-
   return (
     <>
       {loading ? (
@@ -121,25 +117,31 @@ export default function EditIngredientDialog({
           fullWidth
           maxWidth="lg"
           style={{
-            textAlign: "center",
             zIndex: '2'
           }}
         >
-          <DialogTitle>Update Ingredient</DialogTitle>
           <DialogContent>
             <form onSubmit={formik.handleSubmit}>
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "space-between"
+                  justifyContent: "space-between",
                 }}
               >
                 {/* Left */}
                 <div
                   style={{
-                    flex: 0.5
+                    flex: 0.5,
+                    paddingRight: '24px'
                   }}
                 >
+                  <DialogTitle
+                    sx={{
+                      textAlign: 'center'
+                    }}
+                  >
+                    Edit Ingredient
+                  </DialogTitle>
                   <TextField
                     label="Name"
                     name="name"
@@ -188,21 +190,20 @@ export default function EditIngredientDialog({
                     }}
                   >
                      <TextField
-                     
                       label="Price"
                       name="price"
                       type="number"
                       value={Number(decimalData?.price)}
                       margin="dense"
                       style={{
-                        width: '30%',
+                        width: '35%',
                         marginRight: '30px'
                       }}
                     />
                     <Slider
                       sx={{
                         width: '65%',
-                        marginRight: '20px'
+                        marginRight: '22px'
                       }}
                       name='price'
                       defaultValue={Number(selectedIngredient?.price)}
@@ -224,14 +225,14 @@ export default function EditIngredientDialog({
                       value={Number(decimalData?.protein)}
                       margin="dense"
                       style={{
-                        width: '30%',
+                        width: '35%',
                         marginRight: '30px'
                       }}
                     />
                     <Slider
                       sx={{
                         width: '65%',
-                        marginRight: '20px'
+                        marginRight: '22px'
                       }}
                       name='protein'
                       defaultValue={Number(selectedIngredient?.protein)}
@@ -253,14 +254,14 @@ export default function EditIngredientDialog({
                       value={Number(decimalData?.carbs)}
                       margin="dense"
                       style={{
-                        width: '30%',
+                        width: '35%',
                         marginRight: '30px'
                       }}
                     />
                     <Slider
                       sx={{
                         width: '65%',
-                        marginRight: '20px'
+                        marginRight: '22px'
                       }}
                       name='carbs'
                       defaultValue={Number(selectedIngredient?.carbs)}
@@ -282,14 +283,14 @@ export default function EditIngredientDialog({
                       value={Number(decimalData?.fats)}
                       margin="dense"
                       style={{
-                        width: '30%',
+                        width: '35%',
                         marginRight: '30px'
                       }}
                     />
                     <Slider
                       sx={{
                         width: '65%',
-                        marginRight: '20px'
+                        marginRight: '22px'
                       }}
                       name='fats'
                       defaultValue={Number(selectedIngredient?.fats)}
@@ -298,31 +299,12 @@ export default function EditIngredientDialog({
                       onChange={decimalHandleChange}
                     />
                   </div>
-                  {/* <TextField
-                    label="Fats"
-                    name="fats"
-                    type="number"
-                    value={formik.values.fats}
-                    onChange={decimalHandleChange}
-                    fullWidth
-                    margin="dense"
-                    inputProps={{
-                      maxLength: 0.999 
-                    }}
-                  /> */}
-                  {/* <TextField
-                    label="Carbs"
-                    name="carbs"
-                    type="number"
-                    value={formik.values.carbs}
-                    onChange={decimalHandleChange}
-                    fullWidth
-                    margin="dense"
-                    inputProps={{
-                      maxLength: 0.999 
-                    }}
-                  /> */}
                 </div>
+
+                <Divider
+                  orientation="vertical"
+                  flexItem 
+                />
 
                 {/* Right */}
                 <div
@@ -331,6 +313,13 @@ export default function EditIngredientDialog({
                     flexDirection: 'column',
                   }}
                 >
+                  <DialogTitle
+                    sx={{
+                      textAlign: 'center'
+                    }}
+                  >
+                    Details
+                  </DialogTitle>
                   <div
                     style={{
                       flex: 0.5,
@@ -339,14 +328,29 @@ export default function EditIngredientDialog({
                       justifyContent: "space-evenly",
                       alignItems: "center",
                       flexDirection: "row",
-                      height: '30%'
+                      height: '22%'
                     }}
                   >
                     <IngredientBarChart/>
                     <IngredientPieChart/>
                   </div>
+
+                   <Divider
+                      orientation="horizontal"
+                      flexItem
+                      sx={{
+                        marginLeft: '20px'
+                      }}
+                    />
+
+                  <div
+                    style={{
+                      textAlign: 'center'
+                    }}
+                  >
                     <div>COMPONENT TABLE</div>
                     <div>MEAL TABLE</div>
+                  </div>
                 </div>
               </div>
               <DialogActions>

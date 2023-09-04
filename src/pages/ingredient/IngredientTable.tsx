@@ -65,6 +65,10 @@ const IngredientTable: React.FC = () => {
     setTimeout(() => {
       setOpen(true);
     }, 0);
+    setTimeout(() => {
+      const barChart = document.querySelector('.css-18ftw0b-MuiChartsSurface-root')
+      barChart?.setAttribute('viewBox', '0 15 400 280');
+    }, 20)
   };
 
   const handleIngredientUpdated = (updatedIngredient: IIngredientData) => {

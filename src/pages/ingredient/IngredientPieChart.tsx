@@ -20,11 +20,21 @@ const IngredientPieChart: React.FC = (props) => {
     const percent_carbs = Number((carbs / total) * 100).toFixed(3);
     const percent_fats = Number((fats / total) * 100).toFixed(3);
     pieChartData = [
-      { name: "Protein", value: Number(percent_protein), label: "Protein %", color: '#2CB37A' },
-      { name: "Carbs", value: Number(percent_carbs), label: "Carbs %", color: '#FBA700' },
-      { name: "Fats", value: Number(percent_fats), label: "Fats %", color: '#DC0502' },
+      { name: "Protein", value: Number(percent_protein), label: "Protein", color: '#2CB37A' },
+      { name: "Carbs", value: Number(percent_carbs), label: "Carbs", color: '#FBA700' },
+      { name: "Fats", value: Number(percent_fats), label: "Fats", color: '#DC0502' },
     ];
   }
+
+  const customArcLabel = (item: any) => {
+    if (item.value > 9.999) {
+      const tooltipValue = item.value.toFixed(0);
+      const unit = '%'
+      return `${tooltipValue}${unit}`;
+    } else {
+      return '';
+    }
+  };
 
   return (
     <div
@@ -35,9 +45,13 @@ const IngredientPieChart: React.FC = (props) => {
       }}
     >
       <PieChart
+        sx={{
+          fontWeight: 'bold',
+        }}
         series={[
           {
-            arcLabel: (item) => item.value > 9 ? `${item.value.toFixed(0)}%`: '',
+            // arcLabel: (item) => item.value > 9.999 ? `${item.value.toFixed(0)}%`: '',
+            arcLabel: customArcLabel,
             data: pieChartData,
             highlightScope: { faded: "series", highlighted: "item" },
             // faded: { innerRadius: 30, additionalRadius: -30 },
