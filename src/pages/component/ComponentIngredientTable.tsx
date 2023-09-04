@@ -9,7 +9,6 @@ import useSearchStore from "../../stores/searchStore";
 import { IIngredient } from "../../interfaces";
 import useEntityStore from "../../stores/entityStore";
 import { Input } from "@mui/material";
-import { Checkbox } from "@mui/material";
 
 interface ComponentIngredientTableProps {}
 
@@ -66,25 +65,28 @@ const ComponentIngredientTable: React.FC<
   };
 
   const handleSelectClick = (row: any) => {
-    const updatedSelectedIngredients: any = [...selectedIngredients];
-    const ingredientIndex = updatedSelectedIngredients.findIndex(
-      (ingredient: any) => ingredient.ingredient_id === row.id
+    const isSelected = selectedIngredients.some(
+      (ingredient) => ingredient.ingredient_id === row.id
     );
-
-    if (ingredientIndex !== -1) {
-      updatedSelectedIngredients.splice(ingredientIndex, 1);
+  
+    let updatedSelectedIngredients: any[];
+  
+    if (isSelected) {
+      updatedSelectedIngredients = selectedIngredients.filter(
+        (ingredient) => ingredient.ingredient_id !== row.id
+      );
     } else {
-      // Check if the quantity is greater than 0 before adding the ingredient
-      if (quantities[row.id] > 0) {
-        updatedSelectedIngredients.push({
+      updatedSelectedIngredients = [
+        ...selectedIngredients,
+        {
           ingredient_id: row.id,
-          ingredient_quantity: quantities[row.id],
-        });
-      }
+          ingredient_quantity: quantities[row.id] || 1,
+        },
+      ];
     }
-
+  
     setSelectedIngredients(updatedSelectedIngredients);
-    console.log("selected ingredients", updatedSelectedIngredients);
+    console.log("selected Ingredients", updatedSelectedIngredients);
   };
 
   return (

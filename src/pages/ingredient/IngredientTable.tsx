@@ -132,7 +132,7 @@ const IngredientTable: React.FC = () => {
             return (
               <tr
                 id='table'
-                key={index}
+                key={index} style={{height:"52px"}}
               >
                 <td
                   style={{
