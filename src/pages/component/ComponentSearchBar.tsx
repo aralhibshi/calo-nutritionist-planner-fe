@@ -7,11 +7,10 @@ import * as MealApi from '../../network/mealApi';
 import createError from 'http-errors';
 import useSearchStore from "../../stores/searchStore";
 import useEntityStore from "../../stores/entityStore";
-import { error } from "console";
 
 const ComponentSearchBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [entity, setEntity] = useState('ingredient')
+  const [entity] = useState('ingredient')
   const {
     setComponentLoading,
     setComponentSearchResult

@@ -112,7 +112,13 @@ export interface IFetchMealsResponse {
 
 // Meal Create/Update - Data
 export interface IMealData {
-
+  id?: string
+  name: string
+  // category?: string
+  description?: string;
+  components?: Array<IMealComponentDataArray>
+  unit: string;
+  size: string
 }
 
 // Meal Component
@@ -172,6 +178,11 @@ export interface ISearchStore {
   setComponentLoading: (load: boolean) => void;
   componentSearchResult: any;
   setComponentSearchResult: (result: any) => void
+
+  mealLoading: boolean;
+  setMealLoading: (load: boolean) => void;
+  mealSearchResult: any;
+  setMealSearchResult: (result: any) => void
 }
 
 // Ingredient Store
@@ -190,6 +201,8 @@ export interface IComponentStore {
   setAddOpen: (isOpen: boolean) => void;
   selectedComponent: IComponentData | null;
   setSelectedComponent: (component: IComponentData | null) => void;
+  selectedComponents: IMealComponent[];
+  setSelectedComponents: (components: IMealComponent[]) => void;
 }
 
 // Meal Store
