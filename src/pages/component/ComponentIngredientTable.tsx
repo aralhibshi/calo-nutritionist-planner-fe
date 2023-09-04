@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Backdrop, Checkbox } from "@mui/material";
+import { Backdrop, Checkbox, Chip, Stack } from "@mui/material";
 import * as IngredientsApi from "../../network/ingredientApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useSearchStore from "../../stores/searchStore";
@@ -89,6 +89,20 @@ const ComponentIngredientTable: React.FC<
     console.log("selected Ingredients", updatedSelectedIngredients);
   };
 
+  const checkedIngredients = selectedIngredients
+    .filter((ingredient) =>
+      componentSearchResult.some(
+        (searchIngredient: { id: string }) =>
+          searchIngredient.id === ingredient.ingredient_id
+      )
+    )
+    .map((ingredient) =>
+      componentSearchResult.find(
+        (searchIngredient: { id: string }) =>
+          searchIngredient.id === ingredient.ingredient_id
+      )
+    );
+
   return (
     <>
       {componentLoading && (
@@ -110,6 +124,11 @@ const ComponentIngredientTable: React.FC<
           width: "100%",
         }}
       >
+<Stack direction="row" spacing={1} flexWrap="wrap" style={{ marginBottom: "10px" }}>
+  {checkedIngredients.map((ingredient, index) => (
+    <Chip key={index} label={ingredient.name} color="primary" />
+  ))}
+</Stack>
         <TableContainer>
           <Table
             stickyHeader

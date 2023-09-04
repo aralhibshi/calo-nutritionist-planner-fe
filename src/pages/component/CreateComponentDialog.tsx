@@ -18,6 +18,8 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import ComponentSearchBar from "./ComponentSearchBar";
 import ComponentIngredientTable from "./ComponentIngredientTable";
 import useIngredientStore from "../../stores/ingredientStore";
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 
 export default function CreateComponentDialog({
   onComponentAdded,
@@ -176,7 +178,7 @@ export default function CreateComponentDialog({
                     flexDirection: "column",
                     marginLeft: "20px",
                   }}
-                >
+                >       
                   <ComponentSearchBar />
                   <ComponentIngredientTable />
                 </div>
