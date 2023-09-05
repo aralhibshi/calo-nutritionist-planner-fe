@@ -6,24 +6,32 @@ const IngredientPieChart: React.FC = (props) => {
 
   const {
     selectedIngredient,
-    decimalData
+    editData
   } = useIngredientStore();
 
   let pieChartData: any = [];
 
   if (selectedIngredient) {
-    const protein = Number(decimalData.protein);
-    const carbs = Number(decimalData.carbs);
-    const fats = Number(decimalData.fats);
-    const total = Number(protein + carbs + fats);
-    const percent_protein = Number((protein / total) * 100).toFixed(3);
-    const percent_carbs = Number((carbs / total) * 100).toFixed(3);
-    const percent_fats = Number((fats / total) * 100).toFixed(3);
-    pieChartData = [
-      { name: "Protein", value: Number(percent_protein), label: "Protein", color: '#2CB37A' },
-      { name: "Carbs", value: Number(percent_carbs), label: "Carbs", color: '#FBA700' },
-      { name: "Fats", value: Number(percent_fats), label: "Fats", color: '#DC0502' },
-    ];
+    if (editData.protein + editData.carbs + editData.fats > 0.003) {
+      const protein = Number(editData.protein);
+      const carbs = Number(editData.carbs);
+      const fats = Number(editData.fats);
+      const total = Number(protein + carbs + fats);
+      const percent_protein = Number((protein / total) * 100).toFixed(3);
+      const percent_carbs = Number((carbs / total) * 100).toFixed(3);
+      const percent_fats = Number((fats / total) * 100).toFixed(3);
+      pieChartData = [
+        { name: "Protein", value: Number(percent_protein), label: "Protein", color: '#2CB37A' },
+        { name: "Carbs", value: Number(percent_carbs), label: "Carbs", color: '#FBA700' },
+        { name: "Fats", value: Number(percent_fats), label: "Fats", color: '#DC0502' },
+      ];
+    } else {
+      pieChartData = [
+        { name: "Protein", value: Number(0.001), label: "Protein", color: '#2CB37A' },
+        { name: "Carbs", value: Number(0.001), label: "Carbs", color: '#FBA700' },
+        { name: "Fats", value: Number(0.001), label: "Fats", color: '#DC0502' },
+      ];
+    }
   }
 
   const customArcLabel = (item: any) => {
