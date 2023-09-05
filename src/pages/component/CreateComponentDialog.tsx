@@ -14,19 +14,17 @@ import componentValidationSchema from "../../validation/componentFormValidation"
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import useComponentStore from "../../stores/componentStore";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, Divider } from "@mui/material";
 import ComponentSearchBar from "./ComponentSearchBar";
 import ComponentIngredientTable from "./ComponentIngredientTable";
 import useIngredientStore from "../../stores/ingredientStore";
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
 
 export default function CreateComponentDialog({
   onComponentAdded,
 }: IAddComponentDialogProps) {
   const [loading, setLoading] = useState(false);
   const { addOpen, setAddOpen } = useComponentStore();
-  const { selectedIngredients, setSelectedIngredients } = useIngredientStore();
+  const { selectedIngredients, setSelectedIngredients, calories } = useIngredientStore();
 
   const closeFormDialog = () => {
     setSelectedIngredients([])
@@ -115,7 +113,7 @@ export default function CreateComponentDialog({
                     error={formik.touched.name && Boolean(formik.errors.name)}
                     helperText={formik.touched.name && formik.errors.name}
                     fullWidth
-                    margin="dense"
+                    style={{marginBottom:'15px'}}
                   />
                   <TextField
                     label="Category"
@@ -130,7 +128,7 @@ export default function CreateComponentDialog({
                       formik.touched.category && formik.errors.category
                     }
                     fullWidth
-                    margin="dense"
+                    style={{marginBottom:'15px'}}
                   />
                   <TextField
                     label="Description"
@@ -146,7 +144,7 @@ export default function CreateComponentDialog({
                       formik.touched.description && formik.errors.description
                     }
                     fullWidth
-                    margin="dense"
+                    style={{marginBottom:'20px'}}
                   />
                   <FormControl fullWidth>
                     <InputLabel id="unit">Unit</InputLabel>
@@ -157,7 +155,6 @@ export default function CreateComponentDialog({
                       label="Unit"
                       onChange={formik.handleChange}
                       style={{
-                        marginTop: "10px",
                         textAlign: 'left'
                       }}
                     >
@@ -165,7 +162,13 @@ export default function CreateComponentDialog({
                       <MenuItem value={"g"}>Grams</MenuItem>
                     </Select>
                   </FormControl>
+
                 </div>
+                <Divider
+                  orientation="vertical"
+                  flexItem 
+                  style={{marginLeft:'20px'}}
+                />
 
                 {/* Right side */}
                 <div
