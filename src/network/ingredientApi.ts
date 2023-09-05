@@ -1,4 +1,4 @@
-import { IFetchIngredientsResponse, IIngredientData, IIngredient } from "../interfaces";
+import { IFetchIngredientsResponse, IIngredientData, IIngredient, IIngredientGetAPI } from "../interfaces";
 import { fetchData } from "./baseApi";
 import createError from "http-errors";
 
@@ -27,14 +27,32 @@ export async function createIngredient(
 }
 
 export async function fetchIngredients(
-  skip: number,
-  take:number
+  data: IIngredientGetAPI
 ): Promise<any> {
-  const response = await fetchData(`${baseURL}ingredients?skip=${skip}&take=${take}`, {
-    method: "GET",
-  });
-  console.log(response);
-  return response;
+  const url = baseURL + `ingredients?skip=${data.skip}&take=${data.take}`
+
+  if (data.name) {
+    console.log(data)
+    const response = await fetchData(`${url}&name=${data.name}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    console.log(response);
+    return response;
+  } else {
+    const response = await fetchData(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    console.log(response);
+    return response;
+  }
 }
 
 export async function searchIngredient(

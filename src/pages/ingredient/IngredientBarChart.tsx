@@ -19,12 +19,6 @@ const IngredientBarChart: React.FC = () => {
       }}
     >
       <BarChart
-      // viewBox={{
-      //   x: 0,
-      //   y: 0,
-      //   height: 450,
-      //   width: 270
-      // }}
         colors={[
           '#33FF57', '#2CB37A'
         ]}
