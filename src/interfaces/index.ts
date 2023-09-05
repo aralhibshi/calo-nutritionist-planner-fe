@@ -205,6 +205,8 @@ export interface IIngredientStore {
   setSelectedIngredients: (ingredients: IComponentIngredient[]) => void;
   editData: IEditData
   setEditData: (data: any) => void;
+  calories: number; // New property for calories
+  setCalories: (calories: number) => void; // New setter for calories
 }
 
 // Component Store

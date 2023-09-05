@@ -9,6 +9,7 @@ import useSearchStore from "../../stores/searchStore";
 import { IIngredient } from "../../interfaces";
 import useEntityStore from "../../stores/entityStore";
 import { Input } from "@mui/material";
+import TextField from "@mui/material/TextField";
 
 interface ComponentIngredientTableProps {}
 
@@ -26,7 +27,8 @@ const ComponentIngredientTable: React.FC<
     setComponentSearchResult,
   } = useSearchStore();
   const { setEntityCount, skip } = useEntityStore();
-  const { selectedIngredients, setSelectedIngredients } = useIngredientStore();
+  const { selectedIngredients, setSelectedIngredients, calories, setCalories } =
+    useIngredientStore();
 
   async function loadIngredients() {
     try {
@@ -34,10 +36,10 @@ const ComponentIngredientTable: React.FC<
       const data = {
         skip: 0,
         take: 100,
-        name: undefined
-      }
+        name: undefined,
+      };
       const response = await IngredientsApi.fetchIngredients(data);
-      
+
       setComponentSearchResult(response.data.ingredients);
       if (componentSearchResult) {
         setIngredients(componentSearchResult);
@@ -90,6 +92,13 @@ const ComponentIngredientTable: React.FC<
     }
 
     setSelectedIngredients(updatedSelectedIngredients);
+
+    // const totalCalories = updatedSelectedIngredients.reduce((total, ingredient) => {
+    //   const ingredientCalories = Number((ingredient.ingredient.carbs*4)+(ingredient.ingredient.protein*4)+(ingredient.ingredient.fats*9));
+    //   return total + (ingredientCalories * (ingredient.ingredient_quantity || 1));
+    // }, 0);
+    // setCalories(totalCalories)
+
     console.log("selected Ingredients", updatedSelectedIngredients);
   };
 
@@ -106,6 +115,20 @@ const ComponentIngredientTable: React.FC<
           searchIngredient.id === ingredient.ingredient_id
       )
     );
+
+    let totalCalories = 0;
+
+checkedIngredients.forEach((ingredient) => {
+  const fats = Number(ingredient.fats);
+  const carbs = Number(ingredient.carbs);
+  const protein = Number(ingredient.protein);
+  
+  const quantity = quantities[ingredient.id] || 1;
+  
+  if (!isNaN(fats) && !isNaN(carbs) && !isNaN(protein) && !isNaN(quantity)) {
+    totalCalories += (fats * 9 + carbs * 4 + protein * 4) * quantity;
+  }
+});
 
   return (
     <>
@@ -202,6 +225,15 @@ const ComponentIngredientTable: React.FC<
           </Table>
         </TableContainer>
       </div>
+      <br/>
+          <TextField
+            label="Calories"
+            name="description"
+            disabled
+            value={totalCalories}
+            fullWidth
+            margin="dense"
+          />
     </>
   );
 };
