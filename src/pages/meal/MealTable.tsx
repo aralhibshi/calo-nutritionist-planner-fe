@@ -26,7 +26,13 @@ const MealTable: React.FC = () => {
   async function loadMeals() {
     try {
       setLoading(true);
-      const response = await mealApi.fetchMeals(skip);
+      const data = {
+        skip: skip,
+        take: 9,
+        name: undefined,
+        component_id: undefined
+      }
+      const response = await mealApi.fetchMeals(data);
       setEntityCount(response.data.count);
       setSearchResult(response.data.meals);
       if (searchResult) {

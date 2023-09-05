@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop, IconButton } from "@mui/material";
-import * as componentsApi from "../../network/componentApi";
+import * as ComponentApi from "../../network/componentApi";
 import useSearchStore from "../../stores/searchStore";
 import { IComponent } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
@@ -39,7 +39,7 @@ const ComponentTable: React.FC = () => {
         name: undefined,
         ingredient_id: undefined
       }
-      const response = await componentsApi.fetchComponents(data);
+      const response = await ComponentApi.fetchComponents(data);
       setEntityCount(response.data.count);
       setSearchResult(response.data.components)
       if (searchResult) {

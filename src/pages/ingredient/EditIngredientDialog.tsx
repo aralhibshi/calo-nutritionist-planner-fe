@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IIngredientData } from "../../interfaces";
-import * as IngredientsApi from "../../network/ingredientApi";
+import * as IngredientApi from "../../network/ingredientApi";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -93,7 +93,7 @@ export default function EditIngredientDialog({
         console.log("Form data:", values);
 
         if (selectedIngredient) {
-          const updatedIngredient = await IngredientsApi.updateIngredient(
+          const updatedIngredient = await IngredientApi.updateIngredient(
             selectedIngredient,
             values
           );

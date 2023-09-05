@@ -1,12 +1,13 @@
 import { InputAdornment, TextField } from "@mui/material";
 import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import * as IngredientsApi from '../../network/ingredientApi';
+import * as IngredientApi from '../../network/ingredientApi';
 import * as ComponentApi from '../../network/componentApi';
 import * as MealApi from '../../network/mealApi';
 import createError from 'http-errors';
 import useSearchStore from "../../stores/searchStore";
 import useEntityStore from "../../stores/entityStore";
+import { IMealGetAPI } from "../../interfaces";
 
 
 
@@ -26,18 +27,18 @@ const ComponentSearchBar: React.FC = () => {
       const newSearchTerm = event.target.value;
       setSearchTerm(newSearchTerm);
     };
-    const searchItem = async (entity: string, skip: number, index: string) => {
+    const searchItem = async (entity: string, data: IMealGetAPI) => {
       try {
         setMealLoading(true);
         const entityToApiFunctionMap: any = {
-          ingredient: IngredientsApi.searchIngredient,
-          component: ComponentApi.searchComponent,
-          meal: MealApi.searchMeal,
+          ingredient: IngredientApi.fetchIngredients,
+          component: ComponentApi.fetchComponents,
+          meal: MealApi.fetchMeals,
         };
     
         const apiFunction: any = entityToApiFunctionMap[entity];
     
-          const response = await apiFunction(index, skip);
+          const response = await apiFunction(data);
           setMealSearchResult(response.data.components);
           setEntityCount(response.count);
           console.log('entity', entity)
@@ -57,7 +58,13 @@ const ComponentSearchBar: React.FC = () => {
     };
     
     const handleSubmit = () => {
-      searchItem(entity, skip, searchTerm);
+      const data = {
+        skip: skip,
+        take: 200,
+        name: searchTerm
+      }
+
+      searchItem(entity, data);
     }
   
   
@@ -71,6 +78,7 @@ const ComponentSearchBar: React.FC = () => {
       style={{
         width: "100%",
         display: "flex",
+        marginTop: '12px'
       }}
       label={searchTerm}
       value={searchTerm}

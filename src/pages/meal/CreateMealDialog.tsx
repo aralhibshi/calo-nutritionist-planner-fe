@@ -5,7 +5,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
-import * as componentsApi from "../../network/componentApi";
+import * as ComponentApi from "../../network/componentApi";
 import * as mealsApi from "../../network/mealApi"
 import {
   IAddComponentDialogProps, IAddMealDialogProps

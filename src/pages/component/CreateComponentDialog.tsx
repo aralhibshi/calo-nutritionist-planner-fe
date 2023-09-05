@@ -5,7 +5,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
-import * as componentsApi from "../../network/componentApi";
+import * as ComponentApi from "../../network/componentApi";
 import {
   IAddComponentDialogProps
 } from "../../interfaces";
@@ -48,7 +48,7 @@ export default function CreateComponentDialog({
         setLoading(true);
         console.log("Form data:", values);
 
-        const response = await componentsApi.createComponent(values);
+        const response = await ComponentApi.createComponent(values);
         setSelectedIngredients([])
         console.log("New component:", response);
         onComponentAdded(response);

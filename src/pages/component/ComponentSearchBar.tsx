@@ -1,7 +1,7 @@
 import { InputAdornment, TextField } from "@mui/material";
 import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import * as IngredientsApi from '../../network/ingredientApi';
+import * as IngredientApi from '../../network/ingredientApi';
 import * as ComponentApi from '../../network/componentApi';
 import * as MealApi from '../../network/mealApi';
 import createError from 'http-errors';
@@ -29,9 +29,9 @@ const ComponentSearchBar: React.FC = () => {
     try {
       setComponentLoading(true);
       const entityToApiFunctionMap: any = {
-        ingredient: IngredientsApi.fetchIngredients,
-        component: ComponentApi.searchComponent,
-        meal: MealApi.searchMeal,
+        ingredient: IngredientApi.fetchIngredients,
+        component: ComponentApi.fetchComponents,
+        meal: MealApi.fetchMeals,
       };
   
       const apiFunction: any = entityToApiFunctionMap[entity];
@@ -59,7 +59,7 @@ const ComponentSearchBar: React.FC = () => {
     const data = {
       skip: skip,
       take: 200,
-      name: undefined
+      name: searchTerm
     }
 
     searchItem(entity, data);
@@ -76,6 +76,7 @@ const ComponentSearchBar: React.FC = () => {
     style={{
       width: "100%",
       display: "flex",
+      marginTop: '12px'
     }}
     label={searchTerm}
     value={searchTerm}

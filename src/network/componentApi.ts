@@ -34,7 +34,7 @@ export async function fetchComponents(
   if (data.name) {
     const response = await fetchData(`${url}&name=${data.name}`, {
       method: 'GET',
-      headers: {
+        headers: {
         'Content-Type': 'application/json'
       }
     });
@@ -42,7 +42,7 @@ export async function fetchComponents(
     console.log(response);
     return response;
   } else if (data.ingredient_id) {
-    const response = await fetchData(`${url}$ingredient_id=${data.ingredient_id}`, {
+    const response = await fetchData(`${url}&ingredient_id=${data.ingredient_id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
