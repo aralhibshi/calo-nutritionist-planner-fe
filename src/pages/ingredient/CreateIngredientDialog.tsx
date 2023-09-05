@@ -5,7 +5,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
-import * as IngredientsApi from "../../network/ingredientApi";
+import * as IngredientApi from "../../network/ingredientApi";
 import { IAddIngredientDialogProps } from "../../interfaces";
 import { useFormik } from "formik";
 import ingredientValidationSchema from "../../validation/ingredientFormValidation";
@@ -42,7 +42,7 @@ export default function CreateIngredientDialog({
         setLoading(true);
         console.log("Form data:", values);
 
-        const newIngredient = await IngredientsApi.createIngredient(values);
+        const newIngredient = await IngredientApi.createIngredient(values);
         console.log("New ingredient:", newIngredient);
 
         onIngredientAdded(newIngredient);

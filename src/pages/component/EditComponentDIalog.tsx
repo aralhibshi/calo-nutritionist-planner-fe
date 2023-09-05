@@ -1,6 +1,6 @@
 // import { useState } from "react";
 // import { IComponent, IComponentData, IIngredientData } from "../../interfaces";
-// import * as componentsApi from "../../network/componentApi";
+// import * as ComponentApi from "../../network/componentApi";
 // import Button from "@mui/material/Button";
 // import Dialog from "@mui/material/Dialog";
 // import DialogTitle from "@mui/material/DialogTitle";
@@ -49,7 +49,7 @@
 
 //         if (component) {
 //             console.log('hello there')
-//           const updatedComponent = await componentsApi.updateComponent(
+//           const updatedComponent = await ComponentApi.updateComponent(
 //             component,
 //             values
 //           );

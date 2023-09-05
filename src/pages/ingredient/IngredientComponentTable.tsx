@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop } from "@mui/material";
-import * as ComponentsApi from '../../network/componentApi'
+import * as ComponentApi from '../../network/componentApi'
 import useIngredientStore from "../../stores/ingredientStore";
 import useComponentStore from "../../stores/componentStore";
 import useSearchStore from "../../stores/searchStore";
@@ -32,7 +32,7 @@ const IngredientComponentTable: React.FC = () => {
           name: undefined,
           ingredient_id: selectedIngredient.id
         }
-        const response = await ComponentsApi.fetchComponents(data);
+        const response = await ComponentApi.fetchComponents(data);
         setIngredientComponents(response.data.components)
       }
     } catch (error) {

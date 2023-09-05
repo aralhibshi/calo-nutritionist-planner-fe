@@ -3,7 +3,7 @@ import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Avatar, Backdrop, Chip, Stack } from "@mui/material";
-import * as ComponentsApi from "../../network/componentApi";
+import * as ComponentApi from "../../network/componentApi";
 import useSearchStore from "../../stores/searchStore";
 import { IComponent, IIngredient } from "../../interfaces";
 import useEntityStore from "../../stores/entityStore";
@@ -32,7 +32,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
         name: undefined,
         ingredient_id: undefined
       }
-      const response = await ComponentsApi.fetchComponents(data);
+      const response = await ComponentApi.fetchComponents(data);
       setMealSearchResult(response.data.components);
       if (mealSearchResult) {
         setComponents(mealSearchResult);
