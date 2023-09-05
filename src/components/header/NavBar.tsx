@@ -50,7 +50,7 @@ export default function NavBar({ signOut, user }: INavBarProps) {
             }}
           >
             <Typography
-            variant="h6"
+            variant="h3"
             component="div"
             sx={{
               flexGrow: 0.1,
@@ -71,7 +71,7 @@ export default function NavBar({ signOut, user }: INavBarProps) {
           {user ? (
             <>
               <Typography
-              variant="h6"
+              variant="body2"
               component="div"
               sx={{
                 mr: 2

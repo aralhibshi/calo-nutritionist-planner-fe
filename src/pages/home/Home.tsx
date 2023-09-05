@@ -55,8 +55,9 @@ const Home: React.FC = () => {
         >
           <SearchTypeDropdown/>
           <Typography
-            variant="h4"
+            variant="h3"
             component="h2"
+            style={{fontSize: '40px'}}
             >
             { entityString(entity) }
           </Typography>
