@@ -34,9 +34,9 @@ export async function fetchComponents(
   if (data.name) {
     const response = await fetchData(`${url}&name=${data.name}`, {
       method: 'GET',
-        headers: {
-        'Content-Type': 'application/json'
-      }
+      // headers: {
+      //   'Content-Type': 'application/json'
+      // }
     });
 
     console.log(response);
@@ -44,9 +44,9 @@ export async function fetchComponents(
   } else if (data.ingredient_id) {
     const response = await fetchData(`${url}&ingredient_id=${data.ingredient_id}`, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      // headers: {
+      //   'Content-Type': 'application/json'
+      // }
     });
 
     console.log(response);
@@ -54,33 +54,14 @@ export async function fetchComponents(
   } else {
     const response = await fetchData(url, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      // headers: {
+      //   'Content-Type': 'application/json'
+      // }
     });
     
     console.log(response);
     return response;
   }
-}
-
-export async function fetchComponentsWithIngredient(
-  ingredientId: string,
-  skip: number
-): Promise<any> {
-  const response: IComponent[] = await fetchData(`${baseURL}components?ingredient_id=${ingredientId}&skip=${skip}`, {
-    method: 'GET'
-  });
-  console.log(response)
-  return response;
-}
-
-export async function searchComponent(index: string, skip: number): Promise<any> {
-  const response = await fetchData(`${baseURL}component/search?name=${index}&skip=${skip}`, {
-    method: "GET",
-  });
-  console.log(response);
-  return response;
 }
 
 // export async function updateComponent(
