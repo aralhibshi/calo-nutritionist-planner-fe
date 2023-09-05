@@ -1,6 +1,6 @@
-import { IFetchIngredientsResponse, IIngredientData, IIngredient, IIngredientGetAPI } from "../interfaces";
-import { fetchData } from "./baseApi";
-import createError from "http-errors";
+import { IIngredientData, IIngredient, IIngredientGetAPI } from '../interfaces';
+import { fetchData } from './baseApi';
+import createError from 'http-errors';
 
 const baseURL = process.env.REACT_APP_API_BASE_URL;
 
@@ -9,18 +9,15 @@ export async function createIngredient(
 ): Promise<IIngredient> {
   try {
     const response = await fetchData(`${baseURL}ingredient`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      method: 'POST',
       body: JSON.stringify(ingredient),
     });
 
     console.log(response);
     return response.data;
   } catch (err) {
-    throw createError(500, "Internal Server Error", {
-      details: "An error occurred while fetching matching ingredient:",
+    throw createError(500, 'Internal Server Error', {
+      details: 'An error occurred while fetching matching ingredient:',
       err,
     });
   }
@@ -33,20 +30,14 @@ export async function fetchIngredients(
 
   if (data.name) {
     const response = await fetchData(`${url}&name=${data.name}`, {
-      method: 'GET',
-      // headers: {
-      //   'Content-Type': 'application/json'
-      // }
+      method: 'GET'
     });
 
     console.log(response);
     return response;
   } else {
     const response = await fetchData(url, {
-      method: 'GET',
-      // headers: {
-      //   'Content-Type': 'application/json'
-      // }
+      method: 'GET'
     });
 
     console.log(response);
@@ -65,10 +56,7 @@ export async function updateIngredient(
     const response = await fetchData(
       `${baseURL}ingredient/update?id=${id}`,
       {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        method: 'PUT',
         body: JSON.stringify(formData),
       }
     );
@@ -77,8 +65,8 @@ export async function updateIngredient(
 
     return response.data;
   } catch (err) {
-    throw createError(500, "Internal Server Error", {
-      details: "An error occurred while updating the ingredient:",
+    throw createError(500, 'Internal Server Error', {
+      details: 'An error occurred while updating the ingredient:',
       error: err,
     });
   }
