@@ -16,7 +16,9 @@ const useIngredientStore = create<IIngredientStore>((set) => ({
     calories: 0,
     rating: 'Normal'
   },
-  setEditData: (data) => set({ editData: data })
+  setEditData: (data) => set({ editData: data }),
+  calories: 0, // New property for calories
+  setCalories: (calories) => set({ calories }), // New setter for calories
 }));
 
 export default useIngredientStore;
