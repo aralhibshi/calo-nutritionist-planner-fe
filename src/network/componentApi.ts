@@ -1,7 +1,7 @@
-// import { IIngredientData, IIngredient } from "../interfaces";
-import { IComponent, IComponentData, IComponentGetAPI } from "../interfaces";
-import { fetchData } from "./baseApi";
-import createError from "http-errors";
+// import { IIngredientData, IIngredient } from '../interfaces';
+import { IComponent, IComponentData, IComponentGetAPI } from '../interfaces';
+import { fetchData } from './baseApi';
+import createError from 'http-errors';
 const baseURL = process.env.REACT_APP_API_BASE_URL
 
 export async function createComponent(
@@ -9,18 +9,15 @@ export async function createComponent(
 ): Promise<IComponent> {
   try {
     const response = await fetchData(`${baseURL}component`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      method: 'POST',
       body: JSON.stringify(component),
     });
 
     console.log(response);
     return response;
   } catch (err) {
-    throw createError(500, "Internal Server Error", {
-      details: "An error occurred while fetching matching component:",
+    throw createError(500, 'Internal Server Error', {
+      details: 'An error occurred while fetching matching component:',
       err,
     });
   }
@@ -33,30 +30,21 @@ export async function fetchComponents(
 
   if (data.name) {
     const response = await fetchData(`${url}&name=${data.name}`, {
-      method: 'GET',
-      // headers: {
-      //   'Content-Type': 'application/json'
-      // }
+      method: 'GET'
     });
 
     console.log(response);
     return response;
   } else if (data.ingredient_id) {
     const response = await fetchData(`${url}&ingredient_id=${data.ingredient_id}`, {
-      method: 'GET',
-      // headers: {
-      //   'Content-Type': 'application/json'
-      // }
+      method: 'GET'
     });
 
     console.log(response);
     return response;
   } else {
     const response = await fetchData(url, {
-      method: 'GET',
-      // headers: {
-      //   'Content-Type': 'application/json'
-      // }
+      method: 'GET'
     });
     
     console.log(response);
@@ -75,9 +63,9 @@ export async function fetchComponents(
 //     const response = await fetchData(
 //       `${baseURL}component/update?id=${id}`,
 //       {
-//         method: "PUT",
+//         method: 'PUT',
 //         headers: {
-//           "Content-Type": "application/json",
+//           'Content-Type': 'application/json',
 //         },
 //         body: JSON.stringify(formData),
 //       }
@@ -87,8 +75,8 @@ export async function fetchComponents(
 
 //     return response.data;
 //   } catch (err) {
-//     throw createError(500, "Internal Server Error", {
-//       details: "An error occurred while updating the component:",
+//     throw createError(500, 'Internal Server Error', {
+//       details: 'An error occurred while updating the component:',
 //       error: err,
 //     });
 //   }
