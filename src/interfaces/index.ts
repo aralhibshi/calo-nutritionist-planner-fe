@@ -229,8 +229,17 @@ export interface IMealStore {
 
 // APIs ---
 
+// Ingredient Get
 export interface IIngredientGetAPI {
-  skip: number,
-  take: number,
+  skip: number;
+  take: number;
   name?: string;
+}
+
+// Component Get
+export interface IComponentGetAPI {
+  skip: number;
+  take: number;
+  name?: string;
+  ingredient_id?: string;
 }

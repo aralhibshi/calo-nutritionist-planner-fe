@@ -26,8 +26,13 @@ const IngredientComponentTable: React.FC = () => {
     try {
       setLoading(true);
       if (selectedIngredient) {
-        const skip = 0
-        const response = await ComponentsApi.fetchComponentsWithIngredient(selectedIngredient.id, skip);
+        const data = {
+          skip: 0,
+          take: 9,
+          name: undefined,
+          ingredient_id: selectedIngredient.id
+        }
+        const response = await ComponentsApi.fetchComponents(data);
         setIngredientComponents(response.data.components)
       }
     } catch (error) {

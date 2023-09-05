@@ -26,8 +26,13 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
   async function loadComponents() {
     try {
       setMealLoading(true);
-      const take = 9
-      const response = await ComponentsApi.fetchComponents(skip, take);
+      const data = {
+        skip: skip,
+        take: 100,
+        name: undefined,
+        ingredient_id: undefined
+      }
+      const response = await ComponentsApi.fetchComponents(data);
       setMealSearchResult(response.data.components);
       if (mealSearchResult) {
         setComponents(mealSearchResult);

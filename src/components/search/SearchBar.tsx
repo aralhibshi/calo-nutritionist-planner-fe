@@ -32,7 +32,7 @@ const SearchBar: React.FC = () => {
   
       const entityToApiFunctionMap: any = {
         ingredient: IngredientsApi.fetchIngredients,
-        component: ComponentApi.searchComponent,
+        component: ComponentApi.fetchComponents,
         meal: MealApi.searchMeal,
       };
   
@@ -68,12 +68,12 @@ const SearchBar: React.FC = () => {
   };
   
   const handleSubmit = () => {
-    const fetchData = {
+    const data = {
       skip: skip,
       take: 9,
       name: searchTerm
     }
-    searchItem(entity, fetchData);
+    searchItem(entity, data);
   }
 
 

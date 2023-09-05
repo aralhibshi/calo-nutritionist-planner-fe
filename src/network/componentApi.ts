@@ -1,5 +1,5 @@
 // import { IIngredientData, IIngredient } from "../interfaces";
-import { IComponent, IComponentData } from "../interfaces";
+import { IComponent, IComponentData, IComponentGetAPI } from "../interfaces";
 import { fetchData } from "./baseApi";
 import createError from "http-errors";
 const baseURL = process.env.REACT_APP_API_BASE_URL
@@ -27,14 +27,41 @@ export async function createComponent(
 }
 
 export async function fetchComponents(
-  skip: number,
-  take: number
+  data: IComponentGetAPI
 ): Promise<any> {
-  const response = await fetchData(`${baseURL}components?skip=${skip}&take=${take}`, {
-    method: "GET",
-  });
-  console.log(response);
-  return response;
+  const url = baseURL + `components?skip=${data.skip}&take=${data.take}`
+
+  if (data.name) {
+    const response = await fetchData(`${url}&name=${data.name}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    console.log(response);
+    return response;
+  } else if (data.ingredient_id) {
+    const response = await fetchData(`${url}$ingredient_id=${data.ingredient_id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    console.log(response);
+    return response;
+  } else {
+    const response = await fetchData(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    console.log(response);
+    return response;
+  }
 }
 
 export async function fetchComponentsWithIngredient(
