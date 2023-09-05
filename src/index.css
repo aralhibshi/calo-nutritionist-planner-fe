@@ -1,9 +1,11 @@
 body {
   margin: 0;
-  font-family: 'Roboto' !important;
+  font-family: 'Bebas Neue', sans-serif !important;
+  letter-spacing: 1.5px !important;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color:#343434
 }
 
 code {
@@ -15,12 +17,31 @@ code {
 .css-79ws1d-MuiModal-root {
   z-index: auto !important;
 }
+.MuiButtonBase-root {
+  font-family: 'Bebas Neue', sans-serif !important;
+  letter-spacing: 1.5px !important;
+}
 
 /* Navbar */
-#nav-bar {
-  font-family: 'Roboto' !important;
+#nav-bar * {
+  font-family: 'Bebas Neue', sans-serif !important;
   display: 'flex';
   justify-content: 'space-between';
+  font-weight: 400;
+  font-size: 18px;
+}
+
+#nav-bar .MuiTypography-h3 {
+  font-size: 25px;
+  font-family: 'Bebas Neue', sans-serif !important;
+  font-size: 40px !important;
+  letter-spacing: 1.5px !important;
+}
+
+.MuiTypography-h3{
+  font-family: 'Bebas Neue', sans-serif !important;
+  font-size: 100px;
+  letter-spacing: 1.5px !important;
 }
 
 /* Tables */
@@ -30,11 +51,13 @@ code {
 }
 
 #table > thead > tr > th {
-  font-weight: 500;
-  font-size: 14px;
+  font-family: 'Bebas Neue', sans-serif !important;
+  letter-spacing: 1.5px;
+  font-weight: 400;
+  font-size: 16px;
   padding-top: 10px;
   padding-bottom: 10px;
-  background-color: #36b77429;
+  background-color: #CDE7D9;
   border-bottom: 2px solid #636b744d;
 }
 
@@ -62,6 +85,9 @@ code {
 #table >tbody > tr > td {
   padding-top: 5px;
   padding-bottom: 5px;
+  font-size: 18px;
+  font-family: 'Bebas Neue', sans-serif !important;
+  letter-spacing: 1.5px;
 }
 
 #table >tbody > tr > td:first-child {
