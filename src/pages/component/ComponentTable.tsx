@@ -33,8 +33,13 @@ const ComponentTable: React.FC = () => {
   async function loadComponents() {
     try {
       setLoading(true);
-      const take = 9
-      const response = await componentsApi.fetchComponents(skip, take);
+      const data = {
+        skip: skip,
+        take: 9,
+        name: undefined,
+        ingredient_id: undefined
+      }
+      const response = await componentsApi.fetchComponents(data);
       setEntityCount(response.data.count);
       setSearchResult(response.data.components)
       if (searchResult) {

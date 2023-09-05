@@ -31,12 +31,12 @@ const ComponentIngredientTable: React.FC<
   async function loadIngredients() {
     try {
       setComponentLoading(true);
-      const fetchData = {
+      const data = {
         skip: 0,
         take: 100,
         name: undefined
       }
-      const response = await IngredientsApi.fetchIngredients(fetchData);
+      const response = await IngredientsApi.fetchIngredients(data);
       
       setComponentSearchResult(response.data.ingredients);
       if (componentSearchResult) {
