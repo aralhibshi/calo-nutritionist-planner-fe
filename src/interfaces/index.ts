@@ -226,3 +226,11 @@ export interface IMealStore {
   selectedMeal: IMealData | null;
   setSelectedMeal: (meal: IMealData | null) => void;
 }
+
+// APIs ---
+
+export interface IIngredientGetAPI {
+  skip: number,
+  take: number,
+  name?: string;
+}

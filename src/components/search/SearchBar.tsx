@@ -7,6 +7,7 @@ import * as MealApi from '../../network/mealApi';
 import createError from 'http-errors';
 import useSearchStore from "../../stores/searchStore";
 import useEntityStore from "../../stores/entityStore";
+import { IIngredientGetAPI } from "../../interfaces";
 
 const SearchBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -25,12 +26,12 @@ const SearchBar: React.FC = () => {
     setSearchTerm(newSearchTerm);
   };
 
-  const searchItem = async (entity: string, skip: number, index: string) => {
+  const searchItem = async (entity: string, data: IIngredientGetAPI) => {
     try {
       setLoading(true);
   
       const entityToApiFunctionMap: any = {
-        ingredient: IngredientsApi.searchIngredient,
+        ingredient: IngredientsApi.fetchIngredients,
         component: ComponentApi.searchComponent,
         meal: MealApi.searchMeal,
       };
@@ -38,9 +39,9 @@ const SearchBar: React.FC = () => {
       const apiFunction: any = entityToApiFunctionMap[entity];
   
       if (apiFunction) {
-        const response = await apiFunction(index, skip);
+        const response = await apiFunction(data);
         if (entity === 'ingredient') {
-        setSearchResult(response.data.ingredients);
+          setSearchResult(response.data.ingredients);
         }
         if (entity === 'component') {
           setSearchResult(response.data.components);
@@ -67,7 +68,12 @@ const SearchBar: React.FC = () => {
   };
   
   const handleSubmit = () => {
-    searchItem(entity, skip, searchTerm);
+    const fetchData = {
+      skip: skip,
+      take: 9,
+      name: searchTerm
+    }
+    searchItem(entity, fetchData);
   }
 
 

@@ -27,9 +27,10 @@ export async function createComponent(
 }
 
 export async function fetchComponents(
-  skip: number
+  skip: number,
+  take: number
 ): Promise<any> {
-  const response = await fetchData(`${baseURL}components?skip=${skip}`, {
+  const response = await fetchData(`${baseURL}components?skip=${skip}&take=${take}`, {
     method: "GET",
   });
   console.log(response);
