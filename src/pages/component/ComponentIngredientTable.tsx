@@ -3,7 +3,7 @@ import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Avatar, Backdrop, Checkbox, Chip, Stack } from "@mui/material";
-import * as IngredientsApi from "../../network/ingredientApi";
+import * as IngredientApi from "../../network/ingredientApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useSearchStore from "../../stores/searchStore";
 import { IIngredient } from "../../interfaces";
@@ -35,11 +35,10 @@ const ComponentIngredientTable: React.FC<
       setComponentLoading(true);
       const data = {
         skip: 0,
-        take: 100,
-        name: undefined,
-      };
-      const response = await IngredientsApi.fetchIngredients(data);
-
+        take: 100
+      }
+      const response = await IngredientApi.fetchIngredients(data);
+      
       setComponentSearchResult(response.data.ingredients);
       if (componentSearchResult) {
         setIngredients(componentSearchResult);

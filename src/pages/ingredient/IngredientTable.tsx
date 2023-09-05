@@ -4,7 +4,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop, IconButton } from "@mui/material";
 import EditIngredientDialog from "./EditIngredientDialog";
 import CreateIngredientDialog from "./CreateIngredientDialog";
-import * as IngredientsApi from "../../network/ingredientApi";
+import * as IngredientApi from "../../network/ingredientApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useSearchStore from "../../stores/searchStore";
 import { IIngredient, IIngredientData } from "../../interfaces";
@@ -36,10 +36,9 @@ const IngredientTable: React.FC = () => {
       setLoading(true);
       const data = {
         skip: skip,
-        take: 9,
-        name: undefined
+        take: 9
       }
-      const response = await IngredientsApi.fetchIngredients(data);
+      const response = await IngredientApi.fetchIngredients(data);
       setEntityCount(response.data.count);
       setSearchResult(response.data.ingredients)
       if (searchResult) {

@@ -245,3 +245,11 @@ export interface IComponentGetAPI {
   name?: string;
   ingredient_id?: string;
 }
+
+// Meal Get
+export interface IMealGetAPI {
+  skip: number;
+  take: number;
+  name?: string;
+  component_id?: string;
+}
