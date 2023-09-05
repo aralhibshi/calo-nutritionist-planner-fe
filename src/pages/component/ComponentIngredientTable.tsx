@@ -33,8 +33,7 @@ const ComponentIngredientTable: React.FC<
       setComponentLoading(true);
       const data = {
         skip: 0,
-        take: 100,
-        name: undefined
+        take: 100
       }
       const response = await IngredientApi.fetchIngredients(data);
       

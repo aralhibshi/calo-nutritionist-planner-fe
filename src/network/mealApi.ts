@@ -34,9 +34,9 @@ export async function fetchMeals(
   if (data.name) {
     const response = await fetchData(`${url}&name=${data.name}`, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      // headers: {
+      //   'Content-Type': 'application/json'
+      // }
     })
 
     console.log(response);
@@ -44,9 +44,9 @@ export async function fetchMeals(
   } else if (data.component_id) {
     const response = await fetchData(`${url}&component_id=${data.component_id}`, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      // headers: {
+      //   'Content-Type': 'application/json'
+      // }
     })
 
     console.log(response);
@@ -54,9 +54,9 @@ export async function fetchMeals(
   } else {
     const response = await fetchData(url, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      // headers: {
+      //   'Content-Type': 'application/json'
+      // }
     });
 
     console.log(response);

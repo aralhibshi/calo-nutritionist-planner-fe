@@ -36,8 +36,7 @@ const IngredientTable: React.FC = () => {
       setLoading(true);
       const data = {
         skip: skip,
-        take: 9,
-        name: undefined
+        take: 9
       }
       const response = await IngredientApi.fetchIngredients(data);
       setEntityCount(response.data.count);

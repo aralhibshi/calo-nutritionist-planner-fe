@@ -32,12 +32,11 @@ export async function fetchIngredients(
   const url = baseURL + `ingredients?skip=${data.skip}&take=${data.take}`
 
   if (data.name) {
-    console.log(data)
     const response = await fetchData(`${url}&name=${data.name}`, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      // headers: {
+      //   'Content-Type': 'application/json'
+      // }
     });
 
     console.log(response);
@@ -45,36 +44,13 @@ export async function fetchIngredients(
   } else {
     const response = await fetchData(url, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      // headers: {
+      //   'Content-Type': 'application/json'
+      // }
     });
 
     console.log(response);
     return response;
-  }
-}
-
-export async function searchIngredient(
-  index: string,
-  skip: number
-): Promise<Array<any>> {
-  try {
-    const response = await fetchData(
-      `${baseURL}ingredient/search?name=${index}&skip=${skip}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    return response;
-  } catch (err) {
-    throw createError(500, "Internal Server Error", {
-      details: "An error occurred while fetching matching ingredient:",
-      err,
-    });
   }
 }
 
