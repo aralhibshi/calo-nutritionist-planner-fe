@@ -130,6 +130,7 @@ const ComponentTable: React.FC = () => {
               let totalProteins = 0;
               let totalCalories = 0;
               let totalPrice = 0;
+              let totalQuantity = 0;
 
               if (component.components_ingredients && Array.isArray(component.components_ingredients)) {
                 component.components_ingredients.forEach((el) => {
@@ -138,6 +139,7 @@ const ComponentTable: React.FC = () => {
                   totalProteins += Number(el.ingredient.protein*el.ingredient_quantity);
                   totalCalories += totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
                   totalPrice += Number(el.ingredient.price* el.ingredient_quantity);
+                  totalQuantity += Number(el.ingredient_quantity)
                 });
 
                 totalFats = Number(totalFats.toFixed(3));
@@ -150,12 +152,12 @@ const ComponentTable: React.FC = () => {
               return (
                 <tr key={index} style={{height:"52px"}}>
                   <td>{component.name}</td>
-                  <td>{totalCalories}</td>
-                  <td>{totalProteins}</td>
-                  <td>{totalCarbs}</td>
-                  <td>{totalFats}</td>
+                  <td>{(totalCalories/totalQuantity).toFixed(3)}</td>
+                  <td>{(totalProteins/totalQuantity).toFixed(3)}</td>
+                  <td>{(totalCarbs/totalQuantity).toFixed(3)}</td>
+                  <td>{(totalFats/totalQuantity).toFixed(3)}</td>
                   <td>{component.unit}</td>
-                  <td>{totalPrice}</td>
+                  <td>{(totalPrice/totalQuantity).toFixed(3)}</td>
                   {/* <td>
                     <IconButton onClick={() => handleEditClick(component)}>
                       <EditIcon />
