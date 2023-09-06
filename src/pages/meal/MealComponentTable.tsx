@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableContainer from "@mui/material/TableContainer";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Avatar, Backdrop, Chip, Stack } from "@mui/material";
+import { Avatar, Backdrop, Chip, Stack, TextField } from "@mui/material";
 import * as ComponentApi from "../../network/componentApi";
 import useSearchStore from "../../stores/searchStore";
-import { IComponent, IIngredient } from "../../interfaces";
+import {
+  IComponent,
+  IComponentIngredient,
+  IIngredient,
+  IMeal,
+} from "../../interfaces";
 import useEntityStore from "../../stores/entityStore";
 import { Input } from "@mui/material";
 import useComponentStore from "../../stores/componentStore";
@@ -28,8 +33,8 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
       setMealLoading(true);
       const data = {
         skip: skip,
-        take: 100
-      }
+        take: 100,
+      };
       const response = await ComponentApi.fetchComponents(data);
       setMealSearchResult(response.data.components);
       if (mealSearchResult) {
@@ -61,7 +66,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
     });
   };
 
-  const handleSelectClick = (row: any) => {
+  const handleSelectClick = (row: IMeal) => {
     const isSelected = selectedComponents.some(
       (component) => component.component_id === row.id
     );
@@ -99,6 +104,37 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
           searchComponent.id === component.component_id
       )
     );
+  let fats= 0;
+  let carbs = 0;
+  let proteins = 0;
+  let totalFats = 0;
+  let totalCarbs = 0;
+  let totalProteins = 0;
+  let totalCalories = 0;
+
+  checkedComponents.forEach((component) => {
+    console.log("component",component)
+    const quantity = quantities[component.id] || 1;
+    const el = component.components_ingredients;
+    el.forEach((component_ingredient: IComponentIngredient) => {
+      const ingredient_quantity = component_ingredient.ingredient_quantity
+      fats = Number(component_ingredient.ingredient.fats)
+      carbs = Number(component_ingredient.ingredient.carbs)
+      proteins = Number(component_ingredient.ingredient.protein)
+      totalFats += Number(fats * ingredient_quantity);
+      totalCarbs += Number(carbs * ingredient_quantity);
+      totalProteins += Number(proteins * ingredient_quantity);
+    });
+    totalFats *= quantity;
+    totalCarbs *= quantity;
+    totalProteins *= quantity;
+    totalCalories = Number(totalFats*9 + totalCarbs*4 + totalProteins*4);
+    console.log(totalCalories)
+  });
+
+  // console.log("Total Fats:", totalFats);
+  // console.log("Total Carbs:", totalCarbs);
+  // console.log("Total Proteins:", totalProteins);
 
   return (
     <>
@@ -159,33 +195,30 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
               {mealSearchResult &&
               Array.isArray(mealSearchResult) &&
               mealSearchResult?.length > 0 ? (
-                mealSearchResult?.map(
-                  (component: IComponent, index: number) => {
-                    return (
-                      <tr key={index}>
-                        <td>{component.name}</td>
-                        <td>
-                          <Input
-                            type="number"
-                            inputProps={{
-                              min: 1,
-                              value: quantities[component.id] || 1, // Set the default value to 1
-                              onChange: (e) =>
-                                handleQuantityChange(e, component.id),
-                            }}
-                            sx={{ width: "50px" }}
-                          />
-                        </td>
-                        <td>
-                          <Checkbox
-                            color="success"
-                            onChange={() => handleSelectClick(component)}
-                          />
-                        </td>
-                      </tr>
-                    );
-                  }
-                )
+                mealSearchResult?.map((meal: IMeal, index: number) => {
+                  return (
+                    <tr key={index}>
+                      <td>{meal.name}</td>
+                      <td>
+                        <Input
+                          type="number"
+                          inputProps={{
+                            min: 1,
+                            value: quantities[meal.id] || 1, // Set the default value to 1
+                            onChange: (e) => handleQuantityChange(e, meal.id),
+                          }}
+                          sx={{ width: "50px" }}
+                        />
+                      </td>
+                      <td>
+                        <Checkbox
+                          color="success"
+                          onChange={() => handleSelectClick(meal)}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })
               ) : (
                 <tr>
                   <td colSpan={8}>No search results found.</td>
@@ -194,6 +227,89 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
             </tbody>
           </Table>
         </TableContainer>
+      </div>
+      <br />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "20px",
+        }}
+      >
+        <div
+          style={{
+            flex: 1,
+          }}
+        >
+          <TextField
+            label="Calories"
+            name="description"
+            disabled
+            value={totalCalories.toFixed(3)}
+            fullWidth
+            margin="dense"
+          />
+        </div>
+        <div
+          style={{
+            flex: 1,
+            marginBottom: "20px",
+            display: "flex",
+            justifyContent: "column",
+            alignItems: "center",
+            flexDirection: "column",
+            marginLeft: "10px",
+          }}
+        >
+          <TextField
+            label="Proteins"
+            name="protein"
+            disabled
+            value={totalProteins.toFixed(3)}
+            fullWidth
+            margin="dense"
+          />
+        </div>
+        <div
+          style={{
+            flex: 1,
+            marginBottom: "20px",
+            display: "flex",
+            justifyContent: "column",
+            alignItems: "center",
+            flexDirection: "column",
+            marginLeft: "10px",
+          }}
+        >
+          <TextField
+            label="Carbs"
+            name="carbs"
+            disabled
+            value={totalCarbs.toFixed(3)}
+            fullWidth
+            margin="dense"
+          />
+        </div>
+        <div
+          style={{
+            flex: 1,
+            marginBottom: "20px",
+            display: "flex",
+            justifyContent: "column",
+            alignItems: "center",
+            flexDirection: "column",
+            marginLeft: "10px",
+          }}
+        >
+          <TextField
+            label="Fats"
+            name="fats"
+            disabled
+            value={totalFats.toFixed(3)}
+            fullWidth
+            margin="dense"
+          />
+        </div>
       </div>
     </>
   );

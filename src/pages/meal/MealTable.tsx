@@ -107,7 +107,6 @@ const MealTable: React.FC = () => {
               let totalProteins = 0;
               let totalCalories = 0;
               let totalPrice = 0;
-              let totalQuantity = 0;
 
               if (
                 meal.meals_components &&
