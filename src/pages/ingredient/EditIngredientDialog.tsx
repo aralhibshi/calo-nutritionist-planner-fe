@@ -137,7 +137,7 @@ export default function EditIngredientDialog({
     setEditData(data);
   }
 
-  const decimalHandleChange = (e: any) => {
+  const handleDecimalChange = (e: any) => {
     formik.handleChange(e);
 
     const data: any = { ...editData };
@@ -317,7 +317,7 @@ export default function EditIngredientDialog({
                       defaultValue={Number(selectedIngredient?.price)}
                       max={0.999}
                       step={0.001}
-                      onChange={decimalHandleChange}
+                      onChange={handleDecimalChange}
                     />
                 </div>
                   <div
@@ -347,7 +347,7 @@ export default function EditIngredientDialog({
                       defaultValue={Number(selectedIngredient?.protein)}
                       max={0.999}
                       step={0.001}
-                      onChange={decimalHandleChange}
+                      onChange={handleDecimalChange}
                     />
                   </div>
                   <div
@@ -377,7 +377,7 @@ export default function EditIngredientDialog({
                       defaultValue={Number(selectedIngredient?.carbs)}
                       max={0.999}
                       step={0.001}
-                      onChange={decimalHandleChange}
+                      onChange={handleDecimalChange}
                     />
                   </div>
                   <div
@@ -407,7 +407,7 @@ export default function EditIngredientDialog({
                     defaultValue={Number(selectedIngredient?.fats)}
                     max={0.999}
                     step={0.001}
-                    onChange={decimalHandleChange}
+                    onChange={handleDecimalChange}
                   />
                   </div>
                   <div

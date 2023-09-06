@@ -10,6 +10,9 @@ export async function createIngredient(
   try {
     const response = await fetchData(`${baseURL}ingredient`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(ingredient),
     });
 
@@ -57,6 +60,9 @@ export async function updateIngredient(
       `${baseURL}ingredient/update?id=${id}`,
       {
         method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(formData),
       }
     );
