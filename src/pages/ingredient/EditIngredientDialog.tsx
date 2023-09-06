@@ -22,6 +22,9 @@ import Divider from "@mui/material/Divider";
 import IngredientComponentTable from "./IngredientComponentTable";
 import IngredientMealTable from "./IngredientMealTable";
 import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 interface EditIngredientDialogProps {
   open: boolean;
@@ -35,7 +38,6 @@ export default function EditIngredientDialog({
   onIngredientUpdated,
 }: EditIngredientDialogProps) {
   const [loading, setLoading] = useState(false);
-  const [calories, setCalories] = useState()
   const closeFormDialog = () => {
     setOpen(false);
   };
@@ -48,30 +50,7 @@ export default function EditIngredientDialog({
 
   useEffect(() => {
     if (selectedIngredient) {
-      const calculatedCalories =
-        Number(selectedIngredient.protein) * 4 +
-        Number(selectedIngredient.carbs) * 4 +
-        Number(selectedIngredient.fats) * 9;
-
-      const data: any = {
-        price: Number(selectedIngredient.price),
-        protein: Number(selectedIngredient.protein),
-        carbs: Number(selectedIngredient.carbs),
-        fats: Number(selectedIngredient.fats),
-        calories: parseFloat(calculatedCalories.toFixed(3)),
-      }
-
-      if (data.calories > 6.999) {
-        data.rating = 'High';
-      }
-      if (data.calories > 2.500 && data.calories < 6.999) {
-        data.rating = 'Normal'
-      }
-      if (data.calories < 2.500) {
-        data.rating = 'Low';
-      }
-
-      setEditData(data);
+      calculateData('useEffect', selectedIngredient);
     }
   }, [open]);
 
@@ -112,18 +91,27 @@ export default function EditIngredientDialog({
     },
   });
 
-  const decimalHandleChange = (e: any) => {
-    formik.handleChange(e);
-  
-    const data: any = { ...editData };
-    data[e.target.name] = e.target.value;
-  
+  function calculateData(useCase: string, data: any) {
     const calculatedCalories =
       Number(data.protein) * 4 +
       Number(data.carbs) * 4 +
       Number(data.fats) * 9;
+
   
-    data.calories = parseFloat(calculatedCalories.toFixed(3));
+    data.calories = Number(calculatedCalories.toFixed(3));
+
+    if (useCase === 'useEffect') {
+      const array = [
+        'price',
+        'protein',
+        'carbs',
+        'fats'
+      ]
+
+      array.forEach(el => {
+        data[el] = Number(Number(data[el]).toFixed(3))
+      })
+    }
   
     if (data.calories > 6.999) {
       data.rating = 'High';
@@ -135,7 +123,27 @@ export default function EditIngredientDialog({
       data.rating = 'Low';
     }
 
+    data.totalUnit =
+      Number(
+        (
+          Number(data.protein) +
+          Number(data.carbs) +
+          Number(data.fats)
+        )
+          .toFixed(3));
+
+    data.unitType = 'Total ' + data.unit
+
     setEditData(data);
+  }
+
+  const decimalHandleChange = (e: any) => {
+    formik.handleChange(e);
+
+    const data: any = { ...editData };
+    data[e.target.name] = e.target.value;
+
+    calculateData('decimalChange', data);
   };
 
   function formattedCalories() {
@@ -144,6 +152,15 @@ export default function EditIngredientDialog({
     } else {
       return 100
     }
+  }
+
+  const handleUnitChange = (e: any) => {
+    formik.handleChange(e)
+
+    const data = {...editData}
+    data.unitType = 'Total ' + e.target.value;
+
+    setEditData(data);
   }
 
   function progressColor() {
@@ -159,10 +176,14 @@ export default function EditIngredientDialog({
   }
 
   function sliderColor() {
-    if ((editData.protein + editData.carbs + editData.fats) <= 1.000) {
-      return 'primary'
-    } else {
-      return '#D3302F'
+    if (editData.totalUnit) {
+      if (editData.totalUnit == 1.000) {
+        return 'primary'
+      } else if (editData.totalUnit < 1.000){
+        return '#ED6C02'
+      } else {
+        return '#D3302F'
+      }
     }
   }
 
@@ -190,7 +211,9 @@ export default function EditIngredientDialog({
           }}
         >
           <DialogContent>
-            <form onSubmit={formik.handleSubmit}>
+            <form
+              onSubmit={formik.handleSubmit}
+            >
               <div
                 style={{
                   display: "flex",
@@ -200,7 +223,9 @@ export default function EditIngredientDialog({
                 {/* Left */}
                 <div
                   style={{
-                    flex: 0.5,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100%',
                     paddingRight: '24px'
                   }}
                 >
@@ -235,21 +260,35 @@ export default function EditIngredientDialog({
                     fullWidth
                     margin="dense"
                   />
-                  <FormControl fullWidth>
-                    <InputLabel id="unit">Unit</InputLabel>
+                  <FormControl
+                    fullWidth
+                  >
+                    <InputLabel
+                    id="unit"
+                    >
+                      Unit
+                    </InputLabel>
                     <Select
                       name="unit"
                       labelId="unit"
                       value={formik.values.unit}
                       label="Unit"
-                      onChange={formik.handleChange}
+                      onChange={handleUnitChange}
                       style={{
                         marginTop: "10px",
                         textAlign: 'left'
                       }}
                     >
-                      <MenuItem value={"ml"}>Milliliters</MenuItem>
-                      <MenuItem value={"g"}>Grams</MenuItem>
+                      <MenuItem
+                        value={"ml"}
+                      >
+                        Milliliters
+                      </MenuItem>
+                      <MenuItem
+                        value={"g"}
+                      >
+                        Grams
+                      </MenuItem>
                     </Select>
                   </FormControl>
                   <div
@@ -258,20 +297,20 @@ export default function EditIngredientDialog({
                       alignItems: 'center'
                     }}
                   >
-                     <TextField
+                    <TextField
                       label="Price"
                       name="price"
                       type="number"
                       value={Number(editData?.price)}
                       margin="dense"
                       style={{
-                        width: '35%',
+                        width: '30%',
                         marginRight: '30px'
                       }}
                     />
                     <Slider
                       sx={{
-                        width: '65%',
+                        width: '70%',
                         marginRight: '22px',
                       }}
                       name='price'
@@ -280,27 +319,27 @@ export default function EditIngredientDialog({
                       step={0.001}
                       onChange={decimalHandleChange}
                     />
-                  </div>
+                </div>
                   <div
                     style={{
                       display: 'flex',
                       alignItems: 'center'
                     }}
                   >
-                     <TextField
+                    <TextField
                       label="Protein"
                       name="protein"
                       type="number"
                       value={Number(editData?.protein)}
                       margin="dense"
                       style={{
-                        width: '35%',
+                        width: '30%',
                         marginRight: '30px'
                       }}
                     />
                     <Slider
                       sx={{
-                        width: '65%',
+                        width: '70%',
                         marginRight: '22px',
                         color: sliderColor()
                       }}
@@ -317,20 +356,20 @@ export default function EditIngredientDialog({
                       alignItems: 'center'
                     }}
                   >
-                     <TextField
+                    <TextField
                       label="Carbs"
                       name="carbs"
                       type="number"
                       value={Number(editData?.carbs)}
                       margin="dense"
                       style={{
-                        width: '35%',
+                        width: '30%',
                         marginRight: '30px'
                       }}
                     />
                     <Slider
                       sx={{
-                        width: '65%',
+                        width: '70%',
                         marginRight: '22px',
                         color: sliderColor()
                       }}
@@ -347,29 +386,29 @@ export default function EditIngredientDialog({
                       alignItems: 'center'
                     }}
                   >
-                     <TextField
-                      label="Fats"
-                      name="fats"
-                      type="number"
-                      value={Number(editData?.fats)}
-                      margin="dense"
-                      style={{
-                        width: '35%',
-                        marginRight: '30px'
-                      }}
-                    />
-                    <Slider
-                      sx={{
-                        width: '65%',
-                        marginRight: '22px',
-                        color: sliderColor()
-                      }}
-                      name='fats'
-                      defaultValue={Number(selectedIngredient?.fats)}
-                      max={0.999}
-                      step={0.001}
-                      onChange={decimalHandleChange}
-                    />
+                    <TextField
+                    label="Fats"
+                    name="fats"
+                    type="number"
+                    value={Number(editData?.fats)}
+                    margin="dense"
+                    style={{
+                      width: '30%',
+                      marginRight: '30px'
+                    }}
+                  />
+                  <Slider
+                    sx={{
+                      width: '70%',
+                      marginRight: '22px',
+                      color: sliderColor()
+                    }}
+                    name='fats'
+                    defaultValue={Number(selectedIngredient?.fats)}
+                    max={0.999}
+                    step={0.001}
+                    onChange={decimalHandleChange}
+                  />
                   </div>
                   <div
                     style={{
@@ -379,29 +418,51 @@ export default function EditIngredientDialog({
                   >
                     <TextField
                       disabled
+                      label={editData.unitType}
+                      name="calories"
+                      type="number"
+                      value={editData.totalUnit}
+                      margin="dense"
+                      style={{
+                        width: '38%',
+                        marginRight: '30px'
+                      }}
+                    />
+                    <TextField
+                      disabled
                       label="Calories"
                       name="calories"
                       type="number"
                       value={Number(editData?.calories)}
                       margin="dense"
                       style={{
-                        width: '30%',
+                        width: '35%',
                         marginRight: '30px'
                       }}
                     />
                     <div
                       style={{
                         display: 'flex',
-                        flexDirection: 'row',
-                        width: '55%'
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '40%',
+                        textAlign: 'center',
+                        marginRight: '22px'
                       }}
                     >
+                      <Typography
+                        variant="body1"
+                        fontSize={'15px'}
+                      >
+                        Calorie Rating
+                      </Typography>
                       <LinearProgress
                         color={progressColor()}
                         aria-label="Calorie"
                         sx={{
                           width: '100%',
-                          color: 'blue'
+                          color: 'blue',
                         }}
                         variant="determinate"
                         value={formattedCalories()}
@@ -409,69 +470,107 @@ export default function EditIngredientDialog({
                     </div>
                   </div>
                 </div>
-
                 <Divider
                   orientation="vertical"
                   flexItem 
                 />
-
                 {/* Right */}
                 <div
                   style={{
-                    flex: 0.5,
+                    display: 'flex',
                     flexDirection: 'column',
-                    height: 'auto'
+                    justifyContent: 'space-between',
                   }}
                 >
-                  <DialogTitle
-                    sx={{
-                      textAlign: 'center'
-                    }}
-                  >
-                    Details
-                  </DialogTitle>
                   <div
                     style={{
                       flex: 0.5,
-                      marginBottom: "15px",
-                      display: "flex",
-                      justifyContent: "space-evenly",
-                      alignItems: "center",
-                      flexDirection: "row",
-                      height: '22%'
+                      flexDirection: 'column',
+                      alignContent: 'space-between'
                     }}
                   >
-                    <IngredientBarChart/>
-                    <IngredientPieChart/>
-                  </div>
-
-                   <Divider
-                      orientation="horizontal"
-                      flexItem
+                    <DialogTitle
                       sx={{
-                        marginLeft: '20px'
+                        textAlign: 'center'
                       }}
-                    />
-
-                  <div
+                    >
+                      Details
+                    </DialogTitle>
+                    <div
+                      style={{
+                        flex: 0.5,
+                        marginBottom: "15px",
+                        display: "flex",
+                        justifyContent: "space-evenly",
+                        alignItems: "center",
+                        flexDirection: "row",
+                        height: '150px'
+                      }}
+                    >
+                      <IngredientBarChart/>
+                      <IngredientPieChart/>
+                    </div>
+                     <Divider
+                        orientation="horizontal"
+                        flexItem
+                        sx={{
+                          marginLeft: '20px'
+                        }}
+                      />
+                    <div
+                      style={{
+                        textAlign: 'center',
+                        height: 'auto'
+                      }}
+                    >
+                      <ToggleButtonGroup
+                        style={{
+                          marginTop: '20px',
+                          marginBottom: '20px'
+                        }}
+                        exclusive
+                        // onChange={handlej}
+                      >
+                        <ToggleButton
+                          value="left"
+                          aria-label="left aligned"
+                          color="primary"
+                        >
+                          Components
+                        </ToggleButton>
+                        <ToggleButton
+                          value="center"
+                          aria-label="centered"
+                        >
+                          Meals
+                        </ToggleButton>
+                      </ToggleButtonGroup>
+                      <IngredientComponentTable/>
+                      {/* <IngredientMealTable/> */}
+                    </div>
+                  </div>
+                  <DialogActions
                     style={{
-                      textAlign: 'center',
-                      height: 'auto'
+                      position: "relative",
+                      top: 0
                     }}
                   >
-                    <IngredientComponentTable/>
-                    <IngredientMealTable/>
-                  </div>
+                    <Button
+                      id="secondary-button"
+                      onClick={closeFormDialog}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      id="primary-button"
+                      variant="contained"
+                      type="submit"
+                    >
+                      Save
+                    </Button>
+                  </DialogActions>
                 </div>
               </div>
-              <DialogActions>
-                <Button id="secondary-button" onClick={closeFormDialog}>
-                  Cancel
-                </Button>
-                <Button id="primary-button" variant="contained" type="submit">
-                  Save
-                </Button>
-              </DialogActions>
             </form>
           </DialogContent>
         </Dialog>

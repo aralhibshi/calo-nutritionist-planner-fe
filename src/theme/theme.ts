@@ -19,8 +19,7 @@ const theme = createTheme({
       'Bebas Neue',
       'sans-serif'
     ].join(','),
-    
-  },
+  }
 });
 
 export default theme;

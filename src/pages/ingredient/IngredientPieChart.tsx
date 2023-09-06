@@ -21,15 +21,15 @@ const IngredientPieChart: React.FC = (props) => {
       const percent_carbs = Number((carbs / total) * 100).toFixed(3);
       const percent_fats = Number((fats / total) * 100).toFixed(3);
       pieChartData = [
-        { name: "Protein", value: Number(percent_protein), label: "Protein", color: '#2CB37A' },
-        { name: "Carbs", value: Number(percent_carbs), label: "Carbs", color: '#FBA700' },
-        { name: "Fats", value: Number(percent_fats), label: "Fats", color: '#DC0502' },
+        { name: "Protein", value: Number(percent_protein), label: "Protein", color: '#57AE7F' },
+        { name: "Carbs", value: Number(percent_carbs), label: "Carbs", color: '#F29C38' },
+        { name: "Fats", value: Number(percent_fats), label: "Fats", color: '#D3302F' },
       ];
     } else {
       pieChartData = [
-        { name: "Protein", value: Number(0.001), label: "Protein", color: '#2CB37A' },
-        { name: "Carbs", value: Number(0.001), label: "Carbs", color: '#FBA700' },
-        { name: "Fats", value: Number(0.001), label: "Fats", color: '#DC0502' },
+        { name: "Protein", value: Number(0.001), label: "Protein", color: '#57AE7F' },
+        { name: "Carbs", value: Number(0.001), label: "Carbs", color: '#F29C38' },
+        { name: "Fats", value: Number(0.001), label: "Fats", color: '#D3302F' },
       ];
     }
   }
