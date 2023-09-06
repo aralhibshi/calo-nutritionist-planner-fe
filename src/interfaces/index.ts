@@ -229,6 +229,8 @@ export interface IMealStore {
   setAddOpen: (isOpen: boolean) => void;
   selectedMeal: IMealData | null;
   setSelectedMeal: (meal: IMealData | null) => void;
+  ingredientMeals: any,
+  setIngredientMeals: (meals: IMeal[]) => void;
 }
 
 // APIs ---
@@ -253,5 +255,6 @@ export interface IMealGetAPI {
   skip: number;
   take: number;
   name?: string;
+  ingredient_id?: string;
   component_id?: string;
 }

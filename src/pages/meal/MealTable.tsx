@@ -120,13 +120,10 @@ const MealTable: React.FC = () => {
                       totalCarbs += Number(el.ingredient.carbs*quantity);
                       totalProteins += Number(el.ingredient.protein*quantity);
                       totalPrice += Number(el.ingredient.price*quantity);
-                      totalCalories +=
-                      totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
-                    }
-                  );
+                      totalCalories += totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
+                    });
                 });
               }
-
               return (
                 <tr key={index} style={{height:"52px"}}>
                   <td>{meal.name}</td>
