@@ -186,13 +186,15 @@ export interface ISearchStore {
 }
 
 // Nutriton
-interface IEditData {
+export interface IEditData {
   price: number;
   protein: number;
   carbs: number;
   fats: number;
   calories: number;
   rating: string;
+  totalUnit: number;
+  unitType: string;  
 }
 
 // Ingredient Store

@@ -19,7 +19,7 @@ const IngredientBarChart: React.FC = () => {
     >
       <BarChart
         colors={[
-          '#33FF57', '#2CB37A'
+          '#234935', '#57AE7F'
         ]}
         xAxis={[{
            scaleType: 'band',

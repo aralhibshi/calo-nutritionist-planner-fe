@@ -14,7 +14,9 @@ const useIngredientStore = create<IIngredientStore>((set) => ({
     carbs: 0,
     fats: 0,
     calories: 0,
-    rating: 'Normal'
+    rating: 'Normal',
+    totalUnit: 0,
+    unitType: ''
   },
   setEditData: (data) => set({ editData: data }),
   calories: 0, // New property for calories
