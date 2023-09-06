@@ -10,6 +10,9 @@ export async function createMeal(
   try {
     const response = await fetchData(`${baseURL}meal`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(component),
     });
 
