@@ -35,10 +35,10 @@ const ComponentIngredientTable: React.FC<
       setComponentLoading(true);
       const data = {
         skip: 0,
-        take: 100
-      }
+        take: 100,
+      };
       const response = await IngredientApi.fetchIngredients(data);
-      
+
       setComponentSearchResult(response.data.ingredients);
       if (componentSearchResult) {
         setIngredients(componentSearchResult);
@@ -115,20 +115,27 @@ const ComponentIngredientTable: React.FC<
       )
     );
 
-    let totalCalories = 0;
+  let totalCalories = 0;
+  let totalCarbs = 0;
+  let totalFats = 0;
+  let totalProtein = 0;
 
-checkedIngredients.forEach((ingredient) => {
-  const fats = Number(ingredient.fats);
-  const carbs = Number(ingredient.carbs);
-  const protein = Number(ingredient.protein);
-  
-  const quantity = quantities[ingredient.id] || 1;
-  
-  if (!isNaN(fats) && !isNaN(carbs) && !isNaN(protein) && !isNaN(quantity)) {
-    totalCalories += (fats * 9 + carbs * 4 + protein * 4) * quantity;
-  }
-});
+  checkedIngredients.forEach((ingredient) => {
+    const fats = Number(ingredient.fats);
+    const carbs = Number(ingredient.carbs);
+    const protein = Number(ingredient.protein);
 
+    const quantity = quantities[ingredient.id] || 1;
+
+    totalCarbs += Number(carbs * quantity);
+    totalFats += Number(carbs * quantity);
+    totalProtein += Number(carbs * quantity);
+
+    if (!isNaN(fats) && !isNaN(carbs) && !isNaN(protein) && !isNaN(quantity)) {
+      totalCalories += (fats * 9 + carbs * 4 + protein * 4) * quantity;
+    }
+  });
+  //
   return (
     <>
       {componentLoading && (
@@ -224,15 +231,89 @@ checkedIngredients.forEach((ingredient) => {
           </Table>
         </TableContainer>
       </div>
-      <br/>
+      <br />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "20px",
+        }}
+      >
+        <div
+          style={{
+            flex: 1,
+          }}
+        >
           <TextField
             label="Calories"
             name="description"
             disabled
-            value={totalCalories}
+            value={totalCalories.toFixed(3)}
             fullWidth
             margin="dense"
           />
+        </div>
+        <div
+          style={{
+            flex: 1,
+            marginBottom: "20px",
+            display: "flex",
+            justifyContent: "column",
+            alignItems: "center",
+            flexDirection: "column",
+            marginLeft: "10px",
+          }}
+        >
+          <TextField
+            label="Proteins"
+            name="protein"
+            disabled
+            value={totalProtein.toFixed(3)}
+            fullWidth
+            margin="dense"
+          />
+        </div>
+        <div
+          style={{
+            flex: 1,
+            marginBottom: "20px",
+            display: "flex",
+            justifyContent: "column",
+            alignItems: "center",
+            flexDirection: "column",
+            marginLeft: "10px",
+          }}
+        >
+          <TextField
+            label="Carbs"
+            name="carbs"
+            disabled
+            value={totalCarbs.toFixed(3)}
+            fullWidth
+            margin="dense"
+          />
+        </div>
+        <div
+          style={{
+            flex: 1,
+            marginBottom: "20px",
+            display: "flex",
+            justifyContent: "column",
+            alignItems: "center",
+            flexDirection: "column",
+            marginLeft: "10px",
+          }}
+        >
+          <TextField
+            label="Fats"
+            name="fats"
+            disabled
+            value={totalFats.toFixed(3)}
+            fullWidth
+            margin="dense"
+          />
+        </div>
+      </div>
     </>
   );
 };
