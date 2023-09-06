@@ -107,6 +107,7 @@ const MealTable: React.FC = () => {
               let totalProteins = 0;
               let totalCalories = 0;
               let totalPrice = 0;
+              let totalQuantity = 0;
 
               if (
                 meal.meals_components &&
@@ -121,28 +122,23 @@ const MealTable: React.FC = () => {
                       totalProteins += Number(el.ingredient.protein*quantity);
                       totalPrice += Number(el.ingredient.price*quantity);
                       totalCalories +=
-                        totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
+                      totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
+                      totalQuantity += quantity
                       
                     }
                   );
                 });
-
-                totalFats = Number(totalFats.toFixed(3));
-                totalCarbs = Number(totalCarbs.toFixed(3));
-                totalProteins = Number(totalProteins.toFixed(3));
-                totalCalories = Number(totalCalories.toFixed(3));
-                totalPrice = Number(totalPrice.toFixed(3));
               }
 
               return (
                 <tr key={index} style={{height:"52px"}}>
                   <td>{meal.name}</td>
-                  <td>{totalCalories}</td>
-                  <td>{totalProteins}</td>
-                  <td>{totalCarbs}</td>
-                  <td>{totalFats}</td>
+                  <td>{(totalCalories/totalQuantity).toFixed(3)}</td>
+                  <td>{(totalProteins/totalQuantity).toFixed(3)}</td>
+                  <td>{(totalCarbs/totalQuantity).toFixed(3)}</td>
+                  <td>{(totalFats/totalQuantity).toFixed(3)}</td>
                   <td>{meal.unit}</td>
-                  <td>{totalPrice}</td>
+                  <td>{(totalPrice/totalQuantity).toFixed(3)}</td>
                   {/* <td>
                     <IconButton
                     // onClick={() => handleEditClick(component)}
