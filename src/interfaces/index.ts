@@ -213,6 +213,7 @@ export interface IIngredientStore {
 
 // Component Details
 export interface IComponentIngredientDetails {
+  ingredient_id: string;
   calories: number;
   protein: number;
   carbs: number;

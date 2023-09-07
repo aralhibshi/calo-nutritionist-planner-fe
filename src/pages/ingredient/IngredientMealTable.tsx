@@ -93,6 +93,7 @@ const IngredientMealTable: React.FC = () => {
             {ingredientMeals && Array.isArray(ingredientMeals) && ingredientMeals.length > 0 ? (
               ingredientMeals.map((meal: IMeal, index: number) => {
                 const data: IComponentIngredientDetails = {
+                  ingredient_id: '',
                   calories: 0,
                   protein: 0,
                   carbs: 0,
@@ -109,6 +110,7 @@ const IngredientMealTable: React.FC = () => {
                     (el: IComponentIngredient) => {
 
                     if (selectedIngredient && el.ingredient_id !== selectedIngredient.id) {
+                      data.ingredient_id = el.ingredient_id;
                       data.protein += Number(el.ingredient.protein * quantity);
                       data.carbs += Number(el.ingredient.carbs * quantity);
                       data.fats += Number(el.ingredient.fats * quantity);

@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
-import TableContainer from "@mui/material/TableContainer";
-import Table from "@mui/material/Table";
-import CircularProgress from "@mui/material/CircularProgress";
-import { Backdrop } from "@mui/material";
+import React, { useEffect } from 'react';
+import TableContainer from '@mui/material/TableContainer';
+import Table from '@mui/material/Table';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Backdrop } from '@mui/material';
 import * as ComponentApi from '../../network/componentApi'
-import useIngredientStore from "../../stores/ingredientStore";
-import useComponentStore from "../../stores/componentStore";
-import useSearchStore from "../../stores/searchStore";
-import { IComponent , IComponentIngredientDetails } from "../../interfaces";
+import useIngredientStore from '../../stores/ingredientStore';
+import useComponentStore from '../../stores/componentStore';
+import useSearchStore from '../../stores/searchStore';
+import { IComponent , IComponentIngredientDetails } from '../../interfaces';
+import { useTheme } from '@mui/material/styles';
 
 const IngredientComponentTable: React.FC = () => {
   const {
@@ -22,6 +23,8 @@ const IngredientComponentTable: React.FC = () => {
     ingredientComponents,
     setIngredientComponents,
   } = useComponentStore();
+
+  const theme = useTheme();
 
   async function loadComponents() {
     try {
@@ -52,13 +55,13 @@ const IngredientComponentTable: React.FC = () => {
       {loading && (
         <Backdrop
           sx={{
-            color: "#fff",
+            color: '#fff',
             zIndex: (theme) => theme.zIndex.drawer + 1,
           }}
           open={true}
         >
           <CircularProgress
-            color="inherit"
+            color='inherit'
           />
         </Backdrop>
       )}
@@ -70,7 +73,7 @@ const IngredientComponentTable: React.FC = () => {
         <Table
           sx={{
             margin: '0 0 0 20px',
-            userSelect: "none",
+            userSelect: 'none',
             width: '740px'
           }}
           id='table'
@@ -92,6 +95,7 @@ const IngredientComponentTable: React.FC = () => {
             {ingredientComponents && Array.isArray(ingredientComponents) && ingredientComponents.length > 0 ? (
               ingredientComponents.map((component: IComponent, index: number) => {
                 const data: IComponentIngredientDetails = {
+                  ingredient_id: '',
                   calories: 0,
                   protein: 0,
                   carbs: 0,
@@ -104,6 +108,7 @@ const IngredientComponentTable: React.FC = () => {
                   component.components_ingredients.forEach((el) => {
 
                     if (selectedIngredient && el.ingredient_id !== selectedIngredient.id) {
+                      data.ingredient_id = el.ingredient_id;
                       data.protein += Number(el.ingredient.protein)
                       data.carbs += Number(el.ingredient.carbs)
                       data.fats += Number(el.ingredient.fats)
@@ -126,22 +131,52 @@ const IngredientComponentTable: React.FC = () => {
                   data.price = Number(data.price.toFixed(3));
                 }
                 return (
-                  <tr key={index} style={{height:"52px"}}>
+                  <tr key={index} style={{height:'52px'}}>
                     <td>{component.name}</td>
-                    <td>
+                    <td
+                      // style={{
+                      //   color: selectedIngredient && editData.calories !== 
+                      //     ? theme.palette.primary.main
+                      //     : 'inherit',
+                      // }}
+                    >
                       {Number((data.calories / data.quantity).toFixed(3))}
                     </td>
-                    <td>
+                    <td
+                      style={{
+                        color: selectedIngredient && editData.protein !== selectedIngredient.protein
+                          ? theme.palette.primary.main
+                          : 'inherit',
+                      }}
+                    >
                       {Number((data.protein / data.quantity).toFixed(3))}
                     </td>
-                    <td>
+                    <td
+                      style={{
+                        color: selectedIngredient && editData.carbs !== selectedIngredient.carbs
+                          ? theme.palette.primary.main
+                          : 'inherit',
+                      }}
+                    >
                       {Number((data.carbs / data.quantity).toFixed(3))}
                     </td>
-                    <td>
+                    <td
+                      style={{
+                        color: selectedIngredient && editData.fats !== selectedIngredient.fats
+                          ? theme.palette.primary.main
+                          : 'inherit',
+                      }}
+                    >
                       {Number((data.fats / data.quantity).toFixed(3))}
                     </td>
                     <td>{component.unit}</td>
-                    <td>
+                    <td
+                      style={{
+                        color: selectedIngredient && editData.price !== selectedIngredient.price
+                          ? theme.palette.primary.main
+                          : 'inherit',
+                      }}
+                    >
                       {Number((data.price / data.quantity).toFixed(3))}
                     </td>
                   </tr>
