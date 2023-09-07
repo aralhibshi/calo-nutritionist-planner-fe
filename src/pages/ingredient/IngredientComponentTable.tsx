@@ -128,12 +128,22 @@ const IngredientComponentTable: React.FC = () => {
                 return (
                   <tr key={index} style={{height:"52px"}}>
                     <td>{component.name}</td>
-                    <td>{data.calories/data.quantity}</td>
-                    <td>{data.protein/data.quantity}</td>
-                    <td>{data.carbs/data.quantity}</td>
-                    <td>{data.fats/data.quantity}</td>
+                    <td>
+                      {Number((data.calories / data.quantity).toFixed(3))}
+                    </td>
+                    <td>
+                      {Number((data.protein / data.quantity).toFixed(3))}
+                    </td>
+                    <td>
+                      {Number((data.carbs / data.quantity).toFixed(3))}
+                    </td>
+                    <td>
+                      {Number((data.fats / data.quantity).toFixed(3))}
+                    </td>
                     <td>{component.unit}</td>
-                    <td>{data.price/data.quantity}</td>
+                    <td>
+                      {Number((data.price / data.quantity).toFixed(3))}
+                    </td>
                   </tr>
                 );
               })

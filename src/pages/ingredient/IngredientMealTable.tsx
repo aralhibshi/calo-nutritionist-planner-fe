@@ -7,7 +7,7 @@ import * as MealApi from '../../network/mealApi';
 import useIngredientStore from "../../stores/ingredientStore";
 import useMealStore from '../../stores/mealStore';
 import useSearchStore from "../../stores/searchStore";
-import { IComponentIngredient, IMeal, IMealComponent } from '../../interfaces';
+import { IComponentIngredient, IComponentIngredientDetails, IMeal, IMealComponent } from '../../interfaces';
 
 const IngredientMealTable: React.FC = () => {
   const {
@@ -16,6 +16,7 @@ const IngredientMealTable: React.FC = () => {
   } = useSearchStore()
   const {
     selectedIngredient,
+    editData
   } = useIngredientStore();
   const {
     ingredientMeals,
@@ -89,49 +90,61 @@ const IngredientMealTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-          {ingredientMeals && Array.isArray(ingredientMeals) && ingredientMeals.length > 0 ? (
-            ingredientMeals.map((meal: IMeal, index: number) => {
-              let totalFats = 0;
-              let totalCarbs = 0;
-              let totalProteins = 0;
-              let totalCalories = 0;
-              let totalPrice = 0;
+            {ingredientMeals && Array.isArray(ingredientMeals) && ingredientMeals.length > 0 ? (
+              ingredientMeals.map((meal: IMeal, index: number) => {
+                const data: IComponentIngredientDetails = {
+                  calories: 0,
+                  protein: 0,
+                  carbs: 0,
+                  fats: 0,
+                  price: 0,
+                  quantity: 0
+                }
 
-              if (
-                meal.meals_components &&
-                Array.isArray(meal.meals_components) &&
-                meal.meals_components.length > 0
-              ) {
-              meal.meals_components?.map((el: IMealComponent) => {
-                const quantity = Number(el.component_quantity)
+              if (meal.meals_components && Array.isArray(meal.meals_components) && meal.meals_components.length > 0) {
+                meal.meals_components?.map((el: IMealComponent) => {
+                  const quantity = Number(el.component_quantity)
 
-                el.component.components_ingredients?.map(
-                  (el: IComponentIngredient) => {
-                    totalFats += Number(el.ingredient.fats*quantity);
-                    totalCarbs += Number(el.ingredient.carbs*quantity);
-                    totalProteins += Number(el.ingredient.protein*quantity);
-                    totalPrice += Number(el.ingredient.price*quantity);
-                    totalCalories += totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
-                  });
-                })
-              }
-              return (
-                <tr key={index} style={{height:"52px"}}>
-                  <td>{meal.name}</td>
-                  <td>{(totalCalories).toFixed(3)}</td>
-                  <td>{(totalProteins).toFixed(3)}</td>
-                  <td>{(totalCarbs).toFixed(3)}</td>
-                  <td>{(totalFats).toFixed(3)}</td>
-                  <td>{meal.unit}</td>
-                  <td>{(totalPrice).toFixed(3)}</td>
-                </tr>
-              );
-            })
-          ) : (
-            <tr>
-              <td colSpan={8}>No meals found.</td>
-            </tr>
-          )}
+                  el.component.components_ingredients?.map(
+                    (el: IComponentIngredient) => {
+
+                    if (selectedIngredient && el.ingredient_id !== selectedIngredient.id) {
+                      data.protein += Number(el.ingredient.protein * quantity);
+                      data.carbs += Number(el.ingredient.carbs * quantity);
+                      data.fats += Number(el.ingredient.fats * quantity);
+                      data.price += Number(el.ingredient.price * quantity);
+                      data.calories += data.protein * 4 + data.carbs * 4 + data.fats * 9;
+                    } else {
+                      data.protein += Number(editData.protein * quantity);
+                      data.carbs += Number(editData.carbs * quantity);
+                      data.fats += Number(editData.fats * quantity);
+                      data.price += Number(editData.price * quantity);
+                      data.calories += data.protein * 4 + data.carbs * 4 + data.fats * 9;
+                    }
+                    });
+                  })
+                }
+                return (
+                  <tr key={index} style={{height:"52px"}}>
+                    <td>{meal.name}</td>
+                    <td>{(data.calories).toFixed(3)}</td>
+                    <td>{(data.protein).toFixed(3)}</td>
+                    <td>{(data.carbs).toFixed(3)}</td>
+                    <td>{(data.fats).toFixed(3)}</td>
+                    <td>{meal.unit}</td>
+                    <td>{(data.price).toFixed(3)}</td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td
+                  colSpan={8}
+                >
+                  No meals found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </Table>
       </TableContainer>
