@@ -157,6 +157,24 @@ export default function EditMealDialogProps({
                     <MenuItem value="ml">ml</MenuItem>
                     <MenuItem value="g">g</MenuItem>
                   </Select>
+                  <FormControl fullWidth>
+                    <InputLabel id="size">Size</InputLabel>
+                    <Select
+                      name="size" // Add the id attribute
+                      labelId="size"
+                      value={formik.values.size}
+                      label="Size"
+                      onChange={formik.handleChange}
+                      style={{
+                        marginTop: "10px",
+                        textAlign: 'left'
+                      }}
+                    >
+                      <MenuItem value={"L"}>Large</MenuItem>
+                      <MenuItem value={"M"}>Medium</MenuItem>
+                      <MenuItem value={"S"}>Small</MenuItem>
+                    </Select>
+                  </FormControl>
                 </div>
                 <Divider
                   orientation="vertical"
