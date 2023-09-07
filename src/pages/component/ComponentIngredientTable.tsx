@@ -27,7 +27,7 @@ const ComponentIngredientTable: React.FC<
     setComponentSearchResult,
   } = useSearchStore();
   const { setEntityCount, skip } = useEntityStore();
-  const { selectedIngredients, setSelectedIngredients, calories, setCalories } =
+  const { selectedIngredients, setSelectedIngredients, setTotalQuantity } =
     useIngredientStore();
 
   async function loadIngredients() {
@@ -119,6 +119,7 @@ const ComponentIngredientTable: React.FC<
   let totalCarbs = 0;
   let totalFats = 0;
   let totalProtein = 0;
+  let totalQuantity = 0
 
   checkedIngredients.forEach((ingredient) => {
     const fats = Number(ingredient.fats);
@@ -126,15 +127,20 @@ const ComponentIngredientTable: React.FC<
     const protein = Number(ingredient.protein);
 
     const quantity = quantities[ingredient.id] || 1;
-
-    totalCarbs += Number(carbs * quantity);
-    totalFats += Number(carbs * quantity);
-    totalProtein += Number(carbs * quantity);
+    
+    totalQuantity += Number(quantity)
+    totalCarbs += Number((carbs * quantity)/totalQuantity);
+    totalFats += Number((carbs * quantity)/totalQuantity);
+    totalProtein += Number((carbs * quantity)/totalQuantity);
+    
 
     if (!isNaN(fats) && !isNaN(carbs) && !isNaN(protein) && !isNaN(quantity)) {
-      totalCalories += (fats * 9 + carbs * 4 + protein * 4) * quantity;
+      totalCalories += ((fats * 9 + carbs * 4 + protein * 4) * quantity)/totalQuantity;
     }
   });
+  useEffect(() => {
+    setTotalQuantity(totalQuantity);
+  }, [totalQuantity]);
   //
   return (
     <>

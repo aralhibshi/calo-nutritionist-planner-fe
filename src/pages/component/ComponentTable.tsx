@@ -9,7 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import useComponentStore from "../../stores/componentStore";
 import useEntityStore from "../../stores/entityStore";
 import CreateComponentDialog from "./CreateComponentDialog";
-import EditComponentDialog from "./EditComponentDialog";
+import EditComponentDialog from "./EditComponentDIalog";
 
 const ComponentTable: React.FC = () => {
   const [components, setComponents] = useState<IComponentData[]>([]);

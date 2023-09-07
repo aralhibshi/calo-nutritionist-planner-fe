@@ -208,7 +208,9 @@ export interface IIngredientStore {
   editData: IEditData
   setEditData: (data: any) => void;
   calories: number; // New property for calories
-  setCalories: (calories: number) => void; // New setter for calories
+  setCalories: (calories: number) => void;
+  totalQuantity: number;
+  setTotalQuantity:(totalQuantity:number) => void
 }
 
 // Component Store

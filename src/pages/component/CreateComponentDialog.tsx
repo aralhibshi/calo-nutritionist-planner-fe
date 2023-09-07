@@ -28,7 +28,9 @@ export default function CreateComponentDialog({
   } = useComponentStore();
   const {
     selectedIngredients,
-    setSelectedIngredients
+    setSelectedIngredients,
+    totalQuantity,
+    setTotalQuantity
   } = useIngredientStore();
   const {
     setNotify,
@@ -56,6 +58,7 @@ export default function CreateComponentDialog({
         console.log("Form data:", values);
 
         const response = await ComponentApi.createComponent(values);
+        setTotalQuantity(0)
         setSelectedIngredients([])
         console.log("New component:", response);
         onComponentAdded(response);
