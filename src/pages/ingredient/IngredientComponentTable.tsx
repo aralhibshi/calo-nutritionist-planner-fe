@@ -7,7 +7,7 @@ import * as ComponentApi from '../../network/componentApi'
 import useIngredientStore from "../../stores/ingredientStore";
 import useComponentStore from "../../stores/componentStore";
 import useSearchStore from "../../stores/searchStore";
-import { IComponent } from "../../interfaces";
+import { IComponent , IComponentIngredientDetails } from "../../interfaces";
 
 const IngredientComponentTable: React.FC = () => {
   const {
@@ -16,10 +16,11 @@ const IngredientComponentTable: React.FC = () => {
   } = useSearchStore();
   const {
     selectedIngredient,
+    editData
   } = useIngredientStore();
   const {
     ingredientComponents,
-    setIngredientComponents
+    setIngredientComponents,
   } = useComponentStore();
 
   async function loadComponents() {
@@ -88,42 +89,61 @@ const IngredientComponentTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-          {ingredientComponents && Array.isArray(ingredientComponents) && ingredientComponents.length > 0 ? (
+            {ingredientComponents && Array.isArray(ingredientComponents) && ingredientComponents.length > 0 ? (
               ingredientComponents.map((component: IComponent, index: number) => {
-                let totalFats = 0;
-                let totalCarbs = 0;
-                let totalProteins = 0;
-                let totalCalories = 0;
-                let totalPrice = 0;
+                const data: IComponentIngredientDetails = {
+                  calories: 0,
+                  protein: 0,
+                  carbs: 0,
+                  fats: 0,
+                  price: 0,
+                  quantity: 0
+                }
+
                 if (component.components_ingredients && Array.isArray(component.components_ingredients)) {
                   component.components_ingredients.forEach((el) => {
-                    totalFats += Number(el.ingredient.fats*el.ingredient_quantity);
-                    totalCarbs += Number(el.ingredient.carbs*el.ingredient_quantity);
-                    totalProteins += Number(el.ingredient.protein*el.ingredient_quantity);
-                    totalCalories += totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
-                    totalPrice += Number(el.ingredient.price* el.ingredient_quantity);
+
+                    if (selectedIngredient && el.ingredient_id !== selectedIngredient.id) {
+                      data.protein += Number(el.ingredient.protein)
+                      data.carbs += Number(el.ingredient.carbs)
+                      data.fats += Number(el.ingredient.fats)
+                      data.calories += Number(data.protein * 4 + data.carbs * 4 + data.fats * 9)
+                      data.price += Number(el.ingredient.price )
+                    } else {
+                      data.protein += Number(editData.protein)
+                      data.carbs += Number(editData.carbs)
+                      data.fats += Number(editData.fats)
+                      data.calories += Number(data.protein * 4 + data.carbs * 4 + data.fats * 9)
+                      data.price += Number(editData.price)
+                      data.quantity += Number(el.ingredient_quantity)
+                    }
                   });
-                  totalFats = Number(totalFats.toFixed(3));
-                  totalCarbs = Number(totalCarbs.toFixed(3));
-                  totalProteins = Number(totalProteins.toFixed(3));
-                  totalCalories = Number(totalCalories.toFixed(3));
-                  totalPrice = Number(totalPrice.toFixed(3));
+
+                  data.protein = Number(data.protein.toFixed(3));
+                  data.carbs = Number(data.carbs .toFixed(3));
+                  data.fats = Number(data.fats.toFixed(3));
+                  data.calories = Number(data.calories.toFixed(3));
+                  data.price = Number(data.price.toFixed(3));
                 }
                 return (
                   <tr key={index} style={{height:"52px"}}>
                     <td>{component.name}</td>
-                    <td>{totalCalories}</td>
-                    <td>{totalProteins}</td>
-                    <td>{totalCarbs}</td>
-                    <td>{totalFats}</td>
+                    <td>{data.calories/data.quantity}</td>
+                    <td>{data.protein/data.quantity}</td>
+                    <td>{data.carbs/data.quantity}</td>
+                    <td>{data.fats/data.quantity}</td>
                     <td>{component.unit}</td>
-                    <td>{totalPrice}</td>
+                    <td>{data.price/data.quantity}</td>
                   </tr>
                 );
               })
             ) : (
               <tr>
-                <td colSpan={8}>No components found.</td>
+                <td
+                  colSpan={8}
+                >
+                  No components found.
+                </td>
               </tr>
             )}
           </tbody>

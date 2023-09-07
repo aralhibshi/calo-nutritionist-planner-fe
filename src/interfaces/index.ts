@@ -211,6 +211,16 @@ export interface IIngredientStore {
   setCalories: (calories: number) => void; // New setter for calories
 }
 
+// Component Details
+export interface IComponentIngredientDetails {
+  calories: number;
+  protein: number;
+  carbs: number;
+  fats: number;
+  price: number;
+  quantity: number;
+}
+
 // Component Store
 export interface IComponentStore {
   addOpen: boolean;
