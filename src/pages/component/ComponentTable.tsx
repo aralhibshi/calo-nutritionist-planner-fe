@@ -4,42 +4,34 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop, IconButton } from "@mui/material";
 import * as ComponentApi from "../../network/componentApi";
 import useSearchStore from "../../stores/searchStore";
-import { IComponent } from "../../interfaces";
+import { IComponent, IComponentData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useComponentStore from "../../stores/componentStore";
 import useEntityStore from "../../stores/entityStore";
 import CreateComponentDialog from "./CreateComponentDialog";
-// import EditComponentDialog from "./EditComponentDIalog";
+import EditComponentDialog from "./EditComponentDIalog";
 
 const ComponentTable: React.FC = () => {
-  const [components, setComponents] = useState<IComponent[]>([]);
+  const [components, setComponents] = useState<IComponentData[]>([]);
   const { selectedComponent, setSelectedComponent } = useComponentStore();
-  const [open, setOpen] = useState(false);
-  const {setEntity} = useEntityStore()
-
-  const {
-    setEntityCount,
-    skip,
-  } = useEntityStore();
-  const {
-    loading,
-    setLoading,
-    setSearchResult,
-    searchResult
-  } = useSearchStore();
+  const { setEntity } = useEntityStore();
+  const [openEditDialog, setOpenEditDialog] = useState(false);
+  const { setEntityCount, skip } = useEntityStore();
+  const { loading, setLoading, setSearchResult, searchResult } =
+    useSearchStore();
 
   const memoizedSearchResult = useMemo(() => searchResult, [searchResult]);
-  
+
   async function loadComponents() {
     try {
       setLoading(true);
       const data = {
         skip: skip,
-        take: 9
-      }
+        take: 9,
+      };
       const response = await ComponentApi.fetchComponents(data);
       setEntityCount(response.data.count);
-      setSearchResult(response.data.components)
+      setSearchResult(response.data.components);
       if (searchResult) {
         setComponents(searchResult);
       }
@@ -55,24 +47,24 @@ const ComponentTable: React.FC = () => {
     loadComponents();
   }, [skip]);
 
-  const handleComponentAdded = (newIngredient: any) => {
-    setComponents((prevIngredients: any) => [
-      ...prevIngredients,
-      newIngredient,
-    ]);
-    // setEntity('component')
+  const handleComponentAdded = (newComponent: any) => {
+    setComponents((prevComponents: any) => [...prevComponents, newComponent]);
   };
 
   const handleEditClick = (row: any) => {
     setSelectedComponent(row);
+    setOpenEditDialog(true);
     setTimeout(() => {
-      setOpen(true);
     }, 0);
-    console.log(row);
-    console.log("Dialog should open now.");
+    setTimeout(() => {
+      const barChart = document.querySelector(
+        ".css-18ftw0b-MuiChartsSurface-root"
+      );
+      barChart?.setAttribute("viewBox", "0 15 400 280");
+    }, 20);
   };
 
-  const handleComponentUpdated = (updatedComponent: IComponent) => {
+  const handleComponentUpdated = (updatedComponent: IComponentData) => {
     const updatedIndex = components.findIndex(
       (component) => component.id === updatedComponent.id
     );
@@ -83,7 +75,7 @@ const ComponentTable: React.FC = () => {
       setComponents(updatedComponents);
     }
 
-    setOpen(false);
+    setOpenEditDialog(false);
     loadComponents();
   };
 
@@ -103,27 +95,27 @@ const ComponentTable: React.FC = () => {
       <Table
         sx={{
           marginTop: "15px",
-          marginBottom: '15px',
+          marginBottom: "15px",
           userSelect: "none",
         }}
-        id='table'
-          >
+        id="table"
+      >
         <thead>
           <tr>
-            <th>
-              Component Name&nbsp;
-            </th>
+            <th>Component Name&nbsp;</th>
             <th>Calories&nbsp;</th>
             <th>Proteins&nbsp;</th>
             <th>Carbs&nbsp;</th>
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            {/* <th>Edit&nbsp;</th> */}
+            <th>Edit&nbsp;</th>
           </tr>
         </thead>
         <tbody>
-        {memoizedSearchResult && Array.isArray(memoizedSearchResult) && memoizedSearchResult.length > 0 ? (
+          {memoizedSearchResult &&
+          Array.isArray(memoizedSearchResult) &&
+          memoizedSearchResult.length > 0 ? (
             memoizedSearchResult.map((component: IComponent, index: number) => {
               let totalFats = 0;
               let totalCarbs = 0;
@@ -132,31 +124,43 @@ const ComponentTable: React.FC = () => {
               let totalPrice = 0;
               let totalQuantity = 0;
 
-              if (component.components_ingredients && Array.isArray(component.components_ingredients)) {
+              if (
+                component.components_ingredients &&
+                Array.isArray(component.components_ingredients)
+              ) {
                 component.components_ingredients.forEach((el) => {
-                  totalFats += Number(el.ingredient.fats * el.ingredient_quantity);
-                  totalCarbs += Number(el.ingredient.carbs * el.ingredient_quantity);
-                  totalProteins += Number(el.ingredient.protein * el.ingredient_quantity);
-                  totalCalories += totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
-                  totalPrice += Number(el.ingredient.price * el.ingredient_quantity);
-                  totalQuantity += Number(el.ingredient_quantity)
+                  totalFats += Number(
+                    el.ingredient.fats * el.ingredient_quantity
+                  );
+                  totalCarbs += Number(
+                    el.ingredient.carbs * el.ingredient_quantity
+                  );
+                  totalProteins += Number(
+                    el.ingredient.protein * el.ingredient_quantity
+                  );
+                  totalCalories +=
+                    totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
+                  totalPrice += Number(
+                    el.ingredient.price * el.ingredient_quantity
+                  );
+                  totalQuantity += Number(el.ingredient_quantity);
                 });
               }
 
               return (
-                <tr key={index} style={{height:"52px"}}>
+                <tr key={index} style={{ height: "52px" }}>
                   <td>{component.name}</td>
-                  <td>{(totalCalories/totalQuantity).toFixed(3)}</td>
-                  <td>{(totalProteins/totalQuantity).toFixed(3)}</td>
-                  <td>{(totalCarbs/totalQuantity).toFixed(3)}</td>
-                  <td>{(totalFats/totalQuantity).toFixed(3)}</td>
+                  <td>{(totalCalories / totalQuantity).toFixed(3)}</td>
+                  <td>{(totalProteins / totalQuantity).toFixed(3)}</td>
+                  <td>{(totalCarbs / totalQuantity).toFixed(3)}</td>
+                  <td>{(totalFats / totalQuantity).toFixed(3)}</td>
                   <td>{component.unit}</td>
-                  <td>{(totalPrice/totalQuantity).toFixed(3)}</td>
-                  {/* <td>
+                  <td>{(totalPrice / totalQuantity).toFixed(3)}</td>
+                  <td>
                     <IconButton onClick={() => handleEditClick(component)}>
                       <EditIcon />
                     </IconButton>
-                  </td> */}
+                  </td>
                 </tr>
               );
             })
@@ -166,15 +170,14 @@ const ComponentTable: React.FC = () => {
             </tr>
           )}
         </tbody>
-
       </Table>
-      {/* <EditComponentDialog
-        key={selectedComponent?.id}
-        open={open}
-        setOpen={setOpen}
-        onComponentUpdated={handleComponentUpdated}
-        component={selectedComponent}
-      /> */}
+      <EditComponentDialog
+  key={selectedComponent?.id}
+  open={openEditDialog}
+  onClose={() => setOpenEditDialog(false)}
+  onComponentUpdated={handleComponentUpdated}
+  component={selectedComponent}
+/>
       <CreateComponentDialog onComponentAdded={handleComponentAdded} />
     </>
   );
