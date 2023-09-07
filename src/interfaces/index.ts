@@ -114,7 +114,6 @@ export interface IFetchMealsResponse {
 export interface IMealData {
   id?: string
   name: string
-  // category?: string
   description?: string;
   components?: Array<IMealComponentDataArray>
   unit: string;
@@ -126,7 +125,7 @@ export interface IMealComponent {
   id: string;
   meal_id: string;
   component_id: string;
-  component_quantity: string;
+  component_quantity: number;
   created_at: Date;
   updated_at: Date;
   component: IComponent 
@@ -134,7 +133,7 @@ export interface IMealComponent {
 
 // MealComponent Create/Update (Component Array) - Data
 export interface IMealComponentDataArray {
-  componentId: string;
+  component_id: string;
   component_quantity: number
 }
 
@@ -226,10 +225,13 @@ export interface IComponentIngredientDetails {
 export interface IComponentStore {
   addOpen: boolean;
   setAddOpen: (isOpen: boolean) => void;
+
   selectedComponent: IComponent | null;
   setSelectedComponent: (component: IComponent | null) => void;
+
   selectedComponents: IMealComponent[];
   setSelectedComponents: (components: IMealComponent[]) => void;
+
   ingredientComponents: any,
   setIngredientComponents: (components: IComponent[]) => void;
 }
@@ -238,8 +240,10 @@ export interface IComponentStore {
 export interface IMealStore {
   addOpen: boolean;
   setAddOpen: (isOpen: boolean) => void;
-  selectedMeal: IMealData | null;
-  setSelectedMeal: (meal: IMealData | null) => void;
+
+  selectedMeal: IMeal | null;
+  setSelectedMeal: (meal: IMeal | null) => void;
+
   ingredientMeals: any,
   setIngredientMeals: (meals: IMeal[]) => void;
 }

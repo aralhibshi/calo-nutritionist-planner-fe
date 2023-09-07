@@ -1,6 +1,7 @@
 // import { IIngredientData, IIngredient } from '../interfaces';
 import { IComponent, IComponentData, IComponentGetAPI } from '../interfaces';
 import { fetchData } from './baseApi';
+import createError from 'http-errors';
 
 const baseURL = process.env.REACT_APP_API_BASE_URL
 
