@@ -1,10 +1,13 @@
 // React
-import { useEffect, useState } from 'react';
+import React from 'react';
+import { useEffect } from 'react';
 
 // Material UI
 import { Typography } from '@mui/material';
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material';
 
 // Components
 import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
@@ -23,11 +26,6 @@ import MealTable from "../meal/MealTable";
 import useEntityStore from '../../stores/entityStore';
 import useNotificationStore from '../../stores/notificationStore';
 
-interface State extends SnackbarOrigin {
-  open: boolean;
-}
-
-
 const Home: React.FC = () => {
   const {
     entity
@@ -41,6 +39,8 @@ const Home: React.FC = () => {
   useEffect(() => {
     setNotify(false);
   }, [])
+
+  const theme = useTheme();
 
   const entityTable = entity === 'ingredient'
   ? <IngredientTable/>
@@ -61,6 +61,13 @@ const Home: React.FC = () => {
   function entityString(entity: string) {
     return entity.charAt(0).toUpperCase() + entity.slice(1) + 's'
   }
+
+  const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
   return (
     <>
@@ -106,9 +113,25 @@ const Home: React.FC = () => {
             horizontal: 'right'
           }}
           message={message}
-          autoHideDuration={3000}
+          autoHideDuration={4000}
+          transitionDuration={{
+            enter: 1500,
+            exit: 1500
+          }}
           color="primary"
-        />
+        >
+          <Alert
+            severity="success"
+            sx={{
+              width: '100%',
+            }}
+            style={{
+              backgroundColor: theme.palette.primary.main
+            }}
+          >
+            { message }
+          </Alert>
+        </Snackbar>
       </Grid>
     </>
   );

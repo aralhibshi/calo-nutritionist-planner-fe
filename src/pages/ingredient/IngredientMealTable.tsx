@@ -26,7 +26,6 @@ const IngredientMealTable: React.FC = () => {
 
   const theme = useTheme();
 
-
   async function loadMeals() {
     try {
       setLoading(true);
@@ -80,7 +79,13 @@ const IngredientMealTable: React.FC = () => {
           }}
           id='table'
         >
-          <thead>
+          <thead
+            style={{
+              position: 'sticky',
+              top: 0,
+              background: 'white',
+            }}
+          >
             <tr>
               <th>
                 Meal Name&nbsp;
