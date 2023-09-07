@@ -4,10 +4,9 @@ const mealValidationSchema = yup.object({
   name: yup
     .string()
     .required('Name is required'),
-  category: yup
-    .string(),
   description: yup
-    .string(),
+    .string()
+    .required("Description is required"),
   components: yup
     .array()
     .min(1)
