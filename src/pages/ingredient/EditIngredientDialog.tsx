@@ -17,6 +17,7 @@ import { FormControl, InputLabel } from "@mui/material";
 import IngredientPieChart from "./IngredientPieChart";
 import IngredientBarChart from "./IngredientBarChart";
 import useIngredientStore from "../../stores/ingredientStore";
+import useNotificationStore from "../../stores/notificationStore";
 import Slider from '@mui/material/Slider';
 import Divider from "@mui/material/Divider";
 import IngredientComponentTable from "./IngredientComponentTable";
@@ -38,15 +39,19 @@ export default function EditIngredientDialog({
   onIngredientUpdated,
 }: EditIngredientDialogProps) {
   const [loading, setLoading] = useState(false);
+  const [currentTable, setcurrentTable] = useState('components')
   const closeFormDialog = () => {
     setOpen(false);
   };
-
   const {
     selectedIngredient,
     editData,
     setEditData
   } = useIngredientStore()
+  const {
+    setNotify,
+    setMessage
+  } = useNotificationStore()
 
   useEffect(() => {
     if (selectedIngredient) {
@@ -80,7 +85,8 @@ export default function EditIngredientDialog({
 
           onIngredientUpdated(updatedIngredient);
         }
-
+        setNotify(true);
+        setMessage('Ingredient Updated')
         closeFormDialog();
       } catch (error) {
         console.log("Error:", error);
@@ -137,6 +143,14 @@ export default function EditIngredientDialog({
     setEditData(data);
   }
 
+  function formattedCalories() {
+    if (editData.calories <= 10.000) {
+      return editData.calories * 10
+    } else {
+      return 100
+    }
+  }
+
   const handleDecimalChange = (e: any) => {
     formik.handleChange(e);
 
@@ -146,14 +160,6 @@ export default function EditIngredientDialog({
     calculateData('decimalChange', data);
   };
 
-  function formattedCalories() {
-    if (editData.calories <= 10.000) {
-      return editData.calories * 10
-    } else {
-      return 100
-    }
-  }
-
   const handleUnitChange = (e: any) => {
     formik.handleChange(e)
 
@@ -162,6 +168,17 @@ export default function EditIngredientDialog({
 
     setEditData(data);
   }
+
+  const handleTableChange = (e: any) => {
+    console.log(e.target.value)
+    setcurrentTable(e.target.value);
+  };
+
+  const entityTable = currentTable === 'components'
+  ? <IngredientComponentTable/>
+  : currentTable === 'meals'
+  ? <IngredientMealTable/>
+  : null;
 
   function progressColor() {
     if (editData.rating === 'High') {
@@ -524,29 +541,32 @@ export default function EditIngredientDialog({
                       }}
                     >
                       <ToggleButtonGroup
+                        value={currentTable}
+                        exclusive
+                        onChange={handleTableChange}
                         style={{
                           marginTop: '20px',
                           marginBottom: '20px'
                         }}
-                        exclusive
-                        // onChange={handlej}
                       >
                         <ToggleButton
-                          value="left"
-                          aria-label="left aligned"
+                          value="components"
+                          aria-label="components"
                           color="primary"
                         >
                           Components
                         </ToggleButton>
                         <ToggleButton
-                          value="center"
-                          aria-label="centered"
+                          value="meals"
+                          aria-label="meals"
+                          color="primary"
                         >
                           Meals
                         </ToggleButton>
                       </ToggleButtonGroup>
-                      <IngredientComponentTable/>
-                      {/* <IngredientMealTable/> */}
+
+                      { entityTable }
+                      
                     </div>
                   </div>
                   <DialogActions

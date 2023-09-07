@@ -1,29 +1,23 @@
 // import { IIngredientData, IIngredient } from '../interfaces';
 import { IComponent, IComponentData, IComponentGetAPI } from '../interfaces';
 import { fetchData } from './baseApi';
-import createError from 'http-errors';
+
 const baseURL = process.env.REACT_APP_API_BASE_URL
 
 export async function createComponent(
   component: IComponentData
 ): Promise<IComponent> {
-  try {
-    const response = await fetchData(`${baseURL}component`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(component),
-    });
+  const response = await fetchData(`${baseURL}component`,
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(component),
+  });
 
-    console.log(response);
-    return response;
-  } catch (err) {
-    throw createError(500, 'Internal Server Error', {
-      details: 'An error occurred while fetching matching component:',
-      err,
-    });
-  }
+  console.log(response);
+  return response;
 }
 
 export async function fetchComponents(
@@ -32,21 +26,24 @@ export async function fetchComponents(
   const url = baseURL + `components?skip=${data.skip}&take=${data.take}`
 
   if (data.name) {
-    const response = await fetchData(`${url}&name=${data.name}`, {
+    const response = await fetchData(`${url}&name=${data.name}`,
+    {
       method: 'GET'
     });
 
     console.log(response);
     return response;
   } else if (data.ingredient_id) {
-    const response = await fetchData(`${url}&ingredient_id=${data.ingredient_id}`, {
+    const response = await fetchData(`${url}&ingredient_id=${data.ingredient_id}`,
+    {
       method: 'GET'
     });
 
     console.log(response);
     return response;
   } else {
-    const response = await fetchData(url, {
+    const response = await fetchData(url,
+    {
       method: 'GET'
     });
     

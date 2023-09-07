@@ -1,29 +1,22 @@
 import { IIngredientData, IIngredient, IIngredientGetAPI } from '../interfaces';
 import { fetchData } from './baseApi';
-import createError from 'http-errors';
 
 const baseURL = process.env.REACT_APP_API_BASE_URL;
 
 export async function createIngredient(
   ingredient: IIngredientData
 ): Promise<IIngredient> {
-  try {
-    const response = await fetchData(`${baseURL}ingredient`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(ingredient),
-    });
+  const response = await fetchData(`${baseURL}ingredient`,
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(ingredient),
+  });
 
-    console.log(response);
-    return response.data;
-  } catch (err) {
-    throw createError(500, 'Internal Server Error', {
-      details: 'An error occurred while fetching matching ingredient:',
-      err,
-    });
-  }
+  console.log(response);
+  return response.data;
 }
 
 export async function fetchIngredients(
@@ -32,14 +25,16 @@ export async function fetchIngredients(
   const url = baseURL + `ingredients?skip=${data.skip}&take=${data.take}`
 
   if (data.name) {
-    const response = await fetchData(`${url}&name=${data.name}`, {
+    const response = await fetchData(`${url}&name=${data.name}`,
+    {
       method: 'GET'
     });
 
     console.log(response);
     return response;
   } else {
-    const response = await fetchData(url, {
+    const response = await fetchData(url,
+    {
       method: 'GET'
     });
 
@@ -52,28 +47,21 @@ export async function updateIngredient(
   ingredient: IIngredientData,
   formData: IIngredientData
 ): Promise<IIngredient> {
-  try {
-    const id = ingredient.id;
-    delete ingredient.id;
-    console.log(formData);
-    const response = await fetchData(
-      `${baseURL}ingredient/update?id=${id}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData),
-      }
-    );
+  const id = ingredient.id;
+  delete ingredient.id;
 
-    console.log(response);
+  console.log(formData);
 
-    return response.data;
-  } catch (err) {
-    throw createError(500, 'Internal Server Error', {
-      details: 'An error occurred while updating the ingredient:',
-      error: err,
-    });
+  const response = await fetchData(`${baseURL}ingredient/update?id=${id}`,
+  {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData),
   }
+);
+
+  console.log(response);
+  return response.data;
 }

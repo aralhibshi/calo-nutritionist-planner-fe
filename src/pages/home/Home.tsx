@@ -1,6 +1,10 @@
+// React
+import { useEffect, useState } from 'react';
+
 // Material UI
 import { Typography } from '@mui/material';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import Grid from '@mui/material/Grid';
 
 // Components
 import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
@@ -17,10 +21,26 @@ import MealTable from "../meal/MealTable";
 
 // Stores
 import useEntityStore from '../../stores/entityStore';
+import useNotificationStore from '../../stores/notificationStore';
+
+interface State extends SnackbarOrigin {
+  open: boolean;
+}
 
 
 const Home: React.FC = () => {
-  const { entity } = useEntityStore();
+  const {
+    entity
+  } = useEntityStore();
+  const {
+    notify,
+    setNotify,
+    message
+  } = useNotificationStore();
+
+  useEffect(() => {
+    setNotify(false);
+  }, [])
 
   const entityTable = entity === 'ingredient'
   ? <IngredientTable/>
@@ -63,17 +83,33 @@ const Home: React.FC = () => {
           </Typography>
           { addEntityButton }
         </div>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignContent: 'center',
-          width: 'auto'
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignContent: 'center',
+            width: 'auto'
           }}
         >
         <SearchBar/>
         </div>
       { entityTable }
       <PaginationFooter/>
+      <Grid>
+        <Snackbar
+          open={notify}
+          onClose={() => {
+            setNotify(false)
+          }}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+          }}
+          message={message}
+          autoHideDuration={3000}
+          color="primary"
+        />
+      </Grid>
     </>
   );
 };

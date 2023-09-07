@@ -28,7 +28,7 @@ const IngredientComponentTable: React.FC = () => {
       if (selectedIngredient) {
         const data = {
           skip: 0,
-          take: 9,
+          take: 200,
           ingredient_id: selectedIngredient.id
         }
         const response = await ComponentApi.fetchComponents(data);
