@@ -102,8 +102,8 @@ const Home: React.FC = () => {
             setNotify(false)
           }}
           anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center'
+            vertical: 'bottom',
+            horizontal: 'right'
           }}
           message={message}
           autoHideDuration={3000}
