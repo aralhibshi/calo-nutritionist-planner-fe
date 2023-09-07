@@ -1,5 +1,6 @@
 import { IMeal, IMealData, IMealGetAPI } from '../interfaces';
 import { fetchData } from './baseApi';
+import createError from 'http-errors';
 
 const baseURL = process.env.REACT_APP_API_BASE_URL
 
@@ -67,4 +68,34 @@ export async function searchMeal(index: string, skip: number): Promise<any> {
 
   console.log(response);
   return response;
+}
+
+export async function updateMeal(
+  meal: IMealData,
+  formData: IMealData
+): Promise<IMeal> {
+  try {
+    const id = meal.id;
+    delete meal.id;
+    console.log("update formdata",formData);
+    const response = await fetchData(
+      `${baseURL}meal/update?id=${id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+
+    console.log(response);
+
+    return response.data;
+  } catch (err) {
+    throw createError(500, 'Internal Server Error', {
+      details: 'An error occurred while updating the component:',
+      error: err,
+    });
+  }
 }

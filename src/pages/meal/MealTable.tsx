@@ -6,14 +6,17 @@ import CircularProgress from "@mui/material/CircularProgress";
 import * as mealApi from "../../network/mealApi";
 import useSearchStore from "../../stores/searchStore";
 import useEntityStore from "../../stores/entityStore";
-import { IComponentIngredient, IMeal, IMealComponent } from "../../interfaces";
+import { IComponentIngredient, IMeal, IMealComponent, IMealData } from "../../interfaces";
 import useMealStore from "../../stores/mealStore";
 import CreateMealDialog from "./CreateMealDialog";
+import EditMealDialog from "./EditMealDialog";
 
 const MealTable: React.FC = () => {
-  const [meals, setMeals] = useState<IMeal[]>([]);
+  const [meals, setMeals] = useState<IMealData[]>([]);
   const { selectedMeal, setSelectedMeal } = useMealStore();
   const [open, setOpen] = useState(false);
+
+  const [openEditDialog, setOpenEditDialog] = useState(false);
 
   const { setEntityCount, skip } = useEntityStore();
   const { loading, setLoading, setSearchResult, searchResult } =
@@ -29,8 +32,6 @@ const MealTable: React.FC = () => {
       const data = {
         skip: skip,
         take: 9,
-        name: undefined,
-        component_id: undefined
       }
       const response = await mealApi.fetchMeals(data);
       setEntityCount(response.data.count);
@@ -56,6 +57,35 @@ const MealTable: React.FC = () => {
       newComponent,
     ]);
     loadMeals()
+  };
+  const handleEditClick = (row: any) => {
+    setSelectedMeal(row);
+    setOpenEditDialog(true);
+    setTimeout(() => {
+    }, 0);
+    setTimeout(() => {
+      const barChart = document.querySelector(
+        ".css-18ftw0b-MuiChartsSurface-root"
+      );
+      barChart?.setAttribute("viewBox", "0 15 400 280");
+    }, 20);
+  };
+
+  
+// try IMealData ?
+  const handleMealUpdated = (updatedMeal: IMealData) => {
+    const updatedIndex = meals.findIndex(
+      (meal) => meal.id === updatedMeal.id
+    );
+
+    if (updatedIndex !== -1) {
+      const updatedMeals = [...meals];
+      updatedMeals[updatedIndex] = updatedMeal;
+      setMeals(updatedMeals);
+    }
+
+    setOpenEditDialog(false);
+    loadMeals();
   };
   
 
@@ -96,7 +126,7 @@ const MealTable: React.FC = () => {
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            {/* <th>Edit&nbsp;</th> */}
+            <th>Edit&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -133,13 +163,11 @@ const MealTable: React.FC = () => {
                   <td>{(totalFats).toFixed(3)}</td>
                   <td>{meal.unit}</td>
                   <td>{(totalPrice).toFixed(3)}</td>
-                  {/* <td>
-                    <IconButton
-                    // onClick={() => handleEditClick(component)}
-                    >
+                  <td>
+                    <IconButton onClick={() => handleEditClick(meal)}>
                       <EditIcon />
                     </IconButton>
-                  </td> */}
+                  </td>
                 </tr>
               );
             })
@@ -150,6 +178,13 @@ const MealTable: React.FC = () => {
           )}
         </tbody>
       </Table>
+      <EditMealDialog
+  key={selectedMeal?.id}
+  open={openEditDialog}
+  onClose={() => setOpenEditDialog(false)}
+  onMealUpdated={handleMealUpdated}
+  meal={selectedMeal}
+/>
       <CreateMealDialog onMealAdded={handleMealAdded}/>
     </>
   );

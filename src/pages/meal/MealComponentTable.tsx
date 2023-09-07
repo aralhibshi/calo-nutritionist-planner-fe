@@ -131,6 +131,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
     totalCalories = Number(totalFats*9 + totalCarbs*4 + totalProteins*4);
     console.log(totalCalories)
   });
+ 
 
   // console.log("Total Fats:", totalFats);
   // console.log("Total Carbs:", totalCarbs);
