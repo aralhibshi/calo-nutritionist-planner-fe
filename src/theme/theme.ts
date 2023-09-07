@@ -2,6 +2,9 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
+    // action: {
+    //   disabled: 'red'
+    // },
     primary: {
       main: '#57AE7F',
       light: '#B3DBC5',
@@ -19,7 +22,14 @@ const theme = createTheme({
       'Bebas Neue',
       'sans-serif'
     ].join(','),
+  },
+  transitions: {
+    duration: {
+      enteringScreen: 300,
+      leavingScreen: 300
+    } 
   }
+  
 });
 
 export default theme;

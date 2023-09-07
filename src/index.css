@@ -114,3 +114,12 @@ code {
 .green-text {
   color: #57AE7F
 }
+
+.orange-text {
+  color: orange;
+}
+
+/* :disabled {
+  color: black !important;
+  -webkit-text-fill-color: black !important;
+} */

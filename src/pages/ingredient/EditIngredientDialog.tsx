@@ -26,6 +26,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { useTheme } from "@mui/material";
 
 interface EditIngredientDialogProps {
   open: boolean;
@@ -58,6 +59,8 @@ export default function EditIngredientDialog({
       calculateData('useEffect', selectedIngredient);
     }
   }, [open]);
+
+  const theme = useTheme();
 
   const formik = useFormik({
     initialValues: {
@@ -442,7 +445,7 @@ export default function EditIngredientDialog({
                       margin="dense"
                       style={{
                         width: '38%',
-                        marginRight: '30px'
+                        marginRight: '30px',
                       }}
                     />
                     <TextField

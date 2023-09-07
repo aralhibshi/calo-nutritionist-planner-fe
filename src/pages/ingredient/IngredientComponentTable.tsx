@@ -78,7 +78,13 @@ const IngredientComponentTable: React.FC = () => {
           }}
           id='table'
         >
-          <thead>
+          <thead
+            style={{
+              position: 'sticky',
+              top: 0,
+              background: 'white',
+            }}
+          >
             <tr>
               <th>
                 Component Name&nbsp;
