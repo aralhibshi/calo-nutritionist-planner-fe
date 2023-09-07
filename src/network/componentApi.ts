@@ -52,32 +52,32 @@ export async function fetchComponents(
   }
 }
 
-// export async function updateComponent(
-//   component: IComponentData,
-//   formData: IComponentData
-// ): Promise<IComponent> {
-//   try {
-//     const id = component.id;
-//     delete component.id;
-//     console.log(formData);
-//     const response = await fetchData(
-//       `${baseURL}component/update?id=${id}`,
-//       {
-//         method: 'PUT',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(formData),
-//       }
-//     );
+export async function updateComponent(
+  component: IComponentData,
+  formData: IComponentData
+): Promise<IComponent> {
+  try {
+    const id = component.id;
+    delete component.id;
+    console.log("update formdata",formData);
+    const response = await fetchData(
+      `${baseURL}component/update?id=${id}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      }
+    );
 
-//     console.log(response);
+    console.log(response);
 
-//     return response.data;
-//   } catch (err) {
-//     throw createError(500, 'Internal Server Error', {
-//       details: 'An error occurred while updating the component:',
-//       error: err,
-//     });
-//   }
-// }
+    return response.data;
+  } catch (err) {
+    throw createError(500, 'Internal Server Error', {
+      details: 'An error occurred while updating the component:',
+      error: err,
+    });
+  }
+}

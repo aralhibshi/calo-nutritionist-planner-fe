@@ -9,7 +9,7 @@ const useComponentStore = create<IComponentStore>((set) => ({
   selectedComponents: [],
   setSelectedComponents: (components) => set({ selectedComponents: components }),
   ingredientComponents: null,
-  setIngredientComponents: (components) => set({ ingredientComponents: components })
+  setIngredientComponents: (components) => set({ ingredientComponents: components }),
 }));
 
 export default useComponentStore;
