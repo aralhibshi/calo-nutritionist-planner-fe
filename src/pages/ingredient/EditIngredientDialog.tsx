@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IIngredientData } from "../../interfaces";
+import { IComponentIngredientDetails, IIngredientData } from "../../interfaces";
 import * as IngredientApi from "../../network/ingredientApi";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -47,7 +47,7 @@ export default function EditIngredientDialog({
     selectedIngredient,
     editData,
     setEditData
-  } = useIngredientStore()
+  } = useIngredientStore();
   const {
     setNotify,
     setMessage

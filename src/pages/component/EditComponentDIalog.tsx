@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IComponent, IComponentData, IIngredientData } from "../../interfaces";
+import { IComponent, IComponentData } from "../../interfaces";
 import * as ComponentApi from "../../network/componentApi";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -15,9 +15,10 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import useComponentStore from "../../stores/componentStore";
 import useIngredientStore from "../../stores/ingredientStore";
-import { FormControl, InputLabel, Divider } from "@mui/material";
+import { Divider } from "@mui/material";
 import ComponentSearchBar from "./ComponentSearchBar";
 import ComponentIngredientTable from "./ComponentIngredientTable";
+import useNotificationStore from "../../stores/notificationStore";
 
 interface EditComponentDialogProps {
   open: boolean;
@@ -36,6 +37,10 @@ export default function EditComponentDialog({
   const { selectedComponent, setSelectedComponent } = useComponentStore();
   const { selectedIngredients, setSelectedIngredients, calories } =
     useIngredientStore();
+  const {
+    setNotify,
+    setMessage
+  } = useNotificationStore()
 
   const closeFormDialog = () => {
     setSelectedIngredients([]);
@@ -68,7 +73,8 @@ export default function EditComponentDialog({
 
           onComponentUpdated(updatedComponent);
         }
-
+        setNotify(true);
+        setMessage('Component Updated')
         closeFormDialog();
       } catch (error) {
         console.log("Error:", error);

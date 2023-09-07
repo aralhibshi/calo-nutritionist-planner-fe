@@ -110,3 +110,7 @@ code {
 .MuiPopper-root, .MuiPopper-root * {
   z-index: 1500
 }
+
+.green-text {
+  color: #57AE7F
+}

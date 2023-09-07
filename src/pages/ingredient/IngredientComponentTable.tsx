@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
-import TableContainer from "@mui/material/TableContainer";
-import Table from "@mui/material/Table";
-import CircularProgress from "@mui/material/CircularProgress";
-import { Backdrop } from "@mui/material";
+import React, { useEffect } from 'react';
+import TableContainer from '@mui/material/TableContainer';
+import Table from '@mui/material/Table';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Backdrop } from '@mui/material';
 import * as ComponentApi from '../../network/componentApi'
-import useIngredientStore from "../../stores/ingredientStore";
-import useComponentStore from "../../stores/componentStore";
-import useSearchStore from "../../stores/searchStore";
-import { IComponent } from "../../interfaces";
+import useIngredientStore from '../../stores/ingredientStore';
+import useComponentStore from '../../stores/componentStore';
+import useSearchStore from '../../stores/searchStore';
+import { IComponent , IComponentIngredientDetails } from '../../interfaces';
+import { useTheme } from '@mui/material/styles';
 
 const IngredientComponentTable: React.FC = () => {
   const {
@@ -16,11 +17,14 @@ const IngredientComponentTable: React.FC = () => {
   } = useSearchStore();
   const {
     selectedIngredient,
+    editData
   } = useIngredientStore();
   const {
     ingredientComponents,
-    setIngredientComponents
+    setIngredientComponents,
   } = useComponentStore();
+
+  const theme = useTheme();
 
   async function loadComponents() {
     try {
@@ -51,13 +55,13 @@ const IngredientComponentTable: React.FC = () => {
       {loading && (
         <Backdrop
           sx={{
-            color: "#fff",
+            color: '#fff',
             zIndex: (theme) => theme.zIndex.drawer + 1,
           }}
           open={true}
         >
           <CircularProgress
-            color="inherit"
+            color='inherit'
           />
         </Backdrop>
       )}
@@ -69,7 +73,7 @@ const IngredientComponentTable: React.FC = () => {
         <Table
           sx={{
             margin: '0 0 0 20px',
-            userSelect: "none",
+            userSelect: 'none',
             width: '740px'
           }}
           id='table'
@@ -88,42 +92,103 @@ const IngredientComponentTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-          {ingredientComponents && Array.isArray(ingredientComponents) && ingredientComponents.length > 0 ? (
+            {ingredientComponents && Array.isArray(ingredientComponents) && ingredientComponents.length > 0 ? (
               ingredientComponents.map((component: IComponent, index: number) => {
-                let totalFats = 0;
-                let totalCarbs = 0;
-                let totalProteins = 0;
-                let totalCalories = 0;
-                let totalPrice = 0;
+                const data: IComponentIngredientDetails = {
+                  ingredient_id: '',
+                  calories: 0,
+                  protein: 0,
+                  carbs: 0,
+                  fats: 0,
+                  price: 0,
+                  quantity: 0
+                }
+
                 if (component.components_ingredients && Array.isArray(component.components_ingredients)) {
                   component.components_ingredients.forEach((el) => {
-                    totalFats += Number(el.ingredient.fats*el.ingredient_quantity);
-                    totalCarbs += Number(el.ingredient.carbs*el.ingredient_quantity);
-                    totalProteins += Number(el.ingredient.protein*el.ingredient_quantity);
-                    totalCalories += totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
-                    totalPrice += Number(el.ingredient.price* el.ingredient_quantity);
+
+                    if (selectedIngredient && el.ingredient_id !== selectedIngredient.id) {
+                      data.ingredient_id = el.ingredient_id;
+                      data.protein += Number(el.ingredient.protein)
+                      data.carbs += Number(el.ingredient.carbs)
+                      data.fats += Number(el.ingredient.fats)
+                      data.calories += Number(data.protein * 4 + data.carbs * 4 + data.fats * 9)
+                      data.price += Number(el.ingredient.price )
+                    } else {
+                      data.protein += Number(editData.protein)
+                      data.carbs += Number(editData.carbs)
+                      data.fats += Number(editData.fats)
+                      data.calories += Number(data.protein * 4 + data.carbs * 4 + data.fats * 9)
+                      data.price += Number(editData.price)
+                      data.quantity += Number(el.ingredient_quantity)
+                    }
                   });
-                  totalFats = Number(totalFats.toFixed(3));
-                  totalCarbs = Number(totalCarbs.toFixed(3));
-                  totalProteins = Number(totalProteins.toFixed(3));
-                  totalCalories = Number(totalCalories.toFixed(3));
-                  totalPrice = Number(totalPrice.toFixed(3));
+
+                  data.protein = Number(data.protein.toFixed(3));
+                  data.carbs = Number(data.carbs .toFixed(3));
+                  data.fats = Number(data.fats.toFixed(3));
+                  data.calories = Number(data.calories.toFixed(3));
+                  data.price = Number(data.price.toFixed(3));
                 }
                 return (
-                  <tr key={index} style={{height:"52px"}}>
+                  <tr key={index} style={{height:'52px'}}>
                     <td>{component.name}</td>
-                    <td>{totalCalories}</td>
-                    <td>{totalProteins}</td>
-                    <td>{totalCarbs}</td>
-                    <td>{totalFats}</td>
+                    <td
+                      // style={{
+                      //   color: selectedIngredient && editData.calories !== 
+                      //     ? theme.palette.primary.main
+                      //     : 'inherit',
+                      // }}
+                    >
+                      {Number((data.calories / data.quantity).toFixed(3))}
+                    </td>
+                    <td
+                      style={{
+                        color: selectedIngredient && editData.protein !== selectedIngredient.protein
+                          ? theme.palette.primary.main
+                          : 'inherit',
+                      }}
+                    >
+                      {Number((data.protein / data.quantity).toFixed(3))}
+                    </td>
+                    <td
+                      style={{
+                        color: selectedIngredient && editData.carbs !== selectedIngredient.carbs
+                          ? theme.palette.primary.main
+                          : 'inherit',
+                      }}
+                    >
+                      {Number((data.carbs / data.quantity).toFixed(3))}
+                    </td>
+                    <td
+                      style={{
+                        color: selectedIngredient && editData.fats !== selectedIngredient.fats
+                          ? theme.palette.primary.main
+                          : 'inherit',
+                      }}
+                    >
+                      {Number((data.fats / data.quantity).toFixed(3))}
+                    </td>
                     <td>{component.unit}</td>
-                    <td>{totalPrice}</td>
+                    <td
+                      style={{
+                        color: selectedIngredient && editData.price !== selectedIngredient.price
+                          ? theme.palette.primary.main
+                          : 'inherit',
+                      }}
+                    >
+                      {Number((data.price / data.quantity).toFixed(3))}
+                    </td>
                   </tr>
                 );
               })
             ) : (
               <tr>
-                <td colSpan={8}>No components found.</td>
+                <td
+                  colSpan={8}
+                >
+                  No components found.
+                </td>
               </tr>
             )}
           </tbody>
