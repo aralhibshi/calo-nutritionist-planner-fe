@@ -15,36 +15,33 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import useComponentStore from "../../stores/componentStore";
 import useIngredientStore from "../../stores/ingredientStore";
-import { FormControl, InputLabel,Divider } from "@mui/material";
+import { FormControl, InputLabel, Divider } from "@mui/material";
 import ComponentSearchBar from "./ComponentSearchBar";
 import ComponentIngredientTable from "./ComponentIngredientTable";
 
 interface EditComponentDialogProps {
-    open: boolean;
-    onClose: () => void;
+  open: boolean;
+  onClose: () => void;
   onComponentUpdated: (updatedComponent: IComponent) => void;
   component: IComponentData | null;
-
 }
 
 export default function EditComponentDialog({
-    open,
-    onClose,
-    component,
+  open,
+  onClose,
+  component,
   onComponentUpdated,
 }: EditComponentDialogProps) {
-
   const [loading, setLoading] = useState(false);
-  const {selectedComponent, setSelectedComponent } = useComponentStore();
-  const { selectedIngredients, setSelectedIngredients, calories } = useIngredientStore();
-  
+  const { selectedComponent, setSelectedComponent } = useComponentStore();
+  const { selectedIngredients, setSelectedIngredients, calories } =
+    useIngredientStore();
 
   const closeFormDialog = () => {
     setSelectedIngredients([]);
     formik.resetForm();
     onClose();
   };
-
 
   const formik = useFormik({
     initialValues: {
@@ -57,12 +54,12 @@ export default function EditComponentDialog({
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        console.log('stuck')
+        console.log("stuck");
         setLoading(true);
         console.log("Form data:", values);
 
         if (selectedComponent) {
-            console.log('hello there')
+          console.log("hello there");
           const updatedComponent = await ComponentApi.updateComponent(
             selectedComponent,
             values
@@ -89,12 +86,14 @@ export default function EditComponentDialog({
   };
 
   useEffect(() => {
-    if(selectedIngredients.length > 0)
+    if (selectedIngredients.length > 0)
       formik.setFieldValue("ingredients", selectedIngredients);
     else
-      formik.setFieldValue("ingredients",selectedComponent?.components_ingredients)
+      formik.setFieldValue(
+        "ingredients",
+        selectedComponent?.components_ingredients
+      );
   }, [selectedIngredients]);
-
 
   return (
     <>
@@ -109,14 +108,20 @@ export default function EditComponentDialog({
           <CircularProgress />
         </Box>
       ) : (
-        <Dialog open={open} onClose={closeFormDialog}>
+        <Dialog
+          style={{ textAlign: "center" }}
+          fullWidth
+          maxWidth="lg"
+          open={open}
+          onClose={closeFormDialog}
+        >
           <DialogTitle>Update Component</DialogTitle>
           <DialogContent>
             <form onSubmit={handleFormSubmit}>
-            <div
+              <div
                 style={{
                   display: "flex",
-                  justifyContent: "space-between"
+                  justifyContent: "space-between",
                 }}
               >
                 {/* Left side */}
@@ -125,47 +130,50 @@ export default function EditComponentDialog({
                     flex: 0.5,
                   }}
                 >
-              <TextField
-                label="Name"
-                name="name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              />
-              <TextField
-                label="Category"
-                name="category"
-                value={formik.values.category}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              />
-              <TextField
-                label="Description"
-                name="description"
-                value={formik.values.description}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              />
+                  <TextField
+                    label="Name"
+                    name="name"
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    margin="dense"
+                  />
+                  <TextField
+                    label="Category"
+                    name="category"
+                    value={formik.values.category}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    margin="dense"
+                  />
+                  <TextField
+                    label="Description"
+                    name="description"
+                    value={formik.values.description}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    margin="dense"
+                  />
 
-              <Select
-                label="Unit"
-                name="unit"
-                value={formik.values.unit}
-                onChange={formik.handleChange}
-                fullWidth
-                margin="dense"
-              >
-                <MenuItem value="ml">ml</MenuItem>
-                <MenuItem value="g">g</MenuItem>
-              </Select>
-              </div>
+                  <Select
+                    label="Unit"
+                    name="unit"
+                    value={formik.values.unit}
+                    onChange={formik.handleChange}
+                    fullWidth
+                    margin="dense"
+                    style={{
+                      textAlign: 'left'
+                    }}
+                  >
+                    <MenuItem value="ml">ml</MenuItem>
+                    <MenuItem value="g">g</MenuItem>
+                  </Select>
+                </div>
                 <Divider
                   orientation="vertical"
-                  flexItem 
-                  style={{marginLeft:'20px'}}
+                  flexItem
+                  style={{ marginLeft: "20px" }}
                 />
 
                 {/* Right side */}
@@ -179,7 +187,7 @@ export default function EditComponentDialog({
                     flexDirection: "column",
                     marginLeft: "20px",
                   }}
-                >       
+                >
                   <ComponentSearchBar />
                   <ComponentIngredientTable />
                 </div>
@@ -199,4 +207,4 @@ export default function EditComponentDialog({
     </>
   );
 }
-export {}
+export {};
