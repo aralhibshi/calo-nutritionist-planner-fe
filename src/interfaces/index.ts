@@ -215,8 +215,8 @@ export interface IIngredientStore {
 export interface IComponentStore {
   addOpen: boolean;
   setAddOpen: (isOpen: boolean) => void;
-  selectedComponent: IComponentData | null;
-  setSelectedComponent: (component: IComponentData | null) => void;
+  selectedComponent: IComponent | null;
+  setSelectedComponent: (component: IComponent | null) => void;
   selectedComponents: IMealComponent[];
   setSelectedComponents: (components: IMealComponent[]) => void;
   ingredientComponents: any,
