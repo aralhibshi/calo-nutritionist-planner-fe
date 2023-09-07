@@ -86,7 +86,7 @@ export default function EditMealDialogProps({
       formik.setFieldValue("components", selectedComponents);
     else
       formik.setFieldValue(
-        "ingredients",
+        "components",
         selectedMeal?.meals_components
       );
   }, [selectedComponents]);
