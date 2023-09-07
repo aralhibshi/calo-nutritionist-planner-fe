@@ -12,13 +12,21 @@ import ingredientValidationSchema from "../../validation/ingredientFormValidatio
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import useIngredientStore from "../../stores/ingredientStore";
+import useNotificationStore from "../../stores/notificationStore";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 export default function CreateIngredientDialog({
   onIngredientAdded,
 }: IAddIngredientDialogProps) {
   const [loading, setLoading] = useState(false);
-  const { addOpen, setAddOpen } = useIngredientStore();
+  const {
+    addOpen,
+    setAddOpen
+  } = useIngredientStore();
+  const {
+    setNotify,
+    setMessage
+  } = useNotificationStore()
 
   const closeFormDialog = () => {
     formik.resetForm();
@@ -46,6 +54,8 @@ export default function CreateIngredientDialog({
         console.log("New ingredient:", newIngredient);
 
         onIngredientAdded(newIngredient);
+        setNotify(true);
+        setMessage('Ingredient Created');
         closeFormDialog();
       } catch (error) {
         console.log("Error:", error);
@@ -55,11 +65,6 @@ export default function CreateIngredientDialog({
       }
     },
   });
-
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    formik.handleSubmit(e);
-  };
 
   return (
     <>
@@ -77,7 +82,9 @@ export default function CreateIngredientDialog({
         <Dialog open={addOpen} onClose={closeFormDialog}>
           <DialogTitle>Create Ingredient</DialogTitle>
           <DialogContent>
-            <form onSubmit={handleFormSubmit}>
+            <form
+              onSubmit={formik.handleSubmit}
+              >
               <TextField
                 label="Name"
                 name="name"
