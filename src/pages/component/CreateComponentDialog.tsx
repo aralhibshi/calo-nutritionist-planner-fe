@@ -6,9 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import * as ComponentApi from "../../network/componentApi";
-import {
-  IAddComponentDialogProps
-} from "../../interfaces";
+import { IAddComponentDialogProps } from "../../interfaces";
 import { useFormik } from "formik";
 import componentValidationSchema from "../../validation/componentFormValidation";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -18,13 +16,24 @@ import { FormControl, InputLabel, MenuItem, Select, Divider } from "@mui/materia
 import ComponentSearchBar from "./ComponentSearchBar";
 import ComponentIngredientTable from "./ComponentIngredientTable";
 import useIngredientStore from "../../stores/ingredientStore";
+import useNotificationStore from "../../stores/notificationStore";
 
 export default function CreateComponentDialog({
   onComponentAdded,
 }: IAddComponentDialogProps) {
   const [loading, setLoading] = useState(false);
-  const { addOpen, setAddOpen } = useComponentStore();
-  const { selectedIngredients, setSelectedIngredients, calories } = useIngredientStore();
+  const {
+    addOpen,
+    setAddOpen
+  } = useComponentStore();
+  const {
+    selectedIngredients,
+    setSelectedIngredients
+  } = useIngredientStore();
+  const {
+    setNotify,
+    setMessage
+  } = useNotificationStore();
 
   const closeFormDialog = () => {
     setSelectedIngredients([])
@@ -50,6 +59,8 @@ export default function CreateComponentDialog({
         setSelectedIngredients([])
         console.log("New component:", response);
         onComponentAdded(response);
+        setNotify(true);
+        setMessage('Component Created');
         closeFormDialog();
       } catch (error) {
         console.log("Error:", error);

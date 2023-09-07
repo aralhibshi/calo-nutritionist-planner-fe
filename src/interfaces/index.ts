@@ -233,6 +233,14 @@ export interface IMealStore {
   setIngredientMeals: (meals: IMeal[]) => void;
 }
 
+// Notification Store
+export interface INotification {
+  notify: boolean;
+  setNotify: (status: boolean) => void;
+  message: string;
+  setMessage: (newMessage: string) => void;
+}
+
 // APIs ---
 
 // Ingredient Get

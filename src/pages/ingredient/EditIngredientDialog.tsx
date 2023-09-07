@@ -17,6 +17,7 @@ import { FormControl, InputLabel } from "@mui/material";
 import IngredientPieChart from "./IngredientPieChart";
 import IngredientBarChart from "./IngredientBarChart";
 import useIngredientStore from "../../stores/ingredientStore";
+import useNotificationStore from "../../stores/notificationStore";
 import Slider from '@mui/material/Slider';
 import Divider from "@mui/material/Divider";
 import IngredientComponentTable from "./IngredientComponentTable";
@@ -42,12 +43,15 @@ export default function EditIngredientDialog({
   const closeFormDialog = () => {
     setOpen(false);
   };
-
   const {
     selectedIngredient,
     editData,
     setEditData
   } = useIngredientStore()
+  const {
+    setNotify,
+    setMessage
+  } = useNotificationStore()
 
   useEffect(() => {
     if (selectedIngredient) {
@@ -81,7 +85,8 @@ export default function EditIngredientDialog({
 
           onIngredientUpdated(updatedIngredient);
         }
-
+        setNotify(true);
+        setMessage('Ingredient Updated')
         closeFormDialog();
       } catch (error) {
         console.log("Error:", error);

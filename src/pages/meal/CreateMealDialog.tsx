@@ -7,9 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import * as ComponentApi from "../../network/componentApi";
 import * as mealsApi from "../../network/mealApi"
-import {
-  IAddComponentDialogProps, IAddMealDialogProps
-} from "../../interfaces";
+import { IAddComponentDialogProps, IAddMealDialogProps } from "../../interfaces";
 import { useFormik } from "formik";
 import componentValidationSchema from "../../validation/componentFormValidation";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -20,13 +18,24 @@ import MealSearchBar from "./MealSearchBar";
 import MealComponentTable from "./MealComponentTable";
 import useComponentStore from "../../stores/componentStore";
 import mealValidationSchema from "../../validation/mealFormValidation";
+import useNotificationStore from "../../stores/notificationStore";
 
 export default function CreateMealDialog({
   onMealAdded,
 }: IAddMealDialogProps) {
   const [loading, setLoading] = useState(false);
-  const { addOpen, setAddOpen } = useMealStore();
-  const { selectedComponents, setSelectedComponents } = useComponentStore();
+  const {
+    addOpen,
+    setAddOpen
+  } = useMealStore();
+  const {
+    selectedComponents,
+    setSelectedComponents
+  } = useComponentStore();
+  const {
+    setNotify,
+    setMessage
+  } = useNotificationStore();
 
   const closeFormDialog = () => {
     setSelectedComponents([])
@@ -52,6 +61,8 @@ export default function CreateMealDialog({
         setSelectedComponents([])
         console.log("New meal:", response);
         onMealAdded(response);
+        setNotify(true);
+        setMessage('Meal Created');
         closeFormDialog();
       } catch (error) {
         console.log("Error:", error);
