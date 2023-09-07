@@ -8,6 +8,7 @@ import useIngredientStore from "../../stores/ingredientStore";
 import useMealStore from '../../stores/mealStore';
 import useSearchStore from "../../stores/searchStore";
 import { IComponentIngredient, IComponentIngredientDetails, IMeal, IMealComponent } from '../../interfaces';
+import { useTheme } from "@mui/material/styles";
 
 const IngredientMealTable: React.FC = () => {
   const {
@@ -22,6 +23,9 @@ const IngredientMealTable: React.FC = () => {
     ingredientMeals,
     setIngredientMeals
   } = useMealStore();
+
+  const theme = useTheme();
+
 
   async function loadMeals() {
     try {
@@ -47,7 +51,7 @@ const IngredientMealTable: React.FC = () => {
   useEffect(() => {
     loadMeals();
   }, []);
-
+  
   return (
     <>
       {loading && (
@@ -130,11 +134,43 @@ const IngredientMealTable: React.FC = () => {
                   <tr key={index} style={{height:"52px"}}>
                     <td>{meal.name}</td>
                     <td>{(data.calories).toFixed(3)}</td>
-                    <td>{(data.protein).toFixed(3)}</td>
-                    <td>{(data.carbs).toFixed(3)}</td>
-                    <td>{(data.fats).toFixed(3)}</td>
+                    <td
+                      style={{
+                        color: selectedIngredient && editData.protein !== selectedIngredient.protein
+                          ? theme.palette.primary.main
+                          : 'inherit',
+                      }}
+                    >
+                      {(data.protein).toFixed(3)}
+                    </td>
+                    <td
+                      style={{
+                        color: selectedIngredient && editData.carbs !== selectedIngredient.carbs
+                          ? theme.palette.primary.main
+                          : 'inherit',
+                      }}
+                    >
+                      {(data.carbs).toFixed(3)}
+                    </td>
+                    <td
+                      style={{
+                        color: selectedIngredient && editData.fats !== selectedIngredient.fats
+                          ? theme.palette.primary.main
+                          : 'inherit',
+                      }}
+                    >
+                      {(data.fats).toFixed(3)}
+                    </td>
                     <td>{meal.unit}</td>
-                    <td>{(data.price).toFixed(3)}</td>
+                    <td
+                      style={{
+                        color: selectedIngredient && editData.price !== selectedIngredient.price
+                          ? theme.palette.primary.main
+                          : 'inherit',
+                      }}
+                    >
+                      {(data.price).toFixed(3)}
+                    </td>
                   </tr>
                 );
               })

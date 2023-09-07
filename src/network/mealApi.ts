@@ -74,28 +74,22 @@ export async function updateMeal(
   meal: IMealData,
   formData: IMealData
 ): Promise<IMeal> {
-  try {
-    const id = meal.id;
-    delete meal.id;
-    console.log("update formdata",formData);
-    const response = await fetchData(
-      `${baseURL}meal/update?id=${id}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      }
-    );
+  const id = meal.id;
+  delete meal.id;
+  console.log("update formdata",formData);
 
-    console.log(response);
+  const response = await fetchData(
+    `${baseURL}meal/update?id=${id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    }
+  );
 
-    return response.data;
-  } catch (err) {
-    throw createError(500, 'Internal Server Error', {
-      details: 'An error occurred while updating the component:',
-      error: err,
-    });
-  }
+  console.log(response);
+
+  return response.data;
 }
