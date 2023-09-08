@@ -18,6 +18,7 @@ import { FormControl, InputLabel, Divider } from "@mui/material";
 import MealSearchBar from "./MealSearchBar";
 import MealComponentTable from "./MealComponentTable";
 import useComponentStore from "../../stores/componentStore";
+import useNotificationStore from "../../stores/notificationStore";
 
 interface EditMealDialogProps {
   open: boolean;
@@ -35,6 +36,10 @@ export default function EditMealDialogProps({
   const [loading, setLoading] = useState(false);
   const { selectedMeal, setSelectedMeal } = useMealStore();
   const { selectedComponents, setSelectedComponents } = useComponentStore();
+  const {
+    setNotify,
+    setMessage
+  } = useNotificationStore();
 
   const closeFormDialog = () => {
     setSelectedComponents([]);
@@ -61,7 +66,8 @@ export default function EditMealDialogProps({
           console.log("hello there");
           const updatedMeal = await MealApi.updateMeal(selectedMeal, values);
           console.log("Updated component:", updatedMeal);
-
+          setNotify(true);
+          setMessage('Meal Updated')
           onMealUpdated(updatedMeal);
         }
 
