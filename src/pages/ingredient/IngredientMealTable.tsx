@@ -6,15 +6,16 @@ import { Backdrop } from "@mui/material";
 import * as MealApi from '../../network/mealApi';
 import useIngredientStore from "../../stores/ingredientStore";
 import useMealStore from '../../stores/mealStore';
-import useSearchStore from "../../stores/searchStore";
+import useEntityStore from "../../stores/entityStore";
 import { IComponentIngredient, IComponentIngredientDetails, IMeal, IMealComponent } from '../../interfaces';
 import { useTheme } from "@mui/material/styles";
+import useSearchStore from "../../stores/searchStore";
 
 const IngredientMealTable: React.FC = () => {
   const {
     loading,
     setLoading
-  } = useSearchStore()
+  } = useEntityStore()
   const {
     selectedIngredient,
     editData
@@ -23,11 +24,15 @@ const IngredientMealTable: React.FC = () => {
     ingredientMeals,
     setIngredientMeals
   } = useMealStore();
+  const {
+    setSearchResult
+  } = useSearchStore();
 
   const theme = useTheme();
 
   async function loadMeals() {
     try {
+      setSearchResult(false);
       setLoading(true);
       if (selectedIngredient) {
         const data = {

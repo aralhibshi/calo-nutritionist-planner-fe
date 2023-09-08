@@ -10,11 +10,11 @@ const PaginationFooter: React.FC = () => {
     take,
     currentPage,
     setCurrentPage,
-    searchCurrentPage,
-    setSearchCurrentPage
   } = useEntityStore();
   const {
-    searchResult
+    searchResult,
+    searchCurrentPage,
+    setSearchCurrentPage
   } = useSearchStore();
 
   useEffect(() => {
@@ -26,8 +26,20 @@ const PaginationFooter: React.FC = () => {
   const totalPages = entityCount? Math.ceil((Number(entityCount) / take)) : 0;
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
-    setCurrentPage(page);
+    if (searchResult) {
+      setSearchCurrentPage(page);
+    } else {
+      setCurrentPage(page);
+    }
   };
+
+  function page(){
+    if (searchResult) {
+      return searchCurrentPage
+    } else {
+      return currentPage
+    }
+  }
 
   return (
     <Pagination
@@ -40,7 +52,7 @@ const PaginationFooter: React.FC = () => {
       }}
       count={totalPages}
       shape="rounded"
-      page={searchResult ? searchCurrentPage: currentPage}
+      page={page()}
       onChange={handlePageChange}
     />
   );

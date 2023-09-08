@@ -12,7 +12,6 @@ import { IIngredientGetAPI } from "../../interfaces";
 const SearchBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const {
-    setLoading,
     setSearchResult
   } = useSearchStore();
   const {
@@ -21,7 +20,9 @@ const SearchBar: React.FC = () => {
     searchSkip,
     setSearchSkip,
     take,
-    setSearchCurrentPage
+    loading,
+    setLoading,
+    setResult
   } = useEntityStore();
 
   const handleChange = (event: any) => {
@@ -44,17 +45,17 @@ const SearchBar: React.FC = () => {
       if (apiFunction) {
         const response = await apiFunction(data);
         if (entity === 'ingredient') {
-          setSearchResult(response.data.ingredients);
+          setResult(response.data.ingredients);
         }
         if (entity === 'component') {
-          setSearchResult(response.data.components);
+          setResult(response.data.components);
         }
         if (entity === 'meal') {
-          setSearchResult(response.data.meals);
+          setResult(response.data.meals);
         }
         setEntityCount(response.data.count);
         setSearchSkip(0);
-        setSearchCurrentPage(1);
+        setSearchResult(true);
         setLoading(false);
       } else {
         console.error(`No API function found for entity: ${entity}`);

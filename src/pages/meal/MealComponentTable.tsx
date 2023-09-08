@@ -27,9 +27,13 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
     useSearchStore();
   const { setEntityCount, skip } = useEntityStore();
   const { selectedComponents, setSelectedComponents } = useComponentStore();
+  const {
+    setSearchResult
+  } = useSearchStore();
 
   async function loadComponents() {
     try {
+      setSearchResult(false);
       setMealLoading(true);
       const data = {
         skip: skip,

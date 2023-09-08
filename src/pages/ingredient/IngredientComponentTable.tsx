@@ -4,17 +4,18 @@ import Table from '@mui/material/Table';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Backdrop } from '@mui/material';
 import * as ComponentApi from '../../network/componentApi'
+import useEntityStore from '../../stores/entityStore';
 import useIngredientStore from '../../stores/ingredientStore';
 import useComponentStore from '../../stores/componentStore';
-import useSearchStore from '../../stores/searchStore';
 import { IComponent , IComponentIngredientDetails } from '../../interfaces';
 import { useTheme } from '@mui/material/styles';
+import useSearchStore from '../../stores/searchStore';
 
 const IngredientComponentTable: React.FC = () => {
   const {
     loading,
     setLoading,
-  } = useSearchStore();
+  } = useEntityStore();
   const {
     selectedIngredient,
     editData
@@ -23,11 +24,15 @@ const IngredientComponentTable: React.FC = () => {
     ingredientComponents,
     setIngredientComponents,
   } = useComponentStore();
+  const {
+    setSearchResult
+  } = useSearchStore();
 
   const theme = useTheme();
 
   async function loadComponents() {
     try {
+      setSearchResult(false);
       setLoading(true);
       if (selectedIngredient) {
         const data = {
