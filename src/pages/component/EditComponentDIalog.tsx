@@ -87,7 +87,13 @@ export default function EditComponentDialog({
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Form submitted");
+    // Check if any ingredients are selected
+    if (selectedIngredients.length === 0) {
+      // No ingredients selected, show a message to the user
+      setNotify(true);
+      setMessage('Please select at least one ingredient.');
+      return; // Prevent form submission
+    }
     formik.handleSubmit(e);
   };
 
