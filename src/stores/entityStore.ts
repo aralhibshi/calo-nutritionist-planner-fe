@@ -38,7 +38,8 @@ const useEntityStore = create<IEntityStore>((set) => ({
       setTake(21);
     }
   }, 
-
+  currentPage: 1,
+  setCurrentPage: (page) => set({ currentPage: page }),
 }));
 
 export default useEntityStore;

@@ -10,13 +10,15 @@ const SearchTypeDropdown: React.FC = () => {
   const {
     entity,
     setEntity,
-    setSkip
+    setSkip,
+    setCurrentPage
   } = useEntityStore();
 
 
   const handleChange = (event: SelectChangeEvent) => {
     setEntity(event.target.value);
     setSkip(0);
+    setCurrentPage(1);
     console.log(event.target.value);
   };
 

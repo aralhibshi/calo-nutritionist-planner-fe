@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Pagination from '@mui/material/Pagination';
 import useEntityStore from '../../stores/entityStore';
 
 const PaginationFooter: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
   const {
     entityCount,
     setSkip,
-    take
+    take,
+    currentPage,
+    setCurrentPage
   } = useEntityStore();
 
-  const itemsPerPage = take;
-
   useEffect(() => {
-    const newSkip = (currentPage - 1) * itemsPerPage;
+    const newSkip = (currentPage - 1) * take;
     console.log(newSkip);
     setSkip(newSkip);
   }, [currentPage, setSkip]);
 
-  const totalPages = entityCount? Math.ceil((Number(entityCount) / itemsPerPage)) : 0;
+  const totalPages = entityCount? Math.ceil((Number(entityCount) / take)) : 0;
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setCurrentPage(page);
