@@ -16,18 +16,29 @@ const ComponentTable: React.FC = () => {
   const { selectedComponent, setSelectedComponent } = useComponentStore();
   const { setEntity } = useEntityStore();
   const [openEditDialog, setOpenEditDialog] = useState(false);
-  const { setEntityCount, skip } = useEntityStore();
-  const { loading, setLoading, setSearchResult, searchResult } =
-    useSearchStore();
+  const {
+    setEntityCount,
+    skip,
+    take,
+    setTake,
+    setTakeCondition
+  } = useEntityStore();
+  const {
+    loading,
+    setLoading,
+    setSearchResult, 
+    searchResult
+  } = useSearchStore();
 
   const memoizedSearchResult = useMemo(() => searchResult, [searchResult]);
 
   async function loadComponents() {
     try {
+      setTakeCondition(setTake)
       setLoading(true);
       const data = {
         skip: skip,
-        take: 9,
+        take: take,
       };
       const response = await ComponentApi.fetchComponents(data);
       setEntityCount(response.data.count);
@@ -45,7 +56,7 @@ const ComponentTable: React.FC = () => {
 
   useEffect(() => {
     loadComponents();
-  }, [skip]);
+  }, [take, skip]);
 
   const handleComponentAdded = (newComponent: any) => {
     setComponents((prevComponents: any) => [...prevComponents, newComponent]);

@@ -223,11 +223,10 @@ export default function EditIngredientDialog({
         <Dialog
           open={open}
           onClose={closeFormDialog}
-          fullWidth
-          maxWidth="lg"
+          maxWidth={false}
           style={{
             zIndex: '2',
-            width: 'auto'
+            width: '100%',
           }}
         >
           <DialogContent>

@@ -18,9 +18,19 @@ const MealTable: React.FC = () => {
 
   const [openEditDialog, setOpenEditDialog] = useState(false);
 
-  const { setEntityCount, skip } = useEntityStore();
-  const { loading, setLoading, setSearchResult, searchResult } =
-    useSearchStore();
+  const {
+    setEntityCount,
+    skip,
+    take,
+    setTake,
+    setTakeCondition
+  } = useEntityStore();
+  const {
+    loading,
+    setLoading,
+    setSearchResult,
+    searchResult
+  } = useSearchStore();
 
 
   const memoizedSearchResult = useMemo(() => searchResult, [searchResult]);
@@ -28,10 +38,11 @@ const MealTable: React.FC = () => {
 
   async function loadMeals() {
     try {
+      setTakeCondition(setTake);
       setLoading(true);
       const data = {
         skip: skip,
-        take: 9,
+        take: take,
       }
       const response = await mealApi.fetchMeals(data);
       setEntityCount(response.data.count);
@@ -49,7 +60,7 @@ const MealTable: React.FC = () => {
 
   useEffect(() => {
     loadMeals();
-  }, [skip]);
+  }, [take, skip]);
 
   const handleMealAdded = (newComponent: any) => {
     setMeals((prevComponents: any) => [
