@@ -15,29 +15,32 @@ const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<IIngredientData[]>([]);
   const [open, setOpen] = useState(false);
   const {
-    loading,
-    setLoading,
-    searchResult,
-    setSearchResult
-  } = useSearchStore();
-  const {
     setEntityCount,
     skip,
     take,
     setTake,
-    setTakeCondition
+    setTakeCondition,
+    loading,
+    setLoading,
+    result,
+    setResult
   } = useEntityStore();
   const {
     selectedIngredient,
     setSelectedIngredient
   } = useIngredientStore();
+  const {
+    setSearchResult
+  } = useSearchStore()
 
-  const memoizedSearchResult = useMemo(() => searchResult, [searchResult]);
+  // Memo
+  const memoizedResult = useMemo(() => result, [result]);
 
   async function loadIngredients() {
     try {
       console.log(window.innerHeight);
       setTakeCondition(setTake);
+      setSearchResult(false);
       setLoading(true);
 
       const data = {
@@ -46,9 +49,9 @@ const IngredientTable: React.FC = () => {
       }
       const response = await IngredientApi.fetchIngredients(data);
       setEntityCount(response.data.count);
-      setSearchResult(response.data.ingredients)
-      if (searchResult) {
-        setIngredients(searchResult);
+      setResult(response.data.ingredients)
+      if (result) {
+        setIngredients(result);
       }
     } catch (error) {
       console.log(error);
@@ -133,8 +136,8 @@ const IngredientTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-        {memoizedSearchResult && Array.isArray(memoizedSearchResult) && memoizedSearchResult.length > 0 ? (
-            memoizedSearchResult.map((ingredient: IIngredient, index: number) => {
+        {memoizedResult && Array.isArray(memoizedResult) && memoizedResult.length > 0 ? (
+            memoizedResult.map((ingredient: IIngredient, index: number) => {
             const calories: string = (
               ingredient.fats * 9 +
               ingredient.carbs * 4 +

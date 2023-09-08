@@ -23,22 +23,22 @@ const MealTable: React.FC = () => {
     skip,
     take,
     setTake,
-    setTakeCondition
-  } = useEntityStore();
-  const {
+    setTakeCondition,
     loading,
     setLoading,
-    setSearchResult,
-    searchResult
+    result,
+    setResult
+  } = useEntityStore();
+  const {
+    setSearchResult
   } = useSearchStore();
 
-
-  const memoizedSearchResult = useMemo(() => searchResult, [searchResult]);
-
+  const memoizedSearchResult = useMemo(() => result, [result]);
 
   async function loadMeals() {
     try {
       setTakeCondition(setTake);
+      setSearchResult(false);
       setLoading(true);
       const data = {
         skip: skip,
@@ -46,9 +46,9 @@ const MealTable: React.FC = () => {
       }
       const response = await mealApi.fetchMeals(data);
       setEntityCount(response.data.count);
-      setSearchResult(response.data.meals);
-      if (searchResult) {
-        setMeals(searchResult);
+      setResult(response.data.meals);
+      if (result) {
+        setMeals(result);
       }
     } catch (err) {
       console.log(err);

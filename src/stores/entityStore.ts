@@ -42,8 +42,10 @@ const useEntityStore = create<IEntityStore>((set) => ({
   }, 
   currentPage: 1,
   setCurrentPage: (page) => set({ currentPage: page }),
-  searchCurrentPage: 1,
-  setSearchCurrentPage: (page) => set({ searchCurrentPage: page })
+  loading: false,
+  setLoading: (data) => set({ loading: data }),
+  result: null,
+  setResult: (data) => set({ result: data }),
 }));
 
 export default useEntityStore;
