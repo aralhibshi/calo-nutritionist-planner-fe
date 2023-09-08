@@ -167,6 +167,8 @@ export interface IEntityStore {
   take: number;
   setTake: (amount: number) => void;
   setTakeCondition: (setTake: any) => void, 
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
 }
 
 // Search Store
