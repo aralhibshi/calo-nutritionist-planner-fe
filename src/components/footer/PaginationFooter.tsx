@@ -6,10 +6,11 @@ const PaginationFooter: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const {
     entityCount,
-    setSkip
+    setSkip,
+    take
   } = useEntityStore();
 
-  const itemsPerPage = 9;
+  const itemsPerPage = take;
 
   useEffect(() => {
     const newSkip = (currentPage - 1) * itemsPerPage;

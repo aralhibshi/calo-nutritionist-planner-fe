@@ -164,6 +164,9 @@ export interface IEntityStore {
   setEntityCount: (count: number) => void;
   skip: number;
   setSkip: (amount: number) => void;
+  take: number;
+  setTake: (amount: number) => void;
+  setTakeCondition: (setTake: any) => void, 
 }
 
 // Search Store

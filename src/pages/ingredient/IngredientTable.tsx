@@ -23,6 +23,9 @@ const IngredientTable: React.FC = () => {
   const {
     setEntityCount,
     skip,
+    take,
+    setTake,
+    setTakeCondition
   } = useEntityStore();
   const {
     selectedIngredient,
@@ -33,10 +36,13 @@ const IngredientTable: React.FC = () => {
 
   async function loadIngredients() {
     try {
+      console.log(window.innerHeight);
+      setTakeCondition(setTake);
       setLoading(true);
+
       const data = {
         skip: skip,
-        take: 9
+        take: take
       }
       const response = await IngredientApi.fetchIngredients(data);
       setEntityCount(response.data.count);
@@ -54,7 +60,7 @@ const IngredientTable: React.FC = () => {
 
   useEffect(() => {
     loadIngredients();
-  }, [skip]);
+  }, [take, skip]);
 
   const handleIngredientAdded = (newIngredient: any) => {
     setIngredients((prevIngredients: any) => [

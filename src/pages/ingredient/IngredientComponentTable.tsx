@@ -67,7 +67,8 @@ const IngredientComponentTable: React.FC = () => {
       )}
       <TableContainer
       sx={{
-        maxHeight: 305
+        maxHeight: 305,
+        overflowX: 'hidden'
       }}
       >
         <Table
