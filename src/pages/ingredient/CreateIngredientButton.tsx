@@ -1,7 +1,8 @@
 import { Button } from '@mui/material';
-import useIngredientStore from '../../stores/ingredientStore';
 import {AiOutlinePlus} from 'react-icons/ai'
-const AddIngredientButton = () => {
+import useIngredientStore from '../../stores/ingredientStore';
+
+const CreateIngredientButton: React.FC = () => {
   const { setAddOpen } = useIngredientStore();
 
   return (
@@ -10,17 +11,19 @@ const AddIngredientButton = () => {
       variant='contained'
       type="submit"
       onClick={() => setAddOpen(true)}
-      // style={{
-      //   fontWeight: 'bold',
-      //   scale: '80%'
-      // }}
+      style={{
+        width: '131px',
+        height: '56px'
+      }}
     >
-      Add Ingredient &nbsp;
-      <AiOutlinePlus       style={{
+      Create &nbsp;
+      <AiOutlinePlus
+        style={{
         scale: '150%'
-      }}/>
+        }}
+      />
     </Button>
   )
 }
 
-export default AddIngredientButton;
+export default CreateIngredientButton;

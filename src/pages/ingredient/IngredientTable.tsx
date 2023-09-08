@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
-import Table from "@mui/joy/Table";
+import React, { useEffect, useMemo, useState } from "react";
+import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop, IconButton } from "@mui/material";
 import EditIngredientDialog from "./EditIngredientDialog";
-import AddIngredientDialog from "./AddIngredientDialog";
-import PaginationFooter from "../../components/footer/PaginationFooter";
-import * as IngredientsApi from "../../network/ingredientApi";
+import CreateIngredientDialog from "./CreateIngredientDialog";
+import * as IngredientApi from "../../network/ingredientApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useSearchStore from "../../stores/searchStore";
-import { IIngredientData } from "../../interfaces";
+import { IIngredient, IIngredientData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useEntityStore from "../../stores/entityStore";
-
 
 const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<IIngredientData[]>([]);
@@ -24,19 +22,31 @@ const IngredientTable: React.FC = () => {
   } = useSearchStore();
   const {
     setEntityCount,
-    skip
+    skip,
+    take,
+    setTake,
+    setTakeCondition
   } = useEntityStore();
   const {
     selectedIngredient,
     setSelectedIngredient
   } = useIngredientStore();
 
+  const memoizedSearchResult = useMemo(() => searchResult, [searchResult]);
+
   async function loadIngredients() {
     try {
+      console.log(window.innerHeight);
+      setTakeCondition(setTake);
       setLoading(true);
-      const response = await IngredientsApi.fetchIngredients(skip);
-      setEntityCount(response.count);
-      setSearchResult(response.data)
+
+      const data = {
+        skip: skip,
+        take: take
+      }
+      const response = await IngredientApi.fetchIngredients(data);
+      setEntityCount(response.data.count);
+      setSearchResult(response.data.ingredients)
       if (searchResult) {
         setIngredients(searchResult);
       }
@@ -50,7 +60,7 @@ const IngredientTable: React.FC = () => {
 
   useEffect(() => {
     loadIngredients();
-  }, [skip]);
+  }, [take, skip]);
 
   const handleIngredientAdded = (newIngredient: any) => {
     setIngredients((prevIngredients: any) => [
@@ -64,8 +74,10 @@ const IngredientTable: React.FC = () => {
     setTimeout(() => {
       setOpen(true);
     }, 0);
-    console.log(row);
-    console.log("Dialog should open now.");
+    setTimeout(() => {
+      const barChart = document.querySelector('.css-18ftw0b-MuiChartsSurface-root')
+      barChart?.setAttribute('viewBox', '0 15 400 280');
+    }, 20)
   };
 
   const handleIngredientUpdated = (updatedIngredient: IIngredientData) => {
@@ -83,7 +95,6 @@ const IngredientTable: React.FC = () => {
     loadIngredients();
   };
 
-
   return (
     <>
       {loading && (
@@ -100,30 +111,30 @@ const IngredientTable: React.FC = () => {
         </Backdrop>
       )}
       <Table
-        hoverRow
         sx={{
-          marginTop: "20px",
+          marginTop: "15px",
+          marginBottom: '15px',
           userSelect: "none",
-          fontFamily: 'Roboto'
         }}
         id='table'
       >
         <thead>
-          <tr
-          >
-            <th style={{ width: "40%" }}>Ingredient Name&nbsp;</th>
+          <tr>
+            <th>
+              Ingredient Name&nbsp;
+            </th>
             <th>Calories&nbsp;</th>
             <th>Protein&nbsp;</th>
             <th>Carbs&nbsp;</th>
             <th>Fat&nbsp;</th>
             <th>Unit&nbsp;</th>
-            <th>Price&nbsp;(BHD)</th>
-            <th>Edit</th>
+            <th>Price&nbsp;</th>
+            <th>Edit&nbsp;</th>
           </tr>
         </thead>
         <tbody>
-        {searchResult !== null && searchResult.length > 0 ? (
-          searchResult.map((ingredient, index) => {
+        {memoizedSearchResult && Array.isArray(memoizedSearchResult) && memoizedSearchResult.length > 0 ? (
+            memoizedSearchResult.map((ingredient: IIngredient, index: number) => {
             const calories: string = (
               ingredient.fats * 9 +
               ingredient.carbs * 4 +
@@ -134,9 +145,13 @@ const IngredientTable: React.FC = () => {
             return (
               <tr
                 id='table'
-                key={index}
+                key={index} style={{height:"52px"}}
               >
-                <td>{ingredient.name}</td>
+                <td
+                  style={{
+                    width: '40%'
+                  }}
+                >{ingredient.name}</td>
                 <td>{calories}</td>
                 <td>{ingredient.protein}</td>
                 <td>{ingredient.carbs}</td>
@@ -163,19 +178,8 @@ const IngredientTable: React.FC = () => {
         open={open}
         setOpen={setOpen}
         onIngredientUpdated={handleIngredientUpdated}
-        ingredient={selectedIngredient}
       />
-      <div
-        style={{
-          position: "absolute",
-          bottom: "2vh",
-          width: "100%",
-          textAlign: "center",
-        }}
-      >
-        <PaginationFooter/>
-      </div>
-      <AddIngredientDialog
+      <CreateIngredientDialog
         onIngredientAdded={handleIngredientAdded}
       />
     </>

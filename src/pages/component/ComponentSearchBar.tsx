@@ -9,14 +9,14 @@ import useSearchStore from "../../stores/searchStore";
 import useEntityStore from "../../stores/entityStore";
 import { IIngredientGetAPI } from "../../interfaces";
 
-const SearchBar: React.FC = () => {
+const ComponentSearchBar: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [entity] = useState('ingredient')
   const {
-    setLoading,
-    setSearchResult
+    setComponentLoading,
+    setComponentSearchResult
   } = useSearchStore();
   const {
-    entity,
     setEntityCount,
     skip
   } = useEntityStore();
@@ -25,11 +25,9 @@ const SearchBar: React.FC = () => {
     const newSearchTerm = event.target.value;
     setSearchTerm(newSearchTerm);
   };
-
   const searchItem = async (entity: string, data: IIngredientGetAPI) => {
     try {
-      setLoading(true);
-  
+      setComponentLoading(true);
       const entityToApiFunctionMap: any = {
         ingredient: IngredientApi.fetchIngredients,
         component: ComponentApi.fetchComponents,
@@ -38,22 +36,12 @@ const SearchBar: React.FC = () => {
   
       const apiFunction: any = entityToApiFunctionMap[entity];
   
-      if (apiFunction) {
         const response = await apiFunction(data);
-        if (entity === 'ingredient') {
-          setSearchResult(response.data.ingredients);
-        }
-        if (entity === 'component') {
-          setSearchResult(response.data.components);
-        }
-        if (entity === 'meal') {
-          setSearchResult(response.data.meals);
-        }
-        setEntityCount(response.data.count);
-        setLoading(false);
-      } else {
-        console.error(`No API function found for entity: ${entity}`);
-      }
+        setComponentSearchResult(response.data.ingredients);
+        setEntityCount(response.count);
+        console.log('entity', entity)
+        setComponentLoading(false);
+        // console.error(`No API function found for entity: ${entity}`);
     } catch (err) {
       throw createError(400, 'Bad Request', {
         details: `An error occurred while fetching matching ${entity}: ${err}`,
@@ -70,21 +58,17 @@ const SearchBar: React.FC = () => {
   const handleSubmit = () => {
     const data = {
       skip: skip,
-      take: 9,
+      take: 200,
       name: searchTerm
     }
+
     searchItem(entity, data);
   }
 
 
   let placeholderText = "Search for an ingredient";
-
   if (entity === "ingredient") {
     placeholderText = "Search for an ingredient";
-  } else if (entity === "component") {
-    placeholderText = "Search for a component";
-  } else if (entity === "meal") {
-    placeholderText = "Search for a meal";
   }
 
   return (
@@ -92,6 +76,7 @@ const SearchBar: React.FC = () => {
     style={{
       width: "100%",
       display: "flex",
+      marginTop: '12px'
     }}
     label={searchTerm}
     value={searchTerm}
@@ -120,4 +105,4 @@ const SearchBar: React.FC = () => {
   );
 }
 
-export default SearchBar;
+export default ComponentSearchBar;

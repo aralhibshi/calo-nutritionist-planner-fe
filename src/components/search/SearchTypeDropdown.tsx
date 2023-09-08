@@ -7,21 +7,35 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import useEntityStore from '../../stores/entityStore';
 
 const SearchTypeDropdown: React.FC = () => {
-  const { entity, setEntity } = useEntityStore();
+  const {
+    entity,
+    setEntity,
+    setSkip,
+    setCurrentPage
+  } = useEntityStore();
+
 
   const handleChange = (event: SelectChangeEvent) => {
     setEntity(event.target.value);
+    setSkip(0);
+    setCurrentPage(1);
     console.log(event.target.value);
   };
 
   return (
-    <Box sx={{
-      minWidth: 140,
-      display: 'flex',
-      alignItems: 'center'
-      }}>
+    <Box
+      sx={{
+        minWidth: 140,
+        display: 'flex',
+        alignItems: 'center'
+      }}
+    >
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Type</InputLabel>
+        <InputLabel
+          id="demo-simple-select-label"
+        >
+          Type
+        </InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"

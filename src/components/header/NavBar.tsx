@@ -15,7 +15,10 @@ interface INavBarProps {
 export default function NavBar({ signOut, user }: INavBarProps) {
   return (
     <AppBar
-      position="static"
+      position="fixed"
+      style={{
+        zIndex:'1'
+      }}
     >
       <Toolbar
         id='nav-bar'
@@ -30,7 +33,7 @@ export default function NavBar({ signOut, user }: INavBarProps) {
           alignItems: 'center'
           }}
         >
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -38,7 +41,7 @@ export default function NavBar({ signOut, user }: INavBarProps) {
             sx={{ mr: 2 }}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Link
             to="/"
             style={{
@@ -47,7 +50,7 @@ export default function NavBar({ signOut, user }: INavBarProps) {
             }}
           >
             <Typography
-            variant="h6"
+            variant="h3"
             component="div"
             sx={{
               flexGrow: 0.1,
@@ -68,13 +71,14 @@ export default function NavBar({ signOut, user }: INavBarProps) {
           {user ? (
             <>
               <Typography
-              variant="h6"
+              variant="body2"
               component="div"
               sx={{
                 mr: 2
                 }}
               >
-                Hello {user.username}
+                Hello&nbsp;
+                 {user.attributes?.email}
               </Typography>
               <Button
                 color="inherit"

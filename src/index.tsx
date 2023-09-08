@@ -1,13 +1,22 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Amplify} from 'aws-amplify';
 import awsExports from './aws-exports';
-import {USER_POOL_ID, USER_POOL_ClIENT_ID} from '../src/config'
+
+// Styling
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from './theme/theme';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import '@fontsource/bebas-neue/400.css';
+
+
 Amplify.configure(awsExports);
 
 Amplify.configure({
@@ -17,10 +26,10 @@ Amplify.configure({
     region: 'us-east-1',
 
     // OPTIONAL - Amazon Cognito User Pool ID
-    userPoolId: USER_POOL_ID,
+    userPoolId: process.env.REACT_APP_USER_POOL_ID,
 
     // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-    userPoolWebClientId: USER_POOL_ClIENT_ID,
+    userPoolWebClientId: process.env.REACT_APP_USER_POOL_ClIENT_ID,
 
     // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
     mandatorySignIn: false,
@@ -65,7 +74,9 @@ Amplify.configure({
         'aws.cognito.signin.user.admin',
       ],
       redirectSignIn: 'http://localhost:3000/',
+      // redirectSignIn: 'https://dev.d7zo4dnz523ct.amplifyapp.com',
       redirectSignOut: 'http://localhost:3000/',
+      // redirectSignOut: 'https://dev.d7zo4dnz523ct.amplifyapp.com',
       responseType: 'code', // or 'token', note that REFRESH token will only be generated when the responseType is code
     },
   },
@@ -80,9 +91,10 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <App />
+  <ThemeProvider theme={theme}>
+    <App />
+  </ThemeProvider>
 );
-
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

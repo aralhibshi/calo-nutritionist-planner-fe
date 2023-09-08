@@ -6,6 +6,21 @@ const useIngredientStore = create<IIngredientStore>((set) => ({
   setAddOpen: (isOpen) => set({ addOpen: isOpen }),
   selectedIngredient: null,
   setSelectedIngredient: (ingredient) => set({ selectedIngredient: ingredient }),
+  selectedIngredients: [],
+  setSelectedIngredients: (ingredients) => set({ selectedIngredients: ingredients }),
+  editData: {
+    price: 0,
+    protein: 0,
+    carbs: 0,
+    fats: 0,
+    calories: 0,
+    rating: 'Normal',
+    totalUnit: 0,
+    unitType: ''
+  },
+  setEditData: (data) => set({ editData: data }),
+  calories: 0,
+  setCalories: (calories) => set({ calories })
 }));
 
 export default useIngredientStore;
