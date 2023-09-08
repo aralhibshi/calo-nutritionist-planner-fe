@@ -5,9 +5,11 @@ const componentValidationSchema = yup.object({
     .string()
     .required('Name is required'),
   category: yup
-    .string(),
+    .string()
+    .required('Category is required'),
   description: yup
-    .string(),
+    .string()
+    .required('Description is required'),
   ingredients: yup
     .array()
     .min(1)
