@@ -18,7 +18,10 @@ const SearchBar: React.FC = () => {
   const {
     entity,
     setEntityCount,
-    skip
+    searchSkip,
+    setSearchSkip,
+    take,
+    setSearchCurrentPage
   } = useEntityStore();
 
   const handleChange = (event: any) => {
@@ -50,6 +53,8 @@ const SearchBar: React.FC = () => {
           setSearchResult(response.data.meals);
         }
         setEntityCount(response.data.count);
+        setSearchSkip(0);
+        setSearchCurrentPage(1);
         setLoading(false);
       } else {
         console.error(`No API function found for entity: ${entity}`);
@@ -69,8 +74,8 @@ const SearchBar: React.FC = () => {
   
   const handleSubmit = () => {
     const data = {
-      skip: skip,
-      take: 9,
+      skip: searchSkip,
+      take: take,
       name: searchTerm
     }
     searchItem(entity, data);
