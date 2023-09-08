@@ -7,10 +7,16 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import useEntityStore from '../../stores/entityStore';
 
 const SearchTypeDropdown: React.FC = () => {
-  const { entity, setEntity } = useEntityStore();
+  const {
+    entity,
+    setEntity,
+    setSkip
+  } = useEntityStore();
+
 
   const handleChange = (event: SelectChangeEvent) => {
     setEntity(event.target.value);
+    setSkip(0);
     console.log(event.target.value);
   };
 
