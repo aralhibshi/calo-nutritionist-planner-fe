@@ -14,7 +14,10 @@ const mealValidationSchema = yup.object({
   unit: yup
     .string()
     .matches(/^(ml|g)$/, 'Unit must be "ml" or "g"')
-    .required('Unit is required')
+    .required('Unit is required'),
+  id: yup
+    .string()
+    .required('Name is required'),
 });
 
 export default mealValidationSchema;

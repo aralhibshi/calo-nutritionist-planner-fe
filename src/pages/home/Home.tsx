@@ -103,7 +103,6 @@ const Home: React.FC = () => {
         </div>
       { entityTable }
       <PaginationFooter/>
-      <MealImageUploader/>
       <Grid>
         <Snackbar
           open={notify}

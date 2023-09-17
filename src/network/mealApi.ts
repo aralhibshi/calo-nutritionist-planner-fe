@@ -4,13 +4,13 @@ import createError from "http-errors";
 
 const baseURL = process.env.REACT_APP_API_BASE_URL;
 
-export async function createMeal(component: IMealData): Promise<IMeal> {
+export async function createMeal(meal: IMealData): Promise<IMeal> {
   const response = await fetchData(`${baseURL}meal`, {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(component),
+    body: JSON.stringify(meal),
   });
 
   console.log(response);
@@ -92,18 +92,21 @@ export async function updateMeal(
 
 // http://localhost:3000/dev/v1/user/mealImage/add
 
-export async function getPreSignedUrl(mealId: string|undefined, folder:string): Promise<any> {
-    const response = await fetchData(`https://0ekyvvbtxe.execute-api.us-east-1.amazonaws.com/dev/v1/user/mealImage/add`, {
-    // const response = await fetchData(`http://localhost:3000/dev/v1/user/mealImage/add`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ mealId, folder }),
-  });
+export async function getPreSignedUrl(
+  mealId: string | null
+): Promise<any> {
+  const response = await fetchData(
+    `https://vifb27v3jh.execute-api.us-east-1.amazonaws.com/dev/v1/user/mealImage/add`,
+    {
+      // const response = await fetchData(`http://localhost:3000/dev/v1/user/mealImage/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ mealId }),
+    }
+  );
 
   console.log(response);
   return response;
 }
-
-

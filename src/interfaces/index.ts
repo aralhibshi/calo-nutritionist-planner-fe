@@ -249,6 +249,9 @@ export interface IMealStore {
   selectedMeal: IMeal | null;
   setSelectedMeal: (meal: IMeal | null) => void;
 
+  mealId: string | null;
+  setMealId: (id: string | null) => void;
+
   ingredientMeals: any,
   setIngredientMeals: (meals: IMeal[]) => void;
 }
