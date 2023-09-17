@@ -21,16 +21,14 @@ const ComponentTable: React.FC = () => {
     skip,
     take,
     setTake,
-    setTakeCondition
-  } = useEntityStore();
-  const {
+    setTakeCondition,
     loading,
     setLoading,
-    setSearchResult, 
-    searchResult
-  } = useSearchStore();
+    result,
+    setResult
+  } = useEntityStore();
 
-  const memoizedSearchResult = useMemo(() => searchResult, [searchResult]);
+  const memoizedSearchResult = useMemo(() => result, [result]);
 
   async function loadComponents() {
     try {
@@ -42,9 +40,9 @@ const ComponentTable: React.FC = () => {
       };
       const response = await ComponentApi.fetchComponents(data);
       setEntityCount(response.data.count);
-      setSearchResult(response.data.components);
-      if (searchResult) {
-        setComponents(searchResult);
+      setResult(response.data.components);
+      if (result) {
+        setComponents(result);
       }
     } catch (error) {
       console.log(error);

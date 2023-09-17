@@ -164,29 +164,33 @@ export interface IEntityStore {
   setEntityCount: (count: number) => void;
   skip: number;
   setSkip: (amount: number) => void;
+  searchSkip: number;
+  setSearchSkip: (amount: number) => void;
   take: number;
   setTake: (amount: number) => void;
   setTakeCondition: (setTake: any) => void, 
   currentPage: number;
   setCurrentPage: (page: number) => void;
+  loading: boolean;
+  setLoading: (data: boolean) => void;
+  result: any;
+  setResult: (data: any) => void;
 }
 
 // Search Store
 export interface ISearchStore {
-  loading: boolean;
-  setLoading: (load: boolean) => void;
-  searchResult: any;
-  setSearchResult: (result: any) => void
-
+  searchResult: boolean,
+  setSearchResult: (data: boolean) => void;
   componentLoading: boolean;
   setComponentLoading: (load: boolean) => void;
   componentSearchResult: any;
   setComponentSearchResult: (result: any) => void
-
   mealLoading: boolean;
   setMealLoading: (load: boolean) => void;
   mealSearchResult: any;
   setMealSearchResult: (result: any) => void
+  searchCurrentPage: number;
+  setSearchCurrentPage: (page: number) => void;
 }
 
 // Nutriton
