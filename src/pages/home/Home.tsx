@@ -25,6 +25,7 @@ import MealTable from "../meal/MealTable";
 // Stores
 import useEntityStore from '../../stores/entityStore';
 import useNotificationStore from '../../stores/notificationStore';
+import MealImageUploader from '../meal/MealImageUploader';
 
 const Home: React.FC = () => {
   const {
