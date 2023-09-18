@@ -8,7 +8,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
-import validationSchema from "../../validation/mealFormValidation";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import Select from "@mui/material/Select";
@@ -19,7 +18,8 @@ import MealSearchBar from "./MealSearchBar";
 import MealComponentTable from "./MealComponentTable";
 import useComponentStore from "../../stores/componentStore";
 import useNotificationStore from "../../stores/notificationStore";
-
+import MealImageUploader from "./MealImageUploader";
+import mealUpdateValidationSchema from "../../validation/mealUpdateFormValidation";
 interface EditMealDialogProps {
   open: boolean;
   onClose: () => void;
@@ -34,7 +34,7 @@ export default function EditMealDialogProps({
   onMealUpdated,
 }: EditMealDialogProps) {
   const [loading, setLoading] = useState(false);
-  const { selectedMeal, setSelectedMeal } = useMealStore();
+  const { selectedMeal, setSelectedMeal, setMealId } = useMealStore();
   const { selectedComponents, setSelectedComponents } = useComponentStore();
   const {
     setNotify,
@@ -53,9 +53,10 @@ export default function EditMealDialogProps({
       name: selectedMeal?.name ?? "",
       description: selectedMeal?.description ?? "",
       unit: selectedMeal?.unit ?? "",
-      size:selectedMeal?.size ?? ""
+      size:selectedMeal?.size ?? "",
+      // id: selectedMeal?.id
     },
-    validationSchema: validationSchema,
+    validationSchema: mealUpdateValidationSchema,
     onSubmit: async (values) => {
       try {
         console.log("stuck");
@@ -103,6 +104,11 @@ export default function EditMealDialogProps({
         selectedMeal?.meals_components
       );
   }, [selectedComponents]);
+
+  useEffect(() => {
+    // formik.setFieldValue("id", selectedMeal?.id);
+    setMealId(selectedMeal?.id ?? null);
+}, []);
 
   return (
     <>
@@ -188,6 +194,7 @@ export default function EditMealDialogProps({
                       <MenuItem value={"S"}>Small</MenuItem>
                     </Select>
                   </FormControl>
+                  <MealImageUploader/>
                 </div>
                 <Divider
                   orientation="vertical"
