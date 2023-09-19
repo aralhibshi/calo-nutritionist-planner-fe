@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 import { getPreSignedUrl } from "../../network/mealApi";
 import useMealStore from "../../stores/mealStore";
-import { Button, Input } from "@mui/material";
+import { Box, Button, CircularProgress, Input } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from '@mui/material/styles';
 import { MuiFileInput } from 'mui-file-input'
@@ -11,6 +11,7 @@ function MealImageUploader() {
   // const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { mealId } = useMealStore();
   const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (newFile: File | null) => {
     setFile(newFile);
@@ -23,6 +24,7 @@ function MealImageUploader() {
   const handleUpload = async () => {
     if (file) {
       try {
+        setLoading(true)
         const preSignedUrlData = await getPreSignedUrl(mealId);
         const { uploadUrl } = preSignedUrlData;
         console.log("meal id = ", mealId);
@@ -40,6 +42,8 @@ function MealImageUploader() {
       } catch (error) {
         console.error("Error uploading image:", error);
         alert("Error uploading image. Please try again later.");
+      } finally {
+        setLoading(false)
       }
     } 
     // else {
@@ -48,20 +52,35 @@ function MealImageUploader() {
   };
   return (
     <>
-      <h2>Upload Meal Image</h2>
-
-      {/* <Button onClick={handleUpload}>Upload</Button> */}
-      {/* <Input type="file" onChange={handleFileChange}/> */}
-      <MuiFileInput value={file} onChange={handleChange}>Select File</MuiFileInput>
-      <br />
-      <Button
-        component="label"
-        variant="contained"
-        startIcon={<CloudUploadIcon />}
-        onClick={handleUpload}
-      >
-        Upload file
-      </Button>
+      {loading ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <>
+          <div>
+            <h2>Upload Meal Image</h2>
+            <MuiFileInput value={file} onChange={handleChange}>
+              Select File
+            </MuiFileInput>
+            <br />
+            <Button
+              component="label"
+              variant="contained"
+              startIcon={<CloudUploadIcon />}
+              onClick={handleUpload}
+            >
+              Upload file
+            </Button>
+          </div>
+        </>
+      )}
     </>
   );
 }
