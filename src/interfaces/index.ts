@@ -205,6 +205,12 @@ export interface IEditData {
   unitType: string;  
 }
 
+// User Store
+export interface IUserStore {
+  user: any;
+  setUser: (data: any) => void;
+}
+
 // Ingredient Store
 export interface IIngredientStore {
   addOpen: boolean;

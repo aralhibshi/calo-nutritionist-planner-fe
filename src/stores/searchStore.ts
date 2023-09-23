@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from "zustand"
 import { ISearchStore } from "../interfaces";
 
 const useSearchStore = create<ISearchStore>((set) => ({
