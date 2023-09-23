@@ -1,6 +1,6 @@
 // React
 import React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // Material UI
 import { Typography } from '@mui/material';
@@ -8,6 +8,7 @@ import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material';
+import { Button } from '@mui/material';
 
 // Components
 import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
@@ -27,15 +28,32 @@ import useEntityStore from '../../stores/entityStore';
 import useNotificationStore from '../../stores/notificationStore';
 import MealImageUploader from '../meal/MealImageUploader';
 
+// APIs
+import * as ExportApi from '../../network/exportApi';
+
+// Utils
+import { capitalizeFirstLetter } from '../../utils/stringUtils';
+
 const Home: React.FC = () => {
   const {
-    entity
+    entity,
+    setLoading
   } = useEntityStore();
   const {
     notify,
     setNotify,
-    message
+    message,
+    setMessage
   } = useNotificationStore();
+
+
+  const [ data, setData ] = useState({
+    user_id: 1,
+    user_email: 'a.alhibshi@calo.app',
+    email_type: 'data-report',
+    skip: 0,
+    take: 500
+  })
 
   useEffect(() => {
     setNotify(false);
@@ -61,6 +79,15 @@ const Home: React.FC = () => {
 
   function entityString(entity: string) {
     return entity.charAt(0).toUpperCase() + entity.slice(1) + 's'
+  }
+
+  async function exportData() {
+    console.log(data);
+    setLoading(true);
+    await ExportApi.exportData(entity, data);
+    setLoading(false);
+    setNotify(true);
+    setMessage(`${capitalizeFirstLetter(entity)}s Exported`)
   }
 
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -89,6 +116,19 @@ const Home: React.FC = () => {
             >
             { entityString(entity) }
           </Typography>
+          <Button
+            id='primary-button'
+            variant='contained'
+            type="submit"
+            onClick={() => exportData()}
+            style={{
+              width: '131px',
+              height: '56px'
+            }}
+          >
+            Export &nbsp;
+
+          </Button>
           { addEntityButton }
         </div>
         <div
