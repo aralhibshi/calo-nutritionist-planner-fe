@@ -24,6 +24,7 @@ import ComponentTable from '../component/ComponentTable';
 import MealTable from "../meal/MealTable";
 
 // Stores
+import useUserStore from '../../stores/userStore';
 import useEntityStore from '../../stores/entityStore';
 import useNotificationStore from '../../stores/notificationStore';
 import MealImageUploader from '../meal/MealImageUploader';
@@ -36,6 +37,9 @@ import { capitalizeFirstLetter } from '../../utils/stringUtils';
 
 const Home: React.FC = () => {
   const {
+    storeUser
+  } = useUserStore()
+  const {
     entity,
     setLoading
   } = useEntityStore();
@@ -45,7 +49,6 @@ const Home: React.FC = () => {
     message,
     setMessage
   } = useNotificationStore();
-
 
   const [ data, setData ] = useState({
     user_id: 1,
@@ -82,9 +85,9 @@ const Home: React.FC = () => {
   }
 
   async function exportData() {
-    console.log(data);
+
     setLoading(true);
-    await ExportApi.exportData(entity, data);
+    await ExportApi.exportData(storeUser, entity, data);
     setLoading(false);
     setNotify(true);
     setMessage(`${capitalizeFirstLetter(entity)}s Exported`)
