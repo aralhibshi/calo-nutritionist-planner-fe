@@ -6,7 +6,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import * as mealApi from "../../network/mealApi";
 import useSearchStore from "../../stores/searchStore";
 import useEntityStore from "../../stores/entityStore";
-import { IComponentIngredient, IMeal, IMealComponent, IMealData } from "../../interfaces";
+import {
+  IComponentIngredient,
+  IMeal,
+  IMealComponent,
+  IMealData,
+} from "../../interfaces";
 import useMealStore from "../../stores/mealStore";
 import CreateMealDialog from "./CreateMealDialog";
 import EditMealDialog from "./EditMealDialog";
@@ -23,32 +28,32 @@ const MealTable: React.FC = () => {
     skip,
     take,
     setTake,
-    setTakeCondition
-  } = useEntityStore();
-  const {
+    setTakeCondition,
     loading,
     setLoading,
-    setSearchResult,
-    searchResult
+    result,
+    setResult
+  } = useEntityStore();
+  const {
+    setSearchResult
   } = useSearchStore();
 
-
-  const memoizedSearchResult = useMemo(() => searchResult, [searchResult]);
-
+  const memoizedSearchResult = useMemo(() => result, [result]);
 
   async function loadMeals() {
     try {
       setTakeCondition(setTake);
+      setSearchResult(false);
       setLoading(true);
       const data = {
         skip: skip,
         take: take,
-      }
+      };
       const response = await mealApi.fetchMeals(data);
       setEntityCount(response.data.count);
-      setSearchResult(response.data.meals);
-      if (searchResult) {
-        setMeals(searchResult);
+      setResult(response.data.meals);
+      if (result) {
+        setMeals(result);
       }
     } catch (err) {
       console.log(err);
@@ -63,17 +68,13 @@ const MealTable: React.FC = () => {
   }, [take, skip]);
 
   const handleMealAdded = (newComponent: any) => {
-    setMeals((prevComponents: any) => [
-      ...prevComponents,
-      newComponent,
-    ]);
-    loadMeals()
+    setMeals((prevComponents: any) => [...prevComponents, newComponent]);
+    loadMeals();
   };
   const handleEditClick = (row: any) => {
     setSelectedMeal(row);
     setOpenEditDialog(true);
-    setTimeout(() => {
-    }, 0);
+    setTimeout(() => {}, 0);
     setTimeout(() => {
       const barChart = document.querySelector(
         ".css-18ftw0b-MuiChartsSurface-root"
@@ -82,12 +83,9 @@ const MealTable: React.FC = () => {
     }, 20);
   };
 
-  
-// try IMealData ?
+  // try IMealData ?
   const handleMealUpdated = (updatedMeal: IMealData) => {
-    const updatedIndex = meals.findIndex(
-      (meal) => meal.id === updatedMeal.id
-    );
+    const updatedIndex = meals.findIndex((meal) => meal.id === updatedMeal.id);
 
     if (updatedIndex !== -1) {
       const updatedMeals = [...meals];
@@ -98,7 +96,7 @@ const MealTable: React.FC = () => {
     setOpenEditDialog(false);
     loadMeals();
   };
-  
+  let image = "";
 
   return (
     <>
@@ -131,6 +129,7 @@ const MealTable: React.FC = () => {
             >
               Meal Name&nbsp;
             </th>
+            <th>Image&nbsp;</th>
             <th>Calories&nbsp;</th>
             <th>Proteins&nbsp;</th>
             <th>Carbs&nbsp;</th>
@@ -141,7 +140,9 @@ const MealTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-        {memoizedSearchResult && Array.isArray(memoizedSearchResult) && memoizedSearchResult?.length > 0 ? (
+          {memoizedSearchResult &&
+          Array.isArray(memoizedSearchResult) &&
+          memoizedSearchResult?.length > 0 ? (
             memoizedSearchResult?.map((meal: IMeal, index: number) => {
               let totalFats = 0;
               let totalCarbs = 0;
@@ -154,26 +155,34 @@ const MealTable: React.FC = () => {
                 Array.isArray(meal.meals_components)
               ) {
                 meal.meals_components?.map((el: IMealComponent) => {
-                  const quantity = Number(el.component_quantity)
+                  const quantity = Number(el.component_quantity);
                   el.component.components_ingredients?.map(
                     (el: IComponentIngredient) => {
-                      totalFats += Number(el.ingredient.fats*quantity);
-                      totalCarbs += Number(el.ingredient.carbs*quantity);
-                      totalProteins += Number(el.ingredient.protein*quantity);
-                      totalPrice += Number(el.ingredient.price*quantity);
-                      totalCalories += totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
-                    });
+                      totalFats += Number(el.ingredient.fats * quantity);
+                      totalCarbs += Number(el.ingredient.carbs * quantity);
+                      totalProteins += Number(el.ingredient.protein * quantity);
+                      totalPrice += Number(el.ingredient.price * quantity);
+                      totalCalories +=
+                        totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
+                    }
+                  );
                 });
               }
               return (
-                <tr key={index} style={{height:"52px"}}>
+                <tr key={index} style={{ height: "52px" }}>
                   <td>{meal.name}</td>
-                  <td>{(totalCalories).toFixed(3)}</td>
-                  <td>{(totalProteins).toFixed(3)}</td>
-                  <td>{(totalCarbs).toFixed(3)}</td>
-                  <td>{(totalFats).toFixed(3)}</td>
+                  <td>
+                    <img
+                      src={`https://calo-nutritionist-planner-dev-meal-image-bucket.s3.amazonaws.com/processed/${meal.id}.jpeg`}
+                      alt="Meal"
+                    />
+                  </td>
+                  <td>{totalCalories.toFixed(3)}</td>
+                  <td>{totalProteins.toFixed(3)}</td>
+                  <td>{totalCarbs.toFixed(3)}</td>
+                  <td>{totalFats.toFixed(3)}</td>
                   <td>{meal.unit}</td>
-                  <td>{(totalPrice).toFixed(3)}</td>
+                  <td>{totalPrice.toFixed(3)}</td>
                   <td>
                     <IconButton onClick={() => handleEditClick(meal)}>
                       <EditIcon />
@@ -190,13 +199,13 @@ const MealTable: React.FC = () => {
         </tbody>
       </Table>
       <EditMealDialog
-  key={selectedMeal?.id}
-  open={openEditDialog}
-  onClose={() => setOpenEditDialog(false)}
-  onMealUpdated={handleMealUpdated}
-  meal={selectedMeal}
-/>
-      <CreateMealDialog onMealAdded={handleMealAdded}/>
+        key={selectedMeal?.id}
+        open={openEditDialog}
+        onClose={() => setOpenEditDialog(false)}
+        onMealUpdated={handleMealUpdated}
+        meal={selectedMeal}
+      />
+      <CreateMealDialog onMealAdded={handleMealAdded} />
     </>
   );
 };

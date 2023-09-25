@@ -8,6 +8,8 @@ const useEntityStore = create<IEntityStore>((set) => ({
   setEntityCount: (count) => set({ entityCount: count}),
   skip: 0,
   setSkip: (amount) => set({ skip: amount }),
+  searchSkip: 0,
+  setSearchSkip: (amount) => set({ searchSkip: amount }),
   take: 9,
   setTake: (amount) => set({ take: amount }),
   setTakeCondition: (setTake) => {
@@ -40,6 +42,10 @@ const useEntityStore = create<IEntityStore>((set) => ({
   }, 
   currentPage: 1,
   setCurrentPage: (page) => set({ currentPage: page }),
+  loading: false,
+  setLoading: (data) => set({ loading: data }),
+  result: null,
+  setResult: (data) => set({ result: data }),
 }));
 
 export default useEntityStore;

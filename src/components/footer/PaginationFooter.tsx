@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Pagination from '@mui/material/Pagination';
 import useEntityStore from '../../stores/entityStore';
+import useSearchStore from '../../stores/searchStore';
 
 const PaginationFooter: React.FC = () => {
   const {
@@ -8,8 +9,13 @@ const PaginationFooter: React.FC = () => {
     setSkip,
     take,
     currentPage,
-    setCurrentPage
+    setCurrentPage,
   } = useEntityStore();
+  const {
+    searchResult,
+    searchCurrentPage,
+    setSearchCurrentPage
+  } = useSearchStore();
 
   useEffect(() => {
     const newSkip = (currentPage - 1) * take;
@@ -20,8 +26,20 @@ const PaginationFooter: React.FC = () => {
   const totalPages = entityCount? Math.ceil((Number(entityCount) / take)) : 0;
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
-    setCurrentPage(page);
+    if (searchResult) {
+      setSearchCurrentPage(page);
+    } else {
+      setCurrentPage(page);
+    }
   };
+
+  function page(){
+    if (searchResult) {
+      return searchCurrentPage
+    } else {
+      return currentPage
+    }
+  }
 
   return (
     <Pagination
@@ -34,7 +52,7 @@ const PaginationFooter: React.FC = () => {
       }}
       count={totalPages}
       shape="rounded"
-      page={currentPage}
+      page={page()}
       onChange={handlePageChange}
     />
   );

@@ -6,10 +6,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import * as ComponentApi from "../../network/componentApi";
-import * as mealsApi from "../../network/mealApi"
-import { IAddComponentDialogProps, IAddMealDialogProps } from "../../interfaces";
+import * as mealsApi from "../../network/mealApi";
+import {
+  IAddComponentDialogProps,
+  IAddMealDialogProps,
+} from "../../interfaces";
 import { useFormik } from "formik";
-import componentValidationSchema from "../../validation/componentFormValidation";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import useMealStore from "../../stores/mealStore";
@@ -19,26 +21,18 @@ import MealComponentTable from "./MealComponentTable";
 import useComponentStore from "../../stores/componentStore";
 import mealValidationSchema from "../../validation/mealFormValidation";
 import useNotificationStore from "../../stores/notificationStore";
+import MealImageUploader from "./MealImageUploader";
+import { v4 as uuidv4 } from "uuid";
 
-export default function CreateMealDialog({
-  onMealAdded,
-}: IAddMealDialogProps) {
+export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
   const [loading, setLoading] = useState(false);
-  const {
-    addOpen,
-    setAddOpen
-  } = useMealStore();
-  const {
-    selectedComponents,
-    setSelectedComponents
-  } = useComponentStore();
-  const {
-    setNotify,
-    setMessage
-  } = useNotificationStore();
+  const { addOpen, setAddOpen } = useMealStore();
+  const { selectedComponents, setSelectedComponents } = useComponentStore();
+  const { setNotify, setMessage } = useNotificationStore();
+  const { setMealId, } = useMealStore();
 
   const closeFormDialog = () => {
-    setSelectedComponents([])
+    setSelectedComponents([]);
     formik.resetForm();
     setAddOpen(false);
   };
@@ -49,20 +43,20 @@ export default function CreateMealDialog({
       description: "",
       components: [],
       unit: "",
-      size: ""
+      size: "",
+      id: "",
     },
     validationSchema: mealValidationSchema,
     onSubmit: async (values) => {
       try {
         setLoading(true);
         console.log("Form data:", values);
-
         const response = await mealsApi.createMeal(values);
-        setSelectedComponents([])
+        setSelectedComponents([]);
         console.log("New meal:", response);
         onMealAdded(response);
         setNotify(true);
-        setMessage('Meal Created');
+        setMessage("Meal Created");
         closeFormDialog();
       } catch (error) {
         console.log("Error:", error);
@@ -79,7 +73,7 @@ export default function CreateMealDialog({
     if (selectedComponents.length === 0) {
       // No ingredients selected, show a message to the user
       setNotify(true);
-      setMessage('Please select at least one ingredient.');
+      setMessage("Please select at least one ingredient.");
       return; // Prevent form submission
     }
     formik.handleSubmit(e);
@@ -88,6 +82,12 @@ export default function CreateMealDialog({
   useEffect(() => {
     formik.setFieldValue("components", selectedComponents);
   }, [selectedComponents]);
+  
+  useEffect(() => {
+    const newUuid = uuidv4();
+    formik.setFieldValue("id", newUuid);
+    setMealId(newUuid);
+}, []);
 
   return (
     <>
@@ -115,7 +115,7 @@ export default function CreateMealDialog({
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "space-between"
+                  justifyContent: "space-between",
                 }}
               >
                 {/* Left side */}
@@ -128,7 +128,9 @@ export default function CreateMealDialog({
                     label="Name"
                     name="name"
                     value={formik.values.name}
-                    onChange={formik.handleChange}
+                    onChange={(e) => { // Update the state variable with the entered name
+                      formik.handleChange(e); // Call formik's handleChange to handle form validation
+                    }}
                     onBlur={formik.handleBlur}
                     error={formik.touched.name && Boolean(formik.errors.name)}
                     helperText={formik.touched.name && formik.errors.name}
@@ -161,7 +163,7 @@ export default function CreateMealDialog({
                       onChange={formik.handleChange}
                       style={{
                         marginTop: "10px",
-                        textAlign: 'left'
+                        textAlign: "left",
                       }}
                     >
                       <MenuItem value={"ml"}>Milliliters</MenuItem>
@@ -178,7 +180,7 @@ export default function CreateMealDialog({
                       onChange={formik.handleChange}
                       style={{
                         marginTop: "10px",
-                        textAlign: 'left'
+                        textAlign: "left",
                       }}
                     >
                       <MenuItem value={"L"}>Large</MenuItem>
@@ -186,6 +188,7 @@ export default function CreateMealDialog({
                       <MenuItem value={"S"}>Small</MenuItem>
                     </Select>
                   </FormControl>
+                  <MealImageUploader/>
                 </div>
 
                 {/* Right side */}
@@ -200,15 +203,15 @@ export default function CreateMealDialog({
                     marginLeft: "20px",
                   }}
                 >
-                  <MealSearchBar/>
-                  <MealComponentTable/>
+                  <MealSearchBar />
+                  <MealComponentTable />
                 </div>
               </div>
 
               <DialogActions>
                 <Button onClick={closeFormDialog}>Cancel</Button>
                 <Button variant="contained" type="submit">
-                Create
+                  Create
                 </Button>
               </DialogActions>
             </form>

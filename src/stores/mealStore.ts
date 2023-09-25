@@ -7,6 +7,9 @@ const useMealStore = create<IMealStore>((set) => ({
 
   selectedMeal: null,
   setSelectedMeal: (meal) => set({ selectedMeal: meal }),
+
+  mealId: null,
+  setMealId: (id) => set({ mealId: id }),
   
   ingredientMeals: null,
   setIngredientMeals: (meals) => set({ ingredientMeals: meals })

@@ -1,4 +1,5 @@
 import { Amplify } from 'aws-amplify';
+import { useEffect } from 'react';
 import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
@@ -6,10 +7,18 @@ import awsconfig from './aws-exports';
 import NavBar from './components/header/NavBar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home'
+import useUserStore from './stores/userStore';
 
 Amplify.configure(awsconfig)
 
 function App({ signOut, user }: WithAuthenticatorProps) {
+  const {
+    setStoreUser
+  } = useUserStore()
+  useEffect(() => {
+    setStoreUser(user)
+  }, [user])
+
   return (
       <Router>
         <div style={{
