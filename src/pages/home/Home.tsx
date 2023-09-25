@@ -10,6 +10,8 @@ import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material';
 import { Button } from '@mui/material';
 
+import {BiExport} from 'react-icons/bi'
+
 // Components
 import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
 import SearchBar from "../../components/search/SearchBar"
@@ -115,24 +117,29 @@ const Home: React.FC = () => {
           <Typography
             variant="h3"
             component="h2"
-            style={{fontSize: '40px'}}
+            style={{fontSize: '40px',
+          marginLeft:'60px'}}
             >
             { entityString(entity) }
           </Typography>
+          <div>
           <Button
             id='primary-button'
-            variant='contained'
+            variant='outlined'
             type="submit"
             onClick={() => exportData()}
             style={{
               width: '131px',
-              height: '56px'
+              height: '56px',
+              marginRight: '10px'
             }}
           >
             Export &nbsp;
+            <BiExport/>
 
           </Button>
           { addEntityButton }
+          </div>
         </div>
         <div
           style={{
