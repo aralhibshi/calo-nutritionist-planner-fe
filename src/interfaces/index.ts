@@ -207,8 +207,8 @@ export interface IEditData {
 
 // User Store
 export interface IUserStore {
-  user: any;
-  setUser: (data: any) => void;
+  storeUser: any;
+  setStoreUser: (data: any) => void;
 }
 
 // Ingredient Store

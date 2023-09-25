@@ -1,7 +1,9 @@
 import { create } from "zustand";
 import { IUserStore } from "../interfaces";
 
-const userStore = create<IUserStore>((set) => ({
-  user: null,
-  setUser: (data) => set({ user: data })
+const useUserStore = create<IUserStore>((set) => ({
+  storeUser: null,
+  setStoreUser: (data) => set({ storeUser: data })
 }))
+
+export default useUserStore;
