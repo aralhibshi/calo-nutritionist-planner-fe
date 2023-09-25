@@ -130,7 +130,7 @@ export default function EditMealDialogProps({
           open={open}
           onClose={closeFormDialog}
         >
-          <DialogTitle>Update Component</DialogTitle>
+          <DialogTitle>Update Meal</DialogTitle>
           <DialogContent>
             <form onSubmit={handleFormSubmit}>
               <div
