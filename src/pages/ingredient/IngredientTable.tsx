@@ -10,9 +10,11 @@ import useSearchStore from "../../stores/searchStore";
 import { IIngredient, IIngredientData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useEntityStore from "../../stores/entityStore";
+import TestPlaygroundDialog from "./TestPlaygroundDialog";
 
 const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<IIngredientData[]>([]);
+  const [testOpen, setTestOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const {
     setEntityCount,
@@ -98,6 +100,10 @@ const IngredientTable: React.FC = () => {
     loadIngredients();
   };
 
+  const handleTestOpen = () => {
+    setTestOpen(true);
+  }
+
   return (
     <>
       {loading && (
@@ -152,9 +158,12 @@ const IngredientTable: React.FC = () => {
               >
                 <td
                   style={{
-                    width: '40%'
+                    width: '40%',
+                    cursor: 'pointer'
                   }}
-                >{ingredient.name}</td>
+                  onClick={handleTestOpen}
+                >
+                  {ingredient.name}</td>
                 <td>{calories}</td>
                 <td>{ingredient.protein}</td>
                 <td>{ingredient.carbs}</td>
@@ -181,6 +190,10 @@ const IngredientTable: React.FC = () => {
         open={open}
         setOpen={setOpen}
         onIngredientUpdated={handleIngredientUpdated}
+      />
+      <TestPlaygroundDialog
+        open={testOpen}
+        setOpen={setTestOpen}
       />
       <CreateIngredientDialog
         onIngredientAdded={handleIngredientAdded}
