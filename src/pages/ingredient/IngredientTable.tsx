@@ -10,7 +10,7 @@ import useSearchStore from "../../stores/searchStore";
 import { IIngredient, IIngredientData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useEntityStore from "../../stores/entityStore";
-import TestPlaygroundDialog from "./TestPlaygroundDialog";
+import TestPlaygroundDialog from "./IngredientPlaygroundDialog";
 
 const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<IIngredientData[]>([]);

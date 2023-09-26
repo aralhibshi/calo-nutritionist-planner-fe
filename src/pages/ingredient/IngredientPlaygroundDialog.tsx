@@ -8,12 +8,12 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
-interface TestPlaygroundDialogProps {
+interface IngredientPlaygroundDialogProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TestPlaygroundDialog: React.FC<TestPlaygroundDialogProps> = (props) => {
+const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (props) => {
   const handleClose = () => {
     props.setOpen(false);
   };
@@ -70,4 +70,4 @@ const TestPlaygroundDialog: React.FC<TestPlaygroundDialogProps> = (props) => {
   );
 };
 
-export default TestPlaygroundDialog;
+export default IngredientPlaygroundDialog;
