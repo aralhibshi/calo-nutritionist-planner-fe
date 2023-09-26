@@ -11,8 +11,8 @@ import IngredientComponentTable from './IngredientComponentTable';
 import { IIngredientData } from '../../interfaces';
 import IngredientMealTable from './IngredientMealTable';
 import { useTheme } from '@mui/material/styles';
-import theme from '../../theme/theme';
 import DialogComponentTable from './DialogComponentTable';
+import Divider from '@mui/material/Divider';
 
 interface IngredientPlaygroundDialogProps {
   open: boolean;
@@ -36,7 +36,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
         style={{
           display: 'flex',
           flexDirection: 'column',
-          minHeight: '8vh',
+          minHeight: '65px',
           backgroundColor: theme.palette.primary.main,
           color: theme.palette.primary.contrastText
         }}
@@ -55,7 +55,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
         style={{
           display: 'flex',
           flexDirection: 'column',
-          minHeight: '92vh'
+          minHeight: 'calc(100vh - 65px)'
         }}
       >
         <CardContent
@@ -67,63 +67,78 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
             container
             spacing={2}
           >
+            {/* Section 1 */}
             <Grid
               item
               container
-              xs={2}
+              xs={3}
               spacing={2}
               alignItems='center'
+              maxHeight={'100vh'}
             >
               <Grid
                 item 
                 xs={12}
+                alignItems='center'
+                textAlign='center'
               >
                 <Typography
                   variant='h6'
                 >
-                  Section 1
+                  Ingredient Name
                 </Typography>
               </Grid>
-              {/* Add your content for Section 1 here */}
               <Grid
                 item
-                xs={12}
+                container
+                flexDirection='row'
+                justifyContent='space-between'
               >
-                <TextField
-                  variant='outlined'
-                  label='Price'
-                  fullWidth
-                />
-              </Grid>
-              <Grid
-                item
-                xs={12}
-              >
-                <TextField
-                  variant='outlined'
-                  label='Protein'
-                  fullWidth
-                />
-              </Grid>
-              <Grid
-                item xs={12}>
-                <TextField
-                  variant='outlined'
-                  label='Carbs'
-                  fullWidth
-                />
-              </Grid>
-              <Grid
-                item
-                xs={12}
-              >
-                <TextField
-                  variant='outlined'
-                  label='Fats'
-                  fullWidth
-                />
+                <Grid
+                  item
+                  xs={2.5}
+                >
+                  <TextField
+                    variant='outlined'
+                    label='Price'
+                    disabled
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xs={2.5}
+                >
+                  <TextField
+                    variant='outlined'
+                    label='Protein'
+                    disabled
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xs={2.5}
+                >
+                  <TextField
+                    variant='outlined'
+                    label='Carbs'
+                    disabled
+                  />
+                </Grid>
+                <Grid
+                  item
+                  xs={2.5}
+                >
+                  <TextField
+                    variant='outlined'
+                    label='Fats'
+                    disabled
+                  />
+                </Grid>
               </Grid>
             </Grid>
+ 
+            {/* Section 2 */}
+
             <Grid
               item
               container
@@ -134,38 +149,41 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
               <Grid
                 item
                 xs={12}
+                textAlign='center'
               >
                 <Typography
                   variant='h6'
                 >
-                  Section 2
+                  Components
                 </Typography>
               </Grid>
-              {/* Add your content for Section 2 here */}
               <Grid
                 item xs={12}
               >
-<DialogComponentTable/>
+                <DialogComponentTable/>
               </Grid>
               <Grid
                 item xs={12}
               >
-              <Grid
-              item xs={12}
-              >
-                {/* <ArrowDownwardIcon /> */}
               </Grid>
+              <Grid
+                item
+                xs={12}
+                textAlign='center'
+              >
+                <Typography
+                  variant='h6'
+                >
+                  Meals
+                </Typography>
               </Grid>
               <Grid
                 item xs={12}
               >
-
               <IngredientMealTable/>
-
               </Grid>
-
             </Grid>
-            <Grid
+            {/* <Grid
               item
               container
               xs={2}
@@ -182,8 +200,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                   Section 3
                 </Typography>
               </Grid>
-              {/* Add your content for Section 3 here */}
-            </Grid>
+            </Grid> */}
           </Grid>
         </CardContent>
         <Button
