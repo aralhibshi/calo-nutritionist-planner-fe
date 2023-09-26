@@ -11,6 +11,8 @@ import IngredientComponentTable from './IngredientComponentTable';
 import { IIngredientData } from '../../interfaces';
 import IngredientMealTable from './IngredientMealTable';
 import { useTheme } from '@mui/material/styles';
+import theme from '../../theme/theme';
+import DialogComponentTable from './DialogComponentTable';
 
 interface IngredientPlaygroundDialogProps {
   open: boolean;
