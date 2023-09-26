@@ -11,6 +11,7 @@ import { IIngredient, IIngredientData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useEntityStore from "../../stores/entityStore";
 import TestPlaygroundDialog from "./IngredientPlaygroundDialog";
+import Button from '@mui/material/Button';
 
 const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<IIngredientData[]>([]);
@@ -159,11 +160,20 @@ const IngredientTable: React.FC = () => {
                 <td
                   style={{
                     width: '40%',
-                    cursor: 'pointer'
                   }}
-                  onClick={handleTestOpen}
                 >
-                  {ingredient.name}</td>
+                <Button
+                  onClick={handleTestOpen}
+                  color="inherit"
+                  variant="text"
+                  style={{
+                    cursor: 'pointer',
+                    fontSize: '18px',
+                  }}
+                >
+                  {ingredient.name}
+                </Button>
+                </td>
                 <td>{calories}</td>
                 <td>{ingredient.protein}</td>
                 <td>{ingredient.carbs}</td>
