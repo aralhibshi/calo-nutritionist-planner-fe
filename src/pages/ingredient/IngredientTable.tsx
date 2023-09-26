@@ -75,10 +75,10 @@ const IngredientTable: React.FC = () => {
     ]);
   };
 
-  const handleEditClick = (row: any) => {
+  const handleIngredientClick = (row: any) => {
     setSelectedIngredient(row);
     setTimeout(() => {
-      setOpen(true);
+      setTestOpen(true);
     }, 0);
     setTimeout(() => {
       const barChart = document.querySelector('.css-18ftw0b-MuiChartsSurface-root')
@@ -101,9 +101,16 @@ const IngredientTable: React.FC = () => {
     loadIngredients();
   };
 
-  const handleTestOpen = () => {
-    setTestOpen(true);
-  }
+  const handleEditClick = (row: any) => {
+    setSelectedIngredient(row);
+    setTimeout(() => {
+      setOpen(true);
+    }, 0);
+    setTimeout(() => {
+      const barChart = document.querySelector('.css-18ftw0b-MuiChartsSurface-root')
+      barChart?.setAttribute('viewBox', '0 15 400 280');
+    }, 20)
+  };
 
   return (
     <>
@@ -163,7 +170,7 @@ const IngredientTable: React.FC = () => {
                   }}
                 >
                 <Button
-                  onClick={handleTestOpen}
+                  onClick={() => handleIngredientClick(ingredient)}
                   color="inherit"
                   variant="text"
                   style={{
