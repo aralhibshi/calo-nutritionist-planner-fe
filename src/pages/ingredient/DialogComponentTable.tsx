@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import TableContainer from '@mui/material/TableContainer';
 import Table from '@mui/material/Table';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -13,6 +13,12 @@ import useSearchStore from '../../stores/searchStore';
 import {AiOutlineArrowDown} from 'react-icons/ai'
 
 const DialogComponentTable: React.FC = () => {
+  const [totalCalories, setTotalCalories] = useState<number>(0);
+  const [totalCarbs, setTotalCarbs] = useState<number>(0);
+  const [totalProteins, setTotalProteins] = useState<number>(0);
+  const [totalFats, setTotalFats] = useState<number>(0);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+  
   const {
     loading,
     setLoading,
@@ -55,6 +61,69 @@ const DialogComponentTable: React.FC = () => {
   useEffect(() => {
     loadComponents();
   }, []);
+
+  
+  useEffect(() => {
+    // Calculate total calories whenever ingredientComponents or editData change
+    let calculatedTotalCalories = 0;
+    let calculatedTotalCarbs = 0;
+    let calculatedTotalProteins = 0;
+    let calculatedTotalFats = 0;
+    let calculatedTotalPrice = 0;
+
+    if (ingredientComponents && Array.isArray(ingredientComponents) && ingredientComponents.length > 0) {
+      ingredientComponents.forEach((component: IComponent) => {
+        const data: IComponentIngredientDetails = {
+          ingredient_id: '',
+          calories: 0,
+          protein: 0,
+          carbs: 0,
+          fats: 0,
+          price: 0,
+          quantity: 0
+        }
+
+        if (component.components_ingredients && Array.isArray(component.components_ingredients)) {
+          component.components_ingredients.forEach((el) => {
+            if (selectedIngredient && el.ingredient_id !== selectedIngredient.id) {
+              data.ingredient_id = el.ingredient_id;
+              data.protein += Number(el.ingredient.protein)
+              data.carbs += Number(el.ingredient.carbs)
+              data.fats += Number(el.ingredient.fats)
+              data.calories += Number(data.protein * 4 + data.carbs * 4 + data.fats * 9)
+              data.price += Number(el.ingredient.price)
+            } else {
+              data.protein += Number(editData.protein)
+              data.carbs += Number(editData.carbs)
+              data.fats += Number(editData.fats)
+              data.calories += Number(data.protein * 4 + data.carbs * 4 + data.fats * 9)
+              data.price += Number(editData.price)
+              data.quantity += Number(el.ingredient_quantity)
+            }
+          });
+
+          data.protein = Number(data.protein.toFixed(3));
+          data.carbs = Number(data.carbs.toFixed(3));
+          data.fats = Number(data.fats.toFixed(3));
+          data.calories = Number(data.calories.toFixed(3));
+          data.price = Number(data.price.toFixed(3));
+          calculatedTotalCalories += data.calories;
+          calculatedTotalCarbs += data.carbs;
+          calculatedTotalProteins += data.protein;
+          calculatedTotalFats += data.fats;
+          calculatedTotalPrice += data.price;
+        }
+      });
+    }
+
+    // Update totalCalories state
+    setTotalCalories(calculatedTotalCalories);
+    setTotalCarbs(calculatedTotalCarbs);
+    setTotalProteins(calculatedTotalProteins);
+    setTotalFats(calculatedTotalFats);
+    setTotalPrice(calculatedTotalPrice);
+  }, [ingredientComponents, selectedIngredient]);
+  
 
   return (
     <>
@@ -153,7 +222,7 @@ const DialogComponentTable: React.FC = () => {
                       //     : 'inherit',
                       // }}
                     >
-                      {Number((data.calories / data.quantity).toFixed(3))} <br/><AiOutlineArrowDown/><br/> 99.9
+                      {totalCalories} <br/><AiOutlineArrowDown/><br/> {Number((data.calories / data.quantity).toFixed(3))}
                     </td>
                     <td
                       style={{
@@ -162,7 +231,7 @@ const DialogComponentTable: React.FC = () => {
                           : 'inherit',
                       }}
                     >
-                      {Number((data.protein / data.quantity).toFixed(3))}<br/><AiOutlineArrowDown/><br/> 99.9
+                     {totalProteins} <br/><AiOutlineArrowDown/><br/> {Number((data.protein / data.quantity).toFixed(3))}
                     </td>
                     <td
                       style={{
@@ -171,7 +240,7 @@ const DialogComponentTable: React.FC = () => {
                           : 'inherit',
                       }}
                     >
-                      {Number((data.carbs / data.quantity).toFixed(3))}<br/><AiOutlineArrowDown/><br/> 99.9
+                     {totalCarbs} <br/><AiOutlineArrowDown/><br/> {Number((data.carbs / data.quantity).toFixed(3))}
                     </td>
                     <td
                       style={{
@@ -180,7 +249,7 @@ const DialogComponentTable: React.FC = () => {
                           : 'inherit',
                       }}
                     >
-                      {Number((data.fats / data.quantity).toFixed(3))}<br/><AiOutlineArrowDown/><br/> 99.9
+                      {totalFats}<br/><AiOutlineArrowDown/><br/> {Number((data.fats / data.quantity).toFixed(3))}
                     </td>
                     <td>{component.unit}</td>
                     <td
@@ -190,7 +259,7 @@ const DialogComponentTable: React.FC = () => {
                           : 'inherit',
                       }}
                     >
-                      {Number((data.price / data.quantity).toFixed(3))}<br/><AiOutlineArrowDown/><br/> 99.9
+                     {totalPrice} <br/><AiOutlineArrowDown/><br/> {Number((data.price / data.quantity).toFixed(3))}
                     </td>
                   </tr>
                 );
