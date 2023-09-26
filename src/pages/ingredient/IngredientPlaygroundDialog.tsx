@@ -72,7 +72,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
             <Grid
               item
               container
-              xs={3}
+              xs={3.5}
               alignItems='center'
               maxHeight={'100vh'}
               spacing={1.9}
@@ -93,16 +93,19 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                 item
                 container
                 flexDirection='row'
-                justifyContent='space-between'
+                spacing={1}
+                justifyItems='center'
               >
                 <Grid
                   item
                   xs={6}
+                  maxWidth={100}
                 >
                   <TextField
                     variant='outlined'
                     label='Category'
                     value='Carbs'
+                    fullWidth
                     disabled
                   />
                 </Grid>
@@ -115,6 +118,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                     variant='outlined'
                     label='Unit'
                     value='Milliliters'
+                    fullWidth
                     disabled
                   />
                 </Grid>
@@ -155,6 +159,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                   <TextField
                     variant='outlined'
                     label='Price'
+                    value={0.125}
                     disabled
                   />
                 </Grid>
@@ -165,6 +170,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                   <TextField
                     variant='outlined'
                     label='Protein'
+                    value={0.522}
                     disabled
                   />
                 </Grid>
@@ -175,6 +181,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                   <TextField
                     variant='outlined'
                     label='Carbs'
+                    value={0.123}
                     disabled
                   />
                 </Grid>
@@ -185,6 +192,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                   <TextField
                     variant='outlined'
                     label='Fats'
+                    value={0.234}
                     disabled
                   />
                 </Grid>
@@ -263,6 +271,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                   <TextField
                     variant='outlined'
                     label='Price'
+                    value={0.412}
                     disabled
                   />
                 </Grid>
@@ -273,6 +282,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                   <TextField
                     variant='outlined'
                     label='Protein'
+                    value={0.521}
                     disabled
                   />
                 </Grid>
@@ -283,6 +293,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                   <TextField
                     variant='outlined'
                     label='Carbs'
+                    value={0.123}
                     disabled
                   />
                 </Grid>
@@ -293,6 +304,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                   <TextField
                     variant='outlined'
                     label='Fats'
+                    value={0.335}
                     disabled
                   />
                 </Grid>
@@ -312,17 +324,6 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                 justifyContent='space-between'
                 spacing={1}
               >
-                {/* <Grid
-                  item
-                  xs={12}
-                  textAlign='center'
-                >
-                  <Typography
-                    variant='h6'
-                  >
-                    Edit
-                  </Typography>       
-                </Grid> */}
                 <Grid
                   item
                   xs={3}
@@ -360,6 +361,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                 >
                   <Typography
                     variant='h6'
+                    // color={'#57AE7F'}
                   >
                     Protein
                   </Typography>
@@ -391,6 +393,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                 >
                   <Typography
                     variant='h6'
+                    // color={'#F29C38'}
                   >
                     Carbs
                   </Typography>
@@ -422,6 +425,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
                 >
                   <Typography
                     variant='h6'
+                    // color={'#D3302F'}
                   >
                     Fats
                   </Typography>
@@ -509,7 +513,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
             <Grid
               item
               container
-              xs={9}
+              xs={8.5}
               spacing={2}
               alignItems='center'
             >
