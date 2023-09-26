@@ -9,7 +9,9 @@ import Button from '@mui/material/Button';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import IngredientComponentTable from './IngredientComponentTable';
 import { IIngredientData } from '../../interfaces';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import IngredientMealTable from './IngredientMealTable';
+import theme from '../../theme/theme';
 
 interface IngredientPlaygroundDialogProps {
   open: boolean;
@@ -17,13 +19,18 @@ interface IngredientPlaygroundDialogProps {
 }
 
 const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (props) => {
+
   const handleClose = () => {
     props.setOpen(false);
   };
 
   return (
-    <Dialog open={props.open} onClose={handleClose} maxWidth="lg" fullWidth>
-      <Card style={{ display: 'flex', flexDirection: 'column', minHeight: '80vh' }}>
+    <Dialog
+    open={props.open}
+    onClose={handleClose}
+    fullScreen
+    >
+      <Card style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <CardContent style={{ flex: 1 }}>
           <Grid container spacing={2}>
             <Grid item container xs={2} spacing={2} alignItems="center">
