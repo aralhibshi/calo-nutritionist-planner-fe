@@ -145,9 +145,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = (p
               <Grid
                 item xs={12}
               >
-
-                <IngredientComponentTable />
-
+<DialogComponentTable/>
               </Grid>
               <Grid
                 item xs={12}

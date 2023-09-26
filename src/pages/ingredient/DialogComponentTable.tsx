@@ -10,7 +10,7 @@ import useComponentStore from '../../stores/componentStore';
 import { IComponent , IComponentIngredientDetails } from '../../interfaces';
 import { useTheme } from '@mui/material/styles';
 import useSearchStore from '../../stores/searchStore';
-import {BsArrowRight} from 'react-icons/bs'
+import {AiOutlineArrowDown} from 'react-icons/ai'
 
 const DialogComponentTable: React.FC = () => {
   const {
@@ -153,7 +153,7 @@ const DialogComponentTable: React.FC = () => {
                       //     : 'inherit',
                       // }}
                     >
-                      {Number((data.calories / data.quantity).toFixed(3))} <BsArrowRight/> 99.9
+                      {Number((data.calories / data.quantity).toFixed(3))} <br/><AiOutlineArrowDown/><br/> 99.9
                     </td>
                     <td
                       style={{
@@ -162,7 +162,7 @@ const DialogComponentTable: React.FC = () => {
                           : 'inherit',
                       }}
                     >
-                      {Number((data.protein / data.quantity).toFixed(3))}<BsArrowRight/> 99.9
+                      {Number((data.protein / data.quantity).toFixed(3))}<br/><AiOutlineArrowDown/><br/> 99.9
                     </td>
                     <td
                       style={{
@@ -171,7 +171,7 @@ const DialogComponentTable: React.FC = () => {
                           : 'inherit',
                       }}
                     >
-                      {Number((data.carbs / data.quantity).toFixed(3))}<BsArrowRight/> 99.9
+                      {Number((data.carbs / data.quantity).toFixed(3))}<br/><AiOutlineArrowDown/><br/> 99.9
                     </td>
                     <td
                       style={{
@@ -180,7 +180,7 @@ const DialogComponentTable: React.FC = () => {
                           : 'inherit',
                       }}
                     >
-                      {Number((data.fats / data.quantity).toFixed(3))}<BsArrowRight/> 99.9
+                      {Number((data.fats / data.quantity).toFixed(3))}<br/><AiOutlineArrowDown/><br/> 99.9
                     </td>
                     <td>{component.unit}</td>
                     <td
@@ -190,7 +190,7 @@ const DialogComponentTable: React.FC = () => {
                           : 'inherit',
                       }}
                     >
-                      {Number((data.price / data.quantity).toFixed(3))}<BsArrowRight/> 99.9
+                      {Number((data.price / data.quantity).toFixed(3))}<br/><AiOutlineArrowDown/><br/> 99.9
                     </td>
                   </tr>
                 );
