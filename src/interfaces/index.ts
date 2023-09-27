@@ -256,6 +256,9 @@ export interface IMealStore {
   addOpen: boolean;
   setAddOpen: (isOpen: boolean) => void;
 
+  uploaded: boolean;
+  setUploaded: (isUploaded: boolean) => void;
+
   selectedMeal: IMeal | null;
   setSelectedMeal: (meal: IMeal | null) => void;
 
