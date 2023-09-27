@@ -168,80 +168,92 @@ const DialogComponentTable: React.FC = () => {
                     return (
                       <tr key={index} style={{ height: "52px" }}>
                         <td>{component.name}</td>
-                        <td
-                        // style={{
-                        //   color: selectedIngredient && editData.calories !==
-                        //     ? theme.palette.primary.main
-                        //     : 'inherit',
-                        // }}
-                        >
+                        <td>
                           {(data.calories / data.quantity).toFixed(3)} <br />
                           <AiOutlineArrowDown />
                           <br />{" "}
-                          {Number(
-                            (newData.calories / (data.quantity)).toFixed(3)
-                          )}
+                          <div
+                            style={{
+                              color:
+                                selectedIngredient &&
+                                editData.protein !== selectedIngredient.protein
+                                  ? theme.palette.primary.main
+                                  : "inherit",
+                            }}
+                          >
+                            {Number(
+                              (newData.calories / (data.quantity)).toFixed(3)
+                            )}
+                          </div>
                         </td>
-                        <td
-                          style={{
-                            color:
-                              selectedIngredient &&
-                              editData.protein !== selectedIngredient.protein
-                                ? theme.palette.primary.main
-                                : "inherit",
-                          }}
-                        >
+                        <td>
                           {Number((data.protein / data.quantity).toFixed(3))}{" "}
                           <br />
                           <AiOutlineArrowDown />
                           <br />{" "}
-                          {Number(
-                            (newData.protein / data.quantity).toFixed(3)
-                          )}
+                          <div
+                            style={{
+                              color:
+                                selectedIngredient &&
+                                editData.protein !== selectedIngredient.protein
+                                  ? theme.palette.primary.main
+                                  : "inherit",
+                            }}
+                          >
+                            {Number(
+                              (newData.protein / data.quantity).toFixed(3)
+                            )}
+                          </div>
                         </td>
-                        <td
-                          style={{
-                            color:
-                              selectedIngredient &&
-                              editData.carbs !== selectedIngredient.carbs
-                                ? theme.palette.primary.main
-                                : "inherit",
-                          }}
-                        >
+                        <td>
                           {Number((data.carbs / data.quantity).toFixed(3))} <br />
                           <AiOutlineArrowDown />
                           <br />{" "}
-                          {Number((newData.carbs / data.quantity).toFixed(3))}
+                          <div
+                            style={{
+                              color:
+                                selectedIngredient &&
+                                editData.carbs !== selectedIngredient.carbs
+                                  ? theme.palette.primary.main
+                                  : "inherit",
+                            }}
+                          >
+                            {Number((newData.carbs / data.quantity).toFixed(3))}
+                          </div>
                         </td>
-                        <td
-                          style={{
-                            color:
-                              selectedIngredient &&
-                              editData.fats !== selectedIngredient.fats
-                                ? theme.palette.primary.main
-                                : "inherit",
-                          }}
-                        >
+                        <td>
                           {Number((data.fats / data.quantity).toFixed(3))}
                           <br />
                           <AiOutlineArrowDown />
                           <br />{" "}
-                          {Number((newData.fats / data.quantity).toFixed(3))}
+                          <div
+                            style={{
+                              color:
+                                selectedIngredient &&
+                                editData.fats !== selectedIngredient.fats
+                                  ? theme.palette.primary.main
+                                  : "inherit",
+                            }}
+                          >
+                            {Number((newData.fats / data.quantity).toFixed(3))}
+                          </div>
                         </td>
                         <td>{component.unit}</td>
-                        <td
-                          style={{
-                            color:
-                              selectedIngredient &&
-                              editData.price !== selectedIngredient.price
-                                ? theme.palette.primary.main
-                                : "inherit",
-                          }}
-                        >
+                        <td>
                           {Number((data.price / data.quantity).toFixed(3))} <br />
                           <AiOutlineArrowDown />
                           <br />{" "}
-                          {Number((newData.price / data.quantity).toFixed(3))}
+                          <div
+                            style={{
+                              color:
+                                selectedIngredient &&
+                                editData.price !== selectedIngredient.price
+                                  ? theme.palette.primary.main
+                                  : "inherit",
+                            }}
+                          >
+                            {Number((newData.price / data.quantity).toFixed(3))}
+                          </div>
                         </td>
                       </tr>
                     );

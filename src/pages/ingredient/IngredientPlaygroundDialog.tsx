@@ -372,9 +372,6 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                   xs={9}
                 >
                   <Slider
-                    sx={{
-                      color: sliderColor()
-                    }}
                     name='price'
                     defaultValue={Number(selectedIngredient?.price)}
                     max={0.999}
