@@ -34,6 +34,9 @@ const useTableStore = create<ITableStore>((set) => ({
     if (height > 1250 && height <= 1300) {
       setHeight(480)
     }
+    if (height > 1300 && height <= 1350) {
+      setHeight(510)
+    }
     if (height > 1350 && height <= 1400) {
       setHeight(530)
     }
