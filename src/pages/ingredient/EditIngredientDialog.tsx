@@ -32,12 +32,20 @@ interface EditIngredientDialogProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onIngredientUpdated: (updatedIngredient: IIngredientData) => void;
+  calculateData: (useCase:string, data: any) => void;
+  formattedCalories: () => number;
+  progressColor: () => 'error' | 'primary' | 'warning' | undefined;
+  sliderColor: () => string | undefined;
 }
 
 export default function EditIngredientDialog({
   open,
   setOpen,
   onIngredientUpdated,
+  calculateData,
+  formattedCalories,
+  progressColor,
+  sliderColor
 }: EditIngredientDialogProps) {
   const [loading, setLoading] = useState(false);
   const [currentTable, setcurrentTable] = useState('components')
@@ -100,60 +108,6 @@ export default function EditIngredientDialog({
     },
   });
 
-  function calculateData(useCase: string, data: any) {
-    const calculatedCalories =
-      Number(data.protein) * 4 +
-      Number(data.carbs) * 4 +
-      Number(data.fats) * 9;
-
-  
-    data.calories = Number(calculatedCalories.toFixed(3));
-
-    if (useCase === 'useEffect') {
-      const array = [
-        'price',
-        'protein',
-        'carbs',
-        'fats'
-      ]
-
-      array.forEach(el => {
-        data[el] = Number(Number(data[el]).toFixed(3))
-      })
-    }
-  
-    if (data.calories > 6.999) {
-      data.rating = 'High';
-    }
-    if (data.calories > 2.500 && data.calories < 6.999) {
-      data.rating = 'Normal'
-    }
-    if (data.calories < 2.500) {
-      data.rating = 'Low';
-    }
-
-    data.totalUnit =
-      Number(
-        (
-          Number(data.protein) +
-          Number(data.carbs) +
-          Number(data.fats)
-        )
-          .toFixed(3));
-
-    data.unitType = 'Total ' + data.unit
-
-    setEditData(data);
-  }
-
-  function formattedCalories() {
-    if (editData.calories <= 10.000) {
-      return editData.calories * 10
-    } else {
-      return 100
-    }
-  }
-
   const handleDecimalChange = (e: any) => {
     formik.handleChange(e);
 
@@ -182,30 +136,6 @@ export default function EditIngredientDialog({
   : currentTable === 'meals'
   ? <IngredientMealTable/>
   : null;
-
-  function progressColor() {
-    if (editData.rating === 'High') {
-      return 'error'
-    }
-    if (editData.rating === 'Normal') {
-      return 'primary'
-    }
-    if (editData.rating === 'Low') {
-      return 'warning'
-    }
-  }
-
-  function sliderColor() {
-    if (editData.totalUnit) {
-      if (editData.totalUnit == 1.000) {
-        return 'primary'
-      } else if (editData.totalUnit < 1.000){
-        return '#ED6C02'
-      } else {
-        return '#D3302F'
-      }
-    }
-  }
 
   return (
     <>
