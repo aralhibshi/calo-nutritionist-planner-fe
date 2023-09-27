@@ -225,6 +225,13 @@ export interface IIngredientStore {
   setCalories: (calories: number) => void; // New setter for calories
 }
 
+// Table Store
+export interface ITableStore {
+  height: number;
+  setHeight: (amount: number) => void;
+  setHeightCondition: (setHeight: any) => void, 
+}
+
 // Component Details
 export interface IComponentIngredientDetails {
   ingredient_id: string;
@@ -255,6 +262,9 @@ export interface IComponentStore {
 export interface IMealStore {
   addOpen: boolean;
   setAddOpen: (isOpen: boolean) => void;
+
+  uploaded: boolean;
+  setUploaded: (isUploaded: boolean) => void;
 
   selectedMeal: IMeal | null;
   setSelectedMeal: (meal: IMeal | null) => void;

@@ -10,13 +10,24 @@ import useComponentStore from "../../stores/componentStore";
 import { IComponent, IComponentIngredientDetails } from "../../interfaces";
 import { useTheme } from "@mui/material/styles";
 import useSearchStore from "../../stores/searchStore";
+import useTableStore from "../../stores/tableStore";
 import { AiOutlineArrowDown } from "react-icons/ai";
+import Grid from '@mui/material/Grid';
+import Button from "@mui/material/Button";
 
 const DialogComponentTable: React.FC = () => {
   const { loading, setLoading } = useEntityStore();
   const { selectedIngredient, editData } = useIngredientStore();
-  const { ingredientComponents, setIngredientComponents } = useComponentStore();
+  const {
+    selectedComponent,
+    setSelectedComponent,
+    ingredientComponents,
+    setIngredientComponents
+  } = useComponentStore();
   const { setSearchResult } = useSearchStore();
+  const {
+    height
+  } = useTableStore()
 
   const theme = useTheme();
 
@@ -45,6 +56,10 @@ const DialogComponentTable: React.FC = () => {
     loadComponents();
   }, []);
 
+  const handleSelectComponent = (e: any) => {
+    console.log(e.target)
+  }
+
   return (
     <>
       {loading && (
@@ -60,192 +75,228 @@ const DialogComponentTable: React.FC = () => {
       )}
       <TableContainer
         sx={{
-          maxHeight: 305,
+          maxHeight: height,
           overflowX: "hidden",
         }}
       >
-        <Table
+        <Grid
+          item
+          xs={12}
           sx={{
-            margin: "0 0 0 20px",
-            userSelect: "none",
-            width: "740px",
+            marginLeft: '20px',
+            marginRight: '20px'
           }}
-          id="table"
+          justifyContent='center'
+          alignContent='center'
         >
-          <thead
-            style={{
-              position: "sticky",
-              top: 0,
-              background: "white",
+          <Table
+            sx={{
+              userSelect: "none",
             }}
+            id="table"
           >
-            <tr>
-              <th>Component Name&nbsp;</th>
-              <th>Calories&nbsp;</th>
-              <th>Protein&nbsp;</th>
-              <th>Carbs&nbsp;</th>
-              <th>Fat&nbsp;</th>
-              <th>Unit&nbsp;</th>
-              <th>Price&nbsp;</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ingredientComponents &&
-            Array.isArray(ingredientComponents) &&
-            ingredientComponents.length > 0 ? (
-              ingredientComponents.map(
-                (component: IComponent, index: number) => {
-                  const data: IComponentIngredientDetails = {
-                    ingredient_id: "",
-                    calories: 0,
-                    protein: 0,
-                    carbs: 0,
-                    fats: 0,
-                    price: 0,
-                    quantity: 0,
-                  };
-                  const newData: IComponentIngredientDetails = {
-                    ingredient_id: "",
-                    calories: 0,
-                    protein: 0,
-                    carbs: 0,
-                    fats: 0,
-                    price: 0,
-                    quantity: 0,
-                  };
-                  if (
-                    component.components_ingredients &&
-                    Array.isArray(component.components_ingredients)
-                  ) {
-                    component.components_ingredients.forEach((el) => {
-                      data.ingredient_id = el.ingredient_id;
-                      data.protein += Number(el.ingredient.protein);
-                      data.carbs += Number(el.ingredient.carbs);
-                      data.fats += Number(el.ingredient.fats);
-
-                      data.price += Number(el.ingredient.price);
-                      data.quantity += Number(el.ingredient_quantity);
-                      if (
-                        selectedIngredient &&
-                        el.ingredient_id !== selectedIngredient.id
-                      ) {
-                        console.log("deez nuts");
-                      } else {
-                        newData.protein += Number(editData.protein);
-                        newData.carbs += Number(editData.carbs);
-                        newData.fats += Number(editData.fats);
-
-                        newData.price += Number(editData.price);
-                        newData.quantity += Number(el.ingredient_quantity);
-                      }
-                    });
-                    data.calories += Number(
-                      data.protein * 4 + data.carbs * 4 + data.fats * 9
-                    );
-                    data.protein = Number(data.protein.toFixed(3));
-                    data.carbs = Number(data.carbs.toFixed(3));
-                    data.fats = Number(data.fats.toFixed(3));
-                    data.calories = Number(data.calories.toFixed(3));
-                    data.price = Number(data.price.toFixed(3));
-
-                    newData.calories += Number(
-                      newData.protein * 4 + newData.carbs * 4 + newData.fats * 9
-                    );
-                    newData.protein = Number(newData.protein.toFixed(3));
-                    newData.carbs = Number(newData.carbs.toFixed(3));
-                    newData.fats = Number(newData.fats.toFixed(3));
-                    newData.calories = Number(newData.calories.toFixed(3));
-                    newData.price = Number(newData.price.toFixed(3));
-                  }
-                  return (
-                    <tr key={index} style={{ height: "52px" }}>
-                      <td>{component.name}</td>
-                      <td
-                      // style={{
-                      //   color: selectedIngredient && editData.calories !==
-                      //     ? theme.palette.primary.main
-                      //     : 'inherit',
-                      // }}
-                      >
-                        {(data.calories / data.quantity).toFixed(3)} <br />
-                        <AiOutlineArrowDown />
-                        <br />{" "}
-                        {Number(
-                          (newData.calories / newData.quantity).toFixed(3)
-                        )}
-                      </td>
-                      <td
-                        style={{
-                          color:
-                            selectedIngredient &&
-                            editData.protein !== selectedIngredient.protein
-                              ? theme.palette.primary.main
-                              : "inherit",
-                        }}
-                      >
-                        {Number((data.protein / data.quantity).toFixed(3))}{" "}
-                        <br />
-                        <AiOutlineArrowDown />
-                        <br />{" "}
-                        {Number(
-                          (newData.protein / newData.quantity).toFixed(3)
-                        )}
-                      </td>
-                      <td
-                        style={{
-                          color:
-                            selectedIngredient &&
-                            editData.carbs !== selectedIngredient.carbs
-                              ? theme.palette.primary.main
-                              : "inherit",
-                        }}
-                      >
-                        {Number((data.carbs / data.quantity).toFixed(3))} <br />
-                        <AiOutlineArrowDown />
-                        <br />{" "}
-                        {Number((newData.carbs / newData.quantity).toFixed(3))}
-                      </td>
-                      <td
-                        style={{
-                          color:
-                            selectedIngredient &&
-                            editData.fats !== selectedIngredient.fats
-                              ? theme.palette.primary.main
-                              : "inherit",
-                        }}
-                      >
-                        {Number((data.fats / data.quantity).toFixed(3))}
-                        <br />
-                        <AiOutlineArrowDown />
-                        <br />{" "}
-                        {Number((newData.fats / newData.quantity).toFixed(3))}
-                      </td>
-                      <td>{component.unit}</td>
-                      <td
-                        style={{
-                          color:
-                            selectedIngredient &&
-                            editData.price !== selectedIngredient.price
-                              ? theme.palette.primary.main
-                              : "inherit",
-                        }}
-                      >
-                        {Number((data.price / data.quantity).toFixed(3))} <br />
-                        <AiOutlineArrowDown />
-                        <br />{" "}
-                        {Number((newData.price / newData.quantity).toFixed(3))}
-                      </td>
-                    </tr>
-                  );
-                }
-              )
-            ) : (
+            <thead
+              style={{
+                position: "sticky",
+                top: 0,
+                background: "white",
+              }}
+            >
               <tr>
-                <td colSpan={8}>No components found.</td>
+                <th>Component Name&nbsp;</th>
+                <th>Calories&nbsp;</th>
+                <th>Protein&nbsp;</th>
+                <th>Carbs&nbsp;</th>
+                <th>Fat&nbsp;</th>
+                <th>Unit&nbsp;</th>
+                <th>Price&nbsp;</th>
               </tr>
-            )}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {ingredientComponents &&
+              Array.isArray(ingredientComponents) &&
+              ingredientComponents.length > 0 ? (
+                ingredientComponents.map(
+                  (component: IComponent, index: number) => {
+                    const data: IComponentIngredientDetails = {
+                      ingredient_id: "",
+                      calories: 0,
+                      protein: 0,
+                      carbs: 0,
+                      fats: 0,
+                      price: 0,
+                      quantity: 0,
+                    };
+                    const newData: IComponentIngredientDetails = {
+                      ingredient_id: "",
+                      calories: editData.calories,
+                      protein: editData.protein,
+                      carbs: editData.carbs,
+                      fats: editData.fats,
+                      price: editData.price,
+                      quantity: 0,
+                    };
+                    if (
+                      component.components_ingredients &&
+                      Array.isArray(component.components_ingredients)
+                    ) {
+                      component.components_ingredients.forEach((el) => {
+                        data.ingredient_id = el.ingredient_id;
+                        data.protein += Number(el.ingredient.protein);
+                        data.carbs += Number(el.ingredient.carbs);
+                        data.fats += Number(el.ingredient.fats);
+                        data.price += Number(el.ingredient.price);
+                        data.quantity += Number(el.ingredient_quantity);
+                        if (
+                          selectedIngredient &&
+                          el.ingredient_id !== selectedIngredient.id
+                        ) {
+                          newData.protein += Number(el.ingredient.protein);
+                          newData.carbs += Number(el.ingredient.carbs);
+                          newData.fats += Number(el.ingredient.fats);
+                          newData.price += Number(el.ingredient.price);
+                          newData.quantity += Number(el.ingredient_quantity);
+                        }
+                      });
+                      data.calories = Number(
+                        data.protein * 4 + data.carbs * 4 + data.fats * 9
+                      );
+                      data.protein = Number(data.protein.toFixed(3));
+                      data.carbs = Number(data.carbs.toFixed(3));
+                      data.fats = Number(data.fats.toFixed(3));
+                      data.calories = Number(data.calories.toFixed(3));
+                      data.price = Number(data.price.toFixed(3));
+                      newData.calories = Number(
+                        newData.protein * 4 + newData.carbs * 4 + newData.fats * 9
+                      );
+                      newData.protein = Number((newData.protein.toFixed(3)));
+                      newData.carbs = Number(newData.carbs.toFixed(3));
+                      newData.fats = Number(newData.fats.toFixed(3));
+                      newData.calories = Number(newData.calories.toFixed(3));
+                      newData.price = Number(newData.price.toFixed(3));
+                    }
+                    return (
+                      <tr
+                        key={index}
+                        style={{
+                          height: "52px",
+                          backgroundColor: selectedComponent?.id === component.id ? '#DBE8EE' : 'inherit'
+                        }}>
+                        <td>
+                          <Button
+                            onClick={() => {
+                              setSelectedComponent(component)
+                            }}
+                            color={selectedComponent?.id === component.id ? 'info' : 'inherit'}
+                            variant="text"
+                            style={{
+                              cursor: 'pointer',
+                              fontSize: '18px',
+                            }}
+                            id={component.id}
+                          >
+                            {component.name}
+                          </Button>
+                        </td>
+                        <td>
+                          {(data.calories / data.quantity).toFixed(3)} <br />
+                          <AiOutlineArrowDown />
+                          <br />{" "}
+                          <div
+                            style={{
+                              color:
+                                selectedIngredient &&
+                                editData.protein !== selectedIngredient.protein
+                                  ? theme.palette.primary.main
+                                  : "inherit",
+                            }}
+                          >
+                            {Number(
+                              (newData.calories / (data.quantity)).toFixed(3)
+                            )}
+                          </div>
+                        </td>
+                        <td>
+                          {Number((data.protein / data.quantity).toFixed(3))}{" "}
+                          <br />
+                          <AiOutlineArrowDown />
+                          <br />{" "}
+                          <div
+                            style={{
+                              color:
+                                selectedIngredient &&
+                                editData.protein !== selectedIngredient.protein
+                                  ? theme.palette.primary.main
+                                  : "inherit",
+                            }}
+                          >
+                            {Number(
+                              (newData.protein / data.quantity).toFixed(3)
+                            )}
+                          </div>
+                        </td>
+                        <td>
+                          {Number((data.carbs / data.quantity).toFixed(3))} <br />
+                          <AiOutlineArrowDown />
+                          <br />{" "}
+                          <div
+                            style={{
+                              color:
+                                selectedIngredient &&
+                                editData.carbs !== selectedIngredient.carbs
+                                  ? theme.palette.primary.main
+                                  : "inherit",
+                            }}
+                          >
+                            {Number((newData.carbs / data.quantity).toFixed(3))}
+                          </div>
+                        </td>
+                        <td>
+                          {Number((data.fats / data.quantity).toFixed(3))}
+                          <br />
+                          <AiOutlineArrowDown />
+                          <br />{" "}
+                          <div
+                            style={{
+                              color:
+                                selectedIngredient &&
+                                editData.fats !== selectedIngredient.fats
+                                  ? theme.palette.primary.main
+                                  : "inherit",
+                            }}
+                          >
+                            {Number((newData.fats / data.quantity).toFixed(3))}
+                          </div>
+                        </td>
+                        <td>{component.unit}</td>
+                        <td>
+                          {Number((data.price / data.quantity).toFixed(3))} <br />
+                          <AiOutlineArrowDown />
+                          <br />{" "}
+                          <div
+                            style={{
+                              color:
+                                selectedIngredient &&
+                                editData.price !== selectedIngredient.price
+                                  ? theme.palette.primary.main
+                                  : "inherit",
+                            }}
+                          >
+                            {Number((newData.price / data.quantity).toFixed(3))}
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  }
+                )
+              ) : (
+                <tr>
+                  <td colSpan={8}>No components found.</td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </Grid>
       </TableContainer>
     </>
   );

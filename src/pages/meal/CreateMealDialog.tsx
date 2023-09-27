@@ -29,12 +29,13 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
   const { addOpen, setAddOpen } = useMealStore();
   const { selectedComponents, setSelectedComponents } = useComponentStore();
   const { setNotify, setMessage } = useNotificationStore();
-  const { setMealId, } = useMealStore();
+  const { setMealId,uploaded, setUploaded } = useMealStore();
 
   const closeFormDialog = () => {
     setSelectedComponents([]);
     formik.resetForm();
     setAddOpen(false);
+    setUploaded(false)
   };
 
   const formik = useFormik({
@@ -70,7 +71,13 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Check if any ingredients are selected
-    if (selectedComponents.length === 0) {
+    if (!uploaded) {
+      // No ingredients selected, show a message to the user
+      setNotify(true);
+      setMessage("Please upload an image");
+      return; // Prevent form submission
+    }
+    if (selectedComponents.length === 0 ) {
       // No ingredients selected, show a message to the user
       setNotify(true);
       setMessage("Please select at least one ingredient.");
