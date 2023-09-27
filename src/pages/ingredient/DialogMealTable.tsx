@@ -29,7 +29,9 @@ const DialogMealTable: React.FC = () => {
     height,
   } = useTableStore()
   const {
-    selectedComponent
+    selectedComponent,
+    componentCount,
+    setComponentCount
   } = useComponentStore()
 
   const theme = useTheme();
@@ -118,6 +120,7 @@ const DialogMealTable: React.FC = () => {
               ingredientMeals.length > 0 ? (
                 ingredientMeals.map((meal: IMeal, index: number) => {
                   const componentArray: any = []
+                  
                   const data: IComponentIngredientDetails = {
                     ingredient_id: "",
                     calories: 0,
@@ -141,8 +144,10 @@ const DialogMealTable: React.FC = () => {
                     Array.isArray(meal.meals_components) &&
                     meal.meals_components.length > 0
                   ) {
+
                     meal.meals_components?.forEach((el: IMealComponent) => {
                       componentArray.push(el.component_id)
+
                       const quantity = Number(el.component_quantity);
                       el.component.components_ingredients?.forEach(
                         (el: IComponentIngredient) => {
@@ -198,6 +203,7 @@ const DialogMealTable: React.FC = () => {
                       newData.protein * 4 + newData.carbs * 4 + newData.fats * 9
                     );
                   }
+
                   return (
                     <tr
                       key={index}

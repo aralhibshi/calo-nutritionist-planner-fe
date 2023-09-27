@@ -22,7 +22,8 @@ const DialogComponentTable: React.FC = () => {
     selectedComponent,
     setSelectedComponent,
     ingredientComponents,
-    setIngredientComponents
+    setIngredientComponents,
+    componentCount
   } = useComponentStore();
   const { setSearchResult } = useSearchStore();
   const {
