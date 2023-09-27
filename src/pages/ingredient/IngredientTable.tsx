@@ -10,12 +10,12 @@ import useSearchStore from "../../stores/searchStore";
 import { IIngredient, IIngredientData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useEntityStore from "../../stores/entityStore";
-import TestPlaygroundDialog from "./IngredientPlaygroundDialog";
+import IngredientPlaygroundDialog from "./IngredientPlaygroundDialog";
 import Button from '@mui/material/Button';
 
 const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<IIngredientData[]>([]);
-  const [testOpen, setTestOpen] = useState(false);
+  const [playgroundOpen, setPlaygroundOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const {
     setEntityCount,
@@ -30,7 +30,9 @@ const IngredientTable: React.FC = () => {
   } = useEntityStore();
   const {
     selectedIngredient,
-    setSelectedIngredient
+    setSelectedIngredient,
+    editData,
+    setEditData
   } = useIngredientStore();
   const {
     setSearchResult
@@ -68,6 +70,86 @@ const IngredientTable: React.FC = () => {
     loadIngredients();
   }, [take, skip]);
 
+  // Shared Functions
+  function calculateData(useCase: string, data: any) {
+    const calculatedCalories =
+      Number(data.protein) * 4 +
+      Number(data.carbs) * 4 +
+      Number(data.fats) * 9;
+
+  
+    data.calories = Number(calculatedCalories.toFixed(3));
+
+    if (useCase === 'useEffect') {
+      const array = [
+        'price',
+        'protein',
+        'carbs',
+        'fats'
+      ]
+
+      array.forEach(el => {
+        data[el] = Number(Number(data[el]).toFixed(3))
+      })
+    }
+  
+    if (data.calories > 6.999) {
+      data.rating = 'High';
+    }
+    if (data.calories > 2.500 && data.calories < 6.999) {
+      data.rating = 'Normal'
+    }
+    if (data.calories < 2.500) {
+      data.rating = 'Low';
+    }
+
+    data.totalUnit =
+      Number(
+        (
+          Number(data.protein) +
+          Number(data.carbs) +
+          Number(data.fats)
+        )
+          .toFixed(3));
+
+    data.unitType = 'Total ' + data.unit
+
+    setEditData(data);
+  }
+
+  function formattedCalories() {
+    if (editData.calories <= 10.000) {
+      return editData.calories * 10
+    } else {
+      return 100
+    }
+  }
+
+  function progressColor() {
+    if (editData.rating === 'High') {
+      return 'error'
+    }
+    if (editData.rating === 'Normal') {
+      return 'primary'
+    }
+    if (editData.rating === 'Low') {
+      return 'warning'
+    }
+  }
+
+  function sliderColor() {
+    if (editData.totalUnit) {
+      if (editData.totalUnit == 1.000) {
+        return 'primary'
+      } else if (editData.totalUnit < 1.000){
+        return '#ED6C02'
+      } else {
+        return '#D3302F'
+      }
+    }
+  }
+
+  // Handlers
   const handleIngredientAdded = (newIngredient: any) => {
     setIngredients((prevIngredients: any) => [
       ...prevIngredients,
@@ -78,7 +160,7 @@ const IngredientTable: React.FC = () => {
   const handleIngredientClick = (row: any) => {
     setSelectedIngredient(row);
     setTimeout(() => {
-      setTestOpen(true);
+      setPlaygroundOpen(true);
     }, 0);
     setTimeout(() => {
       const barChart = document.querySelector('.css-18ftw0b-MuiChartsSurface-root')
@@ -207,10 +289,18 @@ const IngredientTable: React.FC = () => {
         open={open}
         setOpen={setOpen}
         onIngredientUpdated={handleIngredientUpdated}
+        calculateData={calculateData}
+        formattedCalories={formattedCalories}
+        progressColor={progressColor}
+        sliderColor={sliderColor}
       />
-      <TestPlaygroundDialog
-        open={testOpen}
-        setOpen={setTestOpen}
+      <IngredientPlaygroundDialog
+        open={playgroundOpen}
+        setOpen={setPlaygroundOpen}
+        calculateData={calculateData}
+        formattedCalories={formattedCalories}
+        progressColor={progressColor}
+        sliderColor={sliderColor}
       />
       <CreateIngredientDialog
         onIngredientAdded={handleIngredientAdded}
