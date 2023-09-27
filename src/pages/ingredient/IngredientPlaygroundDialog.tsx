@@ -90,15 +90,21 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
             container
             spacing={1}
             height={'calc(98vh - 65px)'}
+            marginLeft={'8px'}
+            padding={0}
           >
+
             {/* Section 1 */}
+
             <Grid
               item
               container
-              xs={3.5}
+              xs={3.3}
               alignItems='center'
               spacing={1.9}
               justifyContent='space-between'
+              paddingLeft={0}
+              // marginLeft={0}
             >
               <Grid
                 item 
@@ -536,6 +542,18 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                 </Grid>
               </Grid>
             </Grid>
+
+            {/* Vertical Divider */}
+
+            <Grid
+              item
+              xs={0.2}
+              height={'100%'}
+            >
+              <Divider
+                orientation='vertical'
+              />
+            </Grid>
             
             {/* Section 2 */}
 
@@ -544,6 +562,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
               container
               xs={8.5}
               spacing={1}
+              marginRight={'auto'}
             >
               <Grid
                 item
@@ -561,6 +580,15 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                 xs={12}
               >
                 <DialogComponentTable/>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                margin={'0 20px 0 20px'}
+              >
+                <Divider
+                  orientation='horizontal'
+                />
               </Grid>
               <Grid
                 item
@@ -583,6 +611,10 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                 item
                 xs={12}
                 textAlign='right'
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'right',
+                }}
               >
                 <Button
                   variant='contained'

@@ -67,11 +67,12 @@ const DialogComponentTable: React.FC = () => {
       >
 
         <Grid
-        item
-        xs={12}
-        sx={{
-          margin: '0 20px 0 20px'
-        }}
+          item
+          xs={12}
+          sx={{
+            margin: '0 20px 0 20px',
+            maxHeight: '30vh'
+          }}
         >
           <Table
             sx={{
