@@ -106,11 +106,11 @@ const DialogComponentTable: React.FC = () => {
                   };
                   const newData: IComponentIngredientDetails = {
                     ingredient_id: "",
-                    calories: 0,
-                    protein: 0,
-                    carbs: 0,
-                    fats: 0,
-                    price: 0,
+                    calories: editData.calories,
+                    protein: editData.protein,
+                    carbs: editData.carbs,
+                    fats: editData.fats,
+                    price: editData.price,
                     quantity: 0,
                   };
                   if (
@@ -129,17 +129,15 @@ const DialogComponentTable: React.FC = () => {
                         selectedIngredient &&
                         el.ingredient_id !== selectedIngredient.id
                       ) {
-                        console.log("deez nuts");
-                      } else {
-                        newData.protein += Number(editData.protein);
-                        newData.carbs += Number(editData.carbs);
-                        newData.fats += Number(editData.fats);
-
-                        newData.price += Number(editData.price);
+                        newData.protein += Number(el.ingredient.protein);
+                        newData.carbs += Number(el.ingredient.carbs);
+                        newData.fats += Number(el.ingredient.fats);
+  
+                        newData.price += Number(el.ingredient.price);
                         newData.quantity += Number(el.ingredient_quantity);
                       }
                     });
-                    data.calories += Number(
+                    data.calories = Number(
                       data.protein * 4 + data.carbs * 4 + data.fats * 9
                     );
                     data.protein = Number(data.protein.toFixed(3));
@@ -148,10 +146,10 @@ const DialogComponentTable: React.FC = () => {
                     data.calories = Number(data.calories.toFixed(3));
                     data.price = Number(data.price.toFixed(3));
 
-                    newData.calories += Number(
+                    newData.calories = Number(
                       newData.protein * 4 + newData.carbs * 4 + newData.fats * 9
                     );
-                    newData.protein = Number(newData.protein.toFixed(3));
+                    newData.protein = Number((newData.protein.toFixed(3)));
                     newData.carbs = Number(newData.carbs.toFixed(3));
                     newData.fats = Number(newData.fats.toFixed(3));
                     newData.calories = Number(newData.calories.toFixed(3));
@@ -171,7 +169,7 @@ const DialogComponentTable: React.FC = () => {
                         <AiOutlineArrowDown />
                         <br />{" "}
                         {Number(
-                          (newData.calories / newData.quantity).toFixed(3)
+                          (newData.calories / (data.quantity)).toFixed(3)
                         )}
                       </td>
                       <td
@@ -188,7 +186,7 @@ const DialogComponentTable: React.FC = () => {
                         <AiOutlineArrowDown />
                         <br />{" "}
                         {Number(
-                          (newData.protein / newData.quantity).toFixed(3)
+                          (newData.protein / data.quantity).toFixed(3)
                         )}
                       </td>
                       <td
@@ -203,7 +201,7 @@ const DialogComponentTable: React.FC = () => {
                         {Number((data.carbs / data.quantity).toFixed(3))} <br />
                         <AiOutlineArrowDown />
                         <br />{" "}
-                        {Number((newData.carbs / newData.quantity).toFixed(3))}
+                        {Number((newData.carbs / data.quantity).toFixed(3))}
                       </td>
                       <td
                         style={{
@@ -218,7 +216,7 @@ const DialogComponentTable: React.FC = () => {
                         <br />
                         <AiOutlineArrowDown />
                         <br />{" "}
-                        {Number((newData.fats / newData.quantity).toFixed(3))}
+                        {Number((newData.fats / data.quantity).toFixed(3))}
                       </td>
                       <td>{component.unit}</td>
                       <td
@@ -233,7 +231,7 @@ const DialogComponentTable: React.FC = () => {
                         {Number((data.price / data.quantity).toFixed(3))} <br />
                         <AiOutlineArrowDown />
                         <br />{" "}
-                        {Number((newData.price / newData.quantity).toFixed(3))}
+                        {Number((newData.price / data.quantity).toFixed(3))}
                       </td>
                     </tr>
                   );
