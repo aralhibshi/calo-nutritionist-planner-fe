@@ -285,42 +285,45 @@ const DialogMealTable: React.FC = () => {
                       const quantity = Number(el.component_quantity);
                       el.component.components_ingredients?.map(
                         (el: IComponentIngredient) => {
+                          const ingredientQuantity = el.ingredient_quantity
                           data.ingredient_id = el.ingredient_id;
                           data.protein += Number(
-                            el.ingredient.protein * quantity
+                            el.ingredient.protein * ingredientQuantity
                           );
-                          data.carbs += Number(el.ingredient.carbs * quantity);
-                          data.fats += Number(el.ingredient.fats * quantity);
-                          data.price += Number(el.ingredient.price * quantity);
+                          data.carbs += Number(el.ingredient.carbs * ingredientQuantity);
+                          data.fats += Number(el.ingredient.fats * ingredientQuantity);
+                          data.price += Number(el.ingredient.price * ingredientQuantity);
                           if (
                             selectedIngredient &&
                             el.ingredient_id !== selectedIngredient.id
                           ) {
-                            newData.protein += Number(el.ingredient.protein);
-                            newData.carbs += Number(el.ingredient.carbs);
-                            newData.fats += Number(el.ingredient.fats);
-                            newData.price += Number(el.ingredient.price);
-                            newData.quantity += Number(el.ingredient_quantity);
+                            newData.protein += Number(el.ingredient.protein* ingredientQuantity);
+                            newData.carbs += Number(el.ingredient.carbs*ingredientQuantity);
+                            newData.fats += Number(el.ingredient.fats*ingredientQuantity);
+                            newData.price += Number(el.ingredient.price*ingredientQuantity);
                           }
                         }
                       );
-                    });
+                      data.protein = Number((data.protein*quantity).toFixed(3));
+                      data.carbs = Number((data.carbs*quantity).toFixed(3));
+                      data.fats = Number((data.fats*quantity).toFixed(3));
+                      data.price = Number((data.price*quantity).toFixed(3));
+
+                      newData.protein = Number((newData.protein*quantity).toFixed(3));
+                      newData.carbs = Number((newData.carbs*quantity).toFixed(3));
+                      newData.fats = Number((newData.fats*quantity).toFixed(3));
+                      newData.price = Number((newData.price*quantity).toFixed(3));
+                    }
+                    
+                    );
                     data.calories = Number(
                       data.protein * 4 + data.carbs * 4 + data.fats * 9
                     );
-                    data.protein = Number(data.protein.toFixed(3));
-                    data.carbs = Number(data.carbs.toFixed(3));
-                    data.fats = Number(data.fats.toFixed(3));
-                    data.calories = Number(data.calories.toFixed(3));
-                    data.price = Number(data.price.toFixed(3));
+ 
                     newData.calories = Number(
                       newData.protein * 4 + newData.carbs * 4 + newData.fats * 9
                     );
-                    newData.protein = Number(newData.protein.toFixed(3));
-                    newData.carbs = Number(newData.carbs.toFixed(3));
-                    newData.fats = Number(newData.fats.toFixed(3));
-                    newData.calories = Number(newData.calories.toFixed(3));
-                    newData.price = Number(newData.price.toFixed(3));
+
                   }
                   return (
                     <tr key={index} style={{ height: "52px" }}>
