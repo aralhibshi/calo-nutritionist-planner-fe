@@ -87,10 +87,9 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
       >
         <CardContent>
           <Grid
-            item
             container
             spacing={1}
-            xs={12}
+            height={'calc(98vh - 65px)'}
           >
             {/* Section 1 */}
             <Grid
@@ -99,6 +98,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
               xs={3.5}
               alignItems='center'
               spacing={1.9}
+              justifyContent='space-between'
             >
               <Grid
                 item 
@@ -579,19 +579,25 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
               >
               <IngredientMealTable/>
               </Grid>
+              <Grid
+                item
+                xs={12}
+                textAlign='right'
+              >
+                <Button
+                  variant='contained'
+                  onClick={handleClose}
+                  style={{
+                    alignSelf: 'flex-end',
+                    margin: '16px'
+                  }}
+                >
+                  Close
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </CardContent>
-        <Button
-          variant='contained'
-          onClick={handleClose}
-          style={{
-            alignSelf: 'flex-end',
-            margin: '16px'
-          }}
-        >
-          Close
-        </Button>
       </Card>
     </Dialog>
   );
