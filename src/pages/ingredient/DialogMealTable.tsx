@@ -75,13 +75,15 @@ const DialogMealTable: React.FC = () => {
           item
           xs={12}
           sx={{
-            margin: '0 20px 0 20px',
-            maxHeight: '30vh'
+            maxHeight: '35vh',
+            marginLeft: '20px',
+            marginRight: '20px'
           }}
+          justifyContent='center'
+          alignContent='center'
         >
           <Table
             sx={{
-              margin: "0 20px 0 20px",
               userSelect: "none",
             }}
             id="table"
