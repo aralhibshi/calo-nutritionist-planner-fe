@@ -104,44 +104,45 @@ const IngredientComponentTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {ingredientComponents && Array.isArray(ingredientComponents) && ingredientComponents.length > 0 ? (
-              ingredientComponents.map((component: IComponent, index: number) => {
-                const data: IComponentIngredientDetails = {
-                  ingredient_id: '',
-                  calories: 0,
-                  protein: 0,
-                  carbs: 0,
-                  fats: 0,
-                  price: 0,
-                  quantity: 0
-                }
-
-                if (component.components_ingredients && Array.isArray(component.components_ingredients)) {
-                  component.components_ingredients.forEach((el) => {
-
-                    if (selectedIngredient && el.ingredient_id !== selectedIngredient.id) {
-                      data.ingredient_id = el.ingredient_id;
-                      data.protein += Number(el.ingredient.protein)
-                      data.carbs += Number(el.ingredient.carbs)
-                      data.fats += Number(el.ingredient.fats)
-                      data.calories += Number(data.protein * 4 + data.carbs * 4 + data.fats * 9)
-                      data.price += Number(el.ingredient.price )
-                    } else {
-                      data.protein += Number(editData.protein)
-                      data.carbs += Number(editData.carbs)
-                      data.fats += Number(editData.fats)
-                      data.calories += Number(data.protein * 4 + data.carbs * 4 + data.fats * 9)
-                      data.price += Number(editData.price)
-                      data.quantity += Number(el.ingredient_quantity)
+          {ingredientComponents &&
+              Array.isArray(ingredientComponents) &&
+              ingredientComponents.length > 0 ? (
+                ingredientComponents.map(
+                  (component: IComponent, index: number) => {
+                    const newData: IComponentIngredientDetails = {
+                      ingredient_id: "",
+                      calories: editData.calories,
+                      protein: editData.protein,
+                      carbs: editData.carbs,
+                      fats: editData.fats,
+                      price: editData.price,
+                      quantity: 0,
+                    };
+                    if (
+                      component.components_ingredients &&
+                      Array.isArray(component.components_ingredients)
+                    ) {
+                      component.components_ingredients.forEach((el) => {
+                        newData.quantity += Number(el.ingredient_quantity);
+                        if (
+                          selectedIngredient &&
+                          el.ingredient_id !== selectedIngredient.id
+                        ) {
+                          newData.protein += Number(el.ingredient.protein);
+                          newData.carbs += Number(el.ingredient.carbs);
+                          newData.fats += Number(el.ingredient.fats);
+                          newData.price += Number(el.ingredient.price);
+                        }
+                      });
+                      newData.calories = Number(
+                        newData.protein * 4 + newData.carbs * 4 + newData.fats * 9
+                      );
+                      newData.protein = Number((newData.protein.toFixed(3)));
+                      newData.carbs = Number(newData.carbs.toFixed(3));
+                      newData.fats = Number(newData.fats.toFixed(3));
+                      newData.calories = Number(newData.calories.toFixed(3));
+                      newData.price = Number(newData.price.toFixed(3));
                     }
-                  });
-
-                  data.protein = Number(data.protein.toFixed(3));
-                  data.carbs = Number(data.carbs .toFixed(3));
-                  data.fats = Number(data.fats.toFixed(3));
-                  data.calories = Number(data.calories.toFixed(3));
-                  data.price = Number(data.price.toFixed(3));
-                }
                 return (
                   <tr key={index} style={{height:'52px'}}>
                     <td>{component.name}</td>
@@ -152,7 +153,7 @@ const IngredientComponentTable: React.FC = () => {
                       //     : 'inherit',
                       // }}
                     >
-                      {Number((data.calories / data.quantity).toFixed(3))}
+                      {Number((newData.calories / newData.quantity).toFixed(3))}
                     </td>
                     <td
                       style={{
@@ -161,7 +162,7 @@ const IngredientComponentTable: React.FC = () => {
                           : 'inherit',
                       }}
                     >
-                      {Number((data.protein / data.quantity).toFixed(3))}
+                      {Number((newData.protein / newData.quantity).toFixed(3))}
                     </td>
                     <td
                       style={{
@@ -170,7 +171,7 @@ const IngredientComponentTable: React.FC = () => {
                           : 'inherit',
                       }}
                     >
-                      {Number((data.carbs / data.quantity).toFixed(3))}
+                      {Number((newData.carbs / newData.quantity).toFixed(3))}
                     </td>
                     <td
                       style={{
@@ -179,7 +180,7 @@ const IngredientComponentTable: React.FC = () => {
                           : 'inherit',
                       }}
                     >
-                      {Number((data.fats / data.quantity).toFixed(3))}
+                      {Number((newData.fats / newData.quantity).toFixed(3))}
                     </td>
                     <td>{component.unit}</td>
                     <td
@@ -189,7 +190,7 @@ const IngredientComponentTable: React.FC = () => {
                           : 'inherit',
                       }}
                     >
-                      {Number((data.price / data.quantity).toFixed(3))}
+                      {Number((newData.price / newData.quantity).toFixed(3))}
                     </td>
                   </tr>
                 );

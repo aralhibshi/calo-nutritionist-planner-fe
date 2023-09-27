@@ -5,6 +5,9 @@ const useMealStore = create<IMealStore>((set) => ({
   addOpen: false,
   setAddOpen: (isOpen) => set({ addOpen: isOpen }),
 
+  uploaded: false,
+  setUploaded: (isUploaded) => set({ uploaded: isUploaded }),
+
   selectedMeal: null,
   setSelectedMeal: (meal) => set({ selectedMeal: meal }),
 
