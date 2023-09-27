@@ -6,6 +6,7 @@ import { Backdrop } from "@mui/material";
 import * as MealApi from "../../network/mealApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useMealStore from "../../stores/mealStore";
+import useComponentStore from "../../stores/componentStore";
 import useEntityStore from "../../stores/entityStore";
 import useTableStore from "../../stores/tableStore";
 import {
@@ -27,6 +28,9 @@ const DialogMealTable: React.FC = () => {
   const {
     height,
   } = useTableStore()
+  const {
+    selectedComponent
+  } = useComponentStore()
 
   const theme = useTheme();
 
@@ -113,6 +117,7 @@ const DialogMealTable: React.FC = () => {
               Array.isArray(ingredientMeals) &&
               ingredientMeals.length > 0 ? (
                 ingredientMeals.map((meal: IMeal, index: number) => {
+                  const componentArray: any = []
                   const data: IComponentIngredientDetails = {
                     ingredient_id: "",
                     calories: 0,
@@ -137,6 +142,7 @@ const DialogMealTable: React.FC = () => {
                     meal.meals_components.length > 0
                   ) {
                     meal.meals_components?.forEach((el: IMealComponent) => {
+                      componentArray.push(el.component_id)
                       const quantity = Number(el.component_quantity);
                       el.component.components_ingredients?.forEach(
                         (el: IComponentIngredient) => {
@@ -193,7 +199,12 @@ const DialogMealTable: React.FC = () => {
                     );
                   }
                   return (
-                    <tr key={index} style={{ height: "52px" }}>
+                    <tr
+                      key={index}
+                      style={{
+                        height: "52px",
+                        backgroundColor: componentArray.includes(selectedComponent?.id) ? '#DBE8EE' : 'inherit'
+                      }}>
                       <td>{meal.name}</td>
                       <td>
                         {data.calories.toFixed(3)} <br />

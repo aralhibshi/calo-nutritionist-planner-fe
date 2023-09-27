@@ -13,11 +13,17 @@ import useSearchStore from "../../stores/searchStore";
 import useTableStore from "../../stores/tableStore";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import Grid from '@mui/material/Grid';
+import Button from "@mui/material/Button";
 
 const DialogComponentTable: React.FC = () => {
   const { loading, setLoading } = useEntityStore();
   const { selectedIngredient, editData } = useIngredientStore();
-  const { ingredientComponents, setIngredientComponents } = useComponentStore();
+  const {
+    selectedComponent,
+    setSelectedComponent,
+    ingredientComponents,
+    setIngredientComponents
+  } = useComponentStore();
   const { setSearchResult } = useSearchStore();
   const {
     height
@@ -49,6 +55,10 @@ const DialogComponentTable: React.FC = () => {
   useEffect(() => {
     loadComponents();
   }, []);
+
+  const handleSelectComponent = (e: any) => {
+    console.log(e.target)
+  }
 
   return (
     <>
@@ -166,8 +176,28 @@ const DialogComponentTable: React.FC = () => {
                       newData.price = Number(newData.price.toFixed(3));
                     }
                     return (
-                      <tr key={index} style={{ height: "52px" }}>
-                        <td>{component.name}</td>
+                      <tr
+                        key={index}
+                        style={{
+                          height: "52px",
+                          backgroundColor: selectedComponent?.id === component.id ? '#DBE8EE' : 'inherit'
+                        }}>
+                        <td>
+                          <Button
+                            onClick={() => {
+                              setSelectedComponent(component)
+                            }}
+                            color={selectedComponent?.id === component.id ? 'info' : 'inherit'}
+                            variant="text"
+                            style={{
+                              cursor: 'pointer',
+                              fontSize: '18px',
+                            }}
+                            id={component.id}
+                          >
+                            {component.name}
+                          </Button>
+                        </td>
                         <td>
                           {(data.calories / data.quantity).toFixed(3)} <br />
                           <AiOutlineArrowDown />

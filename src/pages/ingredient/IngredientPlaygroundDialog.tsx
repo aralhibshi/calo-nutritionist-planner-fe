@@ -15,6 +15,7 @@ import Divider from '@mui/material/Divider';
 import Slider from '@mui/material/Slider';
 import LinearProgress from '@mui/material/LinearProgress';
 import useIngredientStore from '../../stores/ingredientStore';
+import useComponentStore from '../../stores/componentStore';
 import DialogMealTable from './DialogMealTable';
 
 interface IngredientPlaygroundDialogProps {
@@ -38,6 +39,9 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
     selectedIngredient,
     editData,
   } = useIngredientStore();
+  const {
+    setSelectedComponent
+  } = useComponentStore()
 
   const theme = useTheme();
 
@@ -52,6 +56,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
 
   const handleClose = () => {
     setOpen(false);
+    setSelectedComponent(null);
   };
 
   return (
