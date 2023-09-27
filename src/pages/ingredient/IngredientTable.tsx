@@ -10,6 +10,7 @@ import useSearchStore from "../../stores/searchStore";
 import { IIngredient, IIngredientData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useEntityStore from "../../stores/entityStore";
+import useTableStore from "../../stores/tableStore";
 import IngredientPlaygroundDialog from "./IngredientPlaygroundDialog";
 import Button from '@mui/material/Button';
 
@@ -37,6 +38,11 @@ const IngredientTable: React.FC = () => {
   const {
     setSearchResult
   } = useSearchStore()
+  const {
+    height,
+    setHeight,
+    setHeightCondition
+  } = useTableStore()
 
   // Memo
   const memoizedResult = useMemo(() => result, [result]);
@@ -45,6 +51,7 @@ const IngredientTable: React.FC = () => {
     try {
       console.log(window.innerHeight);
       setTakeCondition(setTake);
+      setHeightCondition(setHeight);
       setSearchResult(false);
       setLoading(true);
 
@@ -63,6 +70,9 @@ const IngredientTable: React.FC = () => {
       alert(error);
     } finally {
       setLoading(false);
+      setTimeout(() => {
+        console.log(height)
+      }, 100)
     }
   }
 
@@ -301,7 +311,6 @@ const IngredientTable: React.FC = () => {
         formattedCalories={formattedCalories}
         progressColor={progressColor}
         sliderColor={sliderColor}
-        
       />
       <CreateIngredientDialog
         onIngredientAdded={handleIngredientAdded}

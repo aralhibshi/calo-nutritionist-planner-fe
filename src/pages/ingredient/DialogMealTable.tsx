@@ -7,6 +7,7 @@ import * as MealApi from "../../network/mealApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useMealStore from "../../stores/mealStore";
 import useEntityStore from "../../stores/entityStore";
+import useTableStore from "../../stores/tableStore";
 import {
   IComponentIngredient,
   IComponentIngredientDetails,
@@ -23,6 +24,9 @@ const DialogMealTable: React.FC = () => {
   const { selectedIngredient, editData } = useIngredientStore();
   const { ingredientMeals, setIngredientMeals } = useMealStore();
   const { setSearchResult } = useSearchStore();
+  const {
+    height,
+  } = useTableStore()
 
   const theme = useTheme();
 
@@ -67,7 +71,7 @@ const DialogMealTable: React.FC = () => {
       )}
       <TableContainer
         sx={{
-          maxHeight: 305,
+          maxHeight: height,
           overflowX: "hidden",
         }}
       >
@@ -75,7 +79,6 @@ const DialogMealTable: React.FC = () => {
           item
           xs={12}
           sx={{
-            maxHeight: '35vh',
             marginLeft: '20px',
             marginRight: '20px'
           }}

@@ -225,6 +225,13 @@ export interface IIngredientStore {
   setCalories: (calories: number) => void; // New setter for calories
 }
 
+// Table Store
+export interface ITableStore {
+  height: number;
+  setHeight: (amount: number) => void;
+  setHeightCondition: (setHeight: any) => void, 
+}
+
 // Component Details
 export interface IComponentIngredientDetails {
   ingredient_id: string;

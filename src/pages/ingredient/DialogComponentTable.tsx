@@ -10,6 +10,7 @@ import useComponentStore from "../../stores/componentStore";
 import { IComponent, IComponentIngredientDetails } from "../../interfaces";
 import { useTheme } from "@mui/material/styles";
 import useSearchStore from "../../stores/searchStore";
+import useTableStore from "../../stores/tableStore";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import Grid from '@mui/material/Grid';
 
@@ -18,6 +19,9 @@ const DialogComponentTable: React.FC = () => {
   const { selectedIngredient, editData } = useIngredientStore();
   const { ingredientComponents, setIngredientComponents } = useComponentStore();
   const { setSearchResult } = useSearchStore();
+  const {
+    height
+  } = useTableStore()
 
   const theme = useTheme();
 
@@ -61,7 +65,7 @@ const DialogComponentTable: React.FC = () => {
       )}
       <TableContainer
         sx={{
-          maxHeight: 305,
+          maxHeight: height,
           overflowX: "hidden",
         }}
       >
@@ -69,7 +73,6 @@ const DialogComponentTable: React.FC = () => {
           item
           xs={12}
           sx={{
-            maxHeight: '35vh',
             marginLeft: '20px',
             marginRight: '20px'
           }}
