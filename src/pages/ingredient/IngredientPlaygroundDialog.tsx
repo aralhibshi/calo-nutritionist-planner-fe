@@ -15,6 +15,7 @@ import Divider from '@mui/material/Divider';
 import Slider from '@mui/material/Slider';
 import LinearProgress from '@mui/material/LinearProgress';
 import useIngredientStore from '../../stores/ingredientStore';
+import DialogMealTable from './DialogMealTable';
 
 interface IngredientPlaygroundDialogProps {
   open: boolean;
@@ -577,7 +578,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                 item
                 xs={12}
               >
-              <IngredientMealTable/>
+              <DialogMealTable/>
               </Grid>
             </Grid>
           </Grid>

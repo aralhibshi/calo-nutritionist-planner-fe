@@ -301,6 +301,7 @@ const IngredientTable: React.FC = () => {
         formattedCalories={formattedCalories}
         progressColor={progressColor}
         sliderColor={sliderColor}
+        
       />
       <CreateIngredientDialog
         onIngredientAdded={handleIngredientAdded}
