@@ -139,7 +139,7 @@ const IngredientTable: React.FC = () => {
 
   function sliderColor() {
     if (editData.totalUnit) {
-      if (editData.totalUnit == 1.000) {
+      if (editData.totalUnit === 1.000) {
         return 'primary'
       } else if (editData.totalUnit < 1.000){
         return '#ED6C02'
