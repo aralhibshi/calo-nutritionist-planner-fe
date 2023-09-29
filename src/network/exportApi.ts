@@ -9,10 +9,10 @@ export async function exportData(
 ): Promise<any> {
   console.log(storeUser);
   // Verified User
-  // const url = baseURL + `data?entity=${entity}s&user_id=${storeUser.username}&user_email=${storeUser.attributes.email}&email_type=${data.email_type}&skip=${data.skip}&take=${data.take}`
+  const url = baseURL + `data?entity=${entity}s&user_id=${storeUser.username}&user_email=${storeUser.attributes.email}&email_type=${data.email_type}&skip=${data.skip}&take=${data.take}`
 
   // Unverified User
-  const url = baseURL + `data?entity=${entity}s&user_id=${storeUser.username}&user_email=${data.user_email}&email_type=${data.email_type}&skip=${data.skip}&take=${data.take}`
+  // const url = baseURL + `data?entity=${entity}s&user_id=${storeUser.username}&user_email=${data.user_email}&email_type=${data.email_type}&skip=${data.skip}&take=${data.take}`
 
   console.log(url);
 
