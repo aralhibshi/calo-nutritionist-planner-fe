@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Backdrop } from "@mui/material";
+import { Backdrop, Typography } from "@mui/material";
 import * as MealApi from "../../network/mealApi";
 import useIngredientStore from "../../stores/ingredientStore";
 import useMealStore from "../../stores/mealStore";
@@ -18,19 +18,16 @@ import {
 import { useTheme } from "@mui/material/styles";
 import useSearchStore from "../../stores/searchStore";
 import { AiOutlineArrowDown } from "react-icons/ai";
-import Grid from '@mui/material/Grid';
+import Grid from "@mui/material/Grid";
 
 const DialogMealTable: React.FC = () => {
   const { loading, setLoading } = useEntityStore();
   const { selectedIngredient, editData } = useIngredientStore();
   const { ingredientMeals, setIngredientMeals } = useMealStore();
   const { setSearchResult } = useSearchStore();
-  const {
-    height,
-  } = useTableStore()
-  const {
-    selectedComponent
-  } = useComponentStore()
+  const { height } = useTableStore();
+  const { selectedComponent, componentCount, setComponentCount } =
+    useComponentStore();
 
   const theme = useTheme();
 
@@ -60,6 +57,12 @@ const DialogMealTable: React.FC = () => {
     loadMeals();
   }, []);
 
+  let count = 0;
+
+  useEffect(() => {
+    setComponentCount(0);
+  }, [selectedComponent]);
+
   return (
     <>
       {loading && (
@@ -83,11 +86,11 @@ const DialogMealTable: React.FC = () => {
           item
           xs={12}
           sx={{
-            marginLeft: '20px',
-            marginRight: '20px'
+            marginLeft: "20px",
+            marginRight: "20px",
           }}
-          justifyContent='center'
-          alignContent='center'
+          justifyContent="center"
+          alignContent="center"
         >
           <Table
             sx={{
@@ -117,7 +120,8 @@ const DialogMealTable: React.FC = () => {
               Array.isArray(ingredientMeals) &&
               ingredientMeals.length > 0 ? (
                 ingredientMeals.map((meal: IMeal, index: number) => {
-                  const componentArray: any = []
+                  const componentArray: any = [];
+
                   const data: IComponentIngredientDetails = {
                     ingredient_id: "",
                     calories: 0,
@@ -142,7 +146,12 @@ const DialogMealTable: React.FC = () => {
                     meal.meals_components.length > 0
                   ) {
                     meal.meals_components?.forEach((el: IMealComponent) => {
-                      componentArray.push(el.component_id)
+                      if (selectedComponent?.id === el.component_id) {
+                        count++;
+                      }
+
+                      componentArray.push(el.component_id);
+
                       const quantity = Number(el.component_quantity);
                       el.component.components_ingredients?.forEach(
                         (el: IComponentIngredient) => {
@@ -180,16 +189,26 @@ const DialogMealTable: React.FC = () => {
                             );
                           }
                         }
-                      )
-          
-                      data.protein += Number((data.protein*quantity).toFixed(3))
-                      data.carbs += Number((data.carbs*quantity).toFixed(3))
-                      data.fats += Number((data.fats*quantity).toFixed(3))
-                      data.price += Number((data.price*quantity).toFixed(3))
-                      newData.protein += Number((newData.protein*quantity).toFixed(3))
-                      newData.carbs += Number((newData.carbs*quantity).toFixed(3))
-                      newData.fats += Number((newData.fats*quantity).toFixed(3))
-                      newData.price += Number((newData.price*quantity).toFixed(3))
+                      );
+
+                      data.protein += Number(
+                        (data.protein * quantity).toFixed(3)
+                      );
+                      data.carbs += Number((data.carbs * quantity).toFixed(3));
+                      data.fats += Number((data.fats * quantity).toFixed(3));
+                      data.price += Number((data.price * quantity).toFixed(3));
+                      newData.protein += Number(
+                        (newData.protein * quantity).toFixed(3)
+                      );
+                      newData.carbs += Number(
+                        (newData.carbs * quantity).toFixed(3)
+                      );
+                      newData.fats += Number(
+                        (newData.fats * quantity).toFixed(3)
+                      );
+                      newData.price += Number(
+                        (newData.price * quantity).toFixed(3)
+                      );
                     });
                     data.calories = Number(
                       data.protein * 4 + data.carbs * 4 + data.fats * 9
@@ -198,13 +217,19 @@ const DialogMealTable: React.FC = () => {
                       newData.protein * 4 + newData.carbs * 4 + newData.fats * 9
                     );
                   }
+
                   return (
                     <tr
                       key={index}
                       style={{
                         height: "52px",
-                        backgroundColor: componentArray.includes(selectedComponent?.id) ? '#DBE8EE' : 'inherit'
-                      }}>
+                        backgroundColor: componentArray.includes(
+                          selectedComponent?.id
+                        )
+                          ? "#DBE8EE"
+                          : "inherit",
+                      }}
+                    >
                       <td>{meal.name}</td>
                       <td>
                         {data.calories.toFixed(3)} <br />
@@ -288,6 +313,9 @@ const DialogMealTable: React.FC = () => {
           </Table>
         </Grid>
       </TableContainer>
+      <Grid item xs={12} textAlign="right" sx={{ marginRight: 5, marginTop: 2 , color: 'primary.main' }}>
+        <Typography variant="h6">{`Meals containing selected component: ${count}`}</Typography>
+      </Grid>
     </>
   );
 };

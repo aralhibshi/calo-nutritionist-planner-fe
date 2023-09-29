@@ -40,7 +40,8 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
     editData,
   } = useIngredientStore();
   const {
-    setSelectedComponent
+    setSelectedComponent,
+    componentCount
   } = useComponentStore()
 
   const theme = useTheme();
@@ -83,7 +84,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
         >
           Ingredient Playground
         </Typography>
-      </Card>
+      </Card> 
       <Card
         style={{
           display: 'flex',

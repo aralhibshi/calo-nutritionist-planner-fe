@@ -247,15 +247,14 @@ export interface IComponentIngredientDetails {
 export interface IComponentStore {
   addOpen: boolean;
   setAddOpen: (isOpen: boolean) => void;
-
   selectedComponent: IComponent | null;
   setSelectedComponent: (component: IComponent | null) => void;
-
   selectedComponents: IMealComponent[];
   setSelectedComponents: (components: IMealComponent[]) => void;
-
   ingredientComponents: any,
   setIngredientComponents: (components: IComponent[]) => void;
+  componentCount: number;
+  setComponentCount: (amount: number) => void;
 }
 
 // Meal Store
