@@ -135,11 +135,11 @@ const DialogMealTable: React.FC = () => {
                   };
                   const newData: IComponentIngredientDetails = {
                     ingredient_id: "",
-                    calories: editData.calories,
-                    protein: editData.protein,
-                    carbs: editData.carbs,
-                    fats: editData.fats,
-                    price: editData.price,
+                    calories: 0,
+                    protein: 0,
+                    carbs: 0,
+                    fats: 0,
+                    price: 0,
                     quantity: iquantity,
                   };
                   if (
@@ -191,6 +191,21 @@ const DialogMealTable: React.FC = () => {
                             );
 
                             newData.quantity += Number(el.ingredient_quantity)
+                          }
+                          else{
+                            newData.protein += Number(
+                              editData.protein*el.ingredient_quantity
+                            );
+                            newData.carbs += Number(
+                              editData.carbs*el.ingredient_quantity
+                            );
+                            newData.fats += Number(
+                              editData.fats*el.ingredient_quantity
+                            );
+                            newData.price += Number(
+                              editData.price*el.ingredient_quantity
+                            );
+                            
                           }
                         }
                       );
