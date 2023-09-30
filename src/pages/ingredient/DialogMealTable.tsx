@@ -264,10 +264,23 @@ const DialogMealTable: React.FC = () => {
                     >
                       <td>{meal.name}</td>
                       <td>
-                        {data.calories.toFixed(3)} <br />
-                        <AiOutlineArrowDown />
-                        <br /> {newData.calories.toFixed(3)}
-                      </td>
+                          {(data.calories).toFixed(3)} <br />
+                          <AiOutlineArrowDown />
+                          <br />{" "}
+                          <div
+                            style={{
+                              color:
+                                selectedIngredient &&
+                                editData.protein !== selectedIngredient.protein
+                                  ? theme.palette.primary.main
+                                  : "inherit",
+                            }}
+                          >
+                            {Number(
+                              (newData.calories).toFixed(3)
+                            )}
+                          </div>
+                        </td>
                       <td>
                         {data.protein.toFixed(3)} <br />
                         <AiOutlineArrowDown />
