@@ -192,7 +192,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
             <thead>
               <tr>
                 <th>Component Name&nbsp;</th>
-                <th>Quantity&nbsp;(per Component)</th>
+                <th>Quantity&nbsp;per(G/L)</th>
                 <th>Select</th>
               </tr>
             </thead>
