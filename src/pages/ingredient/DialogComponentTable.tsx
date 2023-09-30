@@ -101,6 +101,7 @@ const DialogComponentTable: React.FC = () => {
                 position: "sticky",
                 top: 0,
                 background: "white",
+                zIndex: 1
               }}
             >
               <tr>
