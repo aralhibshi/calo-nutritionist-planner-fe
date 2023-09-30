@@ -108,9 +108,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
           searchComponent.id === component.component_id
       )
     );
-  // let fats= 0;
-  // let carbs = 0;
-  // let proteins = 0;
+
   let totalFats = 0;
   let totalCarbs = 0;
   let totalProteins = 0;
