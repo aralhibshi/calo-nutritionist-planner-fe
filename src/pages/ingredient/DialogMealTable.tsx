@@ -121,6 +121,7 @@ const DialogMealTable: React.FC = () => {
               ingredientMeals.length > 0 ? (
                 ingredientMeals.map((meal: IMeal, index: number) => {
                   const componentArray: any = [];
+                  let iquantity = 0
 
                   const data: IComponentIngredientDetails = {
                     ingredient_id: "",
@@ -129,7 +130,8 @@ const DialogMealTable: React.FC = () => {
                     carbs: 0,
                     fats: 0,
                     price: 0,
-                    quantity: 0,
+                    quantity: iquantity,
+
                   };
                   const newData: IComponentIngredientDetails = {
                     ingredient_id: "",
@@ -138,7 +140,7 @@ const DialogMealTable: React.FC = () => {
                     carbs: editData.carbs,
                     fats: editData.fats,
                     price: editData.price,
-                    quantity: 0,
+                    quantity: iquantity,
                   };
                   if (
                     meal.meals_components &&
@@ -170,7 +172,7 @@ const DialogMealTable: React.FC = () => {
                             el.ingredient.price * el.ingredient_quantity
                           );
 
-                          data.quantity += Number(el.ingredient_quantity)
+                          iquantity += Number(el.ingredient_quantity)
                           if (
                             selectedIngredient &&
                             el.ingredient_id !== selectedIngredient.id
@@ -193,10 +195,10 @@ const DialogMealTable: React.FC = () => {
                         }
                       );
 
-                      data.protein /= data.quantity
-                      data.fats /= data.quantity
-                      data.price /= data.quantity
-                      data.carbs /= data.quantity
+                      data.protein /= iquantity
+                      data.fats /= iquantity
+                      data.price /= iquantity
+                      data.carbs /= iquantity
 
                       data.protein += Number(
                         (data.protein * quantity).toFixed(3)
@@ -209,10 +211,10 @@ const DialogMealTable: React.FC = () => {
                       );
 
 
-                      newData.protein /= newData.quantity
-                      newData.fats /= newData.quantity
-                      newData.price /= newData.quantity
-                      newData.carbs /= newData.quantity
+                      newData.protein /= iquantity
+                      newData.fats /= iquantity
+                      newData.price /= iquantity
+                      newData.carbs /= iquantity
 
                       newData.protein += Number(
                         (newData.protein * quantity).toFixed(3)

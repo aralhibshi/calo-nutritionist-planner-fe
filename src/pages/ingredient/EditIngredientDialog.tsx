@@ -33,7 +33,7 @@ interface EditIngredientDialogProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onIngredientUpdated: (updatedIngredient: IIngredientData) => void;
   calculateData: (useCase:string, data: any) => void;
-  // formattedCalories: () => number;
+  formattedCalories: () => number;
   progressColor: () => 'error' | 'primary' | 'warning' | undefined;
   sliderColor: () => string | undefined;
 }
@@ -43,7 +43,7 @@ export default function EditIngredientDialog({
   setOpen,
   onIngredientUpdated,
   calculateData,
-  // formattedCalories,
+  formattedCalories,
   progressColor,
   sliderColor
 }: EditIngredientDialogProps) {
