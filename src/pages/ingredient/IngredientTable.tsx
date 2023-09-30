@@ -127,13 +127,13 @@ const IngredientTable: React.FC = () => {
     setEditData(data);
   }
 
-  function formattedCalories() {
-    if (editData.calories <= 10.000) {
-      return editData.calories * 10
-    } else {
-      return 100
-    }
-  }
+  // function formattedCalories() {
+  //   if (editData.calories <= 10.000) {
+  //     return editData.calories * 10
+  //   } else {
+  //     return 100
+  //   }
+  // }
 
   function progressColor() {
     if (editData.rating === 'High') {
@@ -300,7 +300,7 @@ const IngredientTable: React.FC = () => {
         setOpen={setOpen}
         onIngredientUpdated={handleIngredientUpdated}
         calculateData={calculateData}
-        formattedCalories={formattedCalories}
+        // formattedCalories={formattedCalories}
         progressColor={progressColor}
         sliderColor={sliderColor}
       />
@@ -308,7 +308,7 @@ const IngredientTable: React.FC = () => {
         open={playgroundOpen}
         setOpen={setPlaygroundOpen}
         calculateData={calculateData}
-        formattedCalories={formattedCalories}
+        // formattedCalories={formattedCalories}
         progressColor={progressColor}
         sliderColor={sliderColor}
       />

@@ -155,41 +155,48 @@ const DialogMealTable: React.FC = () => {
                       const quantity = Number(el.component_quantity);
                       el.component.components_ingredients?.forEach(
                         (el: IComponentIngredient) => {
-                          const ingredientQuantity = Number(
-                            el.ingredient_quantity
-                          );
+
                           data.ingredient_id = el.ingredient_id;
                           data.protein += Number(
-                            el.ingredient.protein * ingredientQuantity
+                            el.ingredient.protein * el.ingredient_quantity
                           );
                           data.carbs += Number(
-                            el.ingredient.carbs * ingredientQuantity
+                            el.ingredient.carbs * el.ingredient_quantity
                           );
                           data.fats += Number(
-                            el.ingredient.fats * ingredientQuantity
+                            el.ingredient.fats * el.ingredient_quantity
                           );
                           data.price += Number(
-                            el.ingredient.price * ingredientQuantity
+                            el.ingredient.price * el.ingredient_quantity
                           );
+
+                          data.quantity += Number(el.ingredient_quantity)
                           if (
                             selectedIngredient &&
                             el.ingredient_id !== selectedIngredient.id
                           ) {
                             newData.protein += Number(
-                              el.ingredient.protein * ingredientQuantity
+                              el.ingredient.protein * el.ingredient_quantity
                             );
                             newData.carbs += Number(
-                              el.ingredient.carbs * ingredientQuantity
+                              el.ingredient.carbs * el.ingredient_quantity
                             );
                             newData.fats += Number(
-                              el.ingredient.fats * ingredientQuantity
+                              el.ingredient.fats * el.ingredient_quantity
                             );
                             newData.price += Number(
-                              el.ingredient.price * ingredientQuantity
+                              el.ingredient.price * el.ingredient_quantity
                             );
+
+                            newData.quantity += Number(el.ingredient_quantity)
                           }
                         }
                       );
+
+                      data.protein /= data.quantity
+                      data.fats /= data.quantity
+                      data.price /= data.quantity
+                      data.carbs /= data.quantity
 
                       data.protein += Number(
                         (data.protein * quantity).toFixed(3)
@@ -197,6 +204,16 @@ const DialogMealTable: React.FC = () => {
                       data.carbs += Number((data.carbs * quantity).toFixed(3));
                       data.fats += Number((data.fats * quantity).toFixed(3));
                       data.price += Number((data.price * quantity).toFixed(3));
+                      data.calories = Number(
+                        data.protein * 4 + data.carbs * 4 + data.fats * 9
+                      );
+
+
+                      newData.protein /= newData.quantity
+                      newData.fats /= newData.quantity
+                      newData.price /= newData.quantity
+                      newData.carbs /= newData.quantity
+
                       newData.protein += Number(
                         (newData.protein * quantity).toFixed(3)
                       );
@@ -209,13 +226,11 @@ const DialogMealTable: React.FC = () => {
                       newData.price += Number(
                         (newData.price * quantity).toFixed(3)
                       );
+                      newData.calories = Number(
+                        newData.protein * 4 + newData.carbs * 4 + newData.fats * 9
+                      );
                     });
-                    data.calories = Number(
-                      data.protein * 4 + data.carbs * 4 + data.fats * 9
-                    );
-                    newData.calories = Number(
-                      newData.protein * 4 + newData.carbs * 4 + newData.fats * 9
-                    );
+
                   }
 
                   return (
