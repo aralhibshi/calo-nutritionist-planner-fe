@@ -158,14 +158,26 @@ const MealTable: React.FC = () => {
                   const quantity = Number(el.component_quantity);
                   el.component.components_ingredients?.map(
                     (el: IComponentIngredient) => {
-                      totalFats += Number(el.ingredient.fats * quantity);
-                      totalCarbs += Number(el.ingredient.carbs * quantity);
-                      totalProteins += Number(el.ingredient.protein * quantity);
-                      totalPrice += Number(el.ingredient.price * quantity);
-                      totalCalories +=
-                        totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
+                      const ingredientQuantity = Number(
+                        el.ingredient_quantity
+                      );
+                      totalFats += Number(el.ingredient.fats * ingredientQuantity);
+                      totalCarbs += Number(el.ingredient.carbs * ingredientQuantity);
+                      totalProteins += Number(el.ingredient.protein * ingredientQuantity);
+                      totalPrice += Number(el.ingredient.price * ingredientQuantity);
+
                     }
                   );
+
+                  totalProteins += Number(
+                    (totalProteins * quantity).toFixed(3)
+                  );
+                  totalCarbs += Number((totalCarbs * quantity).toFixed(3));
+                  totalFats += Number((totalFats * quantity).toFixed(3));
+                  totalPrice += Number((totalPrice * quantity).toFixed(3));
+
+                  totalCalories +=
+                  totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
                 });
               }
               return (
