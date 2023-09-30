@@ -128,8 +128,8 @@ const ComponentIngredientTable: React.FC<
     const quantity = quantities[ingredient.id] || 1;
 
     totalCarbs += Number(carbs * quantity);
-    totalFats += Number(carbs * quantity);
-    totalProtein += Number(carbs * quantity);
+    totalFats += Number(fats * quantity);
+    totalProtein += Number(protein * quantity);
 
     if (!isNaN(fats) && !isNaN(carbs) && !isNaN(protein) && !isNaN(quantity)) {
       totalCalories += (fats * 9 + carbs * 4 + protein * 4) * quantity;
@@ -209,7 +209,7 @@ const ComponentIngredientTable: React.FC<
                               onChange: (e) =>
                                 handleQuantityChange(e, ingredient.id),
                             }}
-                            sx={{ width: "50px" }}
+                            sx={{ width: "50px" }}  
                           />
                         </td>
                         <td>
