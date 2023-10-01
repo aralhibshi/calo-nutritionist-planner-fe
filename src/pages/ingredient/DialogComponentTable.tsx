@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Backdrop } from "@mui/material";
+import { Backdrop, Typography } from "@mui/material";
 import * as ComponentApi from "../../network/componentApi";
 import useEntityStore from "../../stores/entityStore";
 import useIngredientStore from "../../stores/ingredientStore";
@@ -14,7 +14,9 @@ import useTableStore from "../../stores/tableStore";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import Grid from '@mui/material/Grid';
 import Button from "@mui/material/Button";
+import {FaHamburger} from 'react-icons/fa'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+
 
 const DialogComponentTable: React.FC = () => {
   const { loading, setLoading } = useEntityStore();
@@ -24,7 +26,6 @@ const DialogComponentTable: React.FC = () => {
     setSelectedComponent,
     ingredientComponents,
     setIngredientComponents,
-    componentCount
   } = useComponentStore();
   const { setSearchResult } = useSearchStore();
   const {
@@ -61,6 +62,8 @@ const DialogComponentTable: React.FC = () => {
   const handleSelectComponent = (e: any) => {
     console.log(e.target)
   }
+
+  let componentCount = 0
 
   return (
     <>
@@ -154,6 +157,7 @@ const DialogComponentTable: React.FC = () => {
                         data.fats += Number(el.ingredient.fats);
                         data.price += Number(el.ingredient.price);
                         data.quantity += Number(el.ingredient_quantity);
+                        
                         if (
                           selectedIngredient &&
                           el.ingredient_id !== selectedIngredient.id
@@ -181,6 +185,8 @@ const DialogComponentTable: React.FC = () => {
                       newData.fats = Number(newData.fats.toFixed(3));
                       newData.calories = Number(newData.calories.toFixed(3));
                       newData.price = Number(newData.price.toFixed(3));
+                      componentCount++
+                      
                     }
                     return (
                       <tr
@@ -343,6 +349,21 @@ const DialogComponentTable: React.FC = () => {
           </Table>
         </Grid>
       </TableContainer>
+      <Grid
+  container
+  item
+  xs={12}
+  justifyContent="flex-end" // Aligns items horizontally to the right
+  alignItems="center" // Aligns items vertically in the center
+  sx={{ marginRight: 5, marginTop: 2, color: 'primary.main' }}
+>{selectedComponent &&(
+  <Typography variant="h6" style={{ marginRight: '42rem' }}>Selected Component: {selectedComponent?.name}</Typography>
+)
+}
+
+  <FaHamburger style={{ marginRight: '0.5rem' }} />
+  <Typography variant="h6" style={{ marginRight: '3rem' }}>{`: ${componentCount}`}</Typography>
+</Grid>
     </>
   );
 };

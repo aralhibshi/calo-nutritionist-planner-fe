@@ -39,8 +39,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
     editData,
   } = useIngredientStore();
   const {
-    setSelectedComponent,
-    componentCount
+    setSelectedComponent
   } = useComponentStore()
 
   const theme = useTheme();

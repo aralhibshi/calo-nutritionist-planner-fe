@@ -253,8 +253,6 @@ export interface IComponentStore {
   setSelectedComponents: (components: IMealComponent[]) => void;
   ingredientComponents: any,
   setIngredientComponents: (components: IComponent[]) => void;
-  componentCount: number;
-  setComponentCount: (amount: number) => void;
 }
 
 // Meal Store
