@@ -25,6 +25,15 @@ const theme = createTheme({
       enteringScreen: 300,
       leavingScreen: 300
     } 
+  },
+  components: {
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: "#575757"
+        }
+      }
+    }
   }
 });
 

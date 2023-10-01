@@ -3,13 +3,13 @@ import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop, IconButton } from "@mui/material";
 import * as ComponentApi from "../../network/componentApi";
-import useSearchStore from "../../stores/searchStore";
 import { IComponent, IComponentData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useComponentStore from "../../stores/componentStore";
 import useEntityStore from "../../stores/entityStore";
 import CreateComponentDialog from "./CreateComponentDialog";
 import EditComponentDialog from "./EditComponentDialog";
+import Tooltip from '@mui/material/Tooltip';
 
 const ComponentTable: React.FC = () => {
   const [components, setComponents] = useState<IComponentData[]>([]);
@@ -166,14 +166,19 @@ const ComponentTable: React.FC = () => {
                   <td>{component.unit}</td>
                   <td>{(totalPrice / totalQuantity).toFixed(3)}</td>
                   <td>
-                    <IconButton
-                      onClick={() => handleEditClick(component)}
-                      color='success'
+                    <Tooltip
+                      title='Edit'
+                      followCursor
                     >
-                      <EditIcon
-                        color='primary'
-                      />
-                    </IconButton>
+                      <IconButton
+                        onClick={() => handleEditClick(component)}
+                        color='success'
+                      >
+                        <EditIcon
+                          color='primary'
+                        />
+                      </IconButton>
+                    </Tooltip>
                   </td>
                 </tr>
               );
