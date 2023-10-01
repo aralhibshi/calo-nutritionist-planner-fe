@@ -136,7 +136,7 @@ const MealTable: React.FC = () => {
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            <th>Edit&nbsp;</th>
+            <th>Actions&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -204,8 +204,13 @@ const MealTable: React.FC = () => {
                   <td>{meal.unit}</td>
                   <td>{totalPrice.toFixed(3)}</td>
                   <td>
-                    <IconButton onClick={() => handleEditClick(meal)}>
-                      <EditIcon />
+                    <IconButton
+                      onClick={() => handleEditClick(meal)}
+                      color='success'
+                    >
+                      <EditIcon
+                        color='primary'
+                      />
                     </IconButton>
                   </td>
                 </tr>

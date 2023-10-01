@@ -118,7 +118,7 @@ const ComponentTable: React.FC = () => {
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            <th>Edit&nbsp;</th>
+            <th>Actions&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -166,8 +166,13 @@ const ComponentTable: React.FC = () => {
                   <td>{component.unit}</td>
                   <td>{(totalPrice / totalQuantity).toFixed(3)}</td>
                   <td>
-                    <IconButton onClick={() => handleEditClick(component)}>
-                      <EditIcon />
+                    <IconButton
+                      onClick={() => handleEditClick(component)}
+                      color='success'
+                    >
+                      <EditIcon
+                        color='primary'
+                      />
                     </IconButton>
                   </td>
                 </tr>

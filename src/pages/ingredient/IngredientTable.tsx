@@ -9,6 +9,7 @@ import useIngredientStore from "../../stores/ingredientStore";
 import useSearchStore from "../../stores/searchStore";
 import { IIngredient, IIngredientData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
+import ScienceIcon from '@mui/icons-material/Science';
 import useEntityStore from "../../stores/entityStore";
 import useTableStore from "../../stores/tableStore";
 import IngredientPlaygroundDialog from "./IngredientPlaygroundDialog";
@@ -238,7 +239,7 @@ const IngredientTable: React.FC = () => {
             <th>Fat&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            <th>Edit&nbsp;</th>
+            <th>Actions&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -261,17 +262,7 @@ const IngredientTable: React.FC = () => {
                     width: '40%',
                   }}
                 >
-                <Button
-                  onClick={() => handleIngredientClick(ingredient)}
-                  color="inherit"
-                  variant="text"
-                  style={{
-                    cursor: 'pointer',
-                    fontSize: '18px',
-                  }}
-                >
-                  {ingredient.name}
-                </Button>
+                  {ingredient.name} 
                 </td>
                 <td>{calories}</td>
                 <td>{ingredient.protein}</td>
@@ -280,8 +271,21 @@ const IngredientTable: React.FC = () => {
                 <td>{ingredient.unit}</td>
                 <td>{ingredient.price}</td>
                 <td>
-                  <IconButton onClick={() => handleEditClick(ingredient)}>
-                    <EditIcon />
+                  <IconButton
+                    onClick={() => handleIngredientClick(ingredient)}
+                    color='success'
+                  >
+                    <ScienceIcon
+                      color='primary'
+                    />
+                  </IconButton>
+                  <IconButton
+                    onClick={() => handleEditClick(ingredient)}
+                    color='success'
+                  >
+                    <EditIcon
+                      color='primary'
+                    />
                   </IconButton>
                 </td>
               </tr>
