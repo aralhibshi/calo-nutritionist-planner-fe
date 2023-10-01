@@ -121,6 +121,7 @@ const DialogMealTable: React.FC = () => {
               ingredientMeals.length > 0 ? (
                 ingredientMeals.map((meal: IMeal, index: number) => {
                   const componentArray: any = [];
+                  let iquantity = 0
 
                   const data: IComponentIngredientDetails = {
                     ingredient_id: "",
@@ -129,16 +130,17 @@ const DialogMealTable: React.FC = () => {
                     carbs: 0,
                     fats: 0,
                     price: 0,
-                    quantity: 0,
+                    quantity: iquantity,
+
                   };
                   const newData: IComponentIngredientDetails = {
                     ingredient_id: "",
-                    calories: editData.calories,
-                    protein: editData.protein,
-                    carbs: editData.carbs,
-                    fats: editData.fats,
-                    price: editData.price,
-                    quantity: 0,
+                    calories: 0,
+                    protein: 0,
+                    carbs: 0,
+                    fats: 0,
+                    price: 0,
+                    quantity: iquantity,
                   };
                   if (
                     meal.meals_components &&
@@ -155,41 +157,63 @@ const DialogMealTable: React.FC = () => {
                       const quantity = Number(el.component_quantity);
                       el.component.components_ingredients?.forEach(
                         (el: IComponentIngredient) => {
-                          const ingredientQuantity = Number(
-                            el.ingredient_quantity
-                          );
+
                           data.ingredient_id = el.ingredient_id;
                           data.protein += Number(
-                            el.ingredient.protein * ingredientQuantity
+                            el.ingredient.protein * el.ingredient_quantity
                           );
                           data.carbs += Number(
-                            el.ingredient.carbs * ingredientQuantity
+                            el.ingredient.carbs * el.ingredient_quantity
                           );
                           data.fats += Number(
-                            el.ingredient.fats * ingredientQuantity
+                            el.ingredient.fats * el.ingredient_quantity
                           );
                           data.price += Number(
-                            el.ingredient.price * ingredientQuantity
+                            el.ingredient.price * el.ingredient_quantity
                           );
+
+                          iquantity += Number(el.ingredient_quantity)
                           if (
                             selectedIngredient &&
                             el.ingredient_id !== selectedIngredient.id
                           ) {
                             newData.protein += Number(
-                              el.ingredient.protein * ingredientQuantity
+                              el.ingredient.protein * el.ingredient_quantity
                             );
                             newData.carbs += Number(
-                              el.ingredient.carbs * ingredientQuantity
+                              el.ingredient.carbs * el.ingredient_quantity
                             );
                             newData.fats += Number(
-                              el.ingredient.fats * ingredientQuantity
+                              el.ingredient.fats * el.ingredient_quantity
                             );
                             newData.price += Number(
-                              el.ingredient.price * ingredientQuantity
+                              el.ingredient.price * el.ingredient_quantity
                             );
+
+                            newData.quantity += Number(el.ingredient_quantity)
+                          }
+                          else{
+                            newData.protein += Number(
+                              editData.protein*el.ingredient_quantity
+                            );
+                            newData.carbs += Number(
+                              editData.carbs*el.ingredient_quantity
+                            );
+                            newData.fats += Number(
+                              editData.fats*el.ingredient_quantity
+                            );
+                            newData.price += Number(
+                              editData.price*el.ingredient_quantity
+                            );
+                            
                           }
                         }
                       );
+
+                      data.protein /= iquantity
+                      data.fats /= iquantity
+                      data.price /= iquantity
+                      data.carbs /= iquantity
 
                       data.protein += Number(
                         (data.protein * quantity).toFixed(3)
@@ -197,6 +221,16 @@ const DialogMealTable: React.FC = () => {
                       data.carbs += Number((data.carbs * quantity).toFixed(3));
                       data.fats += Number((data.fats * quantity).toFixed(3));
                       data.price += Number((data.price * quantity).toFixed(3));
+                      data.calories = Number(
+                        data.protein * 4 + data.carbs * 4 + data.fats * 9
+                      );
+
+
+                      newData.protein /= iquantity
+                      newData.fats /= iquantity
+                      newData.price /= iquantity
+                      newData.carbs /= iquantity
+
                       newData.protein += Number(
                         (newData.protein * quantity).toFixed(3)
                       );
@@ -209,13 +243,11 @@ const DialogMealTable: React.FC = () => {
                       newData.price += Number(
                         (newData.price * quantity).toFixed(3)
                       );
+                      newData.calories = Number(
+                        newData.protein * 4 + newData.carbs * 4 + newData.fats * 9
+                      );
                     });
-                    data.calories = Number(
-                      data.protein * 4 + data.carbs * 4 + data.fats * 9
-                    );
-                    newData.calories = Number(
-                      newData.protein * 4 + newData.carbs * 4 + newData.fats * 9
-                    );
+
                   }
 
                   return (
@@ -232,10 +264,23 @@ const DialogMealTable: React.FC = () => {
                     >
                       <td>{meal.name}</td>
                       <td>
-                        {data.calories.toFixed(3)} <br />
-                        <AiOutlineArrowDown />
-                        <br /> {newData.calories.toFixed(3)}
-                      </td>
+                          {(data.calories).toFixed(3)} <br />
+                          <AiOutlineArrowDown />
+                          <br />{" "}
+                          <div
+                            style={{
+                              color:
+                                selectedIngredient &&
+                                editData.protein !== selectedIngredient.protein
+                                  ? theme.palette.primary.main
+                                  : "inherit",
+                            }}
+                          >
+                            {Number(
+                              (newData.calories).toFixed(3)
+                            )}
+                          </div>
+                        </td>
                       <td>
                         {data.protein.toFixed(3)} <br />
                         <AiOutlineArrowDown />

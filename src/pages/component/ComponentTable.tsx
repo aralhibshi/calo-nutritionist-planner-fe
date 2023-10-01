@@ -147,13 +147,13 @@ const ComponentTable: React.FC = () => {
                   totalProteins += Number(
                     el.ingredient.protein * el.ingredient_quantity
                   );
-                  totalCalories +=
-                    totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
                   totalPrice += Number(
                     el.ingredient.price * el.ingredient_quantity
                   );
                   totalQuantity += Number(el.ingredient_quantity);
-                });
+                })
+                totalCalories +=
+                ((totalFats * 9) + (totalCarbs * 4) + (totalProteins * 4));;
               }
 
               return (

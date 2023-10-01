@@ -108,27 +108,28 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
           searchComponent.id === component.component_id
       )
     );
-  let fats= 0;
-  let carbs = 0;
-  let proteins = 0;
+
   let totalFats = 0;
   let totalCarbs = 0;
   let totalProteins = 0;
   let totalCalories = 0;
+  let totalQuantity = 0
 
   checkedComponents.forEach((component) => {
     console.log("component",component)
     const quantity = quantities[component.id] || 1;
     const el = component.components_ingredients;
     el.forEach((component_ingredient: IComponentIngredient) => {
-      const ingredient_quantity = component_ingredient.ingredient_quantity
-      fats = Number(component_ingredient.ingredient.fats)
-      carbs = Number(component_ingredient.ingredient.carbs)
-      proteins = Number(component_ingredient.ingredient.protein)
-      totalFats += Number(fats * ingredient_quantity);
-      totalCarbs += Number(carbs * ingredient_quantity);
-      totalProteins += Number(proteins * ingredient_quantity);
+      totalFats += Number(component_ingredient.ingredient.fats * component_ingredient.ingredient_quantity);
+      totalCarbs += Number(component_ingredient.ingredient.carbs * component_ingredient.ingredient_quantity);
+      totalProteins += Number(component_ingredient.ingredient.protein * component_ingredient.ingredient_quantity);
+      totalQuantity += Number(component_ingredient.ingredient_quantity)
     });
+
+    totalProteins /= totalQuantity
+    totalCarbs /= totalQuantity
+    totalFats /= totalQuantity
+
     totalFats *= quantity;
     totalCarbs *= quantity;
     totalProteins *= quantity;
@@ -192,7 +193,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
             <thead>
               <tr>
                 <th>Component Name&nbsp;</th>
-                <th>Quantity&nbsp;(per Component)</th>
+                <th>Quantity&nbsp;per(G/L)</th>
                 <th>Select</th>
               </tr>
             </thead>
@@ -201,6 +202,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
               Array.isArray(mealSearchResult) &&
               mealSearchResult?.length > 0 ? (
                 mealSearchResult?.map((meal: IMeal, index: number) => {
+                  
                   return (
                     <tr key={index}>
                       <td>{meal.name}</td>

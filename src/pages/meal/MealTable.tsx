@@ -149,23 +149,43 @@ const MealTable: React.FC = () => {
               let totalProteins = 0;
               let totalCalories = 0;
               let totalPrice = 0;
+              let totalQuantity = 0;
 
               if (
                 meal.meals_components &&
                 Array.isArray(meal.meals_components)
               ) {
                 meal.meals_components?.map((el: IMealComponent) => {
+
                   const quantity = Number(el.component_quantity);
+
                   el.component.components_ingredients?.map(
                     (el: IComponentIngredient) => {
-                      totalFats += Number(el.ingredient.fats * quantity);
-                      totalCarbs += Number(el.ingredient.carbs * quantity);
-                      totalProteins += Number(el.ingredient.protein * quantity);
-                      totalPrice += Number(el.ingredient.price * quantity);
-                      totalCalories +=
-                        totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
+
+                      totalFats += Number(el.ingredient.fats * el.ingredient_quantity);
+                      totalCarbs += Number(el.ingredient.carbs * el.ingredient_quantity);
+                      totalProteins += Number(el.ingredient.protein * el.ingredient_quantity);
+                      totalPrice += Number(el.ingredient.price * el.ingredient_quantity);
+
+                      totalQuantity += Number(el.ingredient_quantity);
+
                     }
                   );
+
+                  totalProteins /= totalQuantity
+                  totalCarbs /= totalQuantity
+                  totalFats /= totalQuantity
+                  totalPrice /= totalQuantity
+
+                  totalProteins += Number(
+                    (totalProteins * quantity).toFixed(3)
+                  );
+                  totalCarbs += Number((totalCarbs * quantity).toFixed(3));
+                  totalFats += Number((totalFats * quantity).toFixed(3));
+                  totalPrice += Number((totalPrice * quantity).toFixed(3));
+
+                  totalCalories =
+                  (totalFats * 9 + totalCarbs * 4 + totalProteins * 4)
                 });
               }
               return (
