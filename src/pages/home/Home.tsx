@@ -29,7 +29,12 @@ import MealTable from "../meal/MealTable";
 import useUserStore from '../../stores/userStore';
 import useEntityStore from '../../stores/entityStore';
 import useNotificationStore from '../../stores/notificationStore';
-import MealImageUploader from '../meal/MealImageUploader';
+
+// React Icons
+import { TbMeat } from "react-icons/tb";
+import { PiHamburgerBold } from 'react-icons/pi';
+import { MdOutlineFastfood } from 'react-icons/md'
+
 
 // APIs
 import * as ExportApi from '../../network/exportApi';
@@ -74,7 +79,8 @@ const Home: React.FC = () => {
   ? <MealTable/>
   : null;
 
-  const addEntityButton = entity === 'ingredient'
+  const addEntityButton
+  = entity === 'ingredient'
   ? <CreateIngredientButton/>
   : entity === 'component'
   ? <CreateComponentButton/>
@@ -85,6 +91,30 @@ const Home: React.FC = () => {
   function entityString(entity: string) {
     return entity.charAt(0).toUpperCase() + entity.slice(1) + 's'
   }
+
+  const entityIcon
+  = entity === 'ingredient'
+  ? <TbMeat
+      style={{
+        translate: '0 -0.2rem',
+        marginLeft: '0.3rem'
+      }}
+  />
+  : entity === 'component'
+  ? <PiHamburgerBold
+      style={{
+        translate: '0 -0.1rem',
+        marginLeft: '0.3rem'
+      }}
+    />
+  : entity === 'meal'
+  ? <MdOutlineFastfood
+    style={{
+      translate: '0 -0.4rem',
+      marginLeft: '0.3rem',
+    }}
+    />
+  : null;
 
   async function exportData() {
 
@@ -115,12 +145,19 @@ const Home: React.FC = () => {
         >
           <SearchTypeDropdown/>
           <Typography
-            variant="h3"
-            component="h2"
-            style={{fontSize: '40px',
-          marginLeft:'60px'}}
+            variant="h6"
+            component="h3"
+            style={{
+              fontSize: '40px',
+              marginLeft:'60px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingBottom: '-10px'
+            }}
             >
             { entityString(entity) }
+            { entityIcon }
           </Typography>
           <div>
           <Button

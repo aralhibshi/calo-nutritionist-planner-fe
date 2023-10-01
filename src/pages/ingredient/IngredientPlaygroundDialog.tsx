@@ -7,7 +7,6 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { IIngredientData } from '../../interfaces';
 import { useTheme } from '@mui/material/styles';
 import DialogComponentTable from './DialogComponentTable';
 import Divider from '@mui/material/Divider';
@@ -16,6 +15,8 @@ import LinearProgress from '@mui/material/LinearProgress';
 import useIngredientStore from '../../stores/ingredientStore';
 import useComponentStore from '../../stores/componentStore';
 import DialogMealTable from './DialogMealTable';
+import { PiHamburgerBold } from 'react-icons/pi';
+import { MdOutlineFastfood } from 'react-icons/md'
 
 interface IngredientPlaygroundDialogProps {
   open: boolean;
@@ -95,7 +96,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
             container
             spacing={1}
             height={'calc(98vh - 65px)'}
-            marginLeft={'8px'}
+            marginLeft={0}
             padding={0}
           >
 
@@ -104,12 +105,11 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
             <Grid
               item
               container
-              xs={3.3}
+              xs={2.6}
               alignItems='center'
-              spacing={1.9}
+              spacing={2}
               justifyContent='space-between'
               paddingLeft={0}
-              // marginLeft={0}
             >
               <Grid
                 item 
@@ -244,10 +244,9 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                   item
                   xs={3}
                   textAlign='center'
-                  // color={'GrayText'}
-                  color= {theme.palette.primary.main}
                 >
                   <ArrowDownwardIcon
+                    color='disabled'
                     sx={{
                       fontSize: 28
                     }}
@@ -257,10 +256,9 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                   item
                   xs={3}
                   textAlign='center'
-                  // color={'GrayText'}
-                  color= {theme.palette.primary.main}
                 >
                   <ArrowDownwardIcon
+                    color='disabled'
                     sx={{
                       fontSize: 28
                     }}
@@ -270,10 +268,9 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                   item
                   xs={3}
                   textAlign='center'
-                  // color={'GrayText'}
-                  color= {theme.palette.primary.main}
                 >
                   <ArrowDownwardIcon
+                    color='disabled'
                     sx={{
                       fontSize: 28
                     }}
@@ -283,10 +280,9 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                   item
                   xs={3}
                   textAlign='center'
-                  // color={'GrayText'}
-                  color= {theme.palette.primary.main}
                 >
                   <ArrowDownwardIcon
+                    color='disabled'
                     sx={{
                       fontSize: 28
                     }}
@@ -396,7 +392,6 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                 >
                   <Typography
                     variant='h6'
-                    // color={'#57AE7F'}
                   >
                     Protein
                   </Typography>
@@ -429,7 +424,6 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                 >
                   <Typography
                     variant='h6'
-                    // color={'#F29C38'}
                   >
                     Carbs
                   </Typography>
@@ -462,7 +456,6 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                 >
                   <Typography
                     variant='h6'
-                    // color={'#D3302F'}
                   >
                     Fats
                   </Typography>
@@ -549,7 +542,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
 
             <Grid
               item
-              xs={0.2}
+              xs={0.15}
               height={'100%'}
             >
               <Divider
@@ -562,7 +555,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
             <Grid
               item
               container
-              xs={8.5}
+              xs={9.2}
               spacing={1}
               marginRight={'auto'}
             >
@@ -573,8 +566,21 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
               >
                 <Typography
                   variant='h6'
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignContent: 'center',
+                    alignItems: 'center'
+                  }}
                 >
                   Components
+                  <PiHamburgerBold
+                    style={{
+                      marginRight: '0.5 rem',
+                      translate: '0 -0.05rem',
+                      marginLeft: '0.1rem'
+                    }}
+                  />
                 </Typography>
               </Grid>
               <Grid
@@ -586,7 +592,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
               <Grid
                 item
                 xs={12}
-                margin={'0 20px 0 20px'}
+                margin={'0 15px 0 15px'}
               >
                 <Divider
                   orientation='horizontal'
@@ -601,6 +607,12 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                   variant='h6'
                 >
                   Meals
+                  <MdOutlineFastfood
+                    style={{
+                      translate: '0 0.05rem',
+                      marginLeft: '0.1rem'
+                    }}
+                  />
                 </Typography>
               </Grid>
               <Grid
