@@ -19,6 +19,8 @@ import { useTheme } from "@mui/material/styles";
 import useSearchStore from "../../stores/searchStore";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import Grid from "@mui/material/Grid";
+import {MdFastfood} from 'react-icons/md'
+
 
 const DialogMealTable: React.FC = () => {
   const { loading, setLoading } = useEntityStore();
@@ -26,7 +28,7 @@ const DialogMealTable: React.FC = () => {
   const { ingredientMeals, setIngredientMeals } = useMealStore();
   const { setSearchResult } = useSearchStore();
   const { height } = useTableStore();
-  const { selectedComponent, componentCount, setComponentCount } =
+  const { selectedComponent } =
     useComponentStore();
 
   const theme = useTheme();
@@ -58,10 +60,8 @@ const DialogMealTable: React.FC = () => {
   }, []);
 
   let count = 0;
+  let mealCount=0
 
-  useEffect(() => {
-    setComponentCount(0);
-  }, [selectedComponent]);
 
   return (
     <>
@@ -248,6 +248,8 @@ const DialogMealTable: React.FC = () => {
                       );
                     });
 
+                    mealCount++
+
                   }
 
                   return (
@@ -358,6 +360,19 @@ const DialogMealTable: React.FC = () => {
           </Table>
         </Grid>
       </TableContainer>
+
+      <Grid
+  container
+  item
+  xs={12}
+  justifyContent="flex-end" // Aligns items horizontally to the right
+  alignItems="center" // Aligns items vertically in the center
+  sx={{ marginRight: 5, marginTop: 2, color: 'primary.main' }}
+>
+  <MdFastfood style={{ marginRight: '0.5rem' }} />
+  <Typography variant="h6" style={{ marginRight: '3rem' }}>{`: ${mealCount}`}</Typography>
+</Grid>
+
       <Grid item xs={12} textAlign="right" sx={{ marginRight: 5, marginTop: 2 , color: 'primary.main' }}>
         <Typography variant="h6">{`Meals containing selected component: ${count}`}</Typography>
       </Grid>
