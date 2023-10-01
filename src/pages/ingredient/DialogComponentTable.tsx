@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -11,12 +11,11 @@ import { IComponent, IComponentIngredientDetails } from "../../interfaces";
 import { useTheme } from "@mui/material/styles";
 import useSearchStore from "../../stores/searchStore";
 import useTableStore from "../../stores/tableStore";
-import { AiOutlineArrowDown } from "react-icons/ai";
 import Grid from '@mui/material/Grid';
 import Button from "@mui/material/Button";
-import {FaHamburger} from 'react-icons/fa'
+import { PiHamburgerBold } from 'react-icons/pi';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-
+import Tooltip from '@mui/material/Tooltip';
 
 const DialogComponentTable: React.FC = () => {
   const { loading, setLoading } = useEntityStore();
@@ -88,8 +87,8 @@ const DialogComponentTable: React.FC = () => {
           item
           xs={12}
           sx={{
-            marginLeft: '20px',
-            marginRight: '20px'
+            marginLeft: '10px',
+            marginRight: '10px'
           }}
           justifyContent='center'
           alignContent='center'
@@ -349,21 +348,71 @@ const DialogComponentTable: React.FC = () => {
           </Table>
         </Grid>
       </TableContainer>
-      <Grid
-  container
-  item
-  xs={12}
-  justifyContent="flex-end" // Aligns items horizontally to the right
-  alignItems="center" // Aligns items vertically in the center
-  sx={{ marginRight: 5, marginTop: 2, color: 'primary.main' }}
->{selectedComponent &&(
-  <Typography variant="h6" style={{ marginRight: '42rem' }}>Selected Component: {selectedComponent?.name}</Typography>
-)
-}
 
-  <FaHamburger style={{ marginRight: '0.5rem' }} />
-  <Typography variant="h6" style={{ marginRight: '3rem' }}>{`: ${componentCount}`}</Typography>
-</Grid>
+      <Grid
+        container
+        item
+        xs={12}
+        sx={{
+          marginRight: 5,
+          marginTop: 2,
+          color: 'primary.main'
+        }}
+      >
+        <Grid
+          item
+          container
+          xs={6}
+          style={{
+          }}
+        > 
+          {selectedComponent &&(
+            <Typography
+              variant="h6"
+              style={{
+                marginLeft: '32px'
+              }}
+            >
+              Selected Component: {selectedComponent?.name}
+            </Typography>
+          )}
+        </Grid>
+        <Grid
+          item
+          container
+          xs={6}
+          style={{
+            justifyContent: 'end'
+          }}
+        >
+            <Tooltip
+              title='Number of Components'
+              followCursor
+            >
+              <div
+                style={{
+                  display: 'flex',
+                }}
+              >
+                <PiHamburgerBold
+                  style={{
+                    scale: '120%',
+                    translate: '0 0.45rem'
+                  }}
+                />
+                <Typography
+                  variant="h6"
+                  style={{
+                    marginRight: '32px',
+                    cursor: 'default'
+                  }}
+                >
+                  { `: ${componentCount}` }
+                </Typography>
+              </div>
+            </Tooltip>
+        </Grid>
+      </Grid>
     </>
   );
 };

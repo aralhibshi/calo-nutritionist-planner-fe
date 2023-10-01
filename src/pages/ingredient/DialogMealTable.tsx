@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -18,8 +18,9 @@ import {
 import { useTheme } from "@mui/material/styles";
 import useSearchStore from "../../stores/searchStore";
 import Grid from "@mui/material/Grid";
-import {MdFastfood} from 'react-icons/md'
+import { MdOutlineFastfood } from 'react-icons/md'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import Tooltip from '@mui/material/Tooltip';
 
 const DialogMealTable: React.FC = () => {
   const { loading, setLoading } = useEntityStore();
@@ -85,8 +86,8 @@ const DialogMealTable: React.FC = () => {
           item
           xs={12}
           sx={{
-            marginLeft: "20px",
-            marginRight: "20px",
+            marginLeft: "10px",
+            marginRight: "10px",
           }}
           justifyContent="center"
           alignContent="center"
@@ -405,21 +406,70 @@ const DialogMealTable: React.FC = () => {
           </Table>
         </Grid>
       </TableContainer>
-
       <Grid
-  container
-  item
-  xs={12}
-  justifyContent="flex-end" // Aligns items horizontally to the right
-  alignItems="center" // Aligns items vertically in the center
-  sx={{ marginRight: 5, marginTop: 2, color: 'primary.main' }}
->
-  <MdFastfood style={{ marginRight: '0.5rem' }} />
-  <Typography variant="h6" style={{ marginRight: '3rem' }}>{`: ${mealCount}`}</Typography>
-</Grid>
-
-      <Grid item xs={12} textAlign="right" sx={{ marginRight: 5, marginTop: 2 , color: 'primary.main' }}>
-        <Typography variant="h6">{`Meals containing selected component: ${count}`}</Typography>
+        item
+        container
+        xs={12}
+        sx={{
+          marginRight: 5,
+          marginTop: 2,
+          color: 'primary.main',
+          }}
+        >
+        <Grid
+          item
+          container
+          xs={6}
+          style={{
+            justifyContent: 'start'
+          }}
+        >
+          <Typography
+            variant="h6"
+            style={{
+              justifyContent: 'start',
+              marginLeft: '32px',
+            }}
+          >
+            { `Meals containing selected component: ${count}` }
+          </Typography>
+        </Grid>
+        
+        <Grid
+          item
+          container
+          xs={6}
+          style={{
+            justifyContent: 'end',
+          }}
+        >
+          <Tooltip
+            title='Number of Meals'
+            followCursor
+          >
+            <div
+              style={{
+                display: 'flex'
+              }}
+            >
+              <MdOutlineFastfood
+                style={{
+                  scale: '120%',
+                  translate: '0 0.33rem'
+                }}
+              />
+              <Typography
+                variant="h6"
+                style={{
+                  marginRight: '32px',
+                  cursor: 'default'
+                }}
+              >
+                { `: ${mealCount}` }
+              </Typography>
+            </div>
+          </Tooltip>
+        </Grid>
       </Grid>
     </>
   );
