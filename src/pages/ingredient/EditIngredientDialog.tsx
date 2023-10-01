@@ -20,13 +20,13 @@ import useIngredientStore from "../../stores/ingredientStore";
 import useNotificationStore from "../../stores/notificationStore";
 import Slider from '@mui/material/Slider';
 import Divider from "@mui/material/Divider";
-import IngredientComponentTable from "./IngredientComponentTable";
-import IngredientMealTable from "./IngredientMealTable";
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useTheme } from "@mui/material";
+import DialogComponentTable from "./DialogComponentTable";
+import DialogMealTable from "./DialogMealTable";
 
 interface EditIngredientDialogProps {
   open: boolean;
@@ -132,9 +132,9 @@ export default function EditIngredientDialog({
   };
 
   const entityTable = currentTable === 'components'
-  ? <IngredientComponentTable/>
+  ? <DialogComponentTable/>
   : currentTable === 'meals'
-  ? <IngredientMealTable/>
+  ?<DialogMealTable/>
   : null;
 
   return (
