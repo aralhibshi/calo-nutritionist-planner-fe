@@ -8,7 +8,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { IIngredientData } from '../../interfaces';
-import IngredientMealTable from './IngredientMealTable';
 import { useTheme } from '@mui/material/styles';
 import DialogComponentTable from './DialogComponentTable';
 import Divider from '@mui/material/Divider';
