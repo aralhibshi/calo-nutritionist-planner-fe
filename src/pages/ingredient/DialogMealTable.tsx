@@ -271,7 +271,7 @@ const DialogMealTable: React.FC = () => {
                             style={{
                               color:
                                 selectedIngredient &&
-                                editData.protein !== selectedIngredient.protein
+                                newData.calories !== data.calories
                                   ? theme.palette.primary.main
                                   : "inherit",
                             }}
