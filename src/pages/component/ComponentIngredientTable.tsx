@@ -128,7 +128,6 @@ const ComponentIngredientTable: React.FC<
     totalFats += Number(ingredient.fats * quantity);
     totalProtein += Number(ingredient.protein * quantity);
     totalQuantity += Number(quantity)
-
     totalProtein /= totalQuantity
     totalCarbs /= totalQuantity
     totalFats /= totalQuantity
@@ -213,7 +212,7 @@ const ComponentIngredientTable: React.FC<
                               onChange: (e) =>
                                 handleQuantityChange(e, ingredient.id),
                             }}
-                            sx={{ width: "50px" }}
+                            sx={{ width: "50px" }}  
                           />
                         </td>
                         <td>
