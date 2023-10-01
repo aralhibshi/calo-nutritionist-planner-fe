@@ -15,6 +15,7 @@ import {
 import useMealStore from "../../stores/mealStore";
 import CreateMealDialog from "./CreateMealDialog";
 import EditMealDialog from "./EditMealDialog";
+import Tooltip from "@mui/material/Tooltip";
 
 const MealTable: React.FC = () => {
   const [meals, setMeals] = useState<IMealData[]>([]);
@@ -204,14 +205,19 @@ const MealTable: React.FC = () => {
                   <td>{meal.unit}</td>
                   <td>{totalPrice.toFixed(3)}</td>
                   <td>
-                    <IconButton
-                      onClick={() => handleEditClick(meal)}
-                      color='success'
+                    <Tooltip
+                      title='Edit'
+                      followCursor
                     >
-                      <EditIcon
-                        color='primary'
-                      />
-                    </IconButton>
+                      <IconButton
+                        onClick={() => handleEditClick(meal)}
+                        color='success'
+                      >
+                        <EditIcon
+                          color='primary'
+                        />
+                      </IconButton>
+                    </Tooltip>
                   </td>
                 </tr>
               );

@@ -1,19 +1,19 @@
-import React, { useEffect, useMemo, useState } from "react";
-import Table from "@mui/material/Table";
-import CircularProgress from "@mui/material/CircularProgress";
-import { Backdrop, IconButton } from "@mui/material";
-import EditIngredientDialog from "./EditIngredientDialog";
-import CreateIngredientDialog from "./CreateIngredientDialog";
-import * as IngredientApi from "../../network/ingredientApi";
-import useIngredientStore from "../../stores/ingredientStore";
-import useSearchStore from "../../stores/searchStore";
-import { IIngredient, IIngredientData } from "../../interfaces";
-import EditIcon from "@mui/icons-material/Edit";
+import React, { useEffect, useMemo, useState } from 'react';
+import Table from '@mui/material/Table';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Backdrop, IconButton } from '@mui/material';
+import EditIngredientDialog from './EditIngredientDialog';
+import CreateIngredientDialog from './CreateIngredientDialog';
+import * as IngredientApi from '../../network/ingredientApi';
+import useIngredientStore from '../../stores/ingredientStore';
+import useSearchStore from '../../stores/searchStore';
+import { IIngredient, IIngredientData } from '../../interfaces';
+import EditIcon from '@mui/icons-material/Edit';
 import ScienceIcon from '@mui/icons-material/Science';
-import useEntityStore from "../../stores/entityStore";
-import useTableStore from "../../stores/tableStore";
-import IngredientPlaygroundDialog from "./IngredientPlaygroundDialog";
-import Button from '@mui/material/Button';
+import useEntityStore from '../../stores/entityStore';
+import useTableStore from '../../stores/tableStore';
+import IngredientPlaygroundDialog from './IngredientPlaygroundDialog';
+import Tooltip from '@mui/material/Tooltip';
 
 const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<IIngredientData[]>([]);
@@ -210,21 +210,21 @@ const IngredientTable: React.FC = () => {
       {loading && (
         <Backdrop
           sx={{
-            color: "#fff",
+            color: '#fff',
             zIndex: (theme) => theme.zIndex.drawer + 1,
           }}
           open={true}
         >
           <CircularProgress
-            color="inherit"
+            color='inherit'
           />
         </Backdrop>
       )}
       <Table
         sx={{
-          marginTop: "15px",
+          marginTop: '15px',
           marginBottom: '15px',
-          userSelect: "none",
+          userSelect: 'none',
         }}
         id='table'
       >
@@ -251,11 +251,11 @@ const IngredientTable: React.FC = () => {
               ingredient.protein * 4
             )
               .toFixed(3)
-              .padEnd(5, "0");
+              .padEnd(5, '0');
             return (
               <tr
                 id='table'
-                key={index} style={{height:"52px"}}
+                key={index} style={{height:'52px'}}
               >
                 <td
                   style={{
@@ -271,22 +271,32 @@ const IngredientTable: React.FC = () => {
                 <td>{ingredient.unit}</td>
                 <td>{ingredient.price}</td>
                 <td>
-                  <IconButton
-                    onClick={() => handleIngredientClick(ingredient)}
-                    color='success'
+                  <Tooltip
+                    title='Playground'
+                    followCursor
                   >
-                    <ScienceIcon
-                      color='primary'
-                    />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => handleEditClick(ingredient)}
-                    color='success'
+                    <IconButton
+                      onClick={() => handleIngredientClick(ingredient)}
+                      color='success'
+                    >
+                      <ScienceIcon
+                        color='primary'
+                      />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip
+                    title='Edit'
+                    followCursor
                   >
-                    <EditIcon
-                      color='primary'
-                    />
-                  </IconButton>
+                    <IconButton
+                      onClick={() => handleEditClick(ingredient)}
+                      color='success'
+                    >
+                      <EditIcon
+                        color='primary'
+                      />
+                    </IconButton>
+                  </Tooltip>
                 </td>
               </tr>
             );
