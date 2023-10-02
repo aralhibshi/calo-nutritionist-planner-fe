@@ -10,7 +10,6 @@ import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import validationSchema from "../../validation/ingredientFormValidation";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { FormControl, InputLabel } from "@mui/material";
@@ -163,19 +162,21 @@ export default function EditIngredientDialog({
             <form
               onSubmit={formik.handleSubmit}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
+              <Grid
+                item
+                container
+                xs={12}
+                sx={{
+                  justifyContent: 'space-between'
                 }}
               >
                 {/* Left */}
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    width: '100%',
-                    paddingRight: '24px'
+                <Grid
+                  item
+                  container
+                  xs={3.3}
+                  sx={{
+                    flexDirection: 'column'
                   }}
                 >
                   <DialogTitle
@@ -418,10 +419,10 @@ export default function EditIngredientDialog({
                       />
                     </div>
                   </div>
-                </div>
+                </Grid>
                 <Divider
                   orientation="vertical"
-                  flexItem 
+                  flexItem
                 />
                 {/* Right */}
                 <div
@@ -459,7 +460,7 @@ export default function EditIngredientDialog({
                       <IngredientBarChart/>
                       <IngredientPieChart/>
                     </div>
-                     <Divider
+                      <Divider
                         orientation="horizontal"
                         flexItem
                         sx={{
@@ -496,9 +497,8 @@ export default function EditIngredientDialog({
                           Meals
                         </ToggleButton>
                       </ToggleButtonGroup>
-
                       { entityTable }
-                      
+              
                     </div>
                   </div>
                   <DialogActions
@@ -522,7 +522,7 @@ export default function EditIngredientDialog({
                     </Button>
                   </DialogActions>
                 </div>
-              </div>
+              </Grid>
             </form>
           </DialogContent>
         </Dialog>
