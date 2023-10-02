@@ -8,13 +8,13 @@ import useSearchStore from "../../stores/searchStore";
 import {
   IComponent,
   IComponentIngredient,
-  IIngredient,
   IMeal,
 } from "../../interfaces";
 import useEntityStore from "../../stores/entityStore";
 import { Input } from "@mui/material";
 import useComponentStore from "../../stores/componentStore";
 import Checkbox from "@mui/material/Checkbox";
+import Tooltip from "@mui/material/Tooltip";
 
 interface MealComponentTableProps {}
 
@@ -136,11 +136,6 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
     totalCalories = Number(totalFats*9 + totalCarbs*4 + totalProteins*4);
     console.log(totalCalories)
   });
- 
-
-  // console.log("Total Fats:", totalFats);
-  // console.log("Total Carbs:", totalCarbs);
-  // console.log("Total Proteins:", totalProteins);
 
   return (
     <>
@@ -211,7 +206,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
                           type="number"
                           inputProps={{
                             min: 1,
-                            value: quantities[meal.id] || 1, // Set the default value to 1
+                            value: quantities[meal.id] || 1,
                             onChange: (e) => handleQuantityChange(e, meal.id),
                           }}
                           sx={{ width: "50px" }}
@@ -236,88 +231,93 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
         </TableContainer>
       </div>
       <br />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "20px",
-        }}
+      <Tooltip
+        title='Read-Only'
+        followCursor
       >
         <div
           style={{
-            flex: 1,
-          }}
-        >
-          <TextField
-            label="Calories"
-            name="description"
-            disabled
-            value={totalCalories.toFixed(3)}
-            fullWidth
-            margin="dense"
-          />
-        </div>
-        <div
-          style={{
-            flex: 1,
-            marginBottom: "20px",
             display: "flex",
-            justifyContent: "column",
-            alignItems: "center",
-            flexDirection: "column",
-            marginLeft: "10px",
+            justifyContent: "space-between",
+            marginTop: "20px",
           }}
         >
-          <TextField
-            label="Proteins"
-            name="protein"
-            disabled
-            value={totalProteins.toFixed(3)}
-            fullWidth
-            margin="dense"
-          />
+          <div
+            style={{
+              flex: 1,
+            }}
+          >
+            <TextField
+              label="Calories"
+              name="description"
+              disabled
+              value={totalCalories.toFixed(3)}
+              fullWidth
+              margin="dense"
+            />
+          </div>
+          <div
+            style={{
+              flex: 1,
+              marginBottom: "20px",
+              display: "flex",
+              justifyContent: "column",
+              alignItems: "center",
+              flexDirection: "column",
+              marginLeft: "10px",
+            }}
+          >
+            <TextField
+              label="Proteins"
+              name="protein"
+              disabled
+              value={totalProteins.toFixed(3)}
+              fullWidth
+              margin="dense"
+            />
+          </div>
+          <div
+            style={{
+              flex: 1,
+              marginBottom: "20px",
+              display: "flex",
+              justifyContent: "column",
+              alignItems: "center",
+              flexDirection: "column",
+              marginLeft: "10px",
+            }}
+          >
+            <TextField
+              label="Carbs"
+              name="carbs"
+              disabled
+              value={totalCarbs.toFixed(3)}
+              fullWidth
+              margin="dense"
+            />
+          </div>
+          <div
+            style={{
+              flex: 1,
+              marginBottom: "20px",
+              display: "flex",
+              justifyContent: "column",
+              alignItems: "center",
+              flexDirection: "column",
+              marginLeft: "10px",
+            }}
+          >
+            <TextField
+              label="Fats"
+              name="fats"
+              disabled
+              value={totalFats.toFixed(3)}
+              fullWidth
+              margin="dense"
+            />
+          </div>
         </div>
-        <div
-          style={{
-            flex: 1,
-            marginBottom: "20px",
-            display: "flex",
-            justifyContent: "column",
-            alignItems: "center",
-            flexDirection: "column",
-            marginLeft: "10px",
-          }}
-        >
-          <TextField
-            label="Carbs"
-            name="carbs"
-            disabled
-            value={totalCarbs.toFixed(3)}
-            fullWidth
-            margin="dense"
-          />
-        </div>
-        <div
-          style={{
-            flex: 1,
-            marginBottom: "20px",
-            display: "flex",
-            justifyContent: "column",
-            alignItems: "center",
-            flexDirection: "column",
-            marginLeft: "10px",
-          }}
-        >
-          <TextField
-            label="Fats"
-            name="fats"
-            disabled
-            value={totalFats.toFixed(3)}
-            fullWidth
-            margin="dense"
-          />
-        </div>
-      </div>
+      </Tooltip>
     </>
   );
 };
