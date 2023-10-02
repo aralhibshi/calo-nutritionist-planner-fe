@@ -17,7 +17,6 @@ import IngredientPieChart from "./IngredientPieChart";
 import IngredientBarChart from "./IngredientBarChart";
 import useIngredientStore from "../../stores/ingredientStore";
 import useNotificationStore from "../../stores/notificationStore";
-import useTableStore from "../../stores/tableStore";
 import Slider from '@mui/material/Slider';
 import Divider from "@mui/material/Divider";
 import LinearProgress from '@mui/material/LinearProgress';
@@ -62,11 +61,6 @@ export default function EditIngredientDialog({
     setNotify,
     setMessage
   } = useNotificationStore()
-  const {
-    height,
-    setHeight,
-    setHeightCondition
-  } = useTableStore()
 
   useEffect(() => {
     if (selectedIngredient) {
@@ -129,6 +123,11 @@ export default function EditIngredientDialog({
 
     setEditData(data);
   }
+
+  const handleTextfieldChange = (e: any) => {
+    const { value, name } = e.target;
+    setEditData({ ...editData, [name]: Number(value) });
+  };
 
   const handleTableChange = (e: any) => {
     console.log(e.target.value)
@@ -287,7 +286,13 @@ export default function EditIngredientDialog({
                         name="price"
                         type="number"
                         margin='dense'
-                        value={Number(editData?.price)}
+                        value={Number(editData?.price) || ''}
+                        onChange={handleTextfieldChange}
+                        inputProps={{
+                          min: 0,
+                          max: 0.999,
+                          step: 0.001
+                        }}
                       />
                     </Grid>
                     <Grid
@@ -306,6 +311,7 @@ export default function EditIngredientDialog({
                         }}
                         name='price'
                         defaultValue={Number(selectedIngredient?.price)}
+                        value={Number(editData.price)}
                         max={0.999}
                         step={0.001}
                         onChange={handleDecimalChange}
@@ -328,8 +334,14 @@ export default function EditIngredientDialog({
                         label="Protein"
                         name="protein"
                         type="number"
-                        value={Number(editData?.protein)}
+                        value={Number(editData?.protein) || ''}
                         margin='dense'
+                        onChange={handleTextfieldChange}
+                        inputProps={{
+                          min: 0,
+                          max: 0.999,
+                          step: 0.001
+                        }}
                       />
                     </Grid>
                     <Grid
@@ -349,6 +361,7 @@ export default function EditIngredientDialog({
                         }}
                         name='protein'
                         defaultValue={Number(selectedIngredient?.protein)}
+                        value={Number(editData.protein)}
                         max={0.999}
                         step={0.001}
                         onChange={handleDecimalChange}
@@ -372,8 +385,14 @@ export default function EditIngredientDialog({
                         label="Carbs"
                         name="carbs"
                         type="number"
-                        value={Number(editData?.carbs)}
+                        value={Number(editData?.carbs) || ''}
                         margin='dense'
+                        onChange={handleTextfieldChange}
+                        inputProps={{
+                          min: 0,
+                          max: 0.999,
+                          step: 0.001
+                        }}
                       />
                     </Grid>
                     <Grid
@@ -393,6 +412,7 @@ export default function EditIngredientDialog({
                         }}
                         name='carbs'
                         defaultValue={Number(selectedIngredient?.carbs)}
+                        value={Number(editData.carbs)}
                         max={0.999}
                         step={0.001}
                         onChange={handleDecimalChange}
@@ -415,8 +435,14 @@ export default function EditIngredientDialog({
                         label="Fats"
                         name="fats"
                         type="number"
-                        value={Number(editData?.fats)}
+                        value={Number(editData?.fats) || ''}
                         margin='dense'
+                        onChange={handleTextfieldChange}
+                        inputProps={{
+                          min: 0,
+                          max: 0.999,
+                          step: 0.001
+                        }}
                       />
                     </Grid>
                       <Grid
@@ -436,6 +462,7 @@ export default function EditIngredientDialog({
                           }}
                           name='fats'
                           defaultValue={Number(selectedIngredient?.fats)}
+                        value={Number(editData.fats)}
                           max={0.999}
                           step={0.001}
                           onChange={handleDecimalChange}
