@@ -81,6 +81,20 @@ const IngredientTable: React.FC = () => {
     loadIngredients();
   }, [take, skip]);
 
+  useEffect(() => {
+    if (open) {
+      console.log(open);
+      setHeight(height + 78)
+    } else if (playgroundOpen) {
+      console.log(playgroundOpen)
+      setHeight(height - 40)
+    } else {
+      setTimeout(() => {
+        setHeightCondition(setHeight)
+      }, 300)
+    }
+  }, [open, playgroundOpen])
+
   // Shared Functions
   function calculateData(useCase: string, data: any) {
     const calculatedCalories =

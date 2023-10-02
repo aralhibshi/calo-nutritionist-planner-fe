@@ -10,61 +10,57 @@ const IngredientBarChart: React.FC = () => {
   } = useIngredientStore()
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        scale: '65%'
+    <BarChart
+      sx={{
+        scale: '100%',
+        translate: '0 -10px',
       }}
-    >
-      <BarChart
-        colors={[
-          '#234935', '#57AE7F'
-        ]}
-        xAxis={[{
-           scaleType: 'band',
-           data: [
-            'Price',
-            'Protein',
-            'Carbs',
-            'Fats'
-          ]
-        }]}
-        series={[
-          {
-            data: [
-              selectedIngredient ? Number(selectedIngredient?.price): 0,
-              selectedIngredient ? Number(selectedIngredient?.protein): 0,
-              selectedIngredient ? Number(selectedIngredient.carbs): 0,
-              selectedIngredient ? Number(selectedIngredient.fats): 0
-            ],
-            highlightScope: {
-              faded: "global",
-              highlighted: "item"
-            },
-            label: 'Current'
+      colors={[
+        '#234935', '#57AE7F'
+      ]}
+      xAxis={[{
+          scaleType: 'band',
+          data: [
+          'Price',
+          'Protein',
+          'Carbs',
+          'Fats'
+        ]
+      }]}
+      series={[
+        {
+          data: [
+            selectedIngredient ? Number(selectedIngredient?.price): 0,
+            selectedIngredient ? Number(selectedIngredient?.protein): 0,
+            selectedIngredient ? Number(selectedIngredient.carbs): 0,
+            selectedIngredient ? Number(selectedIngredient.fats): 0
+          ],
+          highlightScope: {
+            faded: "global",
+            highlighted: "item"
           },
-          {
-            data: [
-              Number(editData.price),
-              Number(editData.protein),
-              Number(editData.carbs),
-              Number(editData.fats)
-            ],
-            highlightScope: {
-              faded: "global",
-              highlighted: "item"
-            },
-            label: 'Edit'
-          }
-        ]}
-        width={400}
-        height={280}
-        tooltip={{
-          trigger: "item"
-        }}
-      />
-    </div>
+          label: 'Current'
+        },
+        {
+          data: [
+            Number(editData.price),
+            Number(editData.protein),
+            Number(editData.carbs),
+            Number(editData.fats)
+          ],
+          highlightScope: {
+            faded: "global",
+            highlighted: "item"
+          },
+          label: 'Edit'
+        }
+      ]}
+      width={480}
+      height={220}
+      tooltip={{
+        trigger: "item"
+      }}
+    />
   )
 }
 
