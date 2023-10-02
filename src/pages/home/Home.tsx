@@ -117,7 +117,6 @@ const Home: React.FC = () => {
   : null;
 
   async function exportData() {
-
     setLoading(true);
     await ExportApi.exportData(storeUser, entity, data);
     setLoading(false);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IComponentIngredientDetails, IIngredientData } from "../../interfaces";
+import { IIngredientData } from "../../interfaces";
 import * as IngredientApi from "../../network/ingredientApi";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -24,9 +24,11 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { useTheme } from "@mui/material";
 import DialogComponentTable from "./DialogComponentTable";
 import DialogMealTable from "./DialogMealTable";
+import { Backdrop } from "@mui/material";
+import Grid from "@mui/material/Grid";
+
 
 interface EditIngredientDialogProps {
   open: boolean;
@@ -67,8 +69,6 @@ export default function EditIngredientDialog({
       calculateData('useEffect', selectedIngredient);
     }
   }, [open]);
-
-  const theme = useTheme();
 
   const formik = useFormik({
     initialValues: {
@@ -140,15 +140,15 @@ export default function EditIngredientDialog({
   return (
     <>
       {loading ? (
-        <Box
+        <Backdrop
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
+            color: "#fff",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
           }}
+          open={true}
         >
-          <CircularProgress/>
-        </Box>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       ) : (
         <Dialog
           open={open}
