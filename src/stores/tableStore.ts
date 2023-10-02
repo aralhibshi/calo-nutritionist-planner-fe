@@ -7,7 +7,6 @@ const useTableStore = create<ITableStore>((set) => ({
   setHeightCondition: (setHeight) => {
     const height = window.innerHeight
 
-  
     if (height >= 750 && height <= 800) {
       setHeight(230)
     }

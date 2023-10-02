@@ -19,6 +19,7 @@ import { Divider } from "@mui/material";
 import ComponentSearchBar from "./ComponentSearchBar";
 import ComponentIngredientTable from "./ComponentIngredientTable";
 import useNotificationStore from "../../stores/notificationStore";
+import { Backdrop } from "@mui/material";
 
 interface EditComponentDialogProps {
   open: boolean;
@@ -110,15 +111,15 @@ export default function EditComponentDialog({
   return (
     <>
       {loading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
-          }}
+        <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        open={true}
         >
-          <CircularProgress />
-        </Box>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       ) : (
         <Dialog
           style={{ textAlign: "center" }}

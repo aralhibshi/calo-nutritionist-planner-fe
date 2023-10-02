@@ -45,40 +45,33 @@ const IngredientPieChart: React.FC = (props) => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        scale: '65%'
+    <PieChart
+      sx={{
+        fontWeight: 'bold',
+        scale: '68%',
+        translate: '0 -15px',
+        height: '100%'
       }}
-    >
-      <PieChart
-        sx={{
-          fontWeight: 'bold',
-        }}
-        series={[
-          {
-            // arcLabel: (item) => item.value > 9.999 ? `${item.value.toFixed(0)}%`: '',
-            arcLabel: customArcLabel,
-            data: pieChartData,
-            highlightScope: { faded: "series", highlighted: "item" },
-            // faded: { innerRadius: 30, additionalRadius: -30 },
-            innerRadius: 30,
-            outerRadius: 100,
-            paddingAngle: 1,
-            cornerRadius: 5,
-            startAngle: 0,
-            endAngle: 360,
-            cx: 150,
-            cy: 105,
-          },
-        ]}
-        height={220}
-        width={370}
-        margin={{ bottom: -30 }}
-        tooltip={{ trigger: "item" }}
-      />
-    </div>
+      series={[
+        {
+          arcLabel: customArcLabel,
+          data: pieChartData,
+          highlightScope: { faded: "series", highlighted: "item" },
+          innerRadius: 30,
+          outerRadius: 100,
+          paddingAngle: 1,
+          cornerRadius: 5,
+          startAngle: 0,
+          endAngle: 360,
+          cx: 150,
+          cy: 105,
+        },
+      ]}
+      height={220}
+      width={370}
+      margin={{ bottom: -30 }}
+      tooltip={{ trigger: "item" }}
+    />
   );
 };
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IComponentIngredientDetails, IIngredientData } from "../../interfaces";
+import { IIngredientData } from "../../interfaces";
 import * as IngredientApi from "../../network/ingredientApi";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -10,7 +10,6 @@ import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import validationSchema from "../../validation/ingredientFormValidation";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { FormControl, InputLabel } from "@mui/material";
@@ -18,15 +17,17 @@ import IngredientPieChart from "./IngredientPieChart";
 import IngredientBarChart from "./IngredientBarChart";
 import useIngredientStore from "../../stores/ingredientStore";
 import useNotificationStore from "../../stores/notificationStore";
+import useTableStore from "../../stores/tableStore";
 import Slider from '@mui/material/Slider';
 import Divider from "@mui/material/Divider";
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { useTheme } from "@mui/material";
 import DialogComponentTable from "./DialogComponentTable";
 import DialogMealTable from "./DialogMealTable";
+import { Backdrop } from "@mui/material";
+import Grid from "@mui/material/Grid";
 
 interface EditIngredientDialogProps {
   open: boolean;
@@ -61,14 +62,17 @@ export default function EditIngredientDialog({
     setNotify,
     setMessage
   } = useNotificationStore()
+  const {
+    height,
+    setHeight,
+    setHeightCondition
+  } = useTableStore()
 
   useEffect(() => {
     if (selectedIngredient) {
       calculateData('useEffect', selectedIngredient);
     }
   }, [open]);
-
-  const theme = useTheme();
 
   const formik = useFormik({
     initialValues: {
@@ -134,83 +138,109 @@ export default function EditIngredientDialog({
   const entityTable = currentTable === 'components'
   ? <DialogComponentTable/>
   : currentTable === 'meals'
-  ?<DialogMealTable/>
+  ? <DialogMealTable/>
   : null;
 
   return (
     <>
       {loading ? (
-        <Box
+        <Backdrop
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
+            color: "#fff",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
           }}
+          open={true}
         >
-          <CircularProgress/>
-        </Box>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       ) : (
         <Dialog
           open={open}
           onClose={closeFormDialog}
-          maxWidth={false}
+          fullScreen
           style={{
             zIndex: '2',
-            width: '100%',
+            width: '100%'
           }}
         >
-          <DialogContent>
+          <DialogContent
+            sx={{
+              padding: '20px'
+            }}
+          >
             <form
               onSubmit={formik.handleSubmit}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
+              <Grid
+                container
+                xs={12}
+                sx={{
+                  justifyContent: 'space-between',
                 }}
               >
-                {/* Left */}
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    width: '100%',
-                    paddingRight: '24px'
+
+                {/* Section 1*/}
+
+                <Grid
+                  item
+                  container
+                  xs={2.8}
+                  sx={{
+                    height: '95vh'
                   }}
                 >
-                  <DialogTitle
+                  <Grid
+                    item
+                    xs={12}
                     sx={{
-                      textAlign: 'center'
+                      justifyContent: 'center'
                     }}
                   >
-                    Edit Ingredient
-                  </DialogTitle>
-                  <TextField
-                    label="Name"
-                    name="name"
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    fullWidth
-                    margin="dense"
-                  />
-                  <TextField
-                    label="Category"
-                    name="category"
-                    value={formik.values.category}
-                    onChange={formik.handleChange}
-                    fullWidth
-                    margin="dense"
-                  />
+                    <DialogTitle
+                      sx={{
+                        textAlign: 'center'
+                      }}
+                    >
+                      Edit Ingredient
+                    </DialogTitle>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                  >
+                    <TextField
+                      label="Name"
+                      name="name"
+                      value={formik.values.name}
+                      onChange={formik.handleChange}
+                      margin='dense'
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                  >
+                    <TextField
+                      label="Category"
+                      name="category"
+                      value={formik.values.category}
+                      onChange={formik.handleChange}
+                      margin='dense'
+                      fullWidth
+                    />
+                  </Grid>
                   <TextField
                     label="Description"
                     name="description"
                     value={formik.values.description}
                     onChange={formik.handleChange}
+                    margin='dense'
                     fullWidth
-                    margin="dense"
                   />
                   <FormControl
                     fullWidth
+                    margin='dense'
                   >
                     <InputLabel
                     id="unit"
@@ -240,289 +270,460 @@ export default function EditIngredientDialog({
                       </MenuItem>
                     </Select>
                   </FormControl>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <TextField
-                      label="Price"
-                      name="price"
-                      type="number"
-                      value={Number(editData?.price)}
-                      margin="dense"
-                      style={{
-                        width: '30%',
-                        marginRight: '30px'
-                      }}
-                    />
-                    <Slider
-                      sx={{
-                        width: '70%',
-                        marginRight: '22px',
-                      }}
-                      name='price'
-                      defaultValue={Number(selectedIngredient?.price)}
-                      max={0.999}
-                      step={0.001}
-                      onChange={handleDecimalChange}
-                    />
-                </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <TextField
-                      label="Protein"
-                      name="protein"
-                      type="number"
-                      value={Number(editData?.protein)}
-                      margin="dense"
-                      style={{
-                        width: '30%',
-                        marginRight: '30px'
-                      }}
-                    />
-                    <Slider
-                      sx={{
-                        width: '70%',
-                        marginRight: '22px',
-                        color: sliderColor()
-                      }}
-                      name='protein'
-                      defaultValue={Number(selectedIngredient?.protein)}
-                      max={0.999}
-                      step={0.001}
-                      onChange={handleDecimalChange}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <TextField
-                      label="Carbs"
-                      name="carbs"
-                      type="number"
-                      value={Number(editData?.carbs)}
-                      margin="dense"
-                      style={{
-                        width: '30%',
-                        marginRight: '30px'
-                      }}
-                    />
-                    <Slider
-                      sx={{
-                        width: '70%',
-                        marginRight: '22px',
-                        color: sliderColor()
-                      }}
-                      name='carbs'
-                      defaultValue={Number(selectedIngredient?.carbs)}
-                      max={0.999}
-                      step={0.001}
-                      onChange={handleDecimalChange}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <TextField
-                    label="Fats"
-                    name="fats"
-                    type="number"
-                    value={Number(editData?.fats)}
-                    margin="dense"
-                    style={{
-                      width: '30%',
-                      marginRight: '30px'
-                    }}
-                  />
-                  <Slider
+                  <Grid
+                    item
+                    container
+                    xs={12}
                     sx={{
-                      width: '70%',
-                      marginRight: '22px',
-                      color: sliderColor()
-                    }}
-                    name='fats'
-                    defaultValue={Number(selectedIngredient?.fats)}
-                    max={0.999}
-                    step={0.001}
-                    onChange={handleDecimalChange}
-                  />
-                  </div>
-                  <div
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
                     }}
                   >
-                    <TextField
-                      disabled
-                      label={editData.unitType}
-                      name="calories"
-                      type="number"
-                      value={editData.totalUnit}
-                      margin="dense"
-                      style={{
-                        width: '38%',
-                        marginRight: '30px',
-                      }}
-                    />
-                    <TextField
-                      disabled
-                      label="Calories"
-                      name="calories"
-                      type="number"
-                      value={Number(editData?.calories)}
-                      margin="dense"
-                      style={{
-                        width: '35%',
-                        marginRight: '30px'
-                      }}
-                    />
-                    <div
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: '40%',
-                        textAlign: 'center',
-                        marginRight: '22px'
+                    <Grid
+                      item
+                      xs={3}
+                    >
+                      <TextField
+                        label="Price"
+                        name="price"
+                        type="number"
+                        margin='dense'
+                        value={Number(editData?.price)}
+                      />
+                    </Grid>
+                    <Grid
+                      item
+                      container
+                      xs={9}
+                      sx={{
+                        alignItems: 'center'
                       }}
                     >
-                      <Typography
-                        variant="body1"
-                        fontSize={'15px'}
-                      >
-                        Calorie Rating
-                      </Typography>
-                      <LinearProgress
-                        color={progressColor()}
-                        aria-label="Calorie"
+                      <Slider
                         sx={{
-                          width: '100%',
-                          color: 'blue',
+                          width: '78%',
+                          marginRight: '20px',
+                          marginLeft: '2rem'
                         }}
-                        variant="determinate"
-                        value={formattedCalories()}
+                        name='price'
+                        defaultValue={Number(selectedIngredient?.price)}
+                        max={0.999}
+                        step={0.001}
+                        onChange={handleDecimalChange}
                       />
-                    </div>
-                  </div>
-                </div>
-                <Divider
-                  orientation="vertical"
-                  flexItem 
-                />
-                {/* Right */}
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    item
+                    container
+                    xs={12}
+                    sx={{
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Grid
+                      item
+                      xs={3}
+                    >
+                      <TextField
+                        label="Protein"
+                        name="protein"
+                        type="number"
+                        value={Number(editData?.protein)}
+                        margin='dense'
+                      />
+                    </Grid>
+                    <Grid
+                      item
+                      container
+                      xs={9}
+                      sx={{
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Slider
+                        sx={{
+                          width: '78%',
+                          marginRight: '20px',
+                          marginLeft: '2rem',
+                          color: sliderColor()
+                        }}
+                        name='protein'
+                        defaultValue={Number(selectedIngredient?.protein)}
+                        max={0.999}
+                        step={0.001}
+                        onChange={handleDecimalChange}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    item
+                    container
+                    xs={12}
+                    sx={{
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Grid
+                      item
+                      container
+                      xs={3}
+                    >
+                      <TextField
+                        label="Carbs"
+                        name="carbs"
+                        type="number"
+                        value={Number(editData?.carbs)}
+                        margin='dense'
+                      />
+                    </Grid>
+                    <Grid
+                      item
+                      container
+                      xs={9}
+                      sx={{
+                        alignItems: 'center'
+                      }}
+                    >
+                      <Slider
+                        sx={{
+                          width: '78%',
+                          marginRight: '20px',
+                          marginLeft: '2rem',
+                          color: sliderColor()
+                        }}
+                        name='carbs'
+                        defaultValue={Number(selectedIngredient?.carbs)}
+                        max={0.999}
+                        step={0.001}
+                        onChange={handleDecimalChange}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    item
+                    container
+                    xs={12}
+                    sx={{
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Grid
+                      item
+                      xs={3}
+                    >
+                      <TextField
+                        label="Fats"
+                        name="fats"
+                        type="number"
+                        value={Number(editData?.fats)}
+                        margin='dense'
+                      />
+                    </Grid>
+                      <Grid
+                        item
+                        container
+                        xs={9}
+                        sx={{
+                          alignItems: 'center'
+                        }}
+                      >
+                        <Slider
+                          sx={{
+                            width: '78%',
+                            marginRight: '20px',
+                            marginLeft: '2rem',
+                            color: sliderColor()
+                          }}
+                          name='fats'
+                          defaultValue={Number(selectedIngredient?.fats)}
+                          max={0.999}
+                          step={0.001}
+                          onChange={handleDecimalChange}
+                        />
+                      </Grid>
+                  </Grid>
+                  <Grid
+                    item
+                    container
+                    xs={12}
+                    sx={{
+                      alignItems: 'center'
+                    }}
+                    spacing={1}
+                  >
+                    <Grid
+                      item
+                      xs={3.2}
+                      marginRight={3}
+                    >
+                      <TextField
+                        disabled
+                        label={editData.unitType}
+                        name="calories"
+                        type="number"
+                        value={editData.totalUnit}
+                        margin='dense'
+                      />
+                    </Grid>
+                    <Grid
+                      item
+                      xs={3.2}
+                    >
+                      <TextField
+                        disabled
+                        label="Calories"
+                        name="calories"
+                        type="number"
+                        value={Number(editData?.calories)}
+                        margin='dense'
+                      />
+                    </Grid>
+                    <Grid
+                      item
+                      xs={4.6}
+                    >
+                      <Grid
+                        item
+                        container
+                        xs={12}
+                        sx={{
+                          alignItems: 'center',
+                        }}
+                      >
+                        <Grid
+                          item
+                          xs={12}
+                        >
+                          <Typography
+                            variant="body1"
+                            fontSize={'15px'}
+                            sx={{
+                              textAlign: 'center',
+                              width: '85%'
+                            }}
+                          >
+                            Calorie Rating
+                          </Typography>
+                        </Grid>
+                        <Grid
+                          item
+                          xs={12}
+                        >
+                          <LinearProgress
+                            color={progressColor()}
+                            aria-label="Calorie"
+                            sx={{
+                              width: '85%',
+                              color: 'blue',
+                            }}
+                            variant="determinate"
+                            value={formattedCalories()}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+
+                {/* Divider */}
+
+                <Grid
+                  item
+                  container
+                  xs={'auto'}
+                  sx={{
+                    alignItems: 'center',
+                  }}
+                >
+                  <Divider
+                    orientation="vertical"
+                    sx={{
+                      height: '95%'
+                    }}
+                  />
+                </Grid>
+
+                {/* Section 2 */}
+
+                <Grid
+                  item
+                  container
+                  xs={9}
+                  sx={{
                     justifyContent: 'space-between',
                   }}
                 >
-                  <div
-                    style={{
-                      flex: 0.5,
-                      flexDirection: 'column',
+                  <Grid
+                    item
+                    container
+                    xs={12}
+                    sx={{
                       alignContent: 'space-between'
                     }}
                   >
-                    <DialogTitle
+                    <Grid
+                      item
+                      xs={12}
+                    >
+                      <DialogTitle
+                        sx={{
+                          textAlign: 'center'
+                        }}
+                      >
+                        Details
+                      </DialogTitle>
+                    </Grid>
+
+                    {/* Charts */}
+
+                    <Grid
+                      item
+                      container
+                      xs={12}
+                      rowSpacing={3}
                       sx={{
-                        textAlign: 'center'
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '30%',
                       }}
                     >
-                      Details
-                    </DialogTitle>
-                    <div
-                      style={{
-                        flex: 0.5,
-                        marginBottom: "15px",
-                        display: "flex",
-                        justifyContent: "space-evenly",
-                        alignItems: "center",
-                        flexDirection: "row",
-                        height: '150px'
-                      }}
+                      <Grid
+                        item
+                        container
+                        xs={5}
+                        sx={{
+                          height: '100%',
+                          alignItems: 'center',
+                          paddingTop: 0
+                        }}
+                      >
+                        <IngredientBarChart/>
+                      </Grid>
+                      <Grid
+                        item
+                        sx={{
+                          height: '75%'
+                        }}
+                      >
+                        <Divider
+                          orientation='vertical'
+                        />
+                      </Grid>
+                      <Grid
+                        item
+                        container
+                        xs={5}
+                        sx={{
+                          height: '100%',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <IngredientPieChart/>
+                      </Grid>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
                     >
-                      <IngredientBarChart/>
-                      <IngredientPieChart/>
-                    </div>
-                     <Divider
+                      <Divider
                         orientation="horizontal"
                         flexItem
                         sx={{
-                          marginLeft: '20px'
+                          marginLeft: '20px',
                         }}
                       />
-                    <div
-                      style={{
+                    </Grid>
+
+                    {/* Tables */}
+
+                    <Grid
+                      item
+                      container
+                      xs={12}
+                      sx={{
                         textAlign: 'center',
-                        height: 'auto'
+                        height: '70%'
                       }}
                     >
-                      <ToggleButtonGroup
-                        value={currentTable}
-                        exclusive
-                        onChange={handleTableChange}
-                        style={{
-                          marginTop: '20px',
-                          marginBottom: '20px'
+                      <Grid
+                        item
+                        container
+                        xs={12}
+                        sx={{
+                          height: '12%',
+                          alignContent: 'center',
+                          justifyContent: 'center',
+                          marginTop: '10px',
+                          marginBottom: '10px'
                         }}
                       >
-                        <ToggleButton
-                          value="components"
-                          aria-label="components"
-                          color="primary"
+                        <ToggleButtonGroup
+                          value={currentTable}
+                          exclusive
+                          onChange={handleTableChange}
+                          style={{
+                            alignContent: 'center',
+                            alignItems: 'center'
+                          }}
                         >
-                          Components
-                        </ToggleButton>
-                        <ToggleButton
-                          value="meals"
-                          aria-label="meals"
-                          color="primary"
-                        >
-                          Meals
-                        </ToggleButton>
-                      </ToggleButtonGroup>
-
-                      { entityTable }
-                      
-                    </div>
-                  </div>
-                  <DialogActions
-                    style={{
-                      position: "relative",
-                      top: 0
+                          <ToggleButton
+                            value="components"
+                            aria-label="components"
+                            color="primary"
+                          >
+                            Components
+                          </ToggleButton>
+                          <ToggleButton
+                            value="meals"
+                            aria-label="meals"
+                            color="primary"
+                          >
+                            Meals
+                          </ToggleButton>
+                        </ToggleButtonGroup>
+                      </Grid>
+                      <Grid
+                        item
+                        xs={12}
+                        sx={{
+                          height: '85%'
+                        }}
+                      >
+                        { entityTable }
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    item
+                    container
+                    xs={12}
+                    sx={{
+                      justifyContent: 'right',
                     }}
                   >
-                    <Button
-                      id="secondary-button"
-                      onClick={closeFormDialog}
+                    <DialogActions
+                      style={{
+                        position: "relative",
+                        top: 0
+                      }}
                     >
-                      Cancel
-                    </Button>
-                    <Button
-                      id="primary-button"
-                      variant="contained"
-                      type="submit"
-                    >
-                      Save
-                    </Button>
-                  </DialogActions>
-                </div>
-              </div>
+                      <Button
+                        id="secondary-button"
+                        onClick={closeFormDialog}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        id="primary-button"
+                        variant="contained"
+                        type="submit"
+                      >
+                        Save
+                      </Button>
+                    </DialogActions>
+                  </Grid>
+                </Grid>
+              </Grid>
             </form>
           </DialogContent>
         </Dialog>

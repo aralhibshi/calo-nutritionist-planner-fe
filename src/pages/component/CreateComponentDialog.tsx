@@ -10,13 +10,13 @@ import { IAddComponentDialogProps } from "../../interfaces";
 import { useFormik } from "formik";
 import componentValidationSchema from "../../validation/componentFormValidation";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 import useComponentStore from "../../stores/componentStore";
 import { FormControl, InputLabel, MenuItem, Select, Divider } from "@mui/material";
 import ComponentSearchBar from "./ComponentSearchBar";
 import ComponentIngredientTable from "./ComponentIngredientTable";
 import useIngredientStore from "../../stores/ingredientStore";
 import useNotificationStore from "../../stores/notificationStore";
+import { Backdrop } from "@mui/material";
 
 export default function CreateComponentDialog({
   onComponentAdded,
@@ -90,15 +90,15 @@ export default function CreateComponentDialog({
   return (
     <>
       {loading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
-          }}
+        <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        open={true}
         >
-          <CircularProgress />
-        </Box>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       ) : (
         <Dialog
           open={addOpen}

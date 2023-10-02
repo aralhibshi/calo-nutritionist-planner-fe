@@ -5,15 +5,12 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
-import * as ComponentApi from "../../network/componentApi";
-import * as mealsApi from "../../network/mealApi";
+import * as MealApi from "../../network/mealApi";
 import {
-  IAddComponentDialogProps,
   IAddMealDialogProps,
 } from "../../interfaces";
 import { useFormik } from "formik";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 import useMealStore from "../../stores/mealStore";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import MealSearchBar from "./MealSearchBar";
@@ -23,6 +20,7 @@ import mealValidationSchema from "../../validation/mealFormValidation";
 import useNotificationStore from "../../stores/notificationStore";
 import MealImageUploader from "./MealImageUploader";
 import { v4 as uuidv4 } from "uuid";
+import { Backdrop } from "@mui/material";
 
 export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
   const [loading, setLoading] = useState(false);
@@ -52,7 +50,7 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
       try {
         setLoading(true);
         console.log("Form data:", values);
-        const response = await mealsApi.createMeal(values);
+        const response = await MealApi.createMeal(values);
         setSelectedComponents([]);
         console.log("New meal:", response);
         onMealAdded(response);
@@ -99,15 +97,15 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
   return (
     <>
       {loading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
-          }}
+        <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        open={true}
         >
-          <CircularProgress />
-        </Box>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       ) : (
         <Dialog
           open={addOpen}

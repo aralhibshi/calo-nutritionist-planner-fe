@@ -27,7 +27,9 @@ const DialogMealTable: React.FC = () => {
   const { selectedIngredient, editData } = useIngredientStore();
   const { ingredientMeals, setIngredientMeals } = useMealStore();
   const { setSearchResult } = useSearchStore();
-  const { height } = useTableStore();
+  const {
+    height
+  } = useTableStore();
   const { selectedComponent } =
     useComponentStore();
 
@@ -108,17 +110,53 @@ const DialogMealTable: React.FC = () => {
               <tr>
                 <th
                   style={{
-                    width: '20%'
+                    width: '22%'
                   }}
                 >
                   Meal Name&nbsp;
                 </th>
-                <th>Calories&nbsp;</th>
-                <th>Protein&nbsp;</th>
-                <th>Carbs&nbsp;</th>
-                <th>Fat&nbsp;</th>
-                <th>Unit&nbsp;</th>
-                <th>Price&nbsp;</th>
+                <th
+                  style={{
+                    width: '15%'
+                  }}
+                >
+                  Calories&nbsp;
+                </th>
+                <th
+                  style={{
+                    width: '15%'
+                  }}
+                >
+                  Protein&nbsp;
+                </th>
+                <th
+                  style={{
+                    width: '15%'
+                  }}
+                >
+                  Carbs&nbsp;
+                </th>
+                <th
+                  style={{
+                    width: '15%'
+                  }}
+                >
+                  Fat&nbsp;
+                </th>
+                <th
+                  style={{
+                    width: '3%'
+                  }}
+                >
+                  Unit&nbsp;
+                </th>
+                <th
+                  style={{
+                    width: '15%'
+                  }}
+                >
+                  Price&nbsp;
+                </th>
               </tr>
             </thead>
             <tbody>

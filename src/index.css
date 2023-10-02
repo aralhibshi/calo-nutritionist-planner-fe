@@ -46,7 +46,6 @@ code {
 
 /* Tables */
 #table {
-  font-family: 'Roboto';
   user-select: "none";
 }
 
@@ -83,11 +82,8 @@ code {
 }
 
 #table >tbody > tr > td {
-  padding-top: 5px;
-  padding-bottom: 5px;
   font-size: 18px;
   font-family: 'Bebas Neue', sans-serif !important;
-  letter-spacing: 1.5px;
 }
 
 #table >tbody > tr > td:first-child {
@@ -119,7 +115,7 @@ code {
   color: orange;
 }
 
-/* :disabled {
-  color: black !important;
-  -webkit-text-fill-color: black !important;
-} */
+/* Charts */
+.css-1xmeye7-MuiResponsiveChart-container {
+  /* height: 100% !important; */
+}
