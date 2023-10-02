@@ -27,6 +27,7 @@ import DialogComponentTable from "./DialogComponentTable";
 import DialogMealTable from "./DialogMealTable";
 import { Backdrop } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import Tooltip from "@mui/material/Tooltip";
 
 interface EditIngredientDialogProps {
   open: boolean;
@@ -478,33 +479,43 @@ export default function EditIngredientDialog({
                     }}
                     spacing={1}
                   >
-                    <Grid
-                      item
-                      xs={3.2}
-                      marginRight={3}
+                    <Tooltip
+                      title='Read-Only'
+                      followCursor
                     >
-                      <TextField
-                        disabled
-                        label={editData.unitType}
-                        name="calories"
-                        type="number"
-                        value={editData.totalUnit}
-                        margin='dense'
-                      />
-                    </Grid>
-                    <Grid
-                      item
-                      xs={3.2}
+                      <Grid
+                        item
+                        xs={3.2}
+                        marginRight={3}
+                      >
+                        <TextField
+                          disabled
+                          label={editData.unitType}
+                          name="calories"
+                          type="number"
+                          value={editData.totalUnit}
+                          margin='dense'
+                        />
+                      </Grid>
+                    </Tooltip>
+                    <Tooltip
+                      title='Read-Only'
+                      followCursor
                     >
-                      <TextField
-                        disabled
-                        label="Calories"
-                        name="calories"
-                        type="number"
-                        value={Number(editData?.calories)}
-                        margin='dense'
-                      />
-                    </Grid>
+                      <Grid
+                        item
+                        xs={3.2}
+                      >
+                        <TextField
+                          disabled
+                          label="Calories"
+                          name="calories"
+                          type="number"
+                          value={Number(editData?.calories)}
+                          margin='dense'
+                        />
+                      </Grid>
+                    </Tooltip>
                     <Grid
                       item
                       xs={4.6}
@@ -517,21 +528,27 @@ export default function EditIngredientDialog({
                           alignItems: 'center',
                         }}
                       >
-                        <Grid
-                          item
-                          xs={12}
+                        <Tooltip
+                          title='Caloric Density of Ingredient'
+                          followCursor
                         >
-                          <Typography
-                            variant="body1"
-                            fontSize={'15px'}
-                            sx={{
-                              textAlign: 'center',
-                              width: '85%'
-                            }}
+                          <Grid
+                            item
+                            xs={12}
                           >
-                            Calorie Rating
-                          </Typography>
-                        </Grid>
+                            <Typography
+                              variant="body1"
+                              fontSize={'15px'}
+                              sx={{
+                                textAlign: 'center',
+                                width: '85%',
+                                cursor: 'default'
+                              }}
+                            >
+                              Calorie Rating
+                            </Typography>
+                          </Grid>
+                        </Tooltip>
                         <Grid
                           item
                           xs={12}

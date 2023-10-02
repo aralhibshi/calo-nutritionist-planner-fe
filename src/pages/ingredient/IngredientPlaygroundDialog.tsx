@@ -17,6 +17,7 @@ import useComponentStore from '../../stores/componentStore';
 import DialogMealTable from './DialogMealTable';
 import { PiHamburgerBold } from 'react-icons/pi';
 import { MdOutlineFastfood } from 'react-icons/md'
+import Tooltip from '@mui/material/Tooltip';
 
 interface IngredientPlaygroundDialogProps {
   open: boolean;
@@ -128,53 +129,63 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                   {selectedIngredient?.name}
                 </Typography>
               </Grid>
-              <Grid
-                item
-                container
-                spacing={1}
+
+              <Tooltip
+                title='Read-Only'
+                followCursor
               >
                 <Grid
                   item
-                  xs={6}
+                  container
+                  spacing={1}
                 >
-                  <TextField
-                    variant='outlined'
-                    label='Category'
-                    value={selectedIngredient?.category}
-                    fullWidth
-                    
-                    disabled
-                  />
+                  <Grid
+                    item
+                    xs={6}
+                  >
+                    <TextField
+                      variant='outlined'
+                      label='Category'
+                      value={selectedIngredient?.category}
+                      fullWidth
+                
+                      disabled
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={6}
+                  >
+                    <TextField
+                      variant='outlined'
+                      label='Unit'
+                      value={
+                        selectedIngredient?.unit === 'g' ? 'Grams' : selectedIngredient?.unit === 'ml' ? 'Milliliters' : null
+                      }
+                      fullWidth
+                      disabled
+                    />
+                  </Grid>
                 </Grid>
+              </Tooltip>
 
+              <Tooltip
+                title='Read-Only'
+                followCursor
+              >
                 <Grid
                   item
-                  xs={6}
+                  xs={12}
                 >
                   <TextField
                     variant='outlined'
-                    label='Unit'
-                    value={
-                      selectedIngredient?.unit === 'g' ? 'Grams' : selectedIngredient?.unit === 'ml' ? 'Milliliters' : null
-                    }
+                    label='Description'
+                    value={selectedIngredient?.description}
                     fullWidth
                     disabled
                   />
                 </Grid>
-              </Grid>
-
-              <Grid
-                item
-                xs={12}
-              >
-                <TextField
-                  variant='outlined'
-                  label='Description'
-                  value={selectedIngredient?.description}
-                  fullWidth
-                  disabled
-                />
-              </Grid>
+              </Tooltip>
 
               <Grid
                 item
@@ -187,57 +198,62 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
               
               {/* Before Values */}
 
-              <Grid
-                item
-                container
-                xs={12}
-                spacing={1}
+              <Tooltip
+                title='Read-Only'
+                followCursor
               >
                 <Grid
                   item
-                  xs={3}
+                  container
+                  xs={12}
+                  spacing={1}
                 >
-                  <TextField
-                    variant='outlined'
-                    label='Price'
-                    value={selectedIngredient?.price}
-                    disabled
-                  />
+                  <Grid
+                    item
+                    xs={3}
+                  >
+                    <TextField
+                      variant='outlined'
+                      label='Price'
+                      value={selectedIngredient?.price}
+                      disabled
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                  >
+                    <TextField
+                      variant='outlined'
+                      label='Protein'
+                      value={selectedIngredient?.protein}
+                      disabled
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                  >
+                    <TextField
+                      variant='outlined'
+                      label='Carbs'
+                      value={selectedIngredient?.carbs}
+                      disabled
+                    />
+                  </Grid>
+                  <Grid
+                    item
+                    xs={3}
+                  >
+                    <TextField
+                      variant='outlined'
+                      label='Fats'
+                      value={selectedIngredient?.fats}
+                      disabled
+                    />
+                  </Grid>
                 </Grid>
-                <Grid
-                  item
-                  xs={3}
-                >
-                  <TextField
-                    variant='outlined'
-                    label='Protein'
-                    value={selectedIngredient?.protein}
-                    disabled
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={3}
-                >
-                  <TextField
-                    variant='outlined'
-                    label='Carbs'
-                    value={selectedIngredient?.carbs}
-                    disabled
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={3}
-                >
-                  <TextField
-                    variant='outlined'
-                    label='Fats'
-                    value={selectedIngredient?.fats}
-                    disabled
-                  />
-                </Grid>
-              </Grid>
+              </Tooltip>
 
               {/* Downward Arrows */}
 
@@ -529,50 +545,70 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                 xs={12}
                 alignItems='center'
               >
-                <Grid
-                  item
-                  xs={3}
+                <Tooltip
+                  title='Read-Only'
+                  followCursor
                 >
-                  <TextField
-                    variant='outlined'
-                    label='Total'
-                    value={editData.totalUnit}
-                    disabled
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={3}
-                >
-                  <TextField
-                    variant='outlined'
-                    label='Calories'
-                    value={3.537}
-                    disabled
-                  />
-                </Grid>
-                <Grid
-                  item
-                  xs={6}
-                >
-                  <Typography
-                    variant="body1"
-                    fontSize={'15px'}
-                    textAlign='center'
+                  <Grid
+                    item
+                    xs={3}
                   >
-                    Calorie Rating
-                  </Typography>
-                  <LinearProgress
-                    color={progressColor()}
-                    aria-label="Calorie"
-                    sx={{
-                      width: '100%',
-                      color: 'blue',
-                    }}
-                    variant="determinate"
-                    value={formattedCalories()}
-                  />
-                </Grid>
+                    <TextField
+                      variant='outlined'
+                      label='Total'
+                      value={editData.totalUnit}
+                      disabled
+                    />
+                  </Grid>
+                </Tooltip>
+
+                <Tooltip
+                  title='Read-Only'
+                  followCursor
+                >
+                  <Grid
+                    item
+                    xs={3}
+                  >
+                    <TextField
+                      variant='outlined'
+                      label='Calories'
+                      value={3.537}
+                      disabled
+                    />
+                  </Grid>
+                </Tooltip>
+
+                <Tooltip
+                    title='Caloric Density of Ingredient'
+                    followCursor
+                >
+                  <Grid
+                    item
+                    xs={6}
+                  >
+                    <Typography
+                      variant="body1"
+                      fontSize={'15px'}
+                      textAlign='center'
+                      sx={{
+                        cursor: 'default'
+                      }}
+                    >
+                      Calorie Rating
+                    </Typography>
+                    <LinearProgress
+                      color={progressColor()}
+                      aria-label="Calorie"
+                      sx={{
+                        width: '100%',
+                        color: 'blue',
+                      }}
+                      variant="determinate"
+                      value={formattedCalories()}
+                    />
+                  </Grid>
+                </Tooltip>
               </Grid>
             </Grid>
 
