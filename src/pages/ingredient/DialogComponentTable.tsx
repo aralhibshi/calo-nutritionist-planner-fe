@@ -61,7 +61,7 @@ const DialogComponentTable: React.FC = () => {
   }, []);
 
   const handleSelectComponent = (component: IComponent) => {
-    if(selectedComponent){
+    if(component.name === selectedComponent?.name){
       setSelectedComponent(null)
     }
     else{
