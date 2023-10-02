@@ -38,6 +38,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
   const {
     selectedIngredient,
     editData,
+    setEditData
   } = useIngredientStore();
   const {
     setSelectedComponent
@@ -46,12 +47,16 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
   const theme = useTheme();
 
   const handleDecimalChange = (e: any) => {
-
     const data: any = { ...editData };
     data[e.target.name] = e.target.value;
     console.log(editData.totalUnit);
 
     calculateData('decimalChange', data);
+  };
+
+  const handleTextfieldChange = (e: any) => {
+    const { value, name } = e.target;
+    setEditData({ ...editData, [name]: Number(value) });
   };
 
   const handleClose = () => {
@@ -105,7 +110,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
             <Grid
               item
               container
-              xs={2.6}
+              xs={3.1}
               alignItems='center'
               spacing={2}
               justifyContent='space-between'
@@ -137,6 +142,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                     label='Category'
                     value={selectedIngredient?.category}
                     fullWidth
+                    
                     disabled
                   />
                 </Grid>
@@ -305,8 +311,15 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                   <TextField
                     variant='outlined'
                     label='Price'
-                    value={editData.price}
-                    disabled
+                    name='price'
+                    value={editData.price || ''}
+                    type='number'
+                    onChange={handleTextfieldChange}
+                    inputProps={{
+                      min: 0,
+                      max: 0.999,
+                      step: 0.001
+                    }}
                   />
                 </Grid>
                 <Grid
@@ -316,8 +329,15 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                   <TextField
                     variant='outlined'
                     label='Protein'
-                    value={editData.protein}
-                    disabled
+                    name='protein'
+                    value={editData.protein || ''}
+                    type='number'
+                    onChange={handleTextfieldChange}
+                    inputProps={{
+                      min: 0,
+                      max: 0.999,
+                      step: 0.001
+                    }}
                   />
                 </Grid>
                 <Grid
@@ -327,8 +347,15 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                   <TextField
                     variant='outlined'
                     label='Carbs'
-                    value={editData.carbs}
-                    disabled
+                    name='carbs'
+                    value={editData.carbs || ''}
+                    type='number'
+                    onChange={handleTextfieldChange}
+                    inputProps={{
+                      min: 0,
+                      max: 0.999,
+                      step: 0.001
+                    }}
                   />
                 </Grid>
                 <Grid
@@ -338,8 +365,15 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                   <TextField
                     variant='outlined'
                     label='Fats'
-                    value={editData.fats}
-                    disabled
+                    name='fats'
+                    value={editData.fats || ''}
+                    type='number'
+                    onChange={handleTextfieldChange}
+                    inputProps={{
+                      min: 0,
+                      max: 0.999,
+                      step: 0.001
+                    }}
                   />
                 </Grid>
               </Grid>
@@ -374,6 +408,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                   <Slider
                     name='price'
                     defaultValue={Number(selectedIngredient?.price)}
+                    value={Number(editData.price)}
                     max={0.999}
                     step={0.001}
                     onChange={handleDecimalChange}
@@ -406,6 +441,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                     }}
                     name='protein'
                     defaultValue={Number(selectedIngredient?.protein)}
+                    value={Number(editData.protein)}
                     max={0.999}
                     step={0.001}
                     onChange={handleDecimalChange}
@@ -438,6 +474,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                     }}
                     name='carbs'
                     defaultValue={Number(selectedIngredient?.carbs)}
+                    value={Number(editData.carbs)}
                     max={0.999}
                     step={0.001}
                     onChange={handleDecimalChange}
@@ -470,6 +507,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
                     }}
                     name='fats'
                     defaultValue={Number(selectedIngredient?.fats)}
+                    value={Number(editData.fats)}
                     max={0.999}
                     step={0.001}
                     onChange={handleDecimalChange}
@@ -555,7 +593,7 @@ const IngredientPlaygroundDialog: React.FC<IngredientPlaygroundDialogProps> = ({
             <Grid
               item
               container
-              xs={9.2}
+              xs={8.7}
               spacing={1}
               marginRight={'auto'}
             >
