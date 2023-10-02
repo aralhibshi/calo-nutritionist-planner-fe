@@ -16,6 +16,7 @@ import Button from "@mui/material/Button";
 import { PiHamburgerBold } from 'react-icons/pi';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Tooltip from '@mui/material/Tooltip';
+import CloseIcon from '@mui/icons-material/Close';
 
 const DialogComponentTable: React.FC = () => {
   const { loading, setLoading } = useEntityStore();
@@ -59,8 +60,13 @@ const DialogComponentTable: React.FC = () => {
     loadComponents();
   }, []);
 
-  const handleSelectComponent = (e: any) => {
-    console.log(e.target)
+  const handleSelectComponent = (component: IComponent) => {
+    if(selectedComponent){
+      setSelectedComponent(null)
+    }
+    else{
+      setSelectedComponent(component)
+    }
   }
 
   let componentCount = 0
@@ -236,7 +242,7 @@ const DialogComponentTable: React.FC = () => {
                         <td>
                           <Button
                             onClick={() => {
-                              setSelectedComponent(component)
+                              handleSelectComponent(component)
                             }}
                             color={selectedComponent?.id === component.id ? 'info' : 'inherit'}
                             variant="text"
@@ -413,6 +419,9 @@ const DialogComponentTable: React.FC = () => {
               }}
             >
               Selected Component: {selectedComponent?.name}
+              <Button onClick={()=> {
+                setSelectedComponent(null)
+              }}><CloseIcon/></Button>
             </Typography>
           )}
         </Grid>
