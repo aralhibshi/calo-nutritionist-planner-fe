@@ -10,7 +10,7 @@ import useNotificationStore from "../../stores/notificationStore";
 
 function MealImageUploader() {
   // const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const { mealId, setUploaded } = useMealStore();
+  const { mealId, setUploaded} = useMealStore();
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const { setNotify, setMessage } = useNotificationStore();
@@ -19,11 +19,6 @@ function MealImageUploader() {
   const handleChange = (newFile: File | null) => {
     setFile(newFile);
   };
-  // const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files.length > 0) {
-  //     setSelectedFile(e.target.files[0]);
-  //   }
-  // };
   const handleUpload = async () => {
     if (file) {
       try {
@@ -51,9 +46,6 @@ function MealImageUploader() {
         setLoading(false)
       }
     } 
-    // else {
-    //   // alert("Please select a file to upload.");
-    // }
   };
   return (
     <>
@@ -71,10 +63,11 @@ function MealImageUploader() {
         <>
           <div>
             <h2>Upload Meal Image</h2>
-            <MuiFileInput value={file} onChange={handleChange}>
+            <MuiFileInput value={file} onChange={handleChange}
+            style={{marginBottom:'10px'}}>
               Select File
             </MuiFileInput>
-            <br />
+
             <Button
               component="label"
               variant="contained"
