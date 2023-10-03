@@ -182,9 +182,13 @@ const Home: React.FC = () => {
             item
             container
             xs={1.8}
+            sx={{
+              justifyContent: 'space-between'
+            }}
           >
             <Grid
               item
+              xs={5.75}
             >
               <Button
                 id='primary-button'
@@ -192,9 +196,8 @@ const Home: React.FC = () => {
                 type="submit"
                 onClick={() => exportData()}
                 style={{
-                  width: '100px',
+                  width: '100%',
                   height: '56px',
-                  marginRight: '10px'
                 }}
               >
                 Export &nbsp;
@@ -203,6 +206,7 @@ const Home: React.FC = () => {
             </Grid>
             <Grid
               item
+              xs={5.75}
             >
               { addEntityButton }
             </Grid>

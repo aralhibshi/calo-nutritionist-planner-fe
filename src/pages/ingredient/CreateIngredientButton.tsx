@@ -12,8 +12,8 @@ const CreateIngredientButton: React.FC = () => {
       type="submit"
       onClick={() => setAddOpen(true)}
       style={{
-        width: '100px',
-        height: '56px'
+        width: '100%',
+        height: '100%'
       }}
     >
       Create &nbsp;
