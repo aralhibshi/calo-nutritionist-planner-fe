@@ -25,7 +25,7 @@ const SearchTypeDropdown: React.FC = () => {
   return (
     <Box
       sx={{
-        minWidth: 140,
+        minWidth: 160,
         display: 'flex',
         alignItems: 'center'
       }}

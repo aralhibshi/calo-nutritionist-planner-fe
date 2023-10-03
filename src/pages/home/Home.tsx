@@ -133,92 +133,142 @@ const Home: React.FC = () => {
 
   return (
     <>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignContent: 'center',
-          alignItems: 'center',
-          marginTop: '79px',
-          marginBottom: '15px'
+      <Grid
+        container
+        xs={12}
+        sx={{
+          justifyContent: 'center'
+        }}
+      >
+        <Grid
+          item
+          container
+          xs={12}
+          sx={{
+            justifyContent: 'space-between',
+            alignContent: 'center',
+            alignItems: 'center',
+            marginTop: '79px',
+            marginBottom: '15px'
           }}
         >
-          <SearchTypeDropdown/>
-          <Typography
-            variant="h6"
-            component="h3"
-            style={{
-              fontSize: '40px',
-              marginLeft:'60px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingBottom: '-10px'
-            }}
-            >
-            { entityString(entity) }
-            { entityIcon }
-          </Typography>
-          <div>
-          <Button
-            id='primary-button'
-            variant='outlined'
-            type="submit"
-            onClick={() => exportData()}
-            style={{
-              width: '131px',
-              height: '56px',
-              marginRight: '10px'
-            }}
+          <Grid
+            item
+            xs={1.4}
           >
-            Export &nbsp;
-            <BiExport/>
-
-          </Button>
-          { addEntityButton }
-          </div>
-        </div>
-        <div
-          style={{
+            <SearchTypeDropdown/>
+          </Grid>
+          <Grid
+            item
+            xs={8.8}
+          >
+            <Typography
+              variant="h6"
+              component="h3"
+              style={{
+                fontSize: '40px',
+                marginLeft:'60px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingBottom: '-10px'
+              }}
+              >
+              { entityString(entity) }
+              { entityIcon }
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            container
+            xs={1.8}
+          >
+            <Grid
+              item
+            >
+              <Button
+                id='primary-button'
+                variant='outlined'
+                type="submit"
+                onClick={() => exportData()}
+                style={{
+                  width: '100px',
+                  height: '56px',
+                  marginRight: '10px'
+                }}
+              >
+                Export &nbsp;
+                <BiExport/>
+              </Button>
+            </Grid>
+            <Grid
+              item
+            >
+              { addEntityButton }
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sx={{
             display: 'flex',
             justifyContent: 'center',
             alignContent: 'center',
             width: 'auto'
           }}
         >
-        <SearchBar/>
-        </div>
-      { entityTable }
-      <PaginationFooter/>
-      <Grid>
-        <Snackbar
-          open={notify}
-          onClose={() => {
-            setNotify(false)
-          }}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right'
-          }}
-          message={message}
-          autoHideDuration={4000}
-          transitionDuration={{
-            enter: 1500,
-            exit: 1500
-          }}
-          color="primary"
+          <SearchBar/>
+        </Grid>
+        <Grid
+          item
+          xs={12}
         >
-          <Alert
-            severity="success"
-            sx={{
-              width: '100%',
+          { entityTable }
+        </Grid>
+        <Grid
+          item
+          container
+          xs={12}
+          sx={{
+            position: 'fixed',
+            bottom: '20px',
+            justifyContent: 'center',
+          }}
+        >
+          <PaginationFooter/>
+        </Grid>
+        <Grid>
+          <Snackbar
+            open={notify}
+            onClose={() => {
+              setNotify(false)
             }}
-            style={{
-              backgroundColor: theme.palette.primary.main
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right'
             }}
+            message={message}
+            autoHideDuration={4000}
+            transitionDuration={{
+              enter: 1500,
+              exit: 1500
+            }}
+            color="primary"
           >
-            { message }
-          </Alert>
-        </Snackbar>
+            <Alert
+              severity="success"
+              sx={{
+                width: '100%',
+              }}
+              style={{
+                backgroundColor: theme.palette.primary.main
+              }}
+            >
+              { message }
+            </Alert>
+          </Snackbar>
+        </Grid>
       </Grid>
     </>
   );
