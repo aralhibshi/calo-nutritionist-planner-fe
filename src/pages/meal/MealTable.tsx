@@ -43,7 +43,7 @@ const MealTable: React.FC = () => {
 
   async function loadMeals() {
     try {
-      setTakeCondition(setTake);
+      setTakeCondition(setTake, 'meal');
       setSearchResult(false);
       setLoading(true);
       const data = {
@@ -125,7 +125,7 @@ const MealTable: React.FC = () => {
             <th
               style={{
                 width: "40%",
-                borderTopLeftRadius: "8px",
+                borderTopLeftRadius: "8px"
               }}
             >
               Meal Name&nbsp;
@@ -190,12 +190,28 @@ const MealTable: React.FC = () => {
                 });
               }
               return (
-                <tr key={index} style={{ height: "52px" }}>
+                <tr
+                  key={index}
+                  style={{
+                    height: '52px',
+                  }}
+                >
                   <td>{meal.name}</td>
-                  <td>
+                  <td
+                    style={{
+                      textAlign: 'center'
+                    }}
+                  >
                     <img
                       src={`https://calo-nutritionist-planner-dev-meal-image-bucket.s3.amazonaws.com/processed/${meal.id}.jpeg`}
                       alt="Meal"
+                      style={{
+                        verticalAlign: 'middle',
+                        height: '42px',
+                        margin: '2px',
+                        borderRadius: '5px',
+                        // boxShadow: '0px 2px rgba(0, 0, 0, 0.1)'
+                      }}
                     />
                   </td>
                   <td>{totalCalories.toFixed(3)}</td>

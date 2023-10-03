@@ -119,3 +119,13 @@ code {
 .css-1xmeye7-MuiResponsiveChart-container {
   /* height: 100% !important; */
 }
+
+img {
+  box-shadow:
+  0.1px 0.1px 2.2px rgba(0, 0, 0, 0.033),
+  0.2px 0.2px 5.3px rgba(0, 0, 0, 0.038),
+  0.4px 0.4px 10px rgba(0, 0, 0, 0.04),
+  0.7px 0.7px 17.9px rgba(0, 0, 0, 0.041),
+  1.3px 1.3px 33.4px rgba(0, 0, 0, 0.043),
+  3px 3px 80px rgba(0, 0, 0, 0.05);
+}
