@@ -234,11 +234,15 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
                       <MenuItem value={"S"}>Small</MenuItem>
                     </Select>
                   </FormControl>
-                  <Typography>Select Meal Image</Typography>
-                  <MuiFileInput value={file} onChange={handleChange}
-            style={{marginBottom:'10px'}}>
-              Select File
-            </MuiFileInput>
+                  <MuiFileInput
+                    value={file}
+                    placeholder='Select Meal Image'
+                    onChange={handleChange}
+                    style={{
+                      marginBottom:'10px',
+                      cursor: 'pointer'
+                    }}
+                  />
                 </div>
 
                 {/* Right side */}
