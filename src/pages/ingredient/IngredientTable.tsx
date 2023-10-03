@@ -269,15 +269,10 @@ const IngredientTable: React.FC = () => {
             return (
               <tr
                 id='table'
-                key={index} style={{height:'52px'}}
+                key={index}
+                style={{height:'52px'}}
               >
-                <td
-                  style={{
-                    width: '40%',
-                  }}
-                >
-                  {ingredient.name} 
-                </td>
+                <td>{ingredient.name} </td>
                 <td>{calories}</td>
                 <td>{ingredient.protein}</td>
                 <td>{ingredient.carbs}</td>

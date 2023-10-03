@@ -16,6 +16,7 @@ import useMealStore from "../../stores/mealStore";
 import CreateMealDialog from "./CreateMealDialog";
 import EditMealDialog from "./EditMealDialog";
 import Tooltip from "@mui/material/Tooltip";
+import ImageIcon from '@mui/icons-material/Image';
 
 const MealTable: React.FC = () => {
   const [meals, setMeals] = useState<IMealData[]>([]);
@@ -124,13 +125,25 @@ const MealTable: React.FC = () => {
           <tr>
             <th
               style={{
-                width: "40%",
-                borderTopLeftRadius: "8px"
+                width: '6%',
+                padding: 0,
+                textAlign: 'center',
+                verticalAlign: 'middle'
+              }}
+            >
+              <ImageIcon
+                sx={{
+                  verticalAlign: 'middle'
+                }}
+              />
+            </th>
+            <th
+              style={{
+                textAlign: 'left'
               }}
             >
               Meal Name&nbsp;
             </th>
-            <th>Image&nbsp;</th>
             <th>Calories&nbsp;</th>
             <th>Proteins&nbsp;</th>
             <th>Carbs&nbsp;</th>
@@ -196,24 +209,25 @@ const MealTable: React.FC = () => {
                     height: '52px',
                   }}
                 >
-                  <td>{meal.name}</td>
                   <td
                     style={{
-                      textAlign: 'center'
+                      textAlign: 'center',
+                      padding: 0
                     }}
                   >
                     <img
                       src={`https://calo-nutritionist-planner-dev-meal-image-bucket.s3.amazonaws.com/processed/${meal.id}.jpeg`}
                       alt="Meal"
                       style={{
-                        verticalAlign: 'middle',
-                        height: '42px',
-                        margin: '2px',
-                        borderRadius: '5px',
-                        // boxShadow: '0px 2px rgba(0, 0, 0, 0.1)'
+                        verticalAlign: 'middle'
                       }}
                     />
                   </td>
+                  <td
+                    style={{
+                      textAlign: 'left'
+                    }}
+                  >{meal.name}</td>
                   <td>{totalCalories.toFixed(3)}</td>
                   <td>{totalProteins.toFixed(3)}</td>
                   <td>{totalCarbs.toFixed(3)}</td>
