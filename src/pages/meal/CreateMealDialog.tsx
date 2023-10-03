@@ -12,7 +12,7 @@ import {
 import { useFormik } from "formik";
 import CircularProgress from "@mui/material/CircularProgress";
 import useMealStore from "../../stores/mealStore";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import MealSearchBar from "./MealSearchBar";
 import MealComponentTable from "./MealComponentTable";
 import useComponentStore from "../../stores/componentStore";
@@ -21,19 +21,26 @@ import useNotificationStore from "../../stores/notificationStore";
 import MealImageUploader from "./MealImageUploader";
 import { v4 as uuidv4 } from "uuid";
 import { Backdrop } from "@mui/material";
+import { getPreSignedUrl } from "../../network/mealApi";
+import { MuiFileInput } from "mui-file-input";
 
 export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
   const [loading, setLoading] = useState(false);
-  const { addOpen, setAddOpen } = useMealStore();
+  const { addOpen, setAddOpen, mealId } = useMealStore();
   const { selectedComponents, setSelectedComponents } = useComponentStore();
   const { setNotify, setMessage } = useNotificationStore();
   const { setMealId,uploaded, setUploaded } = useMealStore();
+  const [file, setFile] = useState<File | null>(null);
 
   const closeFormDialog = () => {
     setSelectedComponents([]);
     formik.resetForm();
     setAddOpen(false);
     setUploaded(false)
+  };
+
+  const handleChange = (newFile: File | null) => {
+    setFile(newFile);
   };
 
   const formik = useFormik({
@@ -66,21 +73,49 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
     },
   });
 
+  const handleUpload = async () => {
+    if (file) {
+      try {
+        setLoading(true)
+        const preSignedUrlData = await getPreSignedUrl(mealId);
+        const { uploadUrl } = preSignedUrlData;
+        console.log("meal id = ", mealId);
+
+        // Use the pre-signed URL to perform the PUT request
+        await fetch(uploadUrl, {
+          method: "PUT",
+          body: file,
+          headers: {
+            "Content-Type": file.type,
+          },
+        });
+
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        alert("Error uploading image. Please try again later.");
+      } finally {
+        setLoading(false)
+      }
+    }
+
+  };
+
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Check if any ingredients are selected
-    if (!uploaded) {
-      // No ingredients selected, show a message to the user
-      setNotify(true);
-      setMessage("Please upload an image");
-      return; // Prevent form submission
-    }
     if (selectedComponents.length === 0 ) {
       // No ingredients selected, show a message to the user
       setNotify(true);
       setMessage("Please select at least one ingredient.");
       return; // Prevent form submission
     }
+    if(file){
+      handleUpload()
+    }
+    else{
+      setNotify(true);
+      setMessage("Please select an image");
+      return
+    } 
     formik.handleSubmit(e);
   };
 
@@ -141,6 +176,7 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
                     helperText={formik.touched.name && formik.errors.name}
                     fullWidth
                     margin="dense"
+                    style={{marginBottom:'10px'}}
                   />
                   <TextField
                     label="Description"
@@ -157,8 +193,12 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
                     }
                     fullWidth
                     margin="dense"
+                    style={{marginBottom:'10px'}}
                   />
-                  <FormControl fullWidth>
+                  <FormControl 
+                  fullWidth
+                  style={{marginBottom:'10px'}}
+                  >
                     <InputLabel id="unit">Unit</InputLabel>
                     <Select
                       name="unit" // Add the id attribute
@@ -175,7 +215,8 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
                       <MenuItem value={"g"}>Grams</MenuItem>
                     </Select>
                   </FormControl>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth
+                  style={{marginBottom:'10px'}}>
                     <InputLabel id="size">Size</InputLabel>
                     <Select
                       name="size" // Add the id attribute
@@ -193,7 +234,11 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
                       <MenuItem value={"S"}>Small</MenuItem>
                     </Select>
                   </FormControl>
-                  <MealImageUploader/>
+                  <Typography>Select Meal Image</Typography>
+                  <MuiFileInput value={file} onChange={handleChange}
+            style={{marginBottom:'10px'}}>
+              Select File
+            </MuiFileInput>
                 </div>
 
                 {/* Right side */}
