@@ -168,7 +168,7 @@ export interface IEntityStore {
   setSearchSkip: (amount: number) => void;
   take: number;
   setTake: (amount: number) => void;
-  setTakeCondition: (setTake: any) => void, 
+  setTakeCondition: (setTake: any, entity: string) => void, 
   currentPage: number;
   setCurrentPage: (page: number) => void;
   loading: boolean;

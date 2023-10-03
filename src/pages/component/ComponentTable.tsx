@@ -32,7 +32,7 @@ const ComponentTable: React.FC = () => {
 
   async function loadComponents() {
     try {
-      setTakeCondition(setTake)
+      setTakeCondition(setTake, 'component')
       setLoading(true);
       const data = {
         skip: skip,

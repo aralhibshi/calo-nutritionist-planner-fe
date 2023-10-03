@@ -51,7 +51,7 @@ const IngredientTable: React.FC = () => {
   async function loadIngredients() {
     try {
       console.log(window.innerHeight);
-      setTakeCondition(setTake);
+      setTakeCondition(setTake, 'ingredient');
       setHeightCondition(setHeight);
       setSearchResult(false);
       setLoading(true);
