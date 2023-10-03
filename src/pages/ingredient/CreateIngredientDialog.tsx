@@ -136,6 +136,11 @@ export default function CreateIngredientDialog({
                 helperText={formik.touched.price && formik.errors.price}
                 fullWidth
                 margin="dense"
+                inputProps={{
+                  min: 0,
+                  max: 0.999,
+                  step: 0.001
+                }}
               />
               <TextField
                 label="Protein"
@@ -148,6 +153,11 @@ export default function CreateIngredientDialog({
                 helperText={formik.touched.protein && formik.errors.protein}
                 fullWidth
                 margin="dense"
+                inputProps={{
+                  min: 0,
+                  max: 0.999,
+                  step: 0.001
+                }}
               />
               <TextField
                 label="Fats"
@@ -160,6 +170,11 @@ export default function CreateIngredientDialog({
                 helperText={formik.touched.fats && formik.errors.fats}
                 fullWidth
                 margin="dense"
+                inputProps={{
+                  min: 0,
+                  max: 0.999,
+                  step: 0.001
+                }}
               />
               <TextField
                 label="Carbs"
@@ -172,11 +187,16 @@ export default function CreateIngredientDialog({
                 helperText={formik.touched.carbs && formik.errors.carbs}
                 fullWidth
                 margin="dense"
+                inputProps={{
+                  min: 0,
+                  max: 0.999,
+                  step: 0.001
+                }}
               />
               <FormControl fullWidth>
                 <InputLabel id="unit">Unit</InputLabel>
                 <Select
-                      name="unit" // Add the id attribute
+                      name="unit"
                       labelId="unit"
                       value={formik.values.unit}
                       label="Unit"
