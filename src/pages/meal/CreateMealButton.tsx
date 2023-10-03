@@ -12,7 +12,7 @@ const CreateMealButton: React.FC = () => {
       type="submit"
       onClick={() => setAddOpen(true)}
       style={{
-        width: '131px',
+        width: '100px',
         height: '56px'
       }}
     >

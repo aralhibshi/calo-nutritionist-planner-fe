@@ -232,7 +232,7 @@ const Home: React.FC = () => {
           xs={12}
           sx={{
             position: 'fixed',
-            bottom: '20px',
+            bottom: '15px',
             justifyContent: 'center',
           }}
         >
