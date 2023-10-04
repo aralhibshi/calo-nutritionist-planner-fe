@@ -134,6 +134,7 @@ const Home: React.FC = () => {
   return (
     <>
       <Grid
+        item
         container
         xs={12}
         sx={{

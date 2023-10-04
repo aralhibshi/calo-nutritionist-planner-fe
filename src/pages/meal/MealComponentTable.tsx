@@ -109,7 +109,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
       )
     );
 
-    let calculationArray: any = [];
+  let calculationArray: any = [];
   let mealFats = 0;
   let mealProteins = 0
   let mealCarbs = 0
@@ -141,14 +141,13 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
     componentFats *= quantity;
     componentCarbs *= quantity;
     componentProteins *= quantity;
-    componentCalories = Number((componentFats * 9) + (componentCarbs * 4) + (componentProteins * 4));
-    console.log(componentCalories)
+    componentCalories = componentFats * 9 + componentCarbs * 4 + componentProteins * 4;
 
     calculationArray.push({
-      fats: componentFats,
-      proteins: componentProteins,
-      carbs: componentCarbs,
-      calories: componentCalories
+      fats: Number(componentFats.toFixed(3)),
+      proteins: Number(componentProteins.toFixed(3)),
+      carbs: Number(componentCarbs.toFixed(3)),
+      calories: Number(componentCalories.toFixed(3))
     })
   });
 
@@ -158,6 +157,11 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
     mealProteins += calculatedComponent.proteins;
     mealCarbs += calculatedComponent.carbs;
     mealCalories += calculatedComponent.calories;
+
+    Number(mealFats.toFixed(3));
+    Number(mealProteins.toFixed(3));
+    Number(mealCarbs.toFixed(3));
+    Number(mealCalories.toFixed(3));
   });
 
   return (
