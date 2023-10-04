@@ -109,32 +109,55 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
       )
     );
 
-  let totalFats = 0;
-  let totalCarbs = 0;
-  let totalProteins = 0;
-  let totalCalories = 0;
-  let totalQuantity = 0
+    let calculationArray: any = [];
+  let mealFats = 0;
+  let mealProteins = 0
+  let mealCarbs = 0
+  let mealCalories = 0
 
   checkedComponents.forEach((component) => {
+    let componentFats = 0;
+    let componentCarbs = 0;
+    let componentProteins = 0;
+    let componentCalories = 0;
+    let componentQuantity = 0
+
     console.log("component",component)
-    const quantity = quantities[component.id] || 1;
+
+    let quantity = quantities[component.id] || 1;
     const el = component.components_ingredients;
+    
     el.forEach((component_ingredient: IComponentIngredient) => {
-      totalFats += Number(component_ingredient.ingredient.fats * component_ingredient.ingredient_quantity);
-      totalCarbs += Number(component_ingredient.ingredient.carbs * component_ingredient.ingredient_quantity);
-      totalProteins += Number(component_ingredient.ingredient.protein * component_ingredient.ingredient_quantity);
-      totalQuantity += Number(component_ingredient.ingredient_quantity)
+      componentFats += Number(component_ingredient.ingredient.fats * component_ingredient.ingredient_quantity);
+      componentCarbs += Number(component_ingredient.ingredient.carbs * component_ingredient.ingredient_quantity);
+      componentProteins += Number(component_ingredient.ingredient.protein * component_ingredient.ingredient_quantity);
+      componentQuantity += Number(component_ingredient.ingredient_quantity)
     });
 
-    totalProteins /= totalQuantity
-    totalCarbs /= totalQuantity
-    totalFats /= totalQuantity
+    componentProteins /= componentQuantity;
+    componentCarbs /= componentQuantity;
+    componentFats /= componentQuantity;
 
-    totalFats *= quantity;
-    totalCarbs *= quantity;
-    totalProteins *= quantity;
-    totalCalories = Number(totalFats*9 + totalCarbs*4 + totalProteins*4);
-    console.log(totalCalories)
+    componentFats *= quantity;
+    componentCarbs *= quantity;
+    componentProteins *= quantity;
+    componentCalories = Number((componentFats * 9) + (componentCarbs * 4) + (componentProteins * 4));
+    console.log(componentCalories)
+
+    calculationArray.push({
+      fats: componentFats,
+      proteins: componentProteins,
+      carbs: componentCarbs,
+      calories: componentCalories
+    })
+  });
+
+  // Calculate Meal Totals
+  calculationArray.forEach((calculatedComponent: any) => {
+    mealFats += calculatedComponent.fats;
+    mealProteins += calculatedComponent.proteins;
+    mealCarbs += calculatedComponent.carbs;
+    mealCalories += calculatedComponent.calories;
   });
 
   return (
@@ -251,7 +274,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
               label="Calories"
               name="description"
               disabled
-              value={totalCalories.toFixed(3)}
+              value={mealCalories.toFixed(3)}
               fullWidth
               margin="dense"
             />
@@ -271,7 +294,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
               label="Proteins"
               name="protein"
               disabled
-              value={totalProteins.toFixed(3)}
+              value={mealProteins.toFixed(3)}
               fullWidth
               margin="dense"
             />
@@ -291,7 +314,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
               label="Carbs"
               name="carbs"
               disabled
-              value={totalCarbs.toFixed(3)}
+              value={mealCarbs.toFixed(3)}
               fullWidth
               margin="dense"
             />
@@ -311,7 +334,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
               label="Fats"
               name="fats"
               disabled
-              value={totalFats.toFixed(3)}
+              value={mealFats.toFixed(3)}
               fullWidth
               margin="dense"
             />
