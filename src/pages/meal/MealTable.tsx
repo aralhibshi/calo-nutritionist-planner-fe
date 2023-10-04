@@ -20,11 +20,10 @@ import ImageIcon from '@mui/icons-material/Image';
 
 const MealTable: React.FC = () => {
   const [meals, setMeals] = useState<IMealData[]>([]);
-  const { selectedMeal, setSelectedMeal } = useMealStore();
   const [open, setOpen] = useState(false);
-
+  const [isCalculating, setIsCalculating] = useState(true);
+  const [calculationArray, setCalculationArray] = useState<any[]>([]);
   const [openEditDialog, setOpenEditDialog] = useState(false);
-
   const {
     setEntityCount,
     skip,
@@ -40,6 +39,13 @@ const MealTable: React.FC = () => {
   const {
     setSearchResult
   } = useSearchStore();
+  const {
+    selectedMeal,
+    setSelectedMeal
+  } = useMealStore();
+
+
+  // const memoizedSearchResult = useMemo(() => result, [result]);
 
   async function loadMeals() {
     try {
@@ -53,10 +59,7 @@ const MealTable: React.FC = () => {
       const response = await mealApi.fetchMeals(data);
       setEntityCount(response.data.count);
       setResult(response.data.meals);
-      if (result) {
-        setMeals(result);
-      }
-      calculateMeals();
+      await calculateMeals(response.data.meals);
     } catch (err) {
       console.log(err);
       alert(err);
@@ -69,83 +72,75 @@ const MealTable: React.FC = () => {
     loadMeals();
   }, [entity, take, skip]);
 
-  const memoizedSearchResult = useMemo(() => result, [result]);
-
   const handleMealAdded = (newComponent: any) => {
     setMeals((prevComponents: any) => [...prevComponents, newComponent]);
     loadMeals();
   };
+
   const handleEditClick = (row: any) => {
     setSelectedMeal(row);
     setOpenEditDialog(true);
-    setTimeout(() => {}, 0);
-    setTimeout(() => {
-      const barChart = document.querySelector(
-        ".css-18ftw0b-MuiChartsSurface-root"
-      );
-      barChart?.setAttribute("viewBox", "0 15 400 280");
-    }, 20);
   };
 
   const handleMealUpdated = (updatedMeal: IMealData) => {
-    const updatedIndex = meals.findIndex((meal) => meal.id === updatedMeal.id);
+    const updatedMeals = meals.map((meal) =>
+      meal.id === updatedMeal.id ? updatedMeal : meal
+    );
 
-    if (updatedIndex !== -1) {
-      const updatedMeals = [...meals];
-      updatedMeals[updatedIndex] = updatedMeal;
-      setMeals(updatedMeals);
-    }
-
+    setMeals(updatedMeals);
     setOpenEditDialog(false);
     loadMeals();
   };
 
-  let image = "";
-  
-  const calculationArray: any = []
+  let tempArray: any = [];
 
-  const calculateMeals = () => {
-    console.log('Meals Result', memoizedSearchResult)
-    memoizedSearchResult.forEach((meal: IMeal) => {
+  const calculateMeals = async (meals: IMeal[]) => {
+    if (!meals) return;
+
+    setIsCalculating(false);
+
+    meals.forEach((meal) => {
       let mealFats = 0;
       let mealCarbs = 0;
       let mealProteins = 0;
       let mealCalories = 0;
       let mealPrice = 0;
 
-      meal.meals_components.forEach((el: IMealComponent) => {
-        let componentFats = 0
-        let componentCarbs = 0
-        let componentProtein = 0
-        let componentPrice = 0
-        let componentQuantity = 0
+      if (meal.meals_components) {
+        meal.meals_components.forEach((el) => {
+          let componentFats = 0;
+          let componentCarbs = 0;
+          let componentProtein = 0;
+          let componentPrice = 0;
+          let componentQuantity = 0;
 
-        const quantity = Number(el.component_quantity);
+          const quantity = Number(el.component_quantity);
 
-        el.component.components_ingredients?.forEach(
-          (el: IComponentIngredient) => {
-            componentFats += Number(el.ingredient.fats * el.ingredient_quantity);
-            componentCarbs += Number(el.ingredient.carbs * el.ingredient_quantity);
-            componentProtein += Number(el.ingredient.protein * el.ingredient_quantity);
-            componentPrice += Number(el.ingredient.price * el.ingredient_quantity);
-            componentQuantity += Number(el.ingredient_quantity);
+          if (el.component.components_ingredients) {
+            el.component.components_ingredients.forEach((ing) => {
+              componentFats += Number(ing.ingredient.fats * ing.ingredient_quantity);
+              componentCarbs += Number(ing.ingredient.carbs * ing.ingredient_quantity);
+              componentProtein += Number(ing.ingredient.protein * ing.ingredient_quantity);
+              componentPrice += Number(ing.ingredient.price * ing.ingredient_quantity);
+              componentQuantity += Number(ing.ingredient_quantity);
+            });
           }
-        );
 
-        componentFats /= componentQuantity
-        componentCarbs /= componentQuantity
-        componentProtein /= componentQuantity
-        componentPrice /= componentQuantity
+          componentFats /= componentQuantity;
+          componentCarbs /= componentQuantity;
+          componentProtein /= componentQuantity;
+          componentPrice /= componentQuantity;
 
-        mealProteins += componentProtein * quantity;
-        mealCarbs += componentCarbs * quantity;
-        mealFats += componentFats * quantity;
-        mealPrice += componentPrice * quantity;
-      });
+          mealProteins += componentProtein * quantity;
+          mealCarbs += componentCarbs * quantity;
+          mealFats += componentFats * quantity;
+          mealPrice += componentPrice * quantity;
+        });
+      }
 
       mealCalories = mealFats * 9 + mealCarbs * 4 + mealProteins * 4;
 
-      calculationArray.push({
+      tempArray.push({
         id: meal.id,
         name: meal.name,
         fats: Number(mealFats.toFixed(3)),
@@ -156,8 +151,10 @@ const MealTable: React.FC = () => {
         unit: meal.unit
       });
     });
-    console.log(calculationArray);
-  }  
+    setCalculationArray(tempArray)
+    
+    console.log('Calc', calculationArray);
+  };
 
   return (
     <>
@@ -213,64 +210,66 @@ const MealTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-        {calculationArray && Array.isArray(calculationArray) && calculationArray.length > 0 ? (
-          calculationArray.map((meal: any, index: number) => (
-            <tr
-              key={index}
-              style={{
-                height: '52px'
-              }}
-            >
-              <td
-                style={{
-                  textAlign: 'center',
-                  padding: 0
-                }}
-              >
-                <img
-                  src={`https://calo-nutritionist-planner-dev-meal-image-bucket.s3.amazonaws.com/processed/${meal.id}.jpeg`}
-                  alt="Meal"
-                  style={{ verticalAlign: 'middle' }}
-                />
-              </td>
-              <td
-                style={{
-                  textAlign: 'left'
+          {calculationArray &&
+            Array.isArray(calculationArray) &&
+            calculationArray.length > 0 ? (
+              calculationArray.map((meal: any, index: number) => (
+                <tr
+                  key={index}
+                  style={{
+                    height: '52px'
                   }}
                 >
-                  {meal.name}
-              </td>
-              <td>{meal.calories.toFixed(3)}</td>
-              <td>{meal.proteins.toFixed(3)}</td>
-              <td>{meal.carbs.toFixed(3)}</td>
-              <td>{meal.fats.toFixed(3)}</td>
-              <td>{meal.unit}</td>
-              <td>{meal.price.toFixed(3)}</td>
-              <td>
-                <Tooltip
-                  title='Edit'
-                  followCursor
-                >
-                  <IconButton
-                    onClick={() => handleEditClick(meal)}
-                    color='success'
+                  <td
+                    style={{
+                      textAlign: 'center',
+                      padding: 0
+                    }}
                   >
-                    <EditIcon
-                      color='primary'
+                    <img
+                      src={`https://calo-nutritionist-planner-dev-meal-image-bucket.s3.amazonaws.com/processed/${meal.id}.jpeg`}
+                      alt="Meal"
+                      style={{ verticalAlign: 'middle' }}
                     />
-                  </IconButton>
-                </Tooltip>
-              </td>
-            </tr>
-          ))
-        ) : (
-          <tr>
-            <td
-              colSpan={8}>No search results found.
-            </td>
-          </tr>
-        )}
-      </tbody>
+                  </td>
+                  <td
+                    style={{
+                      textAlign: 'left'
+                    }}
+                  >
+                    {meal.name}
+                  </td>
+                  <td>{meal.calories.toFixed(3)}</td>
+                  <td>{meal.proteins.toFixed(3)}</td>
+                  <td>{meal.carbs.toFixed(3)}</td>
+                  <td>{meal.fats.toFixed(3)}</td>
+                  <td>{meal.unit}</td>
+                  <td>{meal.price.toFixed(3)}</td>
+                  <td>
+                    <Tooltip
+                      title="Edit"
+                      followCursor
+                    >
+                      <IconButton
+                        onClick={() => handleEditClick(meal)}
+                        color="success"
+                      >
+                        <EditIcon
+                          color="primary"
+                        />
+                      </IconButton>
+                    </Tooltip>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={8}>No search results found.
+                </td>
+              </tr>
+            )}
+        </tbody>
       </Table>
       <EditMealDialog
         key={selectedMeal?.id}
