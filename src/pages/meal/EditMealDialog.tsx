@@ -20,6 +20,8 @@ import useComponentStore from "../../stores/componentStore";
 import useNotificationStore from "../../stores/notificationStore";
 import MealImageUploader from "./MealImageUploader";
 import mealUpdateValidationSchema from "../../validation/mealUpdateFormValidation";
+import { Backdrop } from "@mui/material";
+
 interface EditMealDialogProps {
   open: boolean;
   onClose: () => void;
@@ -113,15 +115,15 @@ export default function EditMealDialogProps({
   return (
     <>
       {loading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
-          }}
+        <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        open={true}
         >
-          <CircularProgress />
-        </Box>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       ) : (
         <Dialog
           style={{ textAlign: "center" }}
@@ -130,7 +132,7 @@ export default function EditMealDialogProps({
           open={open}
           onClose={closeFormDialog}
         >
-          <DialogTitle>Update Component</DialogTitle>
+          <DialogTitle>Update Meal</DialogTitle>
           <DialogContent>
             <form onSubmit={handleFormSubmit}>
               <div

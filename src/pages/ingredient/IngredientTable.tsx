@@ -1,18 +1,23 @@
-import React, { useEffect, useMemo, useState } from "react";
-import Table from "@mui/material/Table";
-import CircularProgress from "@mui/material/CircularProgress";
-import { Backdrop, IconButton } from "@mui/material";
-import EditIngredientDialog from "./EditIngredientDialog";
-import CreateIngredientDialog from "./CreateIngredientDialog";
-import * as IngredientApi from "../../network/ingredientApi";
-import useIngredientStore from "../../stores/ingredientStore";
-import useSearchStore from "../../stores/searchStore";
-import { IIngredient, IIngredientData } from "../../interfaces";
-import EditIcon from "@mui/icons-material/Edit";
-import useEntityStore from "../../stores/entityStore";
+import React, { useEffect, useMemo, useState } from 'react';
+import Table from '@mui/material/Table';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Backdrop, IconButton } from '@mui/material';
+import EditIngredientDialog from './EditIngredientDialog';
+import CreateIngredientDialog from './CreateIngredientDialog';
+import * as IngredientApi from '../../network/ingredientApi';
+import useIngredientStore from '../../stores/ingredientStore';
+import useSearchStore from '../../stores/searchStore';
+import { IIngredient, IIngredientData } from '../../interfaces';
+import EditIcon from '@mui/icons-material/Edit';
+import ScienceIcon from '@mui/icons-material/Science';
+import useEntityStore from '../../stores/entityStore';
+import useTableStore from '../../stores/tableStore';
+import IngredientPlaygroundDialog from './IngredientPlaygroundDialog';
+import Tooltip from '@mui/material/Tooltip';
 
 const IngredientTable: React.FC = () => {
   const [ingredients, setIngredients] = useState<IIngredientData[]>([]);
+  const [playgroundOpen, setPlaygroundOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const {
     setEntityCount,
@@ -27,11 +32,18 @@ const IngredientTable: React.FC = () => {
   } = useEntityStore();
   const {
     selectedIngredient,
-    setSelectedIngredient
+    setSelectedIngredient,
+    editData,
+    setEditData
   } = useIngredientStore();
   const {
     setSearchResult
   } = useSearchStore()
+  const {
+    height,
+    setHeight,
+    setHeightCondition
+  } = useTableStore()
 
   // Memo
   const memoizedResult = useMemo(() => result, [result]);
@@ -39,7 +51,8 @@ const IngredientTable: React.FC = () => {
   async function loadIngredients() {
     try {
       console.log(window.innerHeight);
-      setTakeCondition(setTake);
+      setTakeCondition(setTake, 'ingredient');
+      setHeightCondition(setHeight);
       setSearchResult(false);
       setLoading(true);
 
@@ -58,6 +71,9 @@ const IngredientTable: React.FC = () => {
       alert(error);
     } finally {
       setLoading(false);
+      setTimeout(() => {
+        console.log(height)
+      }, 100)
     }
   }
 
@@ -65,6 +81,100 @@ const IngredientTable: React.FC = () => {
     loadIngredients();
   }, [take, skip]);
 
+  useEffect(() => {
+    if (open) {
+      console.log(open);
+      setHeight(height + 78)
+    } else if (playgroundOpen) {
+      console.log(playgroundOpen)
+      setHeight(height - 40)
+    } else {
+      setTimeout(() => {
+        setHeightCondition(setHeight)
+      }, 300)
+    }
+  }, [open, playgroundOpen])
+
+  // Shared Functions
+  function calculateData(useCase: string, data: any) {
+    const calculatedCalories =
+      Number(data.protein) * 4 +
+      Number(data.carbs) * 4 +
+      Number(data.fats) * 9;
+
+  
+    data.calories = Number(calculatedCalories.toFixed(3));
+
+    if (useCase === 'useEffect') {
+      const array = [
+        'price',
+        'protein',
+        'carbs',
+        'fats'
+      ]
+
+      array.forEach(el => {
+        data[el] = Number(Number(data[el]).toFixed(3))
+      })
+    }
+  
+    if (data.calories > 6.999) {
+      data.rating = 'High';
+    }
+    if (data.calories > 2.500 && data.calories < 6.999) {
+      data.rating = 'Normal'
+    }
+    if (data.calories < 2.500) {
+      data.rating = 'Low';
+    }
+
+    data.totalUnit =
+      Number(
+        (
+          Number(data.protein) +
+          Number(data.carbs) +
+          Number(data.fats)
+        )
+          .toFixed(3));
+
+    data.unitType = 'Total ' + data.unit
+
+    setEditData(data);
+  }
+
+  function formattedCalories() {
+    if (editData.calories <= 10.000) {
+      return editData.calories * 10
+    } else {
+      return 100
+    }
+  }
+
+  function progressColor() {
+    if (editData.rating === 'High') {
+      return 'error'
+    }
+    if (editData.rating === 'Normal') {
+      return 'primary'
+    }
+    if (editData.rating === 'Low') {
+      return 'warning'
+    }
+  }
+
+  function sliderColor() {
+    if (editData.totalUnit) {
+      if (editData.totalUnit === 1.000) {
+        return 'primary'
+      } else if (editData.totalUnit < 1.000){
+        return '#ED6C02'
+      } else {
+        return '#D3302F'
+      }
+    }
+  }
+
+  // Handlers
   const handleIngredientAdded = (newIngredient: any) => {
     setIngredients((prevIngredients: any) => [
       ...prevIngredients,
@@ -72,10 +182,10 @@ const IngredientTable: React.FC = () => {
     ]);
   };
 
-  const handleEditClick = (row: any) => {
+  const handleIngredientClick = (row: any) => {
     setSelectedIngredient(row);
     setTimeout(() => {
-      setOpen(true);
+      setPlaygroundOpen(true);
     }, 0);
     setTimeout(() => {
       const barChart = document.querySelector('.css-18ftw0b-MuiChartsSurface-root')
@@ -98,26 +208,37 @@ const IngredientTable: React.FC = () => {
     loadIngredients();
   };
 
+  const handleEditClick = (row: any) => {
+    setSelectedIngredient(row);
+    setTimeout(() => {
+      setOpen(true);
+    }, 0);
+    setTimeout(() => {
+      const barChart = document.querySelector('.css-18ftw0b-MuiChartsSurface-root')
+      barChart?.setAttribute('viewBox', '0 15 400 280');
+    }, 20)
+  };
+
   return (
     <>
       {loading && (
         <Backdrop
           sx={{
-            color: "#fff",
+            color: '#fff',
             zIndex: (theme) => theme.zIndex.drawer + 1,
           }}
           open={true}
         >
           <CircularProgress
-            color="inherit"
+            color='inherit'
           />
         </Backdrop>
       )}
       <Table
         sx={{
-          marginTop: "15px",
+          marginTop: '15px',
           marginBottom: '15px',
-          userSelect: "none",
+          userSelect: 'none',
         }}
         id='table'
       >
@@ -132,7 +253,7 @@ const IngredientTable: React.FC = () => {
             <th>Fat&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            <th>Edit&nbsp;</th>
+            <th>Actions&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -144,17 +265,14 @@ const IngredientTable: React.FC = () => {
               ingredient.protein * 4
             )
               .toFixed(3)
-              .padEnd(5, "0");
+              .padEnd(5, '0');
             return (
               <tr
                 id='table'
-                key={index} style={{height:"52px"}}
+                key={index}
+                style={{height:'52px'}}
               >
-                <td
-                  style={{
-                    width: '40%'
-                  }}
-                >{ingredient.name}</td>
+                <td>{ingredient.name} </td>
                 <td>{calories}</td>
                 <td>{ingredient.protein}</td>
                 <td>{ingredient.carbs}</td>
@@ -162,9 +280,32 @@ const IngredientTable: React.FC = () => {
                 <td>{ingredient.unit}</td>
                 <td>{ingredient.price}</td>
                 <td>
-                  <IconButton onClick={() => handleEditClick(ingredient)}>
-                    <EditIcon />
-                  </IconButton>
+                  <Tooltip
+                    title='Playground'
+                    followCursor
+                  >
+                    <IconButton
+                      onClick={() => handleIngredientClick(ingredient)}
+                      color='success'
+                    >
+                      <ScienceIcon
+                        color='primary'
+                      />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip
+                    title='Edit'
+                    followCursor
+                  >
+                    <IconButton
+                      onClick={() => handleEditClick(ingredient)}
+                      color='success'
+                    >
+                      <EditIcon
+                        color='primary'
+                      />
+                    </IconButton>
+                  </Tooltip>
                 </td>
               </tr>
             );
@@ -181,6 +322,18 @@ const IngredientTable: React.FC = () => {
         open={open}
         setOpen={setOpen}
         onIngredientUpdated={handleIngredientUpdated}
+        calculateData={calculateData}
+        formattedCalories={formattedCalories}
+        progressColor={progressColor}
+        sliderColor={sliderColor}
+      />
+      <IngredientPlaygroundDialog
+        open={playgroundOpen}
+        setOpen={setPlaygroundOpen}
+        calculateData={calculateData}
+        formattedCalories={formattedCalories}
+        progressColor={progressColor}
+        sliderColor={sliderColor}
       />
       <CreateIngredientDialog
         onIngredientAdded={handleIngredientAdded}

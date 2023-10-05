@@ -5,22 +5,20 @@ import { Box, Button, CircularProgress, Input } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from '@mui/material/styles';
 import { MuiFileInput } from 'mui-file-input'
+import useNotificationStore from "../../stores/notificationStore";
 
 
 function MealImageUploader() {
   // const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const { mealId } = useMealStore();
+  const { mealId, setUploaded} = useMealStore();
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const { setNotify, setMessage } = useNotificationStore();
+
 
   const handleChange = (newFile: File | null) => {
     setFile(newFile);
   };
-  // const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files.length > 0) {
-  //     setSelectedFile(e.target.files[0]);
-  //   }
-  // };
   const handleUpload = async () => {
     if (file) {
       try {
@@ -37,8 +35,10 @@ function MealImageUploader() {
             "Content-Type": file.type,
           },
         });
+        setNotify(true);
+        setMessage("Image Uploaded");
+        setUploaded(true)
 
-        console.log("Image uploaded successfully!");
       } catch (error) {
         console.error("Error uploading image:", error);
         alert("Error uploading image. Please try again later.");
@@ -46,9 +46,6 @@ function MealImageUploader() {
         setLoading(false)
       }
     } 
-    // else {
-    //   // alert("Please select a file to upload.");
-    // }
   };
   return (
     <>
@@ -66,10 +63,11 @@ function MealImageUploader() {
         <>
           <div>
             <h2>Upload Meal Image</h2>
-            <MuiFileInput value={file} onChange={handleChange}>
+            <MuiFileInput value={file} onChange={handleChange}
+            style={{marginBottom:'10px'}}>
               Select File
             </MuiFileInput>
-            <br />
+
             <Button
               component="label"
               variant="contained"

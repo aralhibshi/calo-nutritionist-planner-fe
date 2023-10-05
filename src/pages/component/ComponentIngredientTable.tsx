@@ -10,6 +10,7 @@ import { IIngredient } from "../../interfaces";
 import useEntityStore from "../../stores/entityStore";
 import { Input } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import Tooltip from "@mui/material/Tooltip";
 
 interface ComponentIngredientTableProps {}
 
@@ -119,21 +120,24 @@ const ComponentIngredientTable: React.FC<
   let totalCarbs = 0;
   let totalFats = 0;
   let totalProtein = 0;
+  let totalQuantity = 0
 
-  checkedIngredients.forEach((ingredient) => {
-    const fats = Number(ingredient.fats);
-    const carbs = Number(ingredient.carbs);
-    const protein = Number(ingredient.protein);
-
+  checkedIngredients.forEach((ingredient: IIngredient) => {
     const quantity = quantities[ingredient.id] || 1;
 
-    totalCarbs += Number(carbs * quantity);
-    totalFats += Number(carbs * quantity);
-    totalProtein += Number(carbs * quantity);
+    totalCarbs += Number(ingredient.carbs * quantity);
+    totalFats += Number(ingredient.fats * quantity);
+    totalProtein += Number(ingredient.protein * quantity);
+    totalQuantity += Number(quantity)
+    totalProtein /= totalQuantity
+    totalCarbs /= totalQuantity
+    totalFats /= totalQuantity
 
-    if (!isNaN(fats) && !isNaN(carbs) && !isNaN(protein) && !isNaN(quantity)) {
-      totalCalories += (fats * 9 + carbs * 4 + protein * 4) * quantity;
-    }
+    totalCalories = Number(totalFats*9 + totalCarbs*4 + totalProtein*4);
+
+    // if (!isNaN(fats) && !isNaN(carbs) && !isNaN(protein) && !isNaN(quantity)) {
+    //   totalCalories += (fats * 9 + carbs * 4 + protein * 4) * quantity;
+    // }
   });
   //
   return (
@@ -209,7 +213,7 @@ const ComponentIngredientTable: React.FC<
                               onChange: (e) =>
                                 handleQuantityChange(e, ingredient.id),
                             }}
-                            sx={{ width: "50px" }}
+                            sx={{ width: "50px" }}  
                           />
                         </td>
                         <td>
@@ -232,88 +236,93 @@ const ComponentIngredientTable: React.FC<
         </TableContainer>
       </div>
       <br />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "20px",
-        }}
+      <Tooltip
+        title='Read-Only'
+        followCursor
       >
         <div
           style={{
-            flex: 1,
-          }}
-        >
-          <TextField
-            label="Calories"
-            name="description"
-            disabled
-            value={totalCalories.toFixed(3)}
-            fullWidth
-            margin="dense"
-          />
-        </div>
-        <div
-          style={{
-            flex: 1,
-            marginBottom: "20px",
             display: "flex",
-            justifyContent: "column",
-            alignItems: "center",
-            flexDirection: "column",
-            marginLeft: "10px",
+            justifyContent: "space-between",
+            marginTop: "20px",
           }}
         >
-          <TextField
-            label="Proteins"
-            name="protein"
-            disabled
-            value={totalProtein.toFixed(3)}
-            fullWidth
-            margin="dense"
-          />
+          <div
+            style={{
+              flex: 1,
+            }}
+          >
+            <TextField
+              label="Calories"
+              name="description"
+              disabled
+              value={totalCalories.toFixed(3)}
+              fullWidth
+              margin="dense"
+            />
+          </div>
+          <div
+            style={{
+              flex: 1,
+              marginBottom: "20px",
+              display: "flex",
+              justifyContent: "column",
+              alignItems: "center",
+              flexDirection: "column",
+              marginLeft: "10px",
+            }}
+          >
+            <TextField
+              label="Proteins"
+              name="protein"
+              disabled
+              value={totalProtein.toFixed(3)}
+              fullWidth
+              margin="dense"
+            />
+          </div>
+          <div
+            style={{
+              flex: 1,
+              marginBottom: "20px",
+              display: "flex",
+              justifyContent: "column",
+              alignItems: "center",
+              flexDirection: "column",
+              marginLeft: "10px",
+            }}
+          >
+            <TextField
+              label="Carbs"
+              name="carbs"
+              disabled
+              value={totalCarbs.toFixed(3)}
+              fullWidth
+              margin="dense"
+            />
+          </div>
+          <div
+            style={{
+              flex: 1,
+              marginBottom: "20px",
+              display: "flex",
+              justifyContent: "column",
+              alignItems: "center",
+              flexDirection: "column",
+              marginLeft: "10px",
+            }}
+          >
+            <TextField
+              label="Fats"
+              name="fats"
+              disabled
+              value={totalFats.toFixed(3)}
+              fullWidth
+              margin="dense"
+            />
+          </div>
         </div>
-        <div
-          style={{
-            flex: 1,
-            marginBottom: "20px",
-            display: "flex",
-            justifyContent: "column",
-            alignItems: "center",
-            flexDirection: "column",
-            marginLeft: "10px",
-          }}
-        >
-          <TextField
-            label="Carbs"
-            name="carbs"
-            disabled
-            value={totalCarbs.toFixed(3)}
-            fullWidth
-            margin="dense"
-          />
-        </div>
-        <div
-          style={{
-            flex: 1,
-            marginBottom: "20px",
-            display: "flex",
-            justifyContent: "column",
-            alignItems: "center",
-            flexDirection: "column",
-            marginLeft: "10px",
-          }}
-        >
-          <TextField
-            label="Fats"
-            name="fats"
-            disabled
-            value={totalFats.toFixed(3)}
-            fullWidth
-            margin="dense"
-          />
-        </div>
-      </div>
+      </Tooltip>
     </>
   );
 };

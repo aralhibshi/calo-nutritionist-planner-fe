@@ -8,13 +8,13 @@ import useSearchStore from "../../stores/searchStore";
 import {
   IComponent,
   IComponentIngredient,
-  IIngredient,
   IMeal,
 } from "../../interfaces";
 import useEntityStore from "../../stores/entityStore";
 import { Input } from "@mui/material";
 import useComponentStore from "../../stores/componentStore";
 import Checkbox from "@mui/material/Checkbox";
+import Tooltip from "@mui/material/Tooltip";
 
 interface MealComponentTableProps {}
 
@@ -108,38 +108,61 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
           searchComponent.id === component.component_id
       )
     );
-  let fats= 0;
-  let carbs = 0;
-  let proteins = 0;
-  let totalFats = 0;
-  let totalCarbs = 0;
-  let totalProteins = 0;
-  let totalCalories = 0;
+
+  let calculationArray: any = [];
+  let mealFats = 0;
+  let mealProteins = 0
+  let mealCarbs = 0
+  let mealCalories = 0
 
   checkedComponents.forEach((component) => {
-    console.log("component",component)
-    const quantity = quantities[component.id] || 1;
-    const el = component.components_ingredients;
-    el.forEach((component_ingredient: IComponentIngredient) => {
-      const ingredient_quantity = component_ingredient.ingredient_quantity
-      fats = Number(component_ingredient.ingredient.fats)
-      carbs = Number(component_ingredient.ingredient.carbs)
-      proteins = Number(component_ingredient.ingredient.protein)
-      totalFats += Number(fats * ingredient_quantity);
-      totalCarbs += Number(carbs * ingredient_quantity);
-      totalProteins += Number(proteins * ingredient_quantity);
-    });
-    totalFats *= quantity;
-    totalCarbs *= quantity;
-    totalProteins *= quantity;
-    totalCalories = Number(totalFats*9 + totalCarbs*4 + totalProteins*4);
-    console.log(totalCalories)
-  });
- 
+    let componentFats = 0;
+    let componentCarbs = 0;
+    let componentProteins = 0;
+    let componentCalories = 0;
+    let componentQuantity = 0
 
-  // console.log("Total Fats:", totalFats);
-  // console.log("Total Carbs:", totalCarbs);
-  // console.log("Total Proteins:", totalProteins);
+    console.log("component",component)
+
+    let quantity = quantities[component.id] || 1;
+    const el = component.components_ingredients;
+    
+    el.forEach((component_ingredient: IComponentIngredient) => {
+      componentFats += Number(component_ingredient.ingredient.fats * component_ingredient.ingredient_quantity);
+      componentCarbs += Number(component_ingredient.ingredient.carbs * component_ingredient.ingredient_quantity);
+      componentProteins += Number(component_ingredient.ingredient.protein * component_ingredient.ingredient_quantity);
+      componentQuantity += Number(component_ingredient.ingredient_quantity)
+    });
+
+    componentProteins /= componentQuantity;
+    componentCarbs /= componentQuantity;
+    componentFats /= componentQuantity;
+
+    componentFats *= quantity;
+    componentCarbs *= quantity;
+    componentProteins *= quantity;
+    componentCalories = componentFats * 9 + componentCarbs * 4 + componentProteins * 4;
+
+    calculationArray.push({
+      fats: Number(componentFats.toFixed(3)),
+      proteins: Number(componentProteins.toFixed(3)),
+      carbs: Number(componentCarbs.toFixed(3)),
+      calories: Number(componentCalories.toFixed(3))
+    })
+  });
+
+  // Calculate Meal Totals
+  calculationArray.forEach((calculatedComponent: any) => {
+    mealFats += calculatedComponent.fats;
+    mealProteins += calculatedComponent.proteins;
+    mealCarbs += calculatedComponent.carbs;
+    mealCalories += calculatedComponent.calories;
+
+    Number(mealFats.toFixed(3));
+    Number(mealProteins.toFixed(3));
+    Number(mealCarbs.toFixed(3));
+    Number(mealCalories.toFixed(3));
+  });
 
   return (
     <>
@@ -192,7 +215,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
             <thead>
               <tr>
                 <th>Component Name&nbsp;</th>
-                <th>Quantity&nbsp;(per Component)</th>
+                <th>Quantity&nbsp;per(G/L)</th>
                 <th>Select</th>
               </tr>
             </thead>
@@ -201,6 +224,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
               Array.isArray(mealSearchResult) &&
               mealSearchResult?.length > 0 ? (
                 mealSearchResult?.map((meal: IMeal, index: number) => {
+                  
                   return (
                     <tr key={index}>
                       <td>{meal.name}</td>
@@ -209,7 +233,7 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
                           type="number"
                           inputProps={{
                             min: 1,
-                            value: quantities[meal.id] || 1, // Set the default value to 1
+                            value: quantities[meal.id] || 1,
                             onChange: (e) => handleQuantityChange(e, meal.id),
                           }}
                           sx={{ width: "50px" }}
@@ -234,88 +258,93 @@ const MealComponentTable: React.FC<MealComponentTableProps> = () => {
         </TableContainer>
       </div>
       <br />
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "20px",
-        }}
+      <Tooltip
+        title='Read-Only'
+        followCursor
       >
         <div
           style={{
-            flex: 1,
-          }}
-        >
-          <TextField
-            label="Calories"
-            name="description"
-            disabled
-            value={totalCalories.toFixed(3)}
-            fullWidth
-            margin="dense"
-          />
-        </div>
-        <div
-          style={{
-            flex: 1,
-            marginBottom: "20px",
             display: "flex",
-            justifyContent: "column",
-            alignItems: "center",
-            flexDirection: "column",
-            marginLeft: "10px",
+            justifyContent: "space-between",
+            marginTop: "20px",
           }}
         >
-          <TextField
-            label="Proteins"
-            name="protein"
-            disabled
-            value={totalProteins.toFixed(3)}
-            fullWidth
-            margin="dense"
-          />
+          <div
+            style={{
+              flex: 1,
+            }}
+          >
+            <TextField
+              label="Calories"
+              name="description"
+              disabled
+              value={mealCalories.toFixed(3)}
+              fullWidth
+              margin="dense"
+            />
+          </div>
+          <div
+            style={{
+              flex: 1,
+              marginBottom: "20px",
+              display: "flex",
+              justifyContent: "column",
+              alignItems: "center",
+              flexDirection: "column",
+              marginLeft: "10px",
+            }}
+          >
+            <TextField
+              label="Proteins"
+              name="protein"
+              disabled
+              value={mealProteins.toFixed(3)}
+              fullWidth
+              margin="dense"
+            />
+          </div>
+          <div
+            style={{
+              flex: 1,
+              marginBottom: "20px",
+              display: "flex",
+              justifyContent: "column",
+              alignItems: "center",
+              flexDirection: "column",
+              marginLeft: "10px",
+            }}
+          >
+            <TextField
+              label="Carbs"
+              name="carbs"
+              disabled
+              value={mealCarbs.toFixed(3)}
+              fullWidth
+              margin="dense"
+            />
+          </div>
+          <div
+            style={{
+              flex: 1,
+              marginBottom: "20px",
+              display: "flex",
+              justifyContent: "column",
+              alignItems: "center",
+              flexDirection: "column",
+              marginLeft: "10px",
+            }}
+          >
+            <TextField
+              label="Fats"
+              name="fats"
+              disabled
+              value={mealFats.toFixed(3)}
+              fullWidth
+              margin="dense"
+            />
+          </div>
         </div>
-        <div
-          style={{
-            flex: 1,
-            marginBottom: "20px",
-            display: "flex",
-            justifyContent: "column",
-            alignItems: "center",
-            flexDirection: "column",
-            marginLeft: "10px",
-          }}
-        >
-          <TextField
-            label="Carbs"
-            name="carbs"
-            disabled
-            value={totalCarbs.toFixed(3)}
-            fullWidth
-            margin="dense"
-          />
-        </div>
-        <div
-          style={{
-            flex: 1,
-            marginBottom: "20px",
-            display: "flex",
-            justifyContent: "column",
-            alignItems: "center",
-            flexDirection: "column",
-            marginLeft: "10px",
-          }}
-        >
-          <TextField
-            label="Fats"
-            name="fats"
-            disabled
-            value={totalFats.toFixed(3)}
-            fullWidth
-            margin="dense"
-          />
-        </div>
-      </div>
+      </Tooltip>
     </>
   );
 };

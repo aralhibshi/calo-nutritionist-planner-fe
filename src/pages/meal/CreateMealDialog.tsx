@@ -5,17 +5,14 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
-import * as ComponentApi from "../../network/componentApi";
-import * as mealsApi from "../../network/mealApi";
+import * as MealApi from "../../network/mealApi";
 import {
-  IAddComponentDialogProps,
   IAddMealDialogProps,
 } from "../../interfaces";
 import { useFormik } from "formik";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 import useMealStore from "../../stores/mealStore";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import MealSearchBar from "./MealSearchBar";
 import MealComponentTable from "./MealComponentTable";
 import useComponentStore from "../../stores/componentStore";
@@ -23,18 +20,27 @@ import mealValidationSchema from "../../validation/mealFormValidation";
 import useNotificationStore from "../../stores/notificationStore";
 import MealImageUploader from "./MealImageUploader";
 import { v4 as uuidv4 } from "uuid";
+import { Backdrop } from "@mui/material";
+import { getPreSignedUrl } from "../../network/mealApi";
+import { MuiFileInput } from "mui-file-input";
 
 export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
   const [loading, setLoading] = useState(false);
-  const { addOpen, setAddOpen } = useMealStore();
+  const { addOpen, setAddOpen, mealId } = useMealStore();
   const { selectedComponents, setSelectedComponents } = useComponentStore();
   const { setNotify, setMessage } = useNotificationStore();
-  const { setMealId, } = useMealStore();
+  const { setMealId,uploaded, setUploaded } = useMealStore();
+  const [file, setFile] = useState<File | null>(null);
 
   const closeFormDialog = () => {
     setSelectedComponents([]);
     formik.resetForm();
     setAddOpen(false);
+    setUploaded(false)
+  };
+
+  const handleChange = (newFile: File | null) => {
+    setFile(newFile);
   };
 
   const formik = useFormik({
@@ -51,7 +57,7 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
       try {
         setLoading(true);
         console.log("Form data:", values);
-        const response = await mealsApi.createMeal(values);
+        const response = await MealApi.createMeal(values);
         setSelectedComponents([]);
         console.log("New meal:", response);
         onMealAdded(response);
@@ -67,15 +73,49 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
     },
   });
 
+  const handleUpload = async () => {
+    if (file) {
+      try {
+        setLoading(true)
+        const preSignedUrlData = await getPreSignedUrl(mealId);
+        const { uploadUrl } = preSignedUrlData;
+        console.log("meal id = ", mealId);
+
+        // Use the pre-signed URL to perform the PUT request
+        await fetch(uploadUrl, {
+          method: "PUT",
+          body: file,
+          headers: {
+            "Content-Type": file.type,
+          },
+        });
+
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        alert("Error uploading image. Please try again later.");
+      } finally {
+        setLoading(false)
+      }
+    }
+
+  };
+
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Check if any ingredients are selected
-    if (selectedComponents.length === 0) {
+    if (selectedComponents.length === 0 ) {
       // No ingredients selected, show a message to the user
       setNotify(true);
       setMessage("Please select at least one ingredient.");
       return; // Prevent form submission
     }
+    if(file){
+      handleUpload()
+    }
+    else{
+      setNotify(true);
+      setMessage("Please select an image");
+      return
+    } 
     formik.handleSubmit(e);
   };
 
@@ -92,15 +132,15 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
   return (
     <>
       {loading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
-          }}
+        <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        open={true}
         >
-          <CircularProgress />
-        </Box>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       ) : (
         <Dialog
           open={addOpen}
@@ -136,6 +176,7 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
                     helperText={formik.touched.name && formik.errors.name}
                     fullWidth
                     margin="dense"
+                    style={{marginBottom:'10px'}}
                   />
                   <TextField
                     label="Description"
@@ -152,8 +193,12 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
                     }
                     fullWidth
                     margin="dense"
+                    style={{marginBottom:'10px'}}
                   />
-                  <FormControl fullWidth>
+                  <FormControl 
+                  fullWidth
+                  style={{marginBottom:'10px'}}
+                  >
                     <InputLabel id="unit">Unit</InputLabel>
                     <Select
                       name="unit" // Add the id attribute
@@ -170,7 +215,8 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
                       <MenuItem value={"g"}>Grams</MenuItem>
                     </Select>
                   </FormControl>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth
+                  style={{marginBottom:'10px'}}>
                     <InputLabel id="size">Size</InputLabel>
                     <Select
                       name="size" // Add the id attribute
@@ -188,7 +234,15 @@ export default function CreateMealDialog({ onMealAdded }: IAddMealDialogProps) {
                       <MenuItem value={"S"}>Small</MenuItem>
                     </Select>
                   </FormControl>
-                  <MealImageUploader/>
+                  <MuiFileInput
+                    value={file}
+                    placeholder='Select Meal Image'
+                    onChange={handleChange}
+                    style={{
+                      marginBottom:'10px',
+                      cursor: 'pointer'
+                    }}
+                  />
                 </div>
 
                 {/* Right side */}

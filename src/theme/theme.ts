@@ -2,13 +2,10 @@ import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
-    // action: {
-    //   disabled: 'red'
-    // },
     primary: {
       main: '#57AE7F',
       light: '#B3DBC5',
-      contrastText: '#FFFFFF'
+      contrastText: '#FFFFFF',
     },
     secondary: {
       main: '#33FF57'
@@ -28,8 +25,16 @@ const theme = createTheme({
       enteringScreen: 300,
       leavingScreen: 300
     } 
+  },
+  components: {
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: "#575757"
+        }
+      }
+    }
   }
-  
 });
 
 export default theme;

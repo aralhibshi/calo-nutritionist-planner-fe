@@ -3,13 +3,13 @@ import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Backdrop, IconButton } from "@mui/material";
 import * as ComponentApi from "../../network/componentApi";
-import useSearchStore from "../../stores/searchStore";
 import { IComponent, IComponentData } from "../../interfaces";
 import EditIcon from "@mui/icons-material/Edit";
 import useComponentStore from "../../stores/componentStore";
 import useEntityStore from "../../stores/entityStore";
 import CreateComponentDialog from "./CreateComponentDialog";
 import EditComponentDialog from "./EditComponentDialog";
+import Tooltip from '@mui/material/Tooltip';
 
 const ComponentTable: React.FC = () => {
   const [components, setComponents] = useState<IComponentData[]>([]);
@@ -32,7 +32,7 @@ const ComponentTable: React.FC = () => {
 
   async function loadComponents() {
     try {
-      setTakeCondition(setTake)
+      setTakeCondition(setTake, 'component')
       setLoading(true);
       const data = {
         skip: skip,
@@ -118,7 +118,7 @@ const ComponentTable: React.FC = () => {
             <th>Fats&nbsp;</th>
             <th>Unit&nbsp;</th>
             <th>Price&nbsp;</th>
-            <th>Edit&nbsp;</th>
+            <th>Actions&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -147,13 +147,13 @@ const ComponentTable: React.FC = () => {
                   totalProteins += Number(
                     el.ingredient.protein * el.ingredient_quantity
                   );
-                  totalCalories +=
-                    totalFats * 9 + totalCarbs * 4 + totalProteins * 4;
                   totalPrice += Number(
                     el.ingredient.price * el.ingredient_quantity
                   );
                   totalQuantity += Number(el.ingredient_quantity);
-                });
+                })
+                totalCalories +=
+                ((totalFats * 9) + (totalCarbs * 4) + (totalProteins * 4));;
               }
 
               return (
@@ -166,9 +166,19 @@ const ComponentTable: React.FC = () => {
                   <td>{component.unit}</td>
                   <td>{(totalPrice / totalQuantity).toFixed(3)}</td>
                   <td>
-                    <IconButton onClick={() => handleEditClick(component)}>
-                      <EditIcon />
-                    </IconButton>
+                    <Tooltip
+                      title='Edit'
+                      followCursor
+                    >
+                      <IconButton
+                        onClick={() => handleEditClick(component)}
+                        color='success'
+                      >
+                        <EditIcon
+                          color='primary'
+                        />
+                      </IconButton>
+                    </Tooltip>
                   </td>
                 </tr>
               );

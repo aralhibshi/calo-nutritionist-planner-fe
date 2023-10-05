@@ -168,7 +168,7 @@ export interface IEntityStore {
   setSearchSkip: (amount: number) => void;
   take: number;
   setTake: (amount: number) => void;
-  setTakeCondition: (setTake: any) => void, 
+  setTakeCondition: (setTake: any, entity: string) => void, 
   currentPage: number;
   setCurrentPage: (page: number) => void;
   loading: boolean;
@@ -225,6 +225,13 @@ export interface IIngredientStore {
   setCalories: (calories: number) => void; // New setter for calories
 }
 
+// Table Store
+export interface ITableStore {
+  height: number;
+  setHeight: (amount: number) => void;
+  setHeightCondition: (setHeight: any) => void, 
+}
+
 // Component Details
 export interface IComponentIngredientDetails {
   ingredient_id: string;
@@ -240,13 +247,10 @@ export interface IComponentIngredientDetails {
 export interface IComponentStore {
   addOpen: boolean;
   setAddOpen: (isOpen: boolean) => void;
-
   selectedComponent: IComponent | null;
   setSelectedComponent: (component: IComponent | null) => void;
-
   selectedComponents: IMealComponent[];
   setSelectedComponents: (components: IMealComponent[]) => void;
-
   ingredientComponents: any,
   setIngredientComponents: (components: IComponent[]) => void;
 }
@@ -255,6 +259,9 @@ export interface IComponentStore {
 export interface IMealStore {
   addOpen: boolean;
   setAddOpen: (isOpen: boolean) => void;
+
+  uploaded: boolean;
+  setUploaded: (isUploaded: boolean) => void;
 
   selectedMeal: IMeal | null;
   setSelectedMeal: (meal: IMeal | null) => void;

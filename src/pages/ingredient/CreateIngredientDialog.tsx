@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -10,10 +10,10 @@ import { IAddIngredientDialogProps } from "../../interfaces";
 import { useFormik } from "formik";
 import ingredientValidationSchema from "../../validation/ingredientFormValidation";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
 import useIngredientStore from "../../stores/ingredientStore";
 import useNotificationStore from "../../stores/notificationStore";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Backdrop } from "@mui/material";
 
 export default function CreateIngredientDialog({
   onIngredientAdded,
@@ -69,15 +69,15 @@ export default function CreateIngredientDialog({
   return (
     <>
       {loading ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "20px",
-          }}
+        <Backdrop
+        sx={{
+          color: "#fff",
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+        }}
+        open={true}
         >
-          <CircularProgress />
-        </Box>
+          <CircularProgress color="inherit" />
+        </Backdrop>
       ) : (
         <Dialog open={addOpen} onClose={closeFormDialog}>
           <DialogTitle>Create Ingredient</DialogTitle>
@@ -136,6 +136,11 @@ export default function CreateIngredientDialog({
                 helperText={formik.touched.price && formik.errors.price}
                 fullWidth
                 margin="dense"
+                inputProps={{
+                  min: 0,
+                  max: 0.999,
+                  step: 0.001
+                }}
               />
               <TextField
                 label="Protein"
@@ -148,6 +153,11 @@ export default function CreateIngredientDialog({
                 helperText={formik.touched.protein && formik.errors.protein}
                 fullWidth
                 margin="dense"
+                inputProps={{
+                  min: 0,
+                  max: 0.999,
+                  step: 0.001
+                }}
               />
               <TextField
                 label="Fats"
@@ -160,6 +170,11 @@ export default function CreateIngredientDialog({
                 helperText={formik.touched.fats && formik.errors.fats}
                 fullWidth
                 margin="dense"
+                inputProps={{
+                  min: 0,
+                  max: 0.999,
+                  step: 0.001
+                }}
               />
               <TextField
                 label="Carbs"
@@ -172,11 +187,16 @@ export default function CreateIngredientDialog({
                 helperText={formik.touched.carbs && formik.errors.carbs}
                 fullWidth
                 margin="dense"
+                inputProps={{
+                  min: 0,
+                  max: 0.999,
+                  step: 0.001
+                }}
               />
               <FormControl fullWidth>
                 <InputLabel id="unit">Unit</InputLabel>
                 <Select
-                      name="unit" // Add the id attribute
+                      name="unit"
                       labelId="unit"
                       value={formik.values.unit}
                       label="Unit"

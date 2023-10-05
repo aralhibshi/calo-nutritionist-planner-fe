@@ -11,6 +11,8 @@ const SearchTypeDropdown: React.FC = () => {
     entity,
     setEntity,
     setSkip,
+    setTake,
+    setTakeCondition,
     setCurrentPage
   } = useEntityStore();
 
@@ -18,6 +20,7 @@ const SearchTypeDropdown: React.FC = () => {
   const handleChange = (event: SelectChangeEvent) => {
     setEntity(event.target.value);
     setSkip(0);
+    setTakeCondition(setTake, event.target.value)
     setCurrentPage(1);
     console.log(event.target.value);
   };
@@ -25,7 +28,7 @@ const SearchTypeDropdown: React.FC = () => {
   return (
     <Box
       sx={{
-        minWidth: 140,
+        minWidth: 160,
         display: 'flex',
         alignItems: 'center'
       }}

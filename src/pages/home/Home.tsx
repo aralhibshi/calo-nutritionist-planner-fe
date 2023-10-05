@@ -10,6 +10,8 @@ import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material';
 import { Button } from '@mui/material';
 
+import {BiExport} from 'react-icons/bi'
+
 // Components
 import SearchTypeDropdown from '../../components/search/SearchTypeDropdown';
 import SearchBar from "../../components/search/SearchBar"
@@ -27,7 +29,12 @@ import MealTable from "../meal/MealTable";
 import useUserStore from '../../stores/userStore';
 import useEntityStore from '../../stores/entityStore';
 import useNotificationStore from '../../stores/notificationStore';
-import MealImageUploader from '../meal/MealImageUploader';
+
+// React Icons
+import { TbMeat } from "react-icons/tb";
+import { PiHamburgerBold } from 'react-icons/pi';
+import { MdOutlineFastfood } from 'react-icons/md'
+
 
 // APIs
 import * as ExportApi from '../../network/exportApi';
@@ -72,7 +79,8 @@ const Home: React.FC = () => {
   ? <MealTable/>
   : null;
 
-  const addEntityButton = entity === 'ingredient'
+  const addEntityButton
+  = entity === 'ingredient'
   ? <CreateIngredientButton/>
   : entity === 'component'
   ? <CreateComponentButton/>
@@ -84,8 +92,31 @@ const Home: React.FC = () => {
     return entity.charAt(0).toUpperCase() + entity.slice(1) + 's'
   }
 
-  async function exportData() {
+  const entityIcon
+  = entity === 'ingredient'
+  ? <TbMeat
+      style={{
+        translate: '0 -0.2rem',
+        marginLeft: '0.3rem'
+      }}
+  />
+  : entity === 'component'
+  ? <PiHamburgerBold
+      style={{
+        translate: '0 -0.1rem',
+        marginLeft: '0.3rem'
+      }}
+    />
+  : entity === 'meal'
+  ? <MdOutlineFastfood
+    style={{
+      translate: '0 -0.4rem',
+      marginLeft: '0.3rem',
+    }}
+    />
+  : null;
 
+  async function exportData() {
     setLoading(true);
     await ExportApi.exportData(storeUser, entity, data);
     setLoading(false);
@@ -102,80 +133,147 @@ const Home: React.FC = () => {
 
   return (
     <>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignContent: 'center',
-          alignItems: 'center',
-          marginTop: '79px',
-          marginBottom: '15px'
+      <Grid
+        item
+        container
+        xs={12}
+        sx={{
+          justifyContent: 'center'
+        }}
+      >
+        <Grid
+          item
+          container
+          xs={12}
+          sx={{
+            justifyContent: 'space-between',
+            alignContent: 'center',
+            alignItems: 'center',
+            marginTop: '79px',
+            marginBottom: '15px'
           }}
         >
-          <SearchTypeDropdown/>
-          <Typography
-            variant="h3"
-            component="h2"
-            style={{fontSize: '40px'}}
-            >
-            { entityString(entity) }
-          </Typography>
-          <Button
-            id='primary-button'
-            variant='contained'
-            type="submit"
-            onClick={() => exportData()}
-            style={{
-              width: '131px',
-              height: '56px'
+          <Grid
+            item
+            xs={1.4}
+          >
+            <SearchTypeDropdown/>
+          </Grid>
+          <Grid
+            item
+            xs={8.8}
+          >
+            <Typography
+              variant="h6"
+              component="h3"
+              style={{
+                fontSize: '40px',
+                marginLeft:'60px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingBottom: '-10px'
+              }}
+              >
+              { entityString(entity) }
+              { entityIcon }
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            container
+            xs={1.8}
+            sx={{
+              justifyContent: 'space-between'
             }}
           >
-            Export &nbsp;
-
-          </Button>
-          { addEntityButton }
-        </div>
-        <div
-          style={{
+            <Grid
+              item
+              xs={5.75}
+            >
+              <Button
+                id='primary-button'
+                variant='outlined'
+                type="submit"
+                onClick={() => exportData()}
+                style={{
+                  width: '100%',
+                  height: '56px',
+                }}
+              >
+                Export &nbsp;
+                <BiExport/>
+              </Button>
+            </Grid>
+            <Grid
+              item
+              xs={5.75}
+            >
+              { addEntityButton }
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sx={{
             display: 'flex',
             justifyContent: 'center',
             alignContent: 'center',
             width: 'auto'
           }}
         >
-        <SearchBar/>
-        </div>
-      { entityTable }
-      <PaginationFooter/>
-      <Grid>
-        <Snackbar
-          open={notify}
-          onClose={() => {
-            setNotify(false)
-          }}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right'
-          }}
-          message={message}
-          autoHideDuration={4000}
-          transitionDuration={{
-            enter: 1500,
-            exit: 1500
-          }}
-          color="primary"
+          <SearchBar/>
+        </Grid>
+        <Grid
+          item
+          xs={12}
         >
-          <Alert
-            severity="success"
-            sx={{
-              width: '100%',
+          { entityTable }
+        </Grid>
+        <Grid
+          item
+          container
+          xs={12}
+          sx={{
+            position: 'fixed',
+            bottom: '25px',
+            justifyContent: 'center',
+          }}
+        >
+          <PaginationFooter/>
+        </Grid>
+        <Grid>
+          <Snackbar
+            open={notify}
+            onClose={() => {
+              setNotify(false)
             }}
-            style={{
-              backgroundColor: theme.palette.primary.main
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right'
             }}
+            message={message}
+            autoHideDuration={4000}
+            transitionDuration={{
+              enter: 1500,
+              exit: 1500
+            }}
+            color="primary"
           >
-            { message }
-          </Alert>
-        </Snackbar>
+            <Alert
+              severity="success"
+              sx={{
+                width: '100%',
+              }}
+              style={{
+                backgroundColor: theme.palette.primary.main
+              }}
+            >
+              { message }
+            </Alert>
+          </Snackbar>
+        </Grid>
       </Grid>
     </>
   );
