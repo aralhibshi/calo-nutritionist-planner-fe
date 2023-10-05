@@ -172,6 +172,7 @@ export default function EditIngredientDialog({
               onSubmit={formik.handleSubmit}
             >
               <Grid
+                item
                 container
                 xs={12}
                 sx={{
