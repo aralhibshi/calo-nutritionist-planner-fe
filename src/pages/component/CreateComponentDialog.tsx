@@ -180,6 +180,11 @@ export default function CreateComponentDialog({
                         Grains & Cereals
                       </MenuItem>
                       <MenuItem
+                        value={'Nuts & Seeds'}
+                      >
+                        Nuts & Seeds
+                      </MenuItem>
+                      <MenuItem
                         value={'Proteins'}
                       >
                         Proteins

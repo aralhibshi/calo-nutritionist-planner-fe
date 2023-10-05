@@ -140,6 +140,11 @@ export default function CreateIngredientDialog({
                       Grains & Cereals
                     </MenuItem>
                     <MenuItem
+                      value={'Nuts & Seeds'}
+                    >
+                      Nuts & Seeds
+                    </MenuItem>
+                    <MenuItem
                       value={'Proteins'}
                     >
                       Proteins

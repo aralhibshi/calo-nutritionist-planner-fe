@@ -196,6 +196,11 @@ export default function EditComponentDialog({
                         Grains & Cereals
                       </MenuItem>
                       <MenuItem
+                        value={'Nuts & Seeds'}
+                      >
+                        Nuts & Seeds
+                      </MenuItem>
+                      <MenuItem
                         value={'Proteins'}
                       >
                         Proteins

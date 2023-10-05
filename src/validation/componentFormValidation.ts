@@ -6,6 +6,7 @@ const validCategories = [
   'Fats & Oils',
   'Fruits',
   'Grains & Cereals',
+  'Nuts & Seeds',
   'Proteins',
   'Vegetables'
 ];
