@@ -145,13 +145,6 @@ const DialogMealTable: React.FC = () => {
                 </th>
                 <th
                   style={{
-                    width: '3%'
-                  }}
-                >
-                  Unit&nbsp;
-                </th>
-                <th
-                  style={{
                     width: '15%'
                   }}
                 >
@@ -407,7 +400,6 @@ const DialogMealTable: React.FC = () => {
                           </div>
                         </div>
                       </td>
-                      <td>{meal.unit}</td>
                       <td>
                         <div
                           style={{
