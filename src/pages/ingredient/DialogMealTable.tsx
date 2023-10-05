@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -23,6 +23,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Tooltip from '@mui/material/Tooltip';
 
 const DialogMealTable: React.FC = () => {
+  const [calculationArray, setCalculationArray] = useState<any[]>([]);
   const { loading, setLoading } = useEntityStore();
   const { selectedIngredient, editData } = useIngredientStore();
   const { ingredientMeals, setIngredientMeals } = useMealStore();
@@ -62,8 +63,7 @@ const DialogMealTable: React.FC = () => {
   }, []);
 
   let count = 0;
-  let mealCount=0
-
+  let mealCount= 0
 
   return (
     <>
@@ -160,24 +160,19 @@ const DialogMealTable: React.FC = () => {
                   const componentArray: any = [];
                   let iquantity = 0
 
-                  const data: IComponentIngredientDetails = {
-                    ingredient_id: "",
+                  const mealData: any = {
                     calories: 0,
                     protein: 0,
                     carbs: 0,
                     fats: 0,
                     price: 0,
-                    quantity: iquantity,
-
                   };
-                  const newData: IComponentIngredientDetails = {
-                    ingredient_id: "",
+                  const newMealData: any = {
                     calories: 0,
                     protein: 0,
                     carbs: 0,
                     fats: 0,
                     price: 0,
-                    quantity: iquantity,
                   };
                   if (
                     meal.meals_components &&
@@ -188,105 +183,78 @@ const DialogMealTable: React.FC = () => {
                       if (selectedComponent?.id === el.component_id) {
                         count++;
                       }
+                      
+                      const componentData: any = {
+                        calories: 0,
+                        protein: 0,
+                        carbs: 0,
+                        fats: 0,
+                        price: 0,
+                        quantity: 0
+
+                      };
+
+                      const newComponentData: any = {
+                        calories: 0,
+                        protein: 0,
+                        carbs: 0,
+                        fats: 0,
+                        price: 0,
+                        quantity: 0
+                      };
 
                       componentArray.push(el.component_id);
 
                       const quantity = Number(el.component_quantity);
                       el.component.components_ingredients?.forEach(
                         (el: IComponentIngredient) => {
+                          componentData.protein += Number(el.ingredient.protein * el.ingredient_quantity);
+                          componentData.carbs += Number(el.ingredient.carbs * el.ingredient_quantity);
+                          componentData.fats += Number(el.ingredient.fats * el.ingredient_quantity);
+                          componentData.price += Number(el.ingredient.price * el.ingredient_quantity);
+                          componentData.quantity += Number(el.ingredient_quantity)
 
-                          data.ingredient_id = el.ingredient_id;
-                          data.protein += Number(
-                            el.ingredient.protein * el.ingredient_quantity
-                          );
-                          data.carbs += Number(
-                            el.ingredient.carbs * el.ingredient_quantity
-                          );
-                          data.fats += Number(
-                            el.ingredient.fats * el.ingredient_quantity
-                          );
-                          data.price += Number(
-                            el.ingredient.price * el.ingredient_quantity
-                          );
-
-                          iquantity += Number(el.ingredient_quantity)
-                          if (
-                            selectedIngredient &&
-                            el.ingredient_id !== selectedIngredient.id
-                          ) {
-                            newData.protein += Number(
-                              el.ingredient.protein * el.ingredient_quantity
-                            );
-                            newData.carbs += Number(
-                              el.ingredient.carbs * el.ingredient_quantity
-                            );
-                            newData.fats += Number(
-                              el.ingredient.fats * el.ingredient_quantity
-                            );
-                            newData.price += Number(
-                              el.ingredient.price * el.ingredient_quantity
-                            );
-
-                            newData.quantity += Number(el.ingredient_quantity)
+                          if (selectedIngredient && el.ingredient_id !== selectedIngredient.id) {
+                            newComponentData.protein += Number(el.ingredient.protein * el.ingredient_quantity);
+                            newComponentData.carbs += Number(el.ingredient.carbs * el.ingredient_quantity);
+                            newComponentData.fats += Number(el.ingredient.fats * el.ingredient_quantity);
+                            newComponentData.price += Number(el.ingredient.price * el.ingredient_quantity);
+                            newComponentData.quantity += Number(el.ingredient_quantity)
                           }
                           else{
-                            newData.protein += Number(
-                              editData.protein*el.ingredient_quantity
-                            );
-                            newData.carbs += Number(
-                              editData.carbs*el.ingredient_quantity
-                            );
-                            newData.fats += Number(
-                              editData.fats*el.ingredient_quantity
-                            );
-                            newData.price += Number(
-                              editData.price*el.ingredient_quantity
-                            );
-                            
+                            newComponentData.protein += Number(editData.protein*el.ingredient_quantity);
+                            newComponentData.carbs += Number(editData.carbs*el.ingredient_quantity);
+                            newComponentData.fats += Number(editData.fats*el.ingredient_quantity);
+                            newComponentData.price += Number(editData.price*el.ingredient_quantity);
+                            newComponentData.quantity += Number(el.ingredient_quantity)
                           }
                         }
                       );
 
-                      data.protein /= iquantity
-                      data.fats /= iquantity
-                      data.price /= iquantity
-                      data.carbs /= iquantity
+                      componentData.protein /= componentData.quantity
+                      componentData.fats /= componentData.quantity
+                      componentData.price /= componentData.quantity
+                      componentData.carbs /= componentData.quantity
 
-                      data.protein += Number(
-                        (data.protein * quantity).toFixed(3)
-                      );
-                      data.carbs += Number((data.carbs * quantity).toFixed(3));
-                      data.fats += Number((data.fats * quantity).toFixed(3));
-                      data.price += Number((data.price * quantity).toFixed(3));
-                      data.calories = Number(
-                        data.protein * 4 + data.carbs * 4 + data.fats * 9
-                      );
+                      mealData.protein += Number((componentData.protein * quantity).toFixed(3));
+                      mealData.carbs += Number((componentData.carbs * quantity).toFixed(3));
+                      mealData.fats += Number((componentData.fats * quantity).toFixed(3));
+                      mealData.price += Number((componentData.price * quantity).toFixed(3));
+                      mealData.calories = Number((mealData.protein * 4 + mealData.carbs * 4 + mealData.fats * 9).toFixed(3));
 
+                      newComponentData.protein /= newComponentData.quantity
+                      newComponentData.fats /= newComponentData.quantity
+                      newComponentData.price /= newComponentData.quantity
+                      newComponentData.carbs /= newComponentData.quantity
 
-                      newData.protein /= iquantity
-                      newData.fats /= iquantity
-                      newData.price /= iquantity
-                      newData.carbs /= iquantity
-
-                      newData.protein += Number(
-                        (newData.protein * quantity).toFixed(3)
-                      );
-                      newData.carbs += Number(
-                        (newData.carbs * quantity).toFixed(3)
-                      );
-                      newData.fats += Number(
-                        (newData.fats * quantity).toFixed(3)
-                      );
-                      newData.price += Number(
-                        (newData.price * quantity).toFixed(3)
-                      );
-                      newData.calories = Number(
-                        newData.protein * 4 + newData.carbs * 4 + newData.fats * 9
-                      );
+                      newMealData.protein += Number((newComponentData.protein * quantity).toFixed(3));
+                      newMealData.carbs += Number((newComponentData.carbs * quantity).toFixed(3));
+                      newMealData.fats += Number((newComponentData.fats * quantity).toFixed(3));
+                      newMealData.price += Number((newComponentData.price * quantity).toFixed(3));
+                      newMealData.calories = Number((newMealData.protein * 4 + newMealData.carbs * 4 + newMealData.fats * 9).toFixed(3));
                     });
 
                     mealCount++
-
                   }
 
                   return (
@@ -309,7 +277,7 @@ const DialogMealTable: React.FC = () => {
                             justifyContent: 'center',
                           }}
                         >
-                          {(data.calories).toFixed(3)}
+                          {(mealData.calories).toFixed(3)}
                           <NavigateNextIcon
                             color='disabled'
                           />
@@ -317,13 +285,13 @@ const DialogMealTable: React.FC = () => {
                             style={{
                               color:
                                 selectedIngredient &&
-                                newData.calories !== data.calories
+                                newMealData.calories !== mealData.calories
                                   ? theme.palette.primary.main
                                   : "inherit",
                             }}
                           >
                             {Number(
-                              (newData.calories).toFixed(3)
+                              (newMealData.calories).toFixed(3)
                             )}
                           </div> 
                         </div>
@@ -335,7 +303,7 @@ const DialogMealTable: React.FC = () => {
                             justifyContent: 'center'
                           }}
                         >
-                          {data.protein.toFixed(3)}
+                          {mealData.protein.toFixed(3)}
                           <NavigateNextIcon
                             color='disabled'
                           />
@@ -348,7 +316,7 @@ const DialogMealTable: React.FC = () => {
                                   : "inherit",
                             }}
                           >
-                            {newData.protein.toFixed(3)}
+                            {newMealData.protein.toFixed(3)}
                           </div>
                         </div>
                       </td>
@@ -359,7 +327,7 @@ const DialogMealTable: React.FC = () => {
                             justifyContent: 'center'
                           }}
                         >
-                          {data.carbs.toFixed(3)}
+                          {mealData.carbs.toFixed(3)}
                           <NavigateNextIcon
                             color='disabled'
                           />
@@ -372,7 +340,7 @@ const DialogMealTable: React.FC = () => {
                                   : "inherit",
                             }}
                           >
-                            {newData.carbs.toFixed(3)}
+                            {newMealData.carbs.toFixed(3)}
                           </div>
                         </div>
                       </td>
@@ -383,7 +351,7 @@ const DialogMealTable: React.FC = () => {
                               justifyContent: 'center'
                             }}
                           >
-                          {data.fats.toFixed(3)}
+                          {mealData.fats.toFixed(3)}
                           <NavigateNextIcon
                             color='disabled'
                           />
@@ -396,7 +364,7 @@ const DialogMealTable: React.FC = () => {
                                   : "inherit",
                             }}
                           >
-                            {newData.fats.toFixed(3)}
+                            {newMealData.fats.toFixed(3)}
                           </div>
                         </div>
                       </td>
@@ -407,7 +375,7 @@ const DialogMealTable: React.FC = () => {
                             justifyContent: 'center'
                           }}
                         >
-                          {data.price.toFixed(3)}
+                          {mealData.price.toFixed(3)}
                           <NavigateNextIcon
                             color='disabled'
                           />
@@ -420,7 +388,7 @@ const DialogMealTable: React.FC = () => {
                                   : "inherit",
                             }}
                           >
-                            {newData.price.toFixed(3)}
+                            {newMealData.price.toFixed(3)}
                           </div>
                         </div>
                       </td>
