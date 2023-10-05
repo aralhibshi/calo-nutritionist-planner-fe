@@ -10,9 +10,6 @@ import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
 import validationSchema from "../../validation/componentFormValidation";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import useComponentStore from "../../stores/componentStore";
 import useIngredientStore from "../../stores/ingredientStore";
 import { Divider } from "@mui/material";
@@ -20,6 +17,7 @@ import ComponentSearchBar from "./ComponentSearchBar";
 import ComponentIngredientTable from "./ComponentIngredientTable";
 import useNotificationStore from "../../stores/notificationStore";
 import { Backdrop } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 interface EditComponentDialogProps {
   open: boolean;
@@ -151,14 +149,64 @@ export default function EditComponentDialog({
                     fullWidth
                     margin="dense"
                   />
-                  <TextField
-                    label="Category"
-                    name="category"
-                    value={formik.values.category}
-                    onChange={formik.handleChange}
+                  <FormControl
                     fullWidth
-                    margin="dense"
-                  />
+                    style={{
+                      marginBottom:'15px'
+                    }}
+                  >
+                    <InputLabel
+                      id='category'
+                    >
+                      Category
+                    </InputLabel>
+                    <Select
+                      name='category'
+                      labelId='category'
+                      value={formik.values.category}
+                      label='Category'
+                      onChange={formik.handleChange}
+                      style={{
+                        textAlign: 'left'
+                      }}
+                    >
+                      <MenuItem
+                        value={'Condiments & Sauces'}
+                      >
+                        Condiments & Sauces
+                      </MenuItem>
+                      <MenuItem
+                        value={'Dairy & Alternatives'}
+                      >
+                        Dairy & Alternatives
+                      </MenuItem>
+                      <MenuItem
+                        value={'Fats & Oils'}
+                      >
+                        Fats & Oils
+                      </MenuItem>
+                      <MenuItem
+                        value={'Fruits'}
+                      >
+                        Fruits
+                      </MenuItem>
+                      <MenuItem
+                        value={'Grains & Cereals'}
+                      >
+                        Grains & Cereals
+                      </MenuItem>
+                      <MenuItem
+                        value={'Proteins'}
+                      >
+                        Proteins
+                      </MenuItem>
+                      <MenuItem
+                        value={'Vegetables'}
+                      >
+                        Vegetables
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
                   <TextField
                     label="Description"
                     name="description"

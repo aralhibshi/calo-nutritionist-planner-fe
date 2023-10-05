@@ -133,21 +133,64 @@ export default function CreateComponentDialog({
                     fullWidth
                     style={{marginBottom:'15px'}}
                   />
-                  <TextField
-                    label="Category"
-                    name="category"
-                    value={formik.values.category}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.category && Boolean(formik.errors.category)
-                    }
-                    helperText={
-                      formik.touched.category && formik.errors.category
-                    }
+                  <FormControl
                     fullWidth
-                    style={{marginBottom:'15px'}}
-                  />
+                    style={{
+                      marginBottom:'15px'
+                    }}
+                  >
+                    <InputLabel
+                      id='category'
+                    >
+                      Category
+                    </InputLabel>
+                    <Select
+                      name='category'
+                      labelId='category'
+                      value={formik.values.category}
+                      label='Category'
+                      onChange={formik.handleChange}
+                      style={{
+                        textAlign: 'left'
+                      }}
+                    >
+                      <MenuItem
+                        value={'Condiments & Sauces'}
+                      >
+                        Condiments & Sauces
+                      </MenuItem>
+                      <MenuItem
+                        value={'Dairy & Alternatives'}
+                      >
+                        Dairy & Alternatives
+                      </MenuItem>
+                      <MenuItem
+                        value={'Fats & Oils'}
+                      >
+                        Fats & Oils
+                      </MenuItem>
+                      <MenuItem
+                        value={'Fruits'}
+                      >
+                        Fruits
+                      </MenuItem>
+                      <MenuItem
+                        value={'Grains & Cereals'}
+                      >
+                        Grains & Cereals
+                      </MenuItem>
+                      <MenuItem
+                        value={'Proteins'}
+                      >
+                        Proteins
+                      </MenuItem>
+                      <MenuItem
+                        value={'Vegetables'}
+                      >
+                        Vegetables
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
                   <TextField
                     label="Description"
                     name="description"
