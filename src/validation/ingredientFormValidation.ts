@@ -1,11 +1,23 @@
 import * as yup from 'yup';
 
+const validCategories = [
+  'Condiments & Sauces',
+  'Dairy & Alternatives',
+  'Fats & Oils',
+  'Fruits',
+  'Grains & Cereals',
+  'Nuts & Seeds',
+  'Proteins',
+  'Vegetables'
+];
+
 const ingredientValidationSchema = yup.object({
   name: yup
     .string()
     .required('Name is required'),
   category: yup
     .string()
+    .oneOf(validCategories, 'Invalid category')
     .required('Category is required'),
   description: yup
     .string()

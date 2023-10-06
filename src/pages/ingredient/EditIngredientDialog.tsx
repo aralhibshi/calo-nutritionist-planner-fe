@@ -222,14 +222,69 @@ export default function EditIngredientDialog({
                     item
                     xs={12}
                   >
-                    <TextField
-                      label="Category"
-                      name="category"
+                    <FormControl
+                    fullWidth
+                    style={{
+                      marginBottom:'15px'
+                    }}
+                  >
+                    <InputLabel
+                      id='category'
+                    >
+                      Category
+                    </InputLabel>
+                    <Select
+                      name='category'
+                      labelId='category'
                       value={formik.values.category}
+                      label='Category'
                       onChange={formik.handleChange}
-                      margin='dense'
-                      fullWidth
-                    />
+                      style={{
+                        textAlign: 'left'
+                      }}
+                    >
+                      <MenuItem
+                        value={'Condiments & Sauces'}
+                      >
+                        Condiments & Sauces
+                      </MenuItem>
+                      <MenuItem
+                        value={'Dairy & Alternatives'}
+                      >
+                        Dairy & Alternatives
+                      </MenuItem>
+                      <MenuItem
+                        value={'Fats & Oils'}
+                      >
+                        Fats & Oils
+                      </MenuItem>
+                      <MenuItem
+                        value={'Fruits'}
+                      >
+                        Fruits
+                      </MenuItem>
+                      <MenuItem
+                        value={'Grains & Cereals'}
+                      >
+                        Grains & Cereals
+                      </MenuItem>
+                      <MenuItem
+                        value={'Nuts & Seeds'}
+                      >
+                        Nuts & Seeds
+                      </MenuItem>
+                      <MenuItem
+                        value={'Proteins'}
+                      >
+                        Proteins
+                      </MenuItem>
+                      <MenuItem
+                        value={'Vegetables'}
+                      >
+                        Vegetables
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
                   </Grid>
                   <TextField
                     label="Description"

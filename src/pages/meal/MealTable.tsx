@@ -105,6 +105,7 @@ const MealTable: React.FC = () => {
       let mealProteins = 0;
       let mealCalories = 0;
       let mealPrice = 0;
+      let mealGrams = 0;
 
       if (meal.meals_components) {
         meal.meals_components.forEach((el) => {
@@ -135,6 +136,7 @@ const MealTable: React.FC = () => {
           mealCarbs += componentCarbs * quantity;
           mealFats += componentFats * quantity;
           mealPrice += componentPrice * quantity;
+          mealGrams += quantity
         });
       }
 
@@ -148,7 +150,7 @@ const MealTable: React.FC = () => {
         carbs: Number(mealCarbs.toFixed(3)),
         price: Number(mealPrice.toFixed(3)),
         calories: Number(mealCalories.toFixed(3)),
-        unit: meal.unit
+        grams: Number(mealGrams.toFixed(3))
       });
     });
     setCalculationArray(tempArray)
@@ -204,7 +206,7 @@ const MealTable: React.FC = () => {
             <th>Proteins&nbsp;</th>
             <th>Carbs&nbsp;</th>
             <th>Fats&nbsp;</th>
-            <th>Unit&nbsp;</th>
+            <th>Grams&nbsp;</th>
             <th>Price&nbsp;</th>
             <th>Actions&nbsp;</th>
           </tr>
@@ -243,7 +245,7 @@ const MealTable: React.FC = () => {
                   <td>{meal.proteins.toFixed(3)}</td>
                   <td>{meal.carbs.toFixed(3)}</td>
                   <td>{meal.fats.toFixed(3)}</td>
-                  <td>{meal.unit}</td>
+                  <td>{meal.grams}</td>
                   <td>{meal.price.toFixed(3)}</td>
                   <td>
                     <Tooltip
