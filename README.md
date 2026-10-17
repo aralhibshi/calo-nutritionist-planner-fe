@@ -1,4 +1,4 @@
-# calo-nutritionist-planner-fe
+# Calo Nutritionist Planner: Frontend
 
 The frontend for the Nutritionist Planner, an internal dashboard where nutritionists build meals from ingredients and
 components, see each meal's macros, calories and cost, and export their data. It was my internship project at
